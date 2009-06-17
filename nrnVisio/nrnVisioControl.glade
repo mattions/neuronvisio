@@ -9,7 +9,7 @@
     </columns>
   </object>
   <object class="GtkWindow" id="window">
-    <property name="title" translatable="yes">nrnVisio Controls</property>
+    <property name="title" translatable="yes">NeuronVisio Controls</property>
     <property name="default_width">700</property>
     <property name="default_height">400</property>
     <signal name="destroy" handler="on_window_destroy"/>

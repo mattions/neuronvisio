@@ -28,7 +28,7 @@ class Visio():
     
     def __init__(self):
 
-        self.scene = visual.display(title="nrnVisio")
+        self.scene = visual.display(title="NeuronVisio 3D")
         self.cyl2sec = {}
         self.vecRefs = []
         self.selectedCyl = None # Used for storing the cyl when picked
