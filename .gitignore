@@ -1,0 +1,6 @@
+# Ignore the files for git
+
+# All the python compiled
+*.pyc
+.project
+.pydevproject
