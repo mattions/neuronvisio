@@ -8,7 +8,7 @@
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
 
- * Foobar is distributed in the hope that it will be useful,
+ * NeuronVisio is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
@@ -37,8 +37,8 @@ try:
     from matplotlib.figure import Figure
     # uncomment to select /GTK/GTKAgg/GTKCairo
     #from matplotlib.backends.backend_gtk import FigureCanvasGTK as FigureCanvas
-    #from matplotlib.backends.backend_gtkagg import FigureCanvasGTKAgg as FigureCanvas
-    from matplotlib.backends.backend_gtkcairo import FigureCanvasGTKCairo as FigureCanvas
+    from matplotlib.backends.backend_gtkagg import FigureCanvasGTKAgg as FigureCanvas
+    #from matplotlib.backends.backend_gtkcairo import FigureCanvasGTKCairo as FigureCanvas
 except:
     print "matlab and cairo backend not available"
 
@@ -259,7 +259,10 @@ class Controls(threading.Thread):
         # Figure ready. Let's create a window and show it
         self.pylab_win(figure)
 
+    def on_pylab_win_destroy(self):
         
+        win = self.builder.get_object("pylab_win")
+        win.hide()
             
     def pylab_win(self, figure):
         """Create a pylab window with the provided figure"""
@@ -275,7 +278,6 @@ class Controls(threading.Thread):
         canvas = FigureCanvas(figure)  # a gtk.DrawingArea
         win.add(canvas)
         win.show_all()
-        
         
 
 # We start the threads here
