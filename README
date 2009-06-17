@@ -1,8 +1,8 @@
-Neuronvisio
+NeuronVisio
 ------------
 
-Neuronvisio is a GTK2 user interface for NEURON simulator http://www.neuron.yale.edu/neuron/. 
-Neuronvisio use the python interface of NEURON and runs in its own thread.
+NeuronVisio is a GTK2 user interface for NEURON simulator http://www.neuron.yale.edu/neuron/. 
+NeuronVisio use the python interface of NEURON and runs in its own thread.
 
 This gives the possibility to use ipython and modify the model runtime.
 
