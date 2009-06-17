@@ -4,3 +4,6 @@
 *.pyc
 .project
 .pydevproject
+
+# Bkp
+*~
