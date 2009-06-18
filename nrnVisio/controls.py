@@ -18,10 +18,6 @@
 
 """
 
-
-
-
-
 import sys
 import gtk
 import gtk.glade
@@ -31,6 +27,7 @@ import gobject
 import os
 import pylab
 import numpy
+import time
 
 try:
     
@@ -42,6 +39,8 @@ try:
 except:
     print "matlab and cairo backend not available"
 
+# We start the threads here
+gtk.gdk.threads_init()
 
 
 
@@ -65,7 +64,12 @@ class Controls(threading.Thread):
         self.sectionCol = 0 # Defined in Glade 
         self.visio = visio.Visio()
         self.h = self.visio.h # Unpacking for less typing
-        self.update()
+        
+        # Loop control
+        self.user_interaction = None # Used for the loop
+        time_loop = TimeLoop(self)
+        time_loop.start()
+        
         # Show the window
         self.window.show()
  
@@ -214,7 +218,9 @@ class Controls(threading.Thread):
         
     def run(self):
         """Running the gtk loop in our thread"""
+        gtk.gdk.threads_enter()
         gtk.main()
+        gtk.gdk.threads_leave()
     
     def on_plot_clicked(self, widget, data=None):
         """Create a plot of the selected vector"""
@@ -282,13 +288,28 @@ class Controls(threading.Thread):
             self.h.fadvance()
             time_label.set_text(str(self.h.t))
             
+    def on_voltage_spin_value_changed(self,widget):
+        """Update the voltage value in the simulator"""
+        self.user_interaction = True
+        self.h.v_init = widget.get_value()
             
+    def on_tstop_spin_value_changed(self,widget):
+        """Update the tstop value in the simulator"""
+        self.user_interaction = True
+        self.h.tstop = widget.get_value()
+        
+    def on_dt_spin_value_changed(self, widget):
+        """Update the dt value in the simulator"""
+        self.user_interaction = True
+        self.h.dt = widget.get_value()
             
     def plotVecs(self, vecs_dic, var, legend=True):
         """Plot the vectors with pylab
         :param:
-            vecs_dic - dictionary with section name as k and the vec obj as value
-            var - Which variable we are plotting. Used to put the unit in the graph
+            vecs_dic - dictionary with section name as k and the vec obj 
+            as value
+            var - Which variable we are plotting. Used to put the unit in 
+            the graph
             legend - boolean. If True the legend is plotted"""
         figure = Figure(figsize=(5,4), dpi=100)
         area = figure.add_subplot(111) # One subplot where to draw everything
@@ -327,6 +348,24 @@ class Controls(threading.Thread):
         win.add(canvas)
         win.show_all()
         
-
-# We start the threads here
-gobject.threads_init()
+class TimeLoop(threading.Thread):
+    """Daemon Thread to connect the console with the GUI"""
+    def __init__(self, controls):
+        threading.Thread.__init__(self)
+        self.interval = 0.5 # More relaxed
+        self.setDaemon(True)
+        self.controls = controls
+        
+        
+    def run(self):
+        """Update the GUI interface calling the update method"""
+        while True:
+        
+            time.sleep(self.interval) 
+            gtk.gdk.threads_enter()
+            try:
+                if not self.controls.user_interaction:
+                    self.controls.update()
+            finally:
+                gtk.gdk.threads_leave()
+            

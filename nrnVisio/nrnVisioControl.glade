@@ -207,6 +207,7 @@
                                         <property name="adjustment">adjustment_voltage</property>
                                         <property name="digits">2</property>
                                         <property name="numeric">True</property>
+                                        <signal name="value_changed" handler="on_voltage_spin_value_changed"/>
                                       </object>
                                       <packing>
                                         <property name="position">2</property>
@@ -237,6 +238,7 @@
                                         <property name="invisible_char">&#x25CF;</property>
                                         <property name="adjustment">adjustment_tstop</property>
                                         <property name="digits">1</property>
+                                        <signal name="value_changed" handler="on_tstop_spin_value_changed"/>
                                       </object>
                                       <packing>
                                         <property name="position">1</property>
@@ -268,6 +270,7 @@
                                         <property name="invisible_char">&#x25CF;</property>
                                         <property name="adjustment">adjustment_dt</property>
                                         <property name="digits">4</property>
+                                        <signal name="value_changed" handler="on_dt_spin_value_changed"/>
                                       </object>
                                       <packing>
                                         <property name="position">1</property>
