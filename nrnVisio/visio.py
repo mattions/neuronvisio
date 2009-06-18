@@ -36,6 +36,9 @@ class Visio():
         self.defaultColor = (1,1,1) #light gray
         self.h = h # Link to the neuron interpreter
         self.t = None # Var to track the time Vector
+        
+        # Load the std run for NEURON
+        h.load_file("stdrun.hoc")
 
         
         

@@ -181,17 +181,19 @@
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">True</property>
+                                        <signal name="clicked" handler="on_init_clicked"/>
                                       </object>
                                       <packing>
                                         <property name="position">0</property>
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkButton" id="run">
+                                      <object class="GtkButton" id="run_sim">
                                         <property name="label" translatable="yes">Init &amp; Run</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">True</property>
+                                        <signal name="clicked" handler="on_run_sim_clicked"/>
                                       </object>
                                       <packing>
                                         <property name="position">1</property>
@@ -265,7 +267,7 @@
                                         <property name="can_focus">True</property>
                                         <property name="invisible_char">&#x25CF;</property>
                                         <property name="adjustment">adjustment_dt</property>
-                                        <property name="digits">2</property>
+                                        <property name="digits">4</property>
                                       </object>
                                       <packing>
                                         <property name="position">1</property>
@@ -787,7 +789,7 @@
   </object>
   <object class="GtkAdjustment" id="adjustment_dt">
     <property name="upper">100</property>
-    <property name="step_increment">0.001</property>
+    <property name="step_increment">0.0001</property>
     <property name="page_increment">10</property>
     <property name="page_size">10</property>
   </object>

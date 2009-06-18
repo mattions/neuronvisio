@@ -64,6 +64,8 @@ class Controls(threading.Thread):
         self.treestore = self.builder.get_object("treestore")
         self.sectionCol = 0 # Defined in Glade 
         self.visio = visio.Visio()
+        self.h = self.visio.h # Unpacking for less typing
+        self.update()
         # Show the window
         self.window.show()
  
@@ -131,8 +133,8 @@ class Controls(threading.Thread):
 
         else:
             if self.visio.t is None: # Create the time vector if not already there
-                self.visio.t = self.visio.h.Vector()
-                self.visio.t.record(self.visio.h._ref_t)
+                self.visio.t = self.h.Vector()
+                self.visio.t.record(self.h._ref_t)
             # Grab the section
             selectedSection_radio_btn = self.builder.get_object("selected_sec_btn")
             
@@ -172,16 +174,16 @@ class Controls(threading.Thread):
         # Get the default from the Hoc and 
         # Vm
         v_spin = self.builder.get_object("voltage_spin")
-        v_init = self.visio.h.v_init
+        v_init = self.h.v_init
         self._update_spin(v_spin, v_init)
         
         # tstop
         tstop_spin = self.builder.get_object("tstop_spin")
-        tstop = self.visio.h.tstop
+        tstop = self.h.tstop
         self._update_spin(tstop_spin, tstop)
         # dt
         dt_spin = self.builder.get_object("dt_spin")
-        dt = self.visio.h.dt
+        dt = self.h.dt
         self._update_spin(dt_spin, dt)
      
     def _update_spin(self, spin_button, value):
@@ -260,6 +262,28 @@ class Controls(threading.Thread):
             #print vecs_to_plot, var
             self.plotVecs(vecs_to_plot, var, legend=True)
 
+    def on_init_clicked(self, widget):
+        """Set the vm_init from the spin button and prepare the simulator"""
+        v_spin = self.builder.get_object("voltage_spin")
+        v_init = v_spin.get_value()
+        self.h.v_init = v_init
+        self.h.finitialize(v_init)
+        self.h.fcurrent()
+        time_label = self.builder.get_object("time_value")
+        time_label.set_text(str(self.h.t))
+    
+    
+    def on_run_sim_clicked(self,widget):
+        time_label = self.builder.get_object("time_value")
+        #Initializing
+        self.on_init_clicked(widget)
+        # Run
+        while self.h.t < self.h.tstop:
+            self.h.fadvance()
+            time_label.set_text(str(self.h.t))
+            
+            
+            
     def plotVecs(self, vecs_dic, var, legend=True):
         """Plot the vectors with pylab
         :param:
@@ -283,7 +307,7 @@ class Controls(threading.Thread):
         # Figure ready. Let's create a window and show it
         self.pylab_win(figure)
 
-    def on_pylab_win_destroy(self):
+    def on_pylab_win_destroy(self, widget):
         
         win = self.builder.get_object("pylab_win")
         win.hide()
