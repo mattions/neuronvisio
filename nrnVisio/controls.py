@@ -64,6 +64,7 @@ class Controls(threading.Thread):
         self.treestore = self.builder.get_object("treestore")
         self.sectionCol = 0 # Defined in Glade 
         self.visio = visio.Visio()
+        # Show the window
         self.window.show()
  
     def on_window_destroy(self, widget, data=None):
@@ -166,7 +167,30 @@ class Controls(threading.Thread):
                 else:
                     self._update_tree_view()
         
+    def update(self):
+        """Update the GUI. For now only the spin button"""
+        # Get the default from the Hoc and 
+        # Vm
+        v_spin = self.builder.get_object("voltage_spin")
+        v_init = self.visio.h.v_init
+        self._update_spin(v_spin, v_init)
         
+        # tstop
+        tstop_spin = self.builder.get_object("tstop_spin")
+        tstop = self.visio.h.tstop
+        self._update_spin(tstop_spin, tstop)
+        # dt
+        dt_spin = self.builder.get_object("dt_spin")
+        dt = self.visio.h.dt
+        self._update_spin(dt_spin, dt)
+     
+    def _update_spin(self, spin_button, value):
+        """Update the spin button with the right number of digits"""
+        (base, digits) = str(value).split('.')
+        spin_button.set_digits(len(digits))
+        spin_button.set_value(value)
+        
+            
                     
     def _update_tree_view(self):
         # Fill the treeview wit all the vectors created
