@@ -1,15 +1,12 @@
-# Importing the NeuronVisio
+# This example comes with NeuronVisio.
 
+# Importing the NeuronVisio
 import nrnVisio
 
-# creating the gtk2 window and startin the thread.
-controls = nrnVisio.Controls()
-controls.start() 
+# Importing hoc interpreter
+from neuron import h
 
-# handy h interpreter
-h = controls.visio.h
-
-# Kiddy model
+# simple model
 soma = h.Section()
 dend1 = h.Section()
 dend2 = h.Section()
