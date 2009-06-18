@@ -114,14 +114,14 @@ class Controls(threading.Thread):
             no_section.hide()
     
     def on_pick_clicked(self, widget, data=None):
-        """Pick a section"""
+        """Select a section from the 3D visio"""
         sec = self.visio.pickSection()
-        statusbar = self.builder.get_object("statusbar")
-        context_id = statusbar.get_context_id("sectionInfo")
+        selected_section_label = self.builder.get_object("selected_section_label")
+        
         if (hasattr(sec, "id")):
-            statusbar.push(context_id, "%s (%s)" %(sec.id, sec.name()))
+            selected_section_label.set_text("%s (%s)" %(sec.id, sec.name()))
         else:
-            statusbar.push(context_id, "%s" %sec.name())
+            selected_section_label.set_text("%s" %sec.name())
         self.selectedSec = sec
         
     def on_createVector_clicked(self, widget, data=None):
@@ -272,21 +272,26 @@ class Controls(threading.Thread):
         """Set the vm_init from the spin button and prepare the simulator"""
         v_spin = self.builder.get_object("voltage_spin")
         v_init = v_spin.get_value()
+        
+        # Set the v_init
         self.h.v_init = v_init
         self.h.finitialize(v_init)
         self.h.fcurrent()
+        
+        # Reset the time in the GUI
         time_label = self.builder.get_object("time_value")
         time_label.set_text(str(self.h.t))
     
     
     def on_run_sim_clicked(self,widget):
         time_label = self.builder.get_object("time_value")
+        
         #Initializing
         self.on_init_clicked(widget)
         # Run
         while self.h.t < self.h.tstop:
             self.h.fadvance()
-            time_label.set_text(str(self.h.t))
+            time_label.set_markup("<b>" + str(self.h.t) + "</b>")
             
     def on_voltage_spin_value_changed(self,widget):
         """Update the voltage value in the simulator"""
