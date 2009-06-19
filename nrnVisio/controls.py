@@ -28,6 +28,7 @@ import os
 import pylab
 import numpy
 import time
+import cairo
 
 try:
     
@@ -72,6 +73,12 @@ class Controls(threading.Thread):
         
         # Show the window
         self.window.show()
+ 
+    def run(self):
+        """Running the gtk loop in our thread"""
+        gtk.gdk.threads_enter()
+        gtk.main()
+        gtk.gdk.threads_leave()
  
     def on_window_destroy(self, widget, data=None):
         self._shutdown()
@@ -215,12 +222,6 @@ class Controls(threading.Thread):
         about_dialog = self.builder.get_object("aboutdialog")
         about_dialog.run()
         about_dialog.hide()
-        
-    def run(self):
-        """Running the gtk loop in our thread"""
-        gtk.gdk.threads_enter()
-        gtk.main()
-        gtk.gdk.threads_leave()
     
     def on_plot_clicked(self, widget, data=None):
         """Create a plot of the selected vector"""
@@ -282,8 +283,8 @@ class Controls(threading.Thread):
         time_label = self.builder.get_object("time_value")
         time_label.set_text(str(self.h.t))
     
-    
-    def on_run_sim_clicked(self,widget):
+    def on_run_sim_clicked(self, widget):
+        """Run the simulator till tstop"""
         time_label = self.builder.get_object("time_value")
         
         #Initializing
@@ -307,6 +308,90 @@ class Controls(threading.Thread):
         """Update the dt value in the simulator"""
         self.user_interaction = True
         self.h.dt = widget.get_value()
+
+
+# Animation control
+
+    def on_animation_control_delete_event(self, widget, event):
+        """Hide the animation control instead of destroying"""
+        animation_win = self.builder.get_object("animation_control")
+        animation_win.hide()
+        return True
+
+
+    def on_animation_clicked(self, widget):
+        """Show the animation control"""
+        animation_win = self.builder.get_object("animation_control")
+        gradient_area = self.builder.get_object("gradient_area")
+        gradient_area.connect("expose-event", self.expose_gradient)
+        animation_win.show_all()
+    
+    def expose_gradient(self, widget, event):
+        """Redraw the gradient everytime is shown. The colors value are taken 
+        by the tow gtkbuttoncolors"""
+        
+        
+        gtk_btn_color_start = self.builder.get_object("start_color")
+        gtk_start_color =gtk_btn_color_start.get_color()
+        
+        # Store it in RGB 0-1 format
+        self.start_color = [self._scale_rgb(gtk_start_color.red), 
+                            self._scale_rgb(gtk_start_color.green),
+                            self._scale_rgb(gtk_start_color.blue)
+                            ]
+        
+        gtk_btn_color_end = self.builder.get_object("end_color")
+        gtk_end_color =gtk_btn_color_end.get_color()
+        
+                # Store it in RGB 0-1 format
+        self.end_color = [self._scale_rgb(gtk_end_color.red), 
+                            self._scale_rgb(gtk_end_color.green),
+                            self._scale_rgb(gtk_end_color.blue)
+                            ]
+        
+        cr = widget.window.cairo_create()
+        
+        # Getting the rectangle where to draw
+        x = widget.allocation.x
+        y = widget.allocation.y
+        w = widget.allocation.width
+        h = widget.allocation.height
+        x1 = x+w
+        y1 = y+h
+        
+        # We want an horizontal gradient
+        gradient = cairo.LinearGradient(x, y/2, x1, y/2) 
+        gradient.add_color_stop_rgb(0, self.start_color[0], self.start_color[1]
+                                  , self.start_color[2])
+        gradient.add_color_stop_rgb(1, self.end_color[0], self.end_color[1], 
+                                  self.end_color[2])
+        self.gradient = gradient
+        cr.rectangle(x,y,x1,y1)
+        cr.set_source(gradient)
+        cr.fill()
+        
+
+    def _scale_rgb(self, color_in_32_bit):
+        """Scale down to 0-1 range"""
+        return color_in_32_bit / 65535.0
+        
+    
+    def on_play_clicked(self, widget):
+        """Play the animation with the voltage color coded"""
+        entry_var = self.builder.get_object("animation_var")
+        var = entry_var.get_text()
+        start_value = self.builder.get_object("start_var_value").get_text()
+        end_value = self.builder.get_object("end_var_value").get_text()
+        
+        # Redraw the whole model
+        self.visio.drawModel()
+        # Play the animation
+        self.visio.showVariableTimecourse(var, self.gradient, start_value,
+                                          end_value)
+
+#### Pylab stuff. Maybe another class?
+
+
             
     def plotVecs(self, vecs_dic, var, legend=True):
         """Plot the vectors with pylab

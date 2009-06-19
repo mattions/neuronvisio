@@ -24,7 +24,9 @@ from neuron import h
 import threading
 import gtk
 
-class Visio():
+"""Manage the visual window and offer some useful methods to explore the model"""
+
+class Visio(object):
     
     def __init__(self):
 
@@ -36,7 +38,6 @@ class Visio():
         self.defaultColor = (1,1,1) #light gray
         self.h = h # Link to the neuron interpreter
         self.t = None # Var to track the time Vector
-        
         # Load the std run for NEURON
         h.load_file("stdrun.hoc")
 
@@ -61,6 +62,7 @@ class Visio():
                         
     
     def pickSection(self):
+        """Pick a section of the model"""
         while(True):
             if self.scene.mouse.clicked:
                  m = self.scene.mouse.getclick()
@@ -82,6 +84,8 @@ class Visio():
     
     
     def createVector(self, var):
+        """Create a Hoc Vector and record the variable given."""
+        
         sec = self.pickSection()
         vecNotPresent = True
         for vecRef in self.vecRefs:
@@ -96,19 +100,9 @@ class Visio():
             vecRef = VecRef(var, vec, sec)
             self.vecRefs.append(vecRef)
         return sec     
-
-    def plotVector(self, tPoints, varPoints):
-        funct = visual.graph.gcurve()
-        try:
-             for i in range(int (tPoints.size() )):
-                 curve.plot(pos=(tPoints[i], varPoints[i]))
-        except LookupError:
-            print "At least one of the vector seems to be empty.\n\
-            Please run the simulation first"
-        
-        return funct
                        
     def retrieveCoordinate(self, sec):
+        """Retrieve the coordinates of the section"""
         coords = {}
         sec.push()
         coords['x0'] = h.x3d((h.n3d()- h.n3d()))
@@ -121,21 +115,54 @@ class Visio():
         return coords
         
     
-    def drawSection(self, sec):
+    def drawSection(self, sec, color=None):
+        """Draw the section with the optional color
+        and add it to the dictionary cyl2sec
+        
+        :params:
+            sec - Section to draw
+            color - tuple for the color in RGB value. i.e.: (0,0,1) blue"""
         coords = self.retrieveCoordinate(sec)
         x_ax = coords['x1'] -coords['x0']
         y_ax = coords['y1'] -coords['y0']
         z_ax = coords['z1'] -coords['z0']
         cyl = visual.cylinder(pos=(coords['x0'],coords['y0'],coords['z0']), 
                           axis=(x_ax,y_ax,z_ax), radius=sec.diam/2)
+        if color is not None:
+            cyl.color = color
         
-        self.cyl2sec[cyl] = sec
+        if not self.cyl2sec.has_key(cyl):
+            self.cyl2sec[cyl] = sec
     
     def visualizeSectionPotential(self):
         pass
     
+    def showVariableTimecourse(self, var, gradient, start_col):
+        """Show an animation of all the section that have 
+        the recorded variable among time
+        
+        :params:
+            var - the variable to show"""
+            
+        for time_point in self.t:
+            visual.rate(1/0.1)
+            for vecRef in self.vecRefs:
+                if vecRef.vecs.haskey(var):
+                    vec = vecRef.vecs[var]
+                    var_value = vec[time_point]
+                    
+                    ## FIXME Calc the distance between the start and 
+                    ## the current value
+                    
+                    ## Use it to retrieve the value from the gradient with the index 
+                    color = self.calculate_gradient(var_value)
+                    self.drawSection(sec, color=color)
     
+    def calculate_gradient(self, var_value):
+        """Calculate the color in a gradient given the start and the end"""
+                
     def findSecs(self, secList, secName):
+        """Find a section with a given Name in a List of Section"""
         selectedSec = None
         for sec in secList:
             if hasattr(sec, "head"): # it's a spine
@@ -157,6 +184,7 @@ class Visio():
         return selectedSec
     
     def drawModel(self):
+        """Draw all the model"""
         drawn = False
         # Hide all the old objects
         for obj in self.scene.objects:
@@ -172,6 +200,7 @@ class Visio():
             
     
     def dragModel(self):
+        """Drag the model"""
         pick = None # no object picked out of the scene yet
         
         while True:
@@ -252,7 +281,4 @@ class VecRef(object):
         # Key: var Value: Hoc.Vector
         self.vecs = {}
         
-        
-    def info(self):
-        print "Var: %s Vec: %s SecName: %s" %(self.var, self.vec, self.sec.name())
     
