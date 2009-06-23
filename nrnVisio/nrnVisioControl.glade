@@ -109,6 +109,7 @@
                                   <object class="GtkEntry" id="var_entry">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
+                                    <property name="has_focus">True</property>
                                     <property name="tooltip_markup">Enter the variable to record: i.e. v</property>
                                     <property name="invisible_char">&#x25CF;</property>
                                   </object>
