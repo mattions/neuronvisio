@@ -41,9 +41,8 @@ except:
     print "matlab and cairo backend not available"
 
 # We start the threads here
-gtk.gdk.threads_init()
 
-
+gobject.threads_init()
 
 class Controls(threading.Thread):
     """Main GTK control window. create a control object and start with
@@ -458,12 +457,6 @@ class TimeLoop(threading.Thread):
     def run(self):
         """Update the GUI interface calling the update method"""
         while True:
-        
-            time.sleep(self.interval) 
-            gtk.gdk.threads_enter()
-            try:
-                if not self.controls.user_interaction:
-                    self.controls.update()
-            finally:
-                gtk.gdk.threads_leave()
+            time.sleep(self.interval)
+            gobject.idle_add(self.controls.update)
             
