@@ -18,11 +18,13 @@
 
 """
 
+from __future__ import division # to have the floating point properly managed
 import visual
-import visual.graph
+import visual.text
 from neuron import h
 import threading
 import gtk
+
 
 """Manage the visual window and offer some useful methods to explore the model"""
 
@@ -115,7 +117,7 @@ class Visio(object):
         return coords
         
     
-    def drawSection(self, sec, color=None):
+    def draw_section(self, sec, color=None):
         """Draw the section with the optional color
         and add it to the dictionary cyl2sec
         
@@ -137,17 +139,21 @@ class Visio(object):
     def visualizeSectionPotential(self):
         pass
     
-    def showVariableTimecourse(self, var, gradient, start_col):
+    def showVariableTimecourse(self, var, gradient, start_col, time_label):
         """Show an animation of all the section that have 
         the recorded variable among time
         
         :params:
             var - the variable to show"""
+        
+        time_points = len (self.t) # Visual accept to iterate only on int value
+        for time_point in range (time_points) : 
             
-        for time_point in self.t:
             visual.rate(1/0.1)
+            self.draw_time(time_point, time_label)
+            
             for vecRef in self.vecRefs:
-                if vecRef.vecs.haskey(var):
+                if vecRef.vecs.has_key(var):
                     vec = vecRef.vecs[var]
                     var_value = vec[time_point]
                     
@@ -156,10 +162,35 @@ class Visio(object):
                     
                     ## Use it to retrieve the value from the gradient with the index 
                     color = self.calculate_gradient(var_value)
-                    self.drawSection(sec, color=color)
+                    self.draw_section(vecRef.sec, color=color)
+                    
     
+    def draw_time(self, time_point, time_label):
+        """Draw the progression of the time in the window"""
+        time_str = str(self.t.x[time_point])
+        
+        print time_str
+        # Updating the label on the animation control window 
+#        gtk.gdk.threads_enter()
+#        try:
+#        
+#            time_label.set_text(time_str)
+#        finally:
+#            gtk.gdk.threads_leave()
+        
+        #return time
+        
     def calculate_gradient(self, var_value):
         """Calculate the color in a gradient given the start and the end"""
+        # For now the gradien it hardcoded.
+        color = visual.color.blue
+        if var_value <= -50:
+            color = visual.color.red
+        elif -49 < var_value <= 0:
+            color = visual.color.orange
+        elif var_value > 0:
+            color =visual.color.yellow
+        return color 
                 
     def findSecs(self, secList, secName):
         """Find a section with a given Name in a List of Section"""
@@ -193,7 +224,7 @@ class Visio(object):
         # Draw the new one
         h.define_shape()
         for sec in h.allsec():
-            self.drawSection(sec)
+            self.draw_section(sec)
             drawn = True # Assigned every time. Didn't find a way to test if there is a sec
              
         return drawn

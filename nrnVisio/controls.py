@@ -98,8 +98,7 @@ class Controls(threading.Thread):
         visio instance"""
         
         #print "You should kill visio window by yourself for now.\n"
-#        self.visio.scene.hide()
-#        self.visio = None
+        
         gtk.main_quit()    
         
     def on_drag_clicked(self, btn, data=None):
@@ -110,6 +109,11 @@ class Controls(threading.Thread):
     def on_draw_clicked(self, widget, data=None):
         """Draw the whole model"""
         drawn = self.visio.drawModel()
+        self._update_visio_buttons(drawn)
+
+    def _update_visio_buttons(self, drawn):
+        """Update the ui buttons connected with visio"""
+        
         if drawn:
             btns = ["drag", "pick"]
             for name in btns:
@@ -321,6 +325,7 @@ class Controls(threading.Thread):
 
     def on_animation_clicked(self, widget):
         """Show the animation control"""
+        
         animation_win = self.builder.get_object("animation_control")
         gradient_area = self.builder.get_object("gradient_area")
         gradient_area.connect("expose-event", self.expose_gradient)
@@ -384,10 +389,13 @@ class Controls(threading.Thread):
         end_value = self.builder.get_object("end_var_value").get_text()
         
         # Redraw the whole model
-        self.visio.drawModel()
+        drawn = self.visio.drawModel()
+        self._update_visio_buttons(drawn)
+        
         # Play the animation
-        self.visio.showVariableTimecourse(var, self.gradient, start_value,
-                                          end_value)
+        time_label = self.builder.get_object("time_label")
+        self.visio.showVariableTimecourse(var, self.gradient, 
+                                          start_value, time_label)
 
 #### Pylab stuff. Maybe another class?
 
