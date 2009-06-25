@@ -1,5 +1,8 @@
 # This example comes with NeuronVisio.
 
+# You need to compile the hoc file before launching it
+# $ nrnivmodl 
+
 # Importing the NeuronVisio
 import nrnVisio
 
