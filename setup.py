@@ -13,6 +13,5 @@ setup(name='NeuronVisio',
       author='Michele Mattioni',
       author_email='mattioni@ebi.ac.uk',
       url='http://mattions.github.com/neuronvisio/',
-      packages=['nrnVisio'],
-      package_data={'nrnVisio': ['examples']}
+      packages=['nrnVisio']
      )
