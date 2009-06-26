@@ -255,6 +255,7 @@
                               <object class="GtkButton" id="animation">
                                 <property name="label" translatable="yes">Animation</property>
                                 <property name="visible">True</property>
+                                <property name="sensitive">False</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <signal name="clicked" handler="on_animation_clicked"/>
@@ -953,6 +954,35 @@ along with NeuronVisio.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</prop
                   <object class="GtkHBox" id="hbox2">
                     <property name="visible">True</property>
                     <child>
+                      <object class="GtkLabel" id="label4">
+                        <property name="visible">True</property>
+                        <property name="label" translatable="yes">var to show</property>
+                      </object>
+                      <packing>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkEntry" id="animation_var">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="invisible_char">&#x25CF;</property>
+                        <property name="text" translatable="yes">v</property>
+                      </object>
+                      <packing>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="position">2</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkHBox" id="hbox1">
+                    <property name="visible">True</property>
+                    <property name="homogeneous">True</property>
+                    <child>
                       <object class="GtkButton" id="play">
                         <property name="label" translatable="yes">gtk-media-play</property>
                         <property name="visible">True</property>
@@ -967,44 +997,15 @@ along with NeuronVisio.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</prop
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkLabel" id="label4">
-                        <property name="visible">True</property>
-                        <property name="label" translatable="yes">var to show</property>
-                      </object>
-                      <packing>
-                        <property name="position">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkEntry" id="animation_var">
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="invisible_char">&#x25CF;</property>
-                        <property name="text" translatable="yes">v</property>
-                      </object>
-                      <packing>
-                        <property name="position">2</property>
-                      </packing>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="position">2</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkHBox" id="hbox1">
-                    <property name="visible">True</property>
-                    <property name="homogeneous">True</property>
-                    <child>
-                      <object class="GtkHScale" id="hscale">
+                      <object class="GtkHScale" id="timeline">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="adjustment">adjustment_hscale</property>
                         <property name="draw_value">False</property>
-                        <signal name="value_changed" handler="on_hscale_value_changed"/>
+                        <signal name="value_changed" handler="on_timeline_value_changed"/>
                       </object>
                       <packing>
-                        <property name="position">0</property>
+                        <property name="position">1</property>
                       </packing>
                     </child>
                     <child>
@@ -1013,7 +1014,7 @@ along with NeuronVisio.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</prop
                         <property name="label" translatable="yes">0.0</property>
                       </object>
                       <packing>
-                        <property name="position">1</property>
+                        <property name="position">2</property>
                       </packing>
                     </child>
                   </object>

@@ -24,6 +24,7 @@ import visual.text
 from neuron import h
 import threading
 import gtk
+import gobject
 
 
 """Manage the visual window and offer some useful methods to explore the model"""
@@ -173,7 +174,7 @@ class Visio(object):
                 color = self.calculate_gradient(var_value, gradient, 
                                                 start_col_value)
                 self.draw_section(vecRef.sec, color=color)
-        return # give back the control to the gtk thread
+        #return # give back the control to the gtk thread
         
     def calculate_gradient(self, var_value, gradient, start_col_value):
         """Calculate the color in a gradient given the start and the end"""
@@ -214,8 +215,8 @@ class Visio(object):
             
         return selectedSec
     
-    def draw_model(self):
-        """Draw all the model"""
+    def draw_model(self, controls):
+        """Draw all the model """
         drawn = False
         # Hide all the old objects
         for obj in self.scene.objects:
@@ -226,6 +227,7 @@ class Visio(object):
         for sec in h.allsec():
             self.draw_section(sec)
         self.drawn = True
+        gobject.idle_add(controls.update_visio_buttons)
             
     def drag_model(self):
         """Drag the model"""

@@ -75,9 +75,7 @@ class Controls(threading.Thread):
  
     def run(self):
         """Running the gtk loop in our thread"""
-        gtk.gdk.threads_enter()
         gtk.main()
-        gtk.gdk.threads_leave()
  
     def on_window_destroy(self, widget, data=None):
         self._shutdown()
@@ -97,8 +95,15 @@ class Controls(threading.Thread):
         visio instance"""
         
         #print "You should kill visio window by yourself for now.\n"
+        # Destroy the animation window
+        animation_win = self.builder.get_object("animation_control")
+        animation_win.destroy()
         
-        gtk.main_quit()    
+        # Destroy the Pylab win
+        pylab_win = self.builder.get_object("pylab_win")
+        pylab_win.destroy()
+        
+        gtk.main_quit()
         
     def on_drag_clicked(self, btn, data=None):
         """To drag the model in the window"""
@@ -107,14 +112,13 @@ class Controls(threading.Thread):
         
     def on_draw_clicked(self, widget, data=None):
         """Draw the whole model"""
-        self.visio.draw_model()
-        self._update_visio_buttons()
+        self.visio.draw_model(self)
 
-    def _update_visio_buttons(self):
+    def update_visio_buttons(self):
         """Update the ui buttons connected with visio"""
         
         if self.visio.drawn:
-            btns = ["drag", "pick"]
+            btns = ["drag", "pick", "animation"]
             for name in btns:
                 btn = self.builder.get_object(name)
                 btn.set_sensitive(True)
@@ -335,18 +339,18 @@ class Controls(threading.Thread):
         gradient_area = self.builder.get_object("gradient_area")
         gradient_area.connect("expose-event", self.expose_gradient)
         
-        # Setting the hscale with the time of the simulation
-        hscale = self.builder.get_object("hscale")
+        # Setting the timeline with the time of the simulation
+        timeline = self.builder.get_object("timeline")
         if self.visio.t is None:
             print "You didn't create any vector"
-        if self.visio.t.size() == 0:
+        elif self.visio.t.size() == 0:
             print "You should run the simulation first"
         else:
-            hscale.set_range(0, self.visio.t.size() - 1)
-            #hscale.set_increments(1, 10) #minimal increment equal to dt    
+            timeline.set_range(0, self.visio.t.size() - 1)
+            #timeline.set_increments(1, 10) #minimal increment equal to dt    
             animation_win.show_all()
     
-    def on_hscale_value_changed(self, widget):
+    def on_timeline_value_changed(self, widget):
         """Draw the animation according to the value of the timeline"""
         time_point_indx = widget.get_value()
         #cast to int
@@ -360,8 +364,7 @@ class Controls(threading.Thread):
         
         # Draw the whole model and open the visio display
         if self.visio.drawn is False:
-            drawn = self.visio.draw_model()
-            self._update_visio_buttons()
+            drawn = self.visio.draw_model(self)
         
         #Update the label on the scale
         animation_time_label = self.builder.get_object("animation_time")
@@ -378,20 +381,24 @@ class Controls(threading.Thread):
         var = entry_var.get_text()
         start_value = self.builder.get_object("start_var_value").get_text()
         end_value = self.builder.get_object("end_var_value").get_text()
-        
-        animation_time_label = self.builder.get_object("animation_time")
-        
+    
         # Play the animation
         
         if not self.visio.drawn:
-            self.visio.draw_model()
-             
-        for t_indx,time in enumerate(self.visio.t):
-            self.visio.show_variable_timecourse(var, t_indx, 
-                                                self.gradient, start_value)
-            print time
-            animation_time_label.set_text(str(time))
-
+            self.visio.draw_model(self)
+            
+        # Using a thread to run the cicle    
+        thread_for_timeline = TimelineHelper(self, var, start_value)
+        thread_for_timeline.start()
+        
+        
+    def update_timeline(self, t_indx, time):
+        """update the timeline"""
+        #print time
+        timeline = self.builder.get_object("timeline")
+        animation_time_label = self.builder.get_object("animation_time")
+        timeline.set_value(t_indx) #Advancing the timeline
+        animation_time_label.set_text(time)
 
  
     def expose_gradient(self, widget, event):
@@ -491,6 +498,21 @@ class Controls(threading.Thread):
         canvas = FigureCanvas(figure)  # a gtk.DrawingArea
         win.add(canvas)
         win.show_all()
+
+class TimelineHelper(threading.Thread):
+    """Thread to update the timeline when the play button is clicked"""
+    def __init__(self, controls, var, start_value):
+        threading.Thread.__init__(self)
+        self.controls = controls
+        self.var = var
+        self.start_value = start_value
+    
+    def run(self):
+        for t_indx,time in enumerate(self.controls.visio.t):
+            self.controls.visio.show_variable_timecourse(self.var, t_indx, 
+                                                self.controls.gradient, self.start_value)
+            # Update done on the main gtk
+            gobject.idle_add(self.controls.update_timeline, t_indx, str(time)) 
         
 class TimeLoop(threading.Thread):
     """Daemon Thread to connect the console with the GUI"""
