@@ -103,17 +103,17 @@ class Controls(threading.Thread):
     def on_drag_clicked(self, btn, data=None):
         """To drag the model in the window"""
         self.visio.scene.mouse.events = 0 # Discard all the previous event
-        self.visio.dragModel()
+        self.visio.drag_model()
         
     def on_draw_clicked(self, widget, data=None):
         """Draw the whole model"""
-        drawn = self.visio.drawModel()
-        self._update_visio_buttons(drawn)
+        self.visio.draw_model()
+        self._update_visio_buttons()
 
-    def _update_visio_buttons(self, drawn):
+    def _update_visio_buttons(self):
         """Update the ui buttons connected with visio"""
         
-        if drawn:
+        if self.visio.drawn:
             btns = ["drag", "pick"]
             for name in btns:
                 btn = self.builder.get_object(name)
@@ -296,21 +296,27 @@ class Controls(threading.Thread):
         while self.h.t < self.h.tstop:
             self.h.fadvance()
             time_label.set_markup("<b>" + str(self.h.t) + "</b>")
-            
+    
+    
+         
     def on_voltage_spin_value_changed(self,widget):
         """Update the voltage value in the simulator"""
         self.user_interaction = True
         self.h.v_init = widget.get_value()
+        self.user_interaction = False
+        
             
     def on_tstop_spin_value_changed(self,widget):
         """Update the tstop value in the simulator"""
         self.user_interaction = True
         self.h.tstop = widget.get_value()
+        self.user_interaction = False
         
     def on_dt_spin_value_changed(self, widget):
         """Update the dt value in the simulator"""
         self.user_interaction = True
         self.h.dt = widget.get_value()
+        self.user_interaction = False
 
 
 # Animation control
@@ -328,8 +334,66 @@ class Controls(threading.Thread):
         animation_win = self.builder.get_object("animation_control")
         gradient_area = self.builder.get_object("gradient_area")
         gradient_area.connect("expose-event", self.expose_gradient)
-        animation_win.show_all()
+        
+        # Setting the hscale with the time of the simulation
+        hscale = self.builder.get_object("hscale")
+        if self.visio.t is None:
+            print "You didn't create any vector"
+        if self.visio.t.size() == 0:
+            print "You should run the simulation first"
+        else:
+            hscale.set_range(0, self.visio.t.size() - 1)
+            #hscale.set_increments(1, 10) #minimal increment equal to dt    
+            animation_win.show_all()
     
+    def on_hscale_value_changed(self, widget):
+        """Draw the animation according to the value of the timeline"""
+        time_point_indx = widget.get_value()
+        #cast to int
+        time_point_indx = int(time_point_indx)
+        
+        entry_var = self.builder.get_object("animation_var")
+        var = entry_var.get_text()
+        start_col_value = self.builder.get_object("start_var_value").get_text()
+        
+        
+        
+        # Draw the whole model and open the visio display
+        if self.visio.drawn is False:
+            drawn = self.visio.draw_model()
+            self._update_visio_buttons()
+        
+        #Update the label on the scale
+        animation_time_label = self.builder.get_object("animation_time")
+        time = self.visio.t.x[time_point_indx]
+        animation_time_label.set_text(str(time))
+        
+        # We draw only if the cursor is on a time that we hit with the simulation
+        self.visio.show_variable_timecourse(var, time_point_indx, self.gradient, 
+                                     start_col_value)
+
+    def on_play_clicked(self, widget):
+        """Play the animation with the voltage color coded"""
+        entry_var = self.builder.get_object("animation_var")
+        var = entry_var.get_text()
+        start_value = self.builder.get_object("start_var_value").get_text()
+        end_value = self.builder.get_object("end_var_value").get_text()
+        
+        animation_time_label = self.builder.get_object("animation_time")
+        
+        # Play the animation
+        
+        if not self.visio.drawn:
+            self.visio.draw_model()
+             
+        for t_indx,time in enumerate(self.visio.t):
+            self.visio.show_variable_timecourse(var, t_indx, 
+                                                self.gradient, start_value)
+            print time
+            animation_time_label.set_text(str(time))
+
+
+ 
     def expose_gradient(self, widget, event):
         """Redraw the gradient everytime is shown. The colors value are taken 
         by the tow gtkbuttoncolors"""
@@ -378,23 +442,6 @@ class Controls(threading.Thread):
     def _scale_rgb(self, color_in_32_bit):
         """Scale down to 0-1 range"""
         return color_in_32_bit / 65535.0
-        
-    
-    def on_play_clicked(self, widget):
-        """Play the animation with the voltage color coded"""
-        entry_var = self.builder.get_object("animation_var")
-        var = entry_var.get_text()
-        start_value = self.builder.get_object("start_var_value").get_text()
-        end_value = self.builder.get_object("end_var_value").get_text()
-        
-        # Redraw the whole model
-        drawn = self.visio.drawModel()
-        self._update_visio_buttons(drawn)
-        
-        # Play the animation
-        time_label = self.builder.get_object("time_label")
-        self.visio.showVariableTimecourse(var, self.gradient, 
-                                          start_value, time_label)
 
 #### Pylab stuff. Maybe another class?
 
@@ -458,5 +505,6 @@ class TimeLoop(threading.Thread):
         """Update the GUI interface calling the update method"""
         while True:
             time.sleep(self.interval)
-            gobject.idle_add(self.controls.update)
+            if not self.controls.user_interaction :
+                gobject.idle_add(self.controls.update)
             
