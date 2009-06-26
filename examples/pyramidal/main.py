@@ -1,5 +1,16 @@
 # This example comes with NeuronVisio.
 
+# In this example we show how to load a model written in hoc with neruonvisio and explore
+# it.
+
+# The model that I choose is: 
+# A model of spike initiation in neocortical pyramidal neurons 
+# Z. F. Mainen, J. Joerges, J. R. Huguenard and T. J. Sejnowski 
+# Neuron 15, 1427-1439 (1995)
+
+# From the original demo I deleted the synapses and the interview panel for clarity.
+
+
 # You need to compile the hoc file before launching it
 # $ nrnivmodl 
 
