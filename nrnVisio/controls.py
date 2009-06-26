@@ -41,9 +41,8 @@ except:
     print "matlab and cairo backend not available"
 
 # We start the threads here
-gtk.gdk.threads_init()
 
-
+gobject.threads_init()
 
 class Controls(threading.Thread):
     """Main GTK control window. create a control object and start with
@@ -76,9 +75,7 @@ class Controls(threading.Thread):
  
     def run(self):
         """Running the gtk loop in our thread"""
-        gtk.gdk.threads_enter()
         gtk.main()
-        gtk.gdk.threads_leave()
  
     def on_window_destroy(self, widget, data=None):
         self._shutdown()
@@ -98,24 +95,30 @@ class Controls(threading.Thread):
         visio instance"""
         
         #print "You should kill visio window by yourself for now.\n"
+        # Destroy the animation window
+        animation_win = self.builder.get_object("animation_control")
+        animation_win.destroy()
         
-        gtk.main_quit()    
+        # Destroy the Pylab win
+        pylab_win = self.builder.get_object("pylab_win")
+        pylab_win.destroy()
+        
+        gtk.main_quit()
         
     def on_drag_clicked(self, btn, data=None):
         """To drag the model in the window"""
         self.visio.scene.mouse.events = 0 # Discard all the previous event
-        self.visio.dragModel()
+        self.visio.drag_model()
         
     def on_draw_clicked(self, widget, data=None):
         """Draw the whole model"""
-        drawn = self.visio.drawModel()
-        self._update_visio_buttons(drawn)
+        self.visio.draw_model(self)
 
-    def _update_visio_buttons(self, drawn):
+    def update_visio_buttons(self):
         """Update the ui buttons connected with visio"""
         
-        if drawn:
-            btns = ["drag", "pick"]
+        if self.visio.drawn:
+            btns = ["drag", "pick", "animation"]
             for name in btns:
                 btn = self.builder.get_object(name)
                 btn.set_sensitive(True)
@@ -297,21 +300,27 @@ class Controls(threading.Thread):
         while self.h.t < self.h.tstop:
             self.h.fadvance()
             time_label.set_markup("<b>" + str(self.h.t) + "</b>")
-            
+    
+    
+         
     def on_voltage_spin_value_changed(self,widget):
         """Update the voltage value in the simulator"""
         self.user_interaction = True
         self.h.v_init = widget.get_value()
+        self.user_interaction = False
+        
             
     def on_tstop_spin_value_changed(self,widget):
         """Update the tstop value in the simulator"""
         self.user_interaction = True
         self.h.tstop = widget.get_value()
+        self.user_interaction = False
         
     def on_dt_spin_value_changed(self, widget):
         """Update the dt value in the simulator"""
         self.user_interaction = True
         self.h.dt = widget.get_value()
+        self.user_interaction = False
 
 
 # Animation control
@@ -329,8 +338,69 @@ class Controls(threading.Thread):
         animation_win = self.builder.get_object("animation_control")
         gradient_area = self.builder.get_object("gradient_area")
         gradient_area.connect("expose-event", self.expose_gradient)
-        animation_win.show_all()
+        
+        # Setting the timeline with the time of the simulation
+        timeline = self.builder.get_object("timeline")
+        if self.visio.t is None:
+            print "You didn't create any vector"
+        elif self.visio.t.size() == 0:
+            print "You should run the simulation first"
+        else:
+            timeline.set_range(0, self.visio.t.size() - 1)
+            #timeline.set_increments(1, 10) #minimal increment equal to dt    
+            animation_win.show_all()
     
+    def on_timeline_value_changed(self, widget):
+        """Draw the animation according to the value of the timeline"""
+        time_point_indx = widget.get_value()
+        #cast to int
+        time_point_indx = int(time_point_indx)
+        
+        entry_var = self.builder.get_object("animation_var")
+        var = entry_var.get_text()
+        start_col_value = self.builder.get_object("start_var_value").get_text()
+        
+        
+        
+        # Draw the whole model and open the visio display
+        if self.visio.drawn is False:
+            drawn = self.visio.draw_model(self)
+        
+        #Update the label on the scale
+        animation_time_label = self.builder.get_object("animation_time")
+        time = self.visio.t.x[time_point_indx]
+        animation_time_label.set_text(str(time))
+        
+        # We draw only if the cursor is on a time that we hit with the simulation
+        self.visio.show_variable_timecourse(var, time_point_indx, self.gradient, 
+                                     start_col_value)
+
+    def on_play_clicked(self, widget):
+        """Play the animation with the voltage color coded"""
+        entry_var = self.builder.get_object("animation_var")
+        var = entry_var.get_text()
+        start_value = self.builder.get_object("start_var_value").get_text()
+        end_value = self.builder.get_object("end_var_value").get_text()
+    
+        # Play the animation
+        
+        if not self.visio.drawn:
+            self.visio.draw_model(self)
+            
+        # Using a thread to run the cicle    
+        thread_for_timeline = TimelineHelper(self, var, start_value)
+        thread_for_timeline.start()
+        
+        
+    def update_timeline(self, t_indx, time):
+        """update the timeline"""
+        #print time
+        timeline = self.builder.get_object("timeline")
+        animation_time_label = self.builder.get_object("animation_time")
+        timeline.set_value(t_indx) #Advancing the timeline
+        animation_time_label.set_text(time)
+
+ 
     def expose_gradient(self, widget, event):
         """Redraw the gradient everytime is shown. The colors value are taken 
         by the tow gtkbuttoncolors"""
@@ -379,23 +449,6 @@ class Controls(threading.Thread):
     def _scale_rgb(self, color_in_32_bit):
         """Scale down to 0-1 range"""
         return color_in_32_bit / 65535.0
-        
-    
-    def on_play_clicked(self, widget):
-        """Play the animation with the voltage color coded"""
-        entry_var = self.builder.get_object("animation_var")
-        var = entry_var.get_text()
-        start_value = self.builder.get_object("start_var_value").get_text()
-        end_value = self.builder.get_object("end_var_value").get_text()
-        
-        # Redraw the whole model
-        drawn = self.visio.drawModel()
-        self._update_visio_buttons(drawn)
-        
-        # Play the animation
-        time_label = self.builder.get_object("time_label")
-        self.visio.showVariableTimecourse(var, self.gradient, 
-                                          start_value, time_label)
 
 #### Pylab stuff. Maybe another class?
 
@@ -445,6 +498,21 @@ class Controls(threading.Thread):
         canvas = FigureCanvas(figure)  # a gtk.DrawingArea
         win.add(canvas)
         win.show_all()
+
+class TimelineHelper(threading.Thread):
+    """Thread to update the timeline when the play button is clicked"""
+    def __init__(self, controls, var, start_value):
+        threading.Thread.__init__(self)
+        self.controls = controls
+        self.var = var
+        self.start_value = start_value
+    
+    def run(self):
+        for t_indx,time in enumerate(self.controls.visio.t):
+            self.controls.visio.show_variable_timecourse(self.var, t_indx, 
+                                                self.controls.gradient, self.start_value)
+            # Update done on the main gtk
+            gobject.idle_add(self.controls.update_timeline, t_indx, str(time)) 
         
 class TimeLoop(threading.Thread):
     """Daemon Thread to connect the console with the GUI"""
@@ -458,12 +526,7 @@ class TimeLoop(threading.Thread):
     def run(self):
         """Update the GUI interface calling the update method"""
         while True:
-        
-            time.sleep(self.interval) 
-            gtk.gdk.threads_enter()
-            try:
-                if not self.controls.user_interaction:
-                    self.controls.update()
-            finally:
-                gtk.gdk.threads_leave()
+            time.sleep(self.interval)
+            if not self.controls.user_interaction :
+                gobject.idle_add(self.controls.update)
             

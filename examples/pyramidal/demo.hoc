@@ -1,0 +1,106 @@
+
+// --------------------------------------------------------------
+
+// Investigating  ANTIDROMIC ACTION POTENTIALS
+
+// Using Diana Smetters p19 rat L5 pyramid
+
+// Huguenard/McCormick HH kinetics 
+//  na3h5.mod, kd3h5.mod
+
+// Set up to reproduce Stuart and Sakmann (1994), Fig. 2a
+
+// --------------------------------------------------------------
+
+
+// used to load_proc("nrnmainmenu") for early pre 5.x versions of neuron
+load_file("nrngui.hoc")
+
+
+// --------------------------------------------------------------
+// redefine some things in stdrun.hoc
+// --------------------------------------------------------------
+
+tstop = 60
+steps_per_ms = 40
+dt = 0.025
+
+
+// --------------------------------------------------------------
+// cell geometry
+// --------------------------------------------------------------
+
+
+xopen("dks577a.hoc")
+xopen("dks577.append.hoc")
+
+
+// --------------------------------------------------------------
+// passive & active membrane 
+// --------------------------------------------------------------
+
+ra        = 200
+global_ra = ra
+rm        = 40000
+c_m       = 0.75
+v_init    = -70
+celsius = 23
+
+Ek = -90
+Ena = 60
+            
+
+gna_dend = 30
+gna_node = 30000
+gk = 100
+frac_gk_apical = 0
+gk_node = 0
+
+
+proc install_channels() {
+  
+  // passive
+  forall {
+    insert pas
+    Ra = ra
+    cm = c_m 
+    g_pas = 1/rm
+    e_pas = v_init
+  }
+  // exceptions along the axon
+  forsec "myelin" cm = 0.04
+  forsec "node" g_pas = 0.02
+
+  add_spines(apical,sd_apical)
+  add_spines(oblique,sd_oblique)
+  add_spines(distal,sd_distal)
+  add_spines(basal,sd_basal)
+
+
+  // Na+ channels
+
+  forall insert na3
+  forsec dend gbar_na3 = gna_dend
+  forsec "myelin" gbar_na3 = gna_dend
+  soma.gbar_na3 = gna_dend
+  hill.gbar_na3 = gna_node
+  iseg.gbar_na3 = gna_node
+  forsec "node" gbar_na3 = gna_node
+
+  forall if (ismembrane("na3")) ena = Ena     // per S&S ena = 90
+
+  // K+ channels
+
+  forsec basal {
+    insert kd3
+    gbar_kd3 = gk
+  }
+  soma insert kd3
+  soma.gbar_kd3 = gk
+
+    // no K+ in apical dend or axon
+
+  forall if (ismembrane("kd3")) ek = Ek      // per S&S ek = -100
+}
+
+install_channels()

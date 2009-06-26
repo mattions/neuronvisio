@@ -24,6 +24,7 @@ import visual.text
 from neuron import h
 import threading
 import gtk
+import gobject
 
 
 """Manage the visual window and offer some useful methods to explore the model"""
@@ -33,13 +34,21 @@ class Visio(object):
     def __init__(self):
 
         self.scene = visual.display(title="NeuronVisio 3D")
+        # Needed when user pick the cylinder from visio and 
+        # we need to get the section
         self.cyl2sec = {}
+        
+        # Needed to update the value of a cyl bound to a section
+        self.sec2cyl = {}
+        
+        
         self.vecRefs = []
         self.selectedCyl = None # Used for storing the cyl when picked
         self.selectedCylColor = (0,0,1) #blue
         self.defaultColor = (1,1,1) #light gray
         self.h = h # Link to the neuron interpreter
         self.t = None # Var to track the time Vector
+        self.drawn = False # Check if the section are alredy drawn or not
         # Load the std run for NEURON
         h.load_file("stdrun.hoc")
 
@@ -103,7 +112,7 @@ class Visio(object):
             self.vecRefs.append(vecRef)
         return sec     
                        
-    def retrieveCoordinate(self, sec):
+    def retrieve_coordinate(self, sec):
         """Retrieve the coordinates of the section"""
         coords = {}
         sec.push()
@@ -124,65 +133,57 @@ class Visio(object):
         :params:
             sec - Section to draw
             color - tuple for the color in RGB value. i.e.: (0,0,1) blue"""
-        coords = self.retrieveCoordinate(sec)
-        x_ax = coords['x1'] -coords['x0']
-        y_ax = coords['y1'] -coords['y0']
-        z_ax = coords['z1'] -coords['z0']
-        cyl = visual.cylinder(pos=(coords['x0'],coords['y0'],coords['z0']), 
+        
+        # If we already draw the model we don't have to get the coords anymore.
+        cyl = None
+        
+        if self.drawn is not True:
+            
+            coords = self.retrieve_coordinate(sec)
+            x_ax = coords['x1'] -coords['x0']
+            y_ax = coords['y1'] -coords['y0']
+            z_ax = coords['z1'] -coords['z0']
+        
+            cyl = visual.cylinder(pos=(coords['x0'],coords['y0'],coords['z0']), 
                           axis=(x_ax,y_ax,z_ax), radius=sec.diam/2)
+            
+            if not self.cyl2sec.has_key(cyl):
+                self.cyl2sec[cyl] = sec
+        
+            if not self.sec2cyl.has_key(sec.name()):
+                self.sec2cyl[sec.name()] = cyl #We store the name for compability
+        else:
+            cyl = self.sec2cyl[sec.name()]   
+        
         if color is not None:
             cyl.color = color
-        
-        if not self.cyl2sec.has_key(cyl):
-            self.cyl2sec[cyl] = sec
     
-    def visualizeSectionPotential(self):
-        pass
-    
-    def showVariableTimecourse(self, var, gradient, start_col, time_label):
+    def show_variable_timecourse(self, var, time_point, gradient, start_col_value):
         """Show an animation of all the section that have 
         the recorded variable among time
         
         :params:
             var - the variable to show"""
         
-        time_points = len (self.t) # Visual accept to iterate only on int value
-        for time_point in range (time_points) : 
-            
-            visual.rate(1/0.1)
-            self.draw_time(time_point, time_label)
-            
-            for vecRef in self.vecRefs:
-                if vecRef.vecs.has_key(var):
-                    vec = vecRef.vecs[var]
-                    var_value = vec[time_point]
-                    
-                    ## FIXME Calc the distance between the start and 
-                    ## the current value
-                    
-                    ## Use it to retrieve the value from the gradient with the index 
-                    color = self.calculate_gradient(var_value)
-                    self.draw_section(vecRef.sec, color=color)
-                    
-    
-    def draw_time(self, time_point, time_label):
-        """Draw the progression of the time in the window"""
-        time_str = str(self.t.x[time_point])
+        for vecRef in self.vecRefs:
+            if vecRef.vecs.has_key(var):
+                vec = vecRef.vecs[var]
+                var_value = vec.x[time_point]
+                
+                ## Use it to retrieve the value from the gradient with the index 
+                color = self.calculate_gradient(var_value, gradient, 
+                                                start_col_value)
+                self.draw_section(vecRef.sec, color=color)
+        #return # give back the control to the gtk thread
         
-        print time_str
-        # Updating the label on the animation control window 
-#        gtk.gdk.threads_enter()
-#        try:
-#        
-#            time_label.set_text(time_str)
-#        finally:
-#            gtk.gdk.threads_leave()
-        
-        #return time
-        
-    def calculate_gradient(self, var_value):
+    def calculate_gradient(self, var_value, gradient, start_col_value):
         """Calculate the color in a gradient given the start and the end"""
-        # For now the gradien it hardcoded.
+        
+        # Has to be implemented
+        # See more on this
+        # http://lists.cairographics.org/archives/cairo/2008-September/014955.html
+        
+        # For now the gradient is hardcoded.
         color = visual.color.blue
         if var_value <= -50:
             color = visual.color.red
@@ -214,8 +215,8 @@ class Visio(object):
             
         return selectedSec
     
-    def drawModel(self):
-        """Draw all the model"""
+    def draw_model(self, controls):
+        """Draw all the model """
         drawn = False
         # Hide all the old objects
         for obj in self.scene.objects:
@@ -225,12 +226,10 @@ class Visio(object):
         h.define_shape()
         for sec in h.allsec():
             self.draw_section(sec)
-            drawn = True # Assigned every time. Didn't find a way to test if there is a sec
-             
-        return drawn
+        self.drawn = True
+        gobject.idle_add(controls.update_visio_buttons)
             
-    
-    def dragModel(self):
+    def drag_model(self):
         """Drag the model"""
         pick = None # no object picked out of the scene yet
         

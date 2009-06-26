@@ -10,13 +10,14 @@ DOI 10.3389/neuro.11/001.2009
 
 """
 
+from itertools import chain
 
 # Importing NeuronVisio
 import nrnVisio
 
 # Importing the hoc interpreter
 from neuron import h
-from itertools import chain
+
 
 # topology
 soma = h.Section()

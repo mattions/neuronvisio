@@ -1,0 +1,247 @@
+
+
+// --------------------------------------------------------------
+// Select which dendrites get na/kd channels
+// --------------------------------------------------------------
+
+n_axon_seg = 5
+// n_axon_seg = 25
+create myelin[n_axon_seg],node[n_axon_seg]
+
+objectvar active, apical, basal, distal, dend, axon
+
+soma distance()
+
+dend = new SectionList()
+forsec "dend" dend.append()
+
+// distal dendrites
+distal = new SectionList()
+forsec "dend9" if (distance(0) > 550) distal.append()
+
+// apical
+apical = new SectionList()
+forsec "dend9" apical.append()
+
+// basal dendrites
+basal = new SectionList()
+forsec "dend" basal.append()
+forsec apical basal.remove()
+
+axon = new SectionList()
+hill axon.append()
+iseg axon.append()
+forsec "myelin" axon.append()
+forsec "node" axon.append()
+
+// active sections
+active = new SectionList()
+forall active.append()
+forsec "myelin" active.remove()
+
+
+
+// --------------------------------------------------------------
+// Other geometry-specific locations
+// --------------------------------------------------------------
+
+objref dsite
+dend9[76] dsite = new SectionRef()
+site_loc = 0.5  // distance = 416 um
+
+// synapses
+
+objref synloc
+synloc = new SectionList()
+forsec distal synloc.append()
+
+
+  // along ap
+objref path
+path = new SectionList()
+
+dend9[76] path.append()
+dend9[72] path.append()
+dend9[68] path.append()
+dend9[62] path.append()
+dend9[56] path.append()
+dend9[50] path.append()
+dend9[48] path.append()
+dend9[38] path.append()
+dend9[30] path.append()
+dend9[24] path.append()
+dend9[8] path.append()
+dend9[0] path.append()
+
+
+// oblique
+objref oblique
+oblique = new SectionList()
+forsec apical oblique.append()
+forsec distal oblique.remove()
+forsec path oblique.remove()
+
+      
+// --------------------------------------------------------------
+// correct diameter of apical
+// --------------------------------------------------------------
+
+
+double x[199],y[199],z[199],d[199]
+proc diam_interp() {  local d0,d1
+
+  d0 = $1
+  d1 = $2
+  
+  for i=0,n3d()-1 {
+    x[i]=x3d(i)  y[i]=y3d(i)  z[i]=z3d(i)  
+  }
+  if (numarg() > 2) {
+    n = $3
+  } else {
+    n = n3d()
+  }
+  max = n3d()		      
+  pt3dclear()
+  for i=0,n-1 {
+    pt3dadd(x[i],y[i],z[i],i/n*d1+(1-i/n)*d0)
+  }
+  for i=n,max-1 {
+    pt3dadd(x[i],y[i],z[i],i/n*d1+(1-i/n)*d0)
+  }
+}
+
+proc shrink() {  local factor
+
+  factor = $1
+
+  n = n3d()		        
+  for i=0,n-1 {
+    x[i]=x3d(i)  y[i]=y3d(i)  z[i]=z3d(i)  d[i]=diam3d(i)
+  }
+
+  pt3dclear()
+  for i=0,n-1 {
+    pt3dadd(x[i]*factor,y[i]*factor,z[i]*factor,d[i]*factor)
+  }
+}
+
+// --------------------------------------------------------------
+// discretization
+// --------------------------------------------------------------
+
+max_len_dend = 50
+forsec dend {
+    n = L / max_len_dend
+    if (n < 1) n = 1
+    nseg = n+1
+}
+
+// give more segments to path
+
+max_len_path = 10
+forsec path {
+    n = L / max_len_path
+    if (n < 1) n = 1
+    nseg = n+1
+}
+
+
+      
+// --------------------------------------------------------------
+// Axon geometry
+// --------------------------------------------------------------
+
+  // hillock
+  // hillock is only a few microns long (2-4) and tapered diam from 4 to 1-2 um
+  // then initial segment follows, can be 100-150 um long with diam of ~ 1 um
+  // myelin starts after initial segment
+
+  // initial segment
+  // Farinas & DeFelipe J Comp Neurol 1991: 
+  //                L                 diam
+  // cocallosal     21.6 +- 4.10      1.06 +- 0.18
+  // ispsilateral   22.24 +- 1.58     1.06 +- 0.12
+
+  hill { 		
+    L = 10
+    nseg = 10
+    diam(0:1) = 4:1     // taper
+  }
+
+  iseg {		// initial segment between hillock + myelin
+     L = 15
+     nseg = 10
+//     for(x) diam(x) = 3.5*exp(-(x*L+hill.L)/5)+.5
+     diam = 1
+  }
+
+  // construct myelinated axon with nodes of ranvier
+  for i=0,n_axon_seg-1 {
+    myelin[i] {		// myelin element
+      nseg = 25
+      L = 100
+      diam = 1.5	  
+    }
+    node[i] {		// nodes of Ranvier
+      nseg = 1
+      L = 1.0		
+      diam = 1.0	// nodes are thinner than axon
+    }
+  }
+
+
+  iseg connect myelin[0](0), 1
+  myelin[0] connect node[0](0), 1
+
+  for i=0,n_axon_seg-2  { 
+      node[i] connect myelin[i+1](0), 1 
+      myelin[i+1] connect node[i+1](0), 1
+  }
+
+access soma
+
+
+      
+// --------------------------------------------------------------
+// Spines
+// --------------------------------------------------------------
+
+
+fold_spines = 0
+spine_area = 0.83 // um^2  -- Harris
+
+// spines per linear um
+// Larkman (1991) JCN
+sd_apical = 6.3
+sd_oblique = 1.5
+sd_basal = 1.43
+sd_distal = 0.91
+
+proc add_spines() { local a
+  spine_dens = $2
+  forsec $o1 {
+    a =0
+    for(x) a=a+area(x)
+
+    if (fold_spines) {
+      // Folding factor
+      // Jack et al (1989), Marjor et al (1994)
+      F = (L*spine_area*spine_dens + a)/a
+
+      L = L * F^(2/3)
+      for(x) diam(x) = diam(x) * F^(1/3)
+    } else {
+      F = 1 + L*spine_area*spine_dens/a
+      cm = c_m * F
+      g_pas = F/rm
+    }
+  }
+}
+
+
+
+
+
+
+
