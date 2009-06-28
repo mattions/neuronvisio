@@ -883,6 +883,7 @@ along with NeuronVisio.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</prop
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
                         <property name="color">#ffffffb40000</property>
+                        <signal name="color_set" handler="on_end_color_set"/>
                       </object>
                       <packing>
                         <property name="left_attach">2</property>
@@ -897,6 +898,7 @@ along with NeuronVisio.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</prop
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
                         <property name="color">#ffff00000000</property>
+                        <signal name="color_set" handler="on_start_color_set"/>
                       </object>
                       <packing>
                         <property name="left_attach">2</property>
