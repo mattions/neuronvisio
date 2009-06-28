@@ -336,6 +336,20 @@ class Controls(threading.Thread):
         """Show the animation control"""
         
         animation_win = self.builder.get_object("animation_control")
+        
+        # Set the color
+        gtk_btn_color_start = self.builder.get_object("start_color")
+        gtk_start_color =gtk_btn_color_start.get_color()
+        
+        # Store it in RGB 0-1 format
+        self.start_color = self._scale_rgb(gtk_start_color)
+        
+        gtk_btn_color_end = self.builder.get_object("end_color")
+        gtk_end_color = gtk_btn_color_end.get_color()
+        
+        # Store it in RGB 0-1 format
+        self.end_color = self._scale_rgb(gtk_end_color)
+        
         gradient_area = self.builder.get_object("gradient_area")
         gradient_area.connect("expose-event", self.expose_gradient)
         
@@ -349,31 +363,36 @@ class Controls(threading.Thread):
             timeline.set_range(0, self.visio.t.size() - 1)
             #timeline.set_increments(1, 10) #minimal increment equal to dt    
             animation_win.show_all()
+            
+    def on_start_color_set(self, widget):
+        """Set the start color when changed"""
+        self.start_color = self._scale_rgb(widget.get_color())
+    
+    def on_end_color_set(self, widget):
+        "Set the end color when changed"
+        self.end_color = self._scale_rgb(widget.get_color())
     
     def on_timeline_value_changed(self, widget):
         """Draw the animation according to the value of the timeline"""
         time_point_indx = widget.get_value()
-        #cast to int
+        # cast to int from str
         time_point_indx = int(time_point_indx)
         
         entry_var = self.builder.get_object("animation_var")
         var = entry_var.get_text()
         start_col_value = self.builder.get_object("start_var_value").get_text()
         
-        
-        
-        # Draw the whole model and open the visio display
-        if self.visio.drawn is False:
-            drawn = self.visio.draw_model(self)
-        
         #Update the label on the scale
         animation_time_label = self.builder.get_object("animation_time")
         time = self.visio.t.x[time_point_indx]
         animation_time_label.set_text(str(time))
         
-        # We draw only if the cursor is on a time that we hit with the simulation
-        self.visio.show_variable_timecourse(var, time_point_indx, self.gradient, 
-                                     start_col_value)
+        
+        start_value = self.builder.get_object("start_var_value").get_text()
+        end_value = self.builder.get_object("end_var_value").get_text()
+        
+        self.visio.show_variable_timecourse(var, time_point_indx, start_value, 
+                                            self.start_color, end_value, self.end_color)
 
     def on_play_clicked(self, widget):
         """Play the animation with the voltage color coded"""
@@ -387,8 +406,10 @@ class Controls(threading.Thread):
         if not self.visio.drawn:
             self.visio.draw_model(self)
             
-        # Using a thread to run the cicle    
-        thread_for_timeline = TimelineHelper(self, var, start_value)
+        # Using a thread to run the cicle 
+           
+        thread_for_timeline = TimelineHelper(self, var, start_value, 
+                                            self.start_color, end_value, self.end_color)
         thread_for_timeline.start()
         
         
@@ -404,25 +425,6 @@ class Controls(threading.Thread):
     def expose_gradient(self, widget, event):
         """Redraw the gradient everytime is shown. The colors value are taken 
         by the tow gtkbuttoncolors"""
-        
-        
-        gtk_btn_color_start = self.builder.get_object("start_color")
-        gtk_start_color =gtk_btn_color_start.get_color()
-        
-        # Store it in RGB 0-1 format
-        self.start_color = [self._scale_rgb(gtk_start_color.red), 
-                            self._scale_rgb(gtk_start_color.green),
-                            self._scale_rgb(gtk_start_color.blue)
-                            ]
-        
-        gtk_btn_color_end = self.builder.get_object("end_color")
-        gtk_end_color =gtk_btn_color_end.get_color()
-        
-                # Store it in RGB 0-1 format
-        self.end_color = [self._scale_rgb(gtk_end_color.red), 
-                            self._scale_rgb(gtk_end_color.green),
-                            self._scale_rgb(gtk_end_color.blue)
-                            ]
         
         cr = widget.window.cairo_create()
         
@@ -440,15 +442,20 @@ class Controls(threading.Thread):
                                   , self.start_color[2])
         gradient.add_color_stop_rgb(1, self.end_color[0], self.end_color[1], 
                                   self.end_color[2])
-        self.gradient = gradient
+        
         cr.rectangle(x,y,x1,y1)
         cr.set_source(gradient)
         cr.fill()
         
 
-    def _scale_rgb(self, color_in_32_bit):
-        """Scale down to 0-1 range"""
-        return color_in_32_bit / 65535.0
+    def _scale_rgb(self, gtk_color):
+        """Scale the gtk color to the rgb domain"""
+        gtk_color_bit = 65535.0
+        r = gtk_color.red / gtk_color_bit
+        g = gtk_color.green / gtk_color_bit
+        b = gtk_color.blue / gtk_color_bit
+
+        return [r,g,b] 
 
 #### Pylab stuff. Maybe another class?
 
@@ -501,16 +508,20 @@ class Controls(threading.Thread):
 
 class TimelineHelper(threading.Thread):
     """Thread to update the timeline when the play button is clicked"""
-    def __init__(self, controls, var, start_value):
+    def __init__(self, controls, var, start_value, start_color, end_value, end_color):
         threading.Thread.__init__(self)
         self.controls = controls
         self.var = var
         self.start_value = start_value
+        self.start_color = start_color
+        self.end_value = end_value
+        self.end_color = end_color
     
     def run(self):
         for t_indx,time in enumerate(self.controls.visio.t):
-            self.controls.visio.show_variable_timecourse(self.var, t_indx, 
-                                                self.controls.gradient, self.start_value)
+            self.controls.visio.show_variable_timecourse(self.var, t_indx, self.start_value, 
+                                                         self.start_color, self.end_value, 
+                                                         self.end_color)
             # Update done on the main gtk
             gobject.idle_add(self.controls.update_timeline, t_indx, str(time)) 
         

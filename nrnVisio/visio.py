@@ -158,7 +158,7 @@ class Visio(object):
         if color is not None:
             cyl.color = color
     
-    def show_variable_timecourse(self, var, time_point, gradient, start_col_value):
+    def show_variable_timecourse(self, var, time_point, start_value, start_col, end_value, end_col):
         """Show an animation of all the section that have 
         the recorded variable among time
         
@@ -171,26 +171,63 @@ class Visio(object):
                 var_value = vec.x[time_point]
                 
                 ## Use it to retrieve the value from the gradient with the index 
-                color = self.calculate_gradient(var_value, gradient, 
-                                                start_col_value)
+                color = self.calculate_gradient(var_value, start_value, 
+                                                start_col, end_value, 
+                                                end_col)
                 self.draw_section(vecRef.sec, color=color)
         #return # give back the control to the gtk thread
         
-    def calculate_gradient(self, var_value, gradient, start_col_value):
-        """Calculate the color in a gradient given the start and the end"""
+    def calculate_gradient(self, var_value, start_value, start_col, end_value, end_col):
+        """Calculate the color in a gradient given the start and the end
         
-        # Has to be implemented
+        params:
+        var_value - The value read from the vector
+        start_value - the initial value for the var
+        end_value - the final value for the var
+        start_col - the starting color for the linear gradient
+        end_col - the final color for the linear gradient"""
+        
+        # Not built in cairo function 
+        # Has to be implemented by hand.
         # See more on this
         # http://lists.cairographics.org/archives/cairo/2008-September/014955.html
         
-        # For now the gradient is hardcoded.
-        color = visual.color.blue
-        if var_value <= -50:
-            color = visual.color.red
-        elif -49 < var_value <= 0:
-            color = visual.color.orange
-        elif var_value > 0:
-            color =visual.color.yellow
+        # Cast from str to int
+        start_value = int(start_value)
+        end_value = int(end_value)
+        
+        #Get the scale
+        
+        scale = abs(start_value) + abs(end_value)
+        
+        # To calc the indx we need concord signs
+        indx = 0
+        if var_value < 0:
+            indx = abs(start_value - var_value)
+        else:
+            indx = abs(abs(start_value) + var_value)
+ 
+#        print "Scale: %f, start_value: %f, var_value: %f, end_value: %f, indx: %f" %(scale,
+#                                                                           start_value,
+#                                                                           var_value,
+#                                                                           end_value,
+#                                                                           indx)
+
+        
+        # Now on the color
+        (hue1, s1, v1) = visual.color.rgb_to_hsv(start_col)
+        (hue2, s2, v2) = visual.color.rgb_to_hsv(end_col)
+        
+        scale_color = hue1 + hue2
+        # scale : scale_color = indx : indx_col
+        indx_col = (scale_color * indx)/scale
+        hue = indx_col
+        
+
+                                                                           
+#        print "Scale color: %f, hue1: %f, hue2: %f, hue: %f" %(scale_color, hue1, hue2, hue)
+        
+        color = visual.color.hsv_to_rgb((hue, s1,v1)) # Saturation and Value are the same
         return color 
                 
     def findSecs(self, secList, secName):
