@@ -29,11 +29,6 @@
                   <object class="GtkMenu" id="menu1">
                     <property name="visible">True</property>
                     <child>
-                      <object class="GtkSeparatorMenuItem" id="separatormenuitem1">
-                        <property name="visible">True</property>
-                      </object>
-                    </child>
-                    <child>
                       <object class="GtkImageMenuItem" id="quit">
                         <property name="label">gtk-quit</property>
                         <property name="visible">True</property>
@@ -137,16 +132,6 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkVSeparator" id="vseparator">
-                                <property name="visible">True</property>
-                                <property name="orientation">vertical</property>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="position">1</property>
-                              </packing>
-                            </child>
-                            <child>
                               <object class="GtkVBox" id="vbox3">
                                 <property name="visible">True</property>
                                 <property name="orientation">vertical</property>
@@ -179,7 +164,7 @@
                                 </child>
                               </object>
                               <packing>
-                                <property name="position">2</property>
+                                <property name="position">1</property>
                               </packing>
                             </child>
                           </object>
@@ -612,53 +597,9 @@
       </object>
     </child>
   </object>
-  <object class="GtkAboutDialog" id="aboutdialog">
-    <property name="border_width">5</property>
-    <property name="type_hint">normal</property>
-    <property name="has_separator">False</property>
-    <property name="program_name">NeuronVisio</property>
-    <property name="copyright" translatable="yes">Michele Mattioni 2009 &#xA9;</property>
-    <property name="license">Copyright (C) May 2009 - Michele Mattioni:
-
-NeuronVisio is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-NeuronVisio is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with NeuronVisio.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</property>
-    <property name="authors">Michele Mattioni</property>
-    <child internal-child="vbox">
-      <object class="GtkVBox" id="dialog-vbox1">
-        <property name="visible">True</property>
-        <property name="orientation">vertical</property>
-        <property name="spacing">2</property>
-        <child>
-          <placeholder/>
-        </child>
-        <child internal-child="action_area">
-          <object class="GtkHButtonBox" id="dialog-action_area1">
-            <property name="visible">True</property>
-            <property name="layout_style">end</property>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="pack_type">end</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-      </object>
-    </child>
-  </object>
   <object class="GtkMessageDialog" id="novarwarning">
     <property name="border_width">5</property>
     <property name="type_hint">normal</property>
-    <property name="has_separator">False</property>
     <property name="message_type">warning</property>
     <property name="buttons">close</property>
     <property name="text">No var found. </property>
@@ -685,7 +626,6 @@ along with NeuronVisio.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</prop
   <object class="GtkMessageDialog" id="nosectionsel">
     <property name="border_width">5</property>
     <property name="type_hint">normal</property>
-    <property name="has_separator">False</property>
     <property name="message_type">warning</property>
     <property name="buttons">close</property>
     <property name="text">No section selected.</property>
@@ -712,7 +652,6 @@ along with NeuronVisio.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</prop
   <object class="GtkMessageDialog" id="impossiblecreation">
     <property name="border_width">5</property>
     <property name="type_hint">normal</property>
-    <property name="has_separator">False</property>
     <property name="message_type">warning</property>
     <property name="buttons">close</property>
     <property name="text">Impossible to create the vector.</property>
@@ -739,7 +678,6 @@ along with NeuronVisio.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</prop
   <object class="GtkMessageDialog" id="nosection">
     <property name="border_width">5</property>
     <property name="type_hint">normal</property>
-    <property name="has_separator">False</property>
     <property name="buttons">close</property>
     <property name="text">No Section created.</property>
     <property name="secondary_text">Can't draw anything. Have you created any section?</property>
@@ -765,7 +703,6 @@ along with NeuronVisio.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</prop
   <object class="GtkMessageDialog" id="allvecscreated">
     <property name="border_width">5</property>
     <property name="type_hint">normal</property>
-    <property name="has_separator">False</property>
     <property name="buttons">close</property>
     <property name="text">Vectors already created.</property>
     <property name="secondary_text">All the section already have a vector to track the selected variable</property>
@@ -790,7 +727,6 @@ along with NeuronVisio.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</prop
   </object>
   <object class="GtkMessageDialog" id="novecselected">
     <property name="type_hint">normal</property>
-    <property name="has_separator">False</property>
     <property name="buttons">close</property>
     <property name="text">No vec selected</property>
     <property name="secondary_text">No vectors selected. Please select at least one vector.</property>
@@ -1042,5 +978,46 @@ along with NeuronVisio.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</prop
     <property name="upper">100</property>
     <property name="step_increment">1</property>
     <property name="page_increment">50</property>
+  </object>
+  <object class="GtkAboutDialog" id="aboutdialog">
+    <property name="border_width">5</property>
+    <property name="type_hint">normal</property>
+    <property name="program_name">NeuronVisio</property>
+    <property name="copyright" translatable="yes">Michele Mattioni 2009 &#xA9;</property>
+    <property name="license">Copyright (C) May 2009 - Michele Mattioni:
+
+NeuronVisio is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+NeuronVisio is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with NeuronVisio.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</property>
+    <property name="authors">Michele Mattioni</property>
+    <child internal-child="vbox">
+      <object class="GtkVBox" id="dialog-vbox1">
+        <property name="visible">True</property>
+        <property name="orientation">vertical</property>
+        <child>
+          <placeholder/>
+        </child>
+        <child internal-child="action_area">
+          <object class="GtkHButtonBox" id="dialog-action_area1">
+            <property name="visible">True</property>
+            <property name="layout_style">end</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="pack_type">end</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+      </object>
+    </child>
   </object>
 </interface>
