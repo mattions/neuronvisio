@@ -539,20 +539,14 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="model">treestore</property>
-                        <property name="headers_clickable">False</property>
                         <property name="rules_hint">True</property>
-                        <property name="search_column">0</property>
                         <child>
                           <object class="GtkTreeViewColumn" id="sectionCol">
-                            <property name="sizing">autosize</property>
-                            <property name="title">Section</property>
-                            <property name="sort_indicator">True</property>
+                            <property name="title">Vector x Section</property>
                             <child>
-                              <object class="GtkCellRendererText" id="sectionCell"/>
+                              <object class="GtkCellRendererText" id="cellrenderertext"/>
                               <attributes>
                                 <attribute name="text">0</attribute>
-                                <attribute name="width-chars">10</attribute>
-                                <attribute name="wrap-width">10</attribute>
                               </attributes>
                             </child>
                           </object>
