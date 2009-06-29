@@ -188,21 +188,25 @@ class Controls(threading.Thread):
                     self._update_tree_view()
         
     def update(self):
-        """Update the GUI. For now only the spin button"""
+        """Update the GUI spinbuttons only if the user is not using them 
+        with the value from the console."""
         # Get the default from the Hoc and 
         # Vm
         v_spin = self.builder.get_object("voltage_spin")
-        v_init = self.h.v_init
-        self._update_spin(v_spin, v_init)
+        if not v_spin.is_focus():
+            v_init = self.h.v_init
+            self._update_spin(v_spin, v_init)
         
         # tstop
         tstop_spin = self.builder.get_object("tstop_spin")
-        tstop = self.h.tstop
-        self._update_spin(tstop_spin, tstop)
+        if not tstop_spin.is_focus():
+            tstop = self.h.tstop
+            self._update_spin(tstop_spin, tstop)
         # dt
         dt_spin = self.builder.get_object("dt_spin")
-        dt = self.h.dt
-        self._update_spin(dt_spin, dt)
+        if not dt_spin.is_focus():
+            dt = self.h.dt
+            self._update_spin(dt_spin, dt)
      
     def _update_spin(self, spin_button, value):
         """Update the spin button with the right number of digits"""
@@ -305,22 +309,18 @@ class Controls(threading.Thread):
          
     def on_voltage_spin_value_changed(self,widget):
         """Update the voltage value in the simulator"""
-        self.user_interaction = True
         self.h.v_init = widget.get_value()
-        self.user_interaction = False
+        
         
             
     def on_tstop_spin_value_changed(self,widget):
         """Update the tstop value in the simulator"""
-        self.user_interaction = True
         self.h.tstop = widget.get_value()
-        self.user_interaction = False
+        
         
     def on_dt_spin_value_changed(self, widget):
         """Update the dt value in the simulator"""
-        self.user_interaction = True
         self.h.dt = widget.get_value()
-        self.user_interaction = False
 
 
 # Animation control
@@ -538,6 +538,5 @@ class TimeLoop(threading.Thread):
         """Update the GUI interface calling the update method"""
         while True:
             time.sleep(self.interval)
-            if not self.controls.user_interaction :
-                gobject.idle_add(self.controls.update)
+            gobject.idle_add(self.controls.update)
             
