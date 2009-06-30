@@ -8,7 +8,7 @@
 from distutils.core import setup
 
 setup(name='NeuronVisio',
-      version='0.1',
+      version='0.1.1',
       description='NeuronVisio is a GTK2 user interface for NEURON simulator.',
       author='Michele Mattioni',
       author_email='mattioni@ebi.ac.uk',
