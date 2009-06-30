@@ -2,13 +2,13 @@
 
 ## What is it
 
-NeuronVisio is a GTK2 user interface for NEURON simulator http://www.neuron.yale.edu/neuron/. 
+NeuronVisio is a GTK2 user interface for NEURON simulator <http://www.neuron.yale.edu/neuron/>. 
 NeuronVisio connect with NEURON using the new python NEURON interface.
 
 ## Features
 
 - 3D visualization of the model with the possibility to change it runtime
-- Creation of vectors of any variable present in the section 
+- Creation of vectors to record any variables present in the section 
 - Pylab integration to plot directly the result of the simulation
 - Explore of the timecourse of any variable among time using a color coded scale
 - the GUI runs in its own thread so it's possible to use the console (strongly suggested ipython)
@@ -19,9 +19,9 @@ To install NeuronVisio you need to satisfy the following dependencies
 
 ### Dependences:
 
-- pygtk http://www.pygtk.org/
-- visual http://vpython.org/
-- cairo http://cairographics.org/pycairo/
+- pygtk <http://www.pygtk.org/>
+- visual <http://vpython.org/>
+- cairo <http://cairographics.org/pycairo/>
 
 then extract the archive and from the directory write
 
@@ -66,19 +66,19 @@ A quick example can be the following:
 More example in the example directory show how to use NeuronVisio with more complex model.
 
 More info can be found on the Documentation page
-http://mattions.github.com/neuronvisio/docs.html
+<http://mattions.github.com/neuronvisio/docs.html>
 
 ## Contacts
 
-Homepage: http://mattions.github.com/neuronvisio/
+Homepage: <http://mattions.github.com/neuronvisio/>
 
-mail: mattioni@ebi.ac.uk
+mail: <mattioni@ebi.ac.uk>
 
 ### Development
 
 The code is on github at this address
 
-http://github.com/mattions/neuronvisio/tree/master
+<http://github.com/mattions/neuronvisio/tree/master>
 
 and git is used as software management tool
 
@@ -89,4 +89,4 @@ To contribute fork the repository with
 and send me back a patch.
 
 More info on git here: 
-http://git-scm.com/
+<http://git-scm.com/>
