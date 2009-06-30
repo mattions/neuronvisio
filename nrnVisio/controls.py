@@ -356,9 +356,15 @@ class Controls(threading.Thread):
         # Setting the timeline with the time of the simulation
         timeline = self.builder.get_object("timeline")
         if self.visio.t is None:
-            print "You didn't create any vector"
+            no_vector = self.builder.get_object("no_vector")
+            no_vector.run()
+            no_vector.hide()
+            #print "You didn't create any vector"
         elif self.visio.t.size() == 0:
-            print "You should run the simulation first"
+            no_simulation = self.builder.get_object("no_simulation")
+            no_simulation.run()
+            no_simulation.hide()
+            #print "You should run the simulation first"
         else:
             timeline.set_range(0, self.visio.t.size() - 1)
             #timeline.set_increments(1, 10) #minimal increment equal to dt    
