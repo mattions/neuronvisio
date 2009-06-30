@@ -29,7 +29,8 @@ then extract the archive and from the directory write
     
 ## Documentation
 
-An example folder is coming with the software and show you how to use NeuronVisio with an existing model written in python or in hoc.
+The documentation is available [online](http://mattions.github.com/neuronvisio/docs.html) and a series 
+of examples are available from the examples folder.  
 
 ### Quickstart
 
@@ -64,8 +65,8 @@ A quick example can be the following:
 
 More example in the example directory show how to use NeuronVisio with more complex model.
 
-Detail info can be found on the Wiki :
-http://wiki.github.com/mattions/neuronvisio/usage
+More info can be found on the Documentation page
+http://mattions.github.com/neuronvisio/docs.html
 
 ## Contacts
 
