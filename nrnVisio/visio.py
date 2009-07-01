@@ -136,7 +136,6 @@ class Visio(object):
         
         # If we already draw the model we don't have to get the coords anymore.
         cyl = None
-        
         if self.drawn is not True:
             
             coords = self.retrieve_coordinate(sec)
@@ -151,7 +150,7 @@ class Visio(object):
                 self.cyl2sec[cyl] = sec
         
             if not self.sec2cyl.has_key(sec.name()):
-                self.sec2cyl[sec.name()] = cyl #We store the name for compability
+                self.sec2cyl[sec.name()] = cyl #Name for Hoc compability
         else:
             cyl = self.sec2cyl[sec.name()]   
         
@@ -254,10 +253,14 @@ class Visio(object):
     
     def draw_model(self, controls):
         """Draw all the model """
-        drawn = False
+        
         # Hide all the old objects
         for obj in self.scene.objects:
             obj.visible = False
+        # Reset all the pointers
+        self.drawn = False
+        self.cyl2sec = {}
+        self.sec2cyl = {}
         
         # Draw the new one
         h.define_shape()
