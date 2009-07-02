@@ -293,7 +293,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
-                                <property name="color">#730a6bed6bed</property>
+                                <property name="color">#cccccccccccc</property>
                                 <signal name="color_set" handler="on_section_button_color_set"/>
                               </object>
                               <packing>
@@ -309,6 +309,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="color">#00008bcbffff</property>
+                                <signal name="color_set" handler="on_selected_section_button_color_set"/>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
