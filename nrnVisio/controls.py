@@ -94,6 +94,7 @@ class Controls(threading.Thread):
         """Procedure to shutdown the gtk control window and the \
         visio instance"""
         
+        
         #print "You should kill visio window by yourself for now.\n"
         # Destroy the animation window
         animation_win = self.builder.get_object("animation_control")
@@ -112,8 +113,43 @@ class Controls(threading.Thread):
         
     def on_draw_clicked(self, widget, data=None):
         """Draw the whole model"""
+        # get the color
+        back_col_btn = self.builder.get_object("background_button")
+        back_col = back_col_btn.get_color()
+        self.visio.background_color = self._scale_rgb(back_col)
+        
+        default_section_btn = self.builder.get_object("section_button")
+        default_col = default_section_btn.get_color()
+        self.visio.default_section_color = self._scale_rgb(default_col)
+        
+        selected_section_btn = self.builder.get_object("selected_section_button")
+        selected_col = selected_section_btn.get_color()
+        self.visio.selected_section_color = self._scale_rgb(selected_col)
+        
         self.visio.draw_model(self)
 
+    def on_background_button_color_set(self, widget):
+        """set the background color in the visio window"""
+        back_col = widget.get_color()
+        self.visio.background_color = self._scale_rgb(back_col)
+        self.visio.scene.background = self.visio.background_color
+        
+    def on_section_button_color_set(self, widget):
+        """Set the default color for the section"""
+        default_col = widget.get_color()
+        self.visio.default_section_color = self._scale_rgb(default_col)
+        # Redraw the entire model
+        self.visio.draw_model(self)
+
+    def on_selected_section_button_color_set(self, widget):
+        """Set the default color for the selected section"""
+        selected_col = widget.get_color()
+        self.visio.selected_section_color = self._scale_rgb(selected_col)
+        # Update the selected section
+        if self.visio.selected_cyl is not None:
+            self.visio.selected_cyl.color = self.visio.selected_section_color
+        
+        
     def update_visio_buttons(self):
         """Update the ui buttons connected with visio"""
         

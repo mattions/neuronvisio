@@ -43,9 +43,10 @@ class Visio(object):
         
         
         self.vecRefs = []
-        self.selectedCyl = None # Used for storing the cyl when picked
-        self.selectedCylColor = (0,0,1) #blue
-        self.defaultColor = (1,1,1) #light gray
+        self.selected_cyl = None # Used for storing the cyl when picked
+        self.selected_section_color = () 
+        self.default_section_color = () 
+        self.background_color = ()
         self.h = h # Link to the neuron interpreter
         self.t = None # Var to track the time Vector
         self.drawn = False # Check if the section are alredy drawn or not
@@ -82,11 +83,11 @@ class Visio(object):
                  if picked:
                      
                      # unselect the old one
-                    if self.selectedCyl is not None:
-                        self.selectedCyl.color = self.defaultColor
+                    if self.selected_cyl is not None:
+                        self.selected_cyl.color = self.default_section_color
                     
-                    picked.color = self.selectedCylColor
-                    self.selectedCyl = picked
+                    picked.color = self.selected_section_color
+                    self.selected_cyl = picked
                     sec = self.cyl2sec[picked]
                     return sec
                      
@@ -126,7 +127,7 @@ class Visio(object):
         return coords
         
     
-    def draw_section(self, sec, color=None):
+    def draw_section(self, sec, color=self.default_section_color):
         """Draw the section with the optional color
         and add it to the dictionary cyl2sec
         
