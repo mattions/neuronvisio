@@ -127,7 +127,7 @@ class Visio(object):
         return coords
         
     
-    def draw_section(self, sec, color=self.default_section_color):
+    def draw_section(self, sec, color=None):
         """Draw the section with the optional color
         and add it to the dictionary cyl2sec
         
@@ -155,7 +155,9 @@ class Visio(object):
         else:
             cyl = self.sec2cyl[sec.name()]   
         
-        if color is not None:
+        if color is None:
+            cyl.color = self.default_section_color
+        else:
             cyl.color = color
     
     def show_variable_timecourse(self, var, time_point, start_value, start_col, end_value, end_col):
