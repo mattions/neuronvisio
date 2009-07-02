@@ -145,9 +145,8 @@ class Controls(threading.Thread):
         """Set the default color for the selected section"""
         selected_col = widget.get_color()
         self.visio.selected_section_color = self._scale_rgb(selected_col)
-        # Update the selected section
-        if self.visio.selected_cyl is not None:
-            self.visio.selected_cyl.color = self.visio.selected_section_color
+        # Re-draw
+        self.visio.draw_model(self)
         
         
     def update_visio_buttons(self):

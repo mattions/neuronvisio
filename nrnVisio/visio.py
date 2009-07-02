@@ -41,9 +41,10 @@ class Visio(object):
         # Needed to update the value of a cyl bound to a section
         self.sec2cyl = {}
         
+        self.selected_cyl = None # Used for storing the cyl when picked
         
         self.vecRefs = []
-        self.selected_cyl = None # Used for storing the cyl when picked
+        
         self.selected_section_color = () 
         self.default_section_color = () 
         self.background_color = ()
@@ -80,15 +81,10 @@ class Visio(object):
                  m = self.scene.mouse.getclick()
                  loc = m.pos
                  picked = m.pick
-                 if picked:
-                     
-                     # unselect the old one
-                    if self.selected_cyl is not None:
-                        self.selected_cyl.color = self.default_section_color
-                    
-                    picked.color = self.selected_section_color
+                 if picked is not None:
                     self.selected_cyl = picked
                     sec = self.cyl2sec[picked]
+                    
                     return sec
                      
                      #print "Section: %s Name: %s" %(sec, sec.name())
@@ -127,7 +123,7 @@ class Visio(object):
         return coords
         
     
-    def draw_section(self, sec, color=None):
+    def draw_section(self, sec, color):
         """Draw the section with the optional color
         and add it to the dictionary cyl2sec
         
@@ -137,7 +133,8 @@ class Visio(object):
         
         # If we already draw the model we don't have to get the coords anymore.
         cyl = None
-        if self.drawn is not True:
+        
+        if not self.drawn :
             
             coords = self.retrieve_coordinate(sec)
             x_ax = coords['x1'] -coords['x0']
@@ -152,13 +149,12 @@ class Visio(object):
         
             if not self.sec2cyl.has_key(sec.name()):
                 self.sec2cyl[sec.name()] = cyl #Name for Hoc compability
+            print "Position from the model"
         else:
+            print "Already drawn using current position"
             cyl = self.sec2cyl[sec.name()]   
         
-        if color is None:
-            cyl.color = self.default_section_color
-        else:
-            cyl.color = color
+        cyl.color = color
     
     def show_variable_timecourse(self, var, time_point, start_value, start_col, end_value, end_col):
         """Show an animation of all the section that have 
@@ -256,20 +252,14 @@ class Visio(object):
     
     def draw_model(self, controls):
         """Draw all the model """
-        
-        # Hide all the old objects
-        for obj in self.scene.objects:
-            obj.visible = False
-        # Reset all the pointers
-        self.drawn = False
-        self.cyl2sec = {}
-        self.sec2cyl = {}
-        
         # Draw the new one
         h.define_shape()
         for sec in h.allsec():
-            self.draw_section(sec)
-        self.drawn = True
+            if sec == controls.selectedSec:
+                self.draw_section(sec, self.selected_section_color)
+            else:
+                self.draw_section(sec, self.default_section_color)
+        self.drawn = True   
         gobject.idle_add(controls.update_visio_buttons)
             
     def drag_model(self):
