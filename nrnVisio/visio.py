@@ -82,10 +82,15 @@ class Visio(object):
                  loc = m.pos
                  picked = m.pick
                  if picked is not None:
-                    self.selected_cyl = picked
-                    sec = self.cyl2sec[picked]
-                    
-                    return sec
+                     # Redraw the old one with the default color
+                     if self.selected_cyl != None:
+                         self.selected_cyl.color = self.default_section_color
+                     
+                     picked.color = self.selected_section_color
+                     self.selected_cyl = picked
+                     sec = self.cyl2sec[picked]
+                     
+                     return sec
                      
                      #print "Section: %s Name: %s" %(sec, sec.name())
     
@@ -149,9 +154,7 @@ class Visio(object):
         
             if not self.sec2cyl.has_key(sec.name()):
                 self.sec2cyl[sec.name()] = cyl #Name for Hoc compability
-            print "Position from the model"
         else:
-            print "Already drawn using current position"
             cyl = self.sec2cyl[sec.name()]   
         
         cyl.color = color
