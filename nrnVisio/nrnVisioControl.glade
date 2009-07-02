@@ -652,6 +652,26 @@
                 <property name="tab_fill">False</property>
               </packing>
             </child>
+            <child>
+              <object class="GtkTextView" id="section_info">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="buffer">section_info_buffer</property>
+              </object>
+              <packing>
+                <property name="position">2</property>
+              </packing>
+            </child>
+            <child type="tab">
+              <object class="GtkLabel" id="label8">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">Sec Info</property>
+              </object>
+              <packing>
+                <property name="position">2</property>
+                <property name="tab_fill">False</property>
+              </packing>
+            </child>
           </object>
           <packing>
             <property name="position">1</property>
@@ -1145,5 +1165,8 @@ along with NeuronVisio.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</prop
         </child>
       </object>
     </child>
+  </object>
+  <object class="GtkTextBuffer" id="section_info_buffer">
+    <property name="text" translatable="yes">No Section Selected</property>
   </object>
 </interface>

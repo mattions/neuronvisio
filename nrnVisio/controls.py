@@ -175,6 +175,27 @@ class Controls(threading.Thread):
             selected_section_label.set_text("%s" %sec.name())
         self.selectedSec = sec
         
+        section_info = self.builder.get_object("section_info")
+        buffer = section_info.get_buffer()
+        info = self.get_info(sec)
+        buffer.set_text(info)
+        
+    def get_info(self, section):
+        """Get the info of the given section"""
+        
+        info = "Name: %s\n" %section.name()
+        info += "L: %f\n" % section.L
+        info += "diam: %f\n" % section.diam
+        info += "cm: %f\n" % section.cm
+        info += "Ra: %f\n" % section.Ra
+        info += "nseg: %f\n" % section.nseg
+        
+        
+        
+        return info
+        
+                
+        
     def on_createVector_clicked(self, widget, data=None):
         """Create the vectors list"""
         # Grab the variable
