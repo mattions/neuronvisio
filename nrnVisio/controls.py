@@ -94,8 +94,9 @@ class Controls(threading.Thread):
         """Procedure to shutdown the gtk control window and the \
         visio instance"""
         
+        # Killing visio
+        self.visio.scene.visible = False
         
-        #print "You should kill visio window by yourself for now.\n"
         # Destroy the animation window
         animation_win = self.builder.get_object("animation_control")
         animation_win.destroy()
@@ -105,6 +106,7 @@ class Controls(threading.Thread):
         pylab_win.destroy()
         
         gtk.main_quit()
+        
         
     def on_drag_clicked(self, btn, data=None):
         """To drag the model in the window"""
