@@ -22,6 +22,7 @@ To install NeuronVisio you need to satisfy the following dependencies
 - pygtk <http://www.pygtk.org/>
 - visual <http://vpython.org/>
 - cairo <http://cairographics.org/pycairo/>
+- matplotlib <http://matplotlib.sourceforge.net/>
 
 then extract the archive and from the directory write
 
