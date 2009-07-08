@@ -841,15 +841,6 @@
       </object>
     </child>
   </object>
-  <object class="GtkWindow" id="pylab_win">
-    <property name="title" translatable="yes">Pylab window</property>
-    <property name="default_width">400</property>
-    <property name="default_height">300</property>
-    <signal name="destroy" handler="on_pylab_win_destroy"/>
-    <child>
-      <placeholder/>
-    </child>
-  </object>
   <object class="GtkAdjustment" id="adjustment_dt">
     <property name="upper">100</property>
     <property name="page_increment">10</property>

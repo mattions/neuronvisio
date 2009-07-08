@@ -70,6 +70,9 @@ class Controls(threading.Thread):
         time_loop = TimeLoop(self)
         time_loop.start()
         
+        # Pylab windows
+        self.pylab_wins = []
+        
         # Show the window
         self.window.show()
  
@@ -101,9 +104,9 @@ class Controls(threading.Thread):
         animation_win = self.builder.get_object("animation_control")
         animation_win.destroy()
         
-        # Destroy the Pylab win
-        pylab_win = self.builder.get_object("pylab_win")
-        pylab_win.destroy()
+        # Destroy all the Pylab win
+        for win in self.pylab_wins:
+            win.destroy()
         
         gtk.main_quit()
         
@@ -555,26 +558,23 @@ class Controls(threading.Thread):
 
         # Figure ready. Let's create a window and show it
         self.pylab_win(figure)
-
-    def on_pylab_win_destroy(self, widget):
-        
-        win = self.builder.get_object("pylab_win")
-        win.hide()
             
     def pylab_win(self, figure):
         """Create a pylab window with the provided figure"""
         
-        win = self.builder.get_object("pylab_win")
-        
-        # We need to get the old widget
-        
-        # Destroy it
-        
-        # Put the new one.
-        
+        win = gtk.Window()
+        win.connect("destroy", lambda x: gtk.Widget.destroy)
+        win.set_size_request(550, 350)
+        win.set_position(gtk.WIN_POS_CENTER)
+
+        vbox = gtk.VBox()
+        win.add(vbox)
+       
         canvas = FigureCanvas(figure)  # a gtk.DrawingArea
-        win.add(canvas)
+        vbox.pack_start(canvas)
         win.show_all()
+        self.pylab_wins.append(win)
+        
 
 class TimelineHelper(threading.Thread):
     """Thread to update the timeline when the play button is clicked"""
