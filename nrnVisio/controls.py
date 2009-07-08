@@ -128,7 +128,13 @@ class Controls(threading.Thread):
         selected_col = selected_section_btn.get_color()
         self.visio.selected_section_color = self._scale_rgb(selected_col)
         
-        self.visio.draw_model(self)
+        if self.visio.draw_model(self) == True:
+            self.update_visio_buttons
+        else:
+            no_section = self.builder.get_object("no_section")
+            no_section.run()
+            no_section.hide()
+    
 
     def on_background_button_color_set(self, widget):
         """set the background color in the visio window"""

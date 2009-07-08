@@ -767,7 +767,7 @@
       </object>
     </child>
   </object>
-  <object class="GtkMessageDialog" id="nosection">
+  <object class="GtkMessageDialog" id="no_section">
     <property name="border_width">5</property>
     <property name="type_hint">normal</property>
     <property name="buttons">close</property>

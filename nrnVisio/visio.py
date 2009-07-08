@@ -254,16 +254,23 @@ class Visio(object):
         return selectedSec
     
     def draw_model(self, controls):
-        """Draw all the model """
+        """Draw the model.
+        Params:
+        controls - the main gui obj."""
         # Draw the new one
         h.define_shape()
+        num_sections = 0
         for sec in h.allsec():
             if sec == controls.selectedSec:
                 self.draw_section(sec, self.selected_section_color)
             else:
                 self.draw_section(sec, self.default_section_color)
-        self.drawn = True   
-        gobject.idle_add(controls.update_visio_buttons)
+            num_sections += 1
+        
+        if num_sections >= 1:
+            self.drawn = True
+        
+        return self.drawn 
             
     def drag_model(self):
         """Drag the model"""
