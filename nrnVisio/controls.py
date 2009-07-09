@@ -132,7 +132,7 @@ class Controls(threading.Thread):
         self.visio.selected_section_color = self._scale_rgb(selected_col)
         
         if self.visio.draw_model(self) == True:
-            self.update_visio_buttons
+            self.update_visio_buttons()
         else:
             no_section = self.builder.get_object("no_section")
             no_section.run()
