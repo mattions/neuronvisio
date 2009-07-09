@@ -37,9 +37,10 @@ class Manager(object):
         h.load_file("stdrun.hoc")
         
     def addVecRef(self, var, sec):
-        """Add a vecRef in the list. It takes care to create the vector
-        
-        :param: 
+        """Add the vecRef to the vec_res list. It takes care to create the vector 
+        and record the given variable
+                
+        :params: 
         var - The variable to record
         sec - The section where to record
         
@@ -87,7 +88,8 @@ class Manager(object):
         return vecsSection
     
     def addAllVecRef(self, var):
-        """Create the vector for all the section with the given variable"""
+        """Create the vector for all the section present in the model 
+        with the given variable"""
         done = False
         responses = []
         for sec in h.allsec():
