@@ -93,26 +93,6 @@ class Visio(object):
                      return sec
                      
                      #print "Section: %s Name: %s" %(sec, sec.name())
-    
-    
-    
-    def createVector(self, var):
-        """Create a Hoc Vector and record the variable given."""
-        
-        sec = self.pickSection()
-        vecNotPresent = True
-        for vecRef in self.vecRefs:
-            print "Searched: var %s, sec %s.\tCurrent var: %s sec: %s" %(var, sec, vecRef.var, vecRef.sec) 
-            if vecRef.var == var and vecRef.sec == sec:
-                  vecNotPresent = False
-                  break
-        if vecNotPresent:      
-            vec = h.Vector()
-            varRef = '_ref_' + var
-            vec.record(getattr(sec(0.5), varRef))
-            vecRef = VecRef(var, vec, sec)
-            self.vecRefs.append(vecRef)
-        return sec     
                        
     def retrieve_coordinate(self, sec):
         """Retrieve the coordinates of the section"""
