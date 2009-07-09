@@ -772,7 +772,7 @@
     <property name="type_hint">normal</property>
     <property name="buttons">close</property>
     <property name="text">No Section created.</property>
-    <property name="secondary_text">Can't draw anything. Have you created any section?</property>
+    <property name="secondary_text">I can't create any vector or show any model. Have you created any section?</property>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox9">
         <property name="visible">True</property>

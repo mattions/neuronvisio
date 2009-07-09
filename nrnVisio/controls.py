@@ -29,6 +29,8 @@ import pylab
 import numpy
 import time
 import cairo
+import manager
+from neuron import h
 
 try:
     
@@ -63,7 +65,8 @@ class Controls(threading.Thread):
         self.treestore = self.builder.get_object("treestore")
         self.sectionCol = 0 # Defined in Glade 
         self.visio = visio.Visio()
-        self.h = self.visio.h # Unpacking for less typing
+        
+        self.manager = manager.Manager()
         
         # Loop control
         self.user_interaction = None # Used for the loop
@@ -75,6 +78,9 @@ class Controls(threading.Thread):
         
         # Show the window
         self.window.show()
+        
+        # Starting the thread
+        self.start()
  
     def run(self):
         """Running the gtk loop in our thread"""
@@ -211,15 +217,25 @@ class Controls(threading.Thread):
         entry = self.builder.get_object("var_entry")
         var = entry.get_text()
         
+        # Control if there is any secs available.
+        num_secs = 0
+        for sec in h.allsec():
+            num_secs += 1
+        
         if var is "":
             no_var_warning = self.builder.get_object("novarwarning")
             no_var_warning.run()
             no_var_warning.hide()
+            
+        elif num_secs == 0:
+            no_section = self.builder.get_object("no_section")
+            no_section.run()
+            no_section.hide()
 
         else:
-            if self.visio.t is None: # Create the time vector if not already there
-                self.visio.t = self.h.Vector()
-                self.visio.t.record(self.h._ref_t)
+            if self.manager.t is None: # Create the time vector if not already there
+                self.manager.t = h.Vector()
+                self.manager.t.record(h._ref_t)
             # Grab the section
             selectedSection_radio_btn = self.builder.get_object("selected_sec_btn")
             
@@ -236,7 +252,7 @@ class Controls(threading.Thread):
                     
                 # Section selected. Let's create the vector
                 else:
-                    success = self.visio.addVecRef(var, self.selectedSec)
+                    success = self.manager.addVecRef(var, self.selectedSec)
                     if not success:
                         impossible_creation = self.builder.get_object("impossiblecreation")
                         impossible_creation.run()
@@ -246,7 +262,7 @@ class Controls(threading.Thread):
                         
             elif allSection_radio_btn.get_active():
                 # Create all the vectors
-                allCreated = self.visio.addAllVecRef(var)
+                allCreated = self.manager.addAllVecRef(var)
                 if allCreated:
                     all_created_dial = self.builder.get_object("allvecscreated") 
                     all_created_dial.run()
@@ -261,18 +277,18 @@ class Controls(threading.Thread):
         # Vm
         v_spin = self.builder.get_object("voltage_spin")
         if not v_spin.is_focus():
-            v_init = self.h.v_init
+            v_init = h.v_init
             self._update_spin(v_spin, v_init)
         
         # tstop
         tstop_spin = self.builder.get_object("tstop_spin")
         if not tstop_spin.is_focus():
-            tstop = self.h.tstop
+            tstop = h.tstop
             self._update_spin(tstop_spin, tstop)
         # dt
         dt_spin = self.builder.get_object("dt_spin")
         if not dt_spin.is_focus():
-            dt = self.h.dt
+            dt = h.dt
             self._update_spin(dt_spin, dt)
      
     def _update_spin(self, spin_button, value):
@@ -289,7 +305,7 @@ class Controls(threading.Thread):
         self.treestore.clear()
         
         # Add all the vectors
-        for vecRef in self.visio.vecRefs:
+        for vecRef in self.manager.vec_refs:
             sec = vecRef.sec
             sec_iter = self.treestore.append(None, [sec.name()])
             for var,vec in vecRef.vecs.iteritems():
@@ -333,7 +349,7 @@ class Controls(threading.Thread):
                     #print sectionName
                     # get the vecRef
                     
-                    for vecRef in self.visio.vecRefs:
+                    for vecRef in self.manager.vec_refs:
                         sec = vecRef.sec
                         #print "SectionName vecRef: %s" %sec.name()
                         if sec.name() == sectionName:
@@ -353,13 +369,13 @@ class Controls(threading.Thread):
         v_init = v_spin.get_value()
         
         # Set the v_init
-        self.h.v_init = v_init
-        self.h.finitialize(v_init)
-        self.h.fcurrent()
+        h.v_init = v_init
+        h.finitialize(v_init)
+        h.fcurrent()
         
         # Reset the time in the GUI
         time_label = self.builder.get_object("time_value")
-        time_label.set_text(str(self.h.t))
+        time_label.set_text(str(h.t))
     
     def on_run_sim_clicked(self, widget):
         """Run the simulator till tstop"""
@@ -368,26 +384,26 @@ class Controls(threading.Thread):
         #Initializing
         self.on_init_clicked(widget)
         # Run
-        while self.h.t < self.h.tstop:
-            self.h.fadvance()
-            time_label.set_markup("<b>" + str(self.h.t) + "</b>")
+        while h.t < h.tstop:
+            h.fadvance()
+            time_label.set_markup("<b>" + str(h.t) + "</b>")
     
     
          
     def on_voltage_spin_value_changed(self,widget):
         """Update the voltage value in the simulator"""
-        self.h.v_init = widget.get_value()
+        h.v_init = widget.get_value()
         
         
             
     def on_tstop_spin_value_changed(self,widget):
         """Update the tstop value in the simulator"""
-        self.h.tstop = widget.get_value()
+        h.tstop = widget.get_value()
         
         
     def on_dt_spin_value_changed(self, widget):
         """Update the dt value in the simulator"""
-        self.h.dt = widget.get_value()
+        h.dt = widget.get_value()
 
 
 # Animation control
@@ -422,18 +438,18 @@ class Controls(threading.Thread):
         
         # Setting the timeline with the time of the simulation
         timeline = self.builder.get_object("timeline")
-        if self.visio.t is None:
+        if self.manager.t is None:
             no_vector = self.builder.get_object("no_vector")
             no_vector.run()
             no_vector.hide()
             #print "You didn't create any vector"
-        elif self.visio.t.size() == 0:
+        elif self.manager.t.size() == 0:
             no_simulation = self.builder.get_object("no_simulation")
             no_simulation.run()
             no_simulation.hide()
             #print "You should run the simulation first"
         else:
-            timeline.set_range(0, self.visio.t.size() - 1)
+            timeline.set_range(0, self.manager.t.size() - 1)
             #timeline.set_increments(1, 10) #minimal increment equal to dt    
             animation_win.show_all()
             
@@ -457,7 +473,7 @@ class Controls(threading.Thread):
         
         #Update the label on the scale
         animation_time_label = self.builder.get_object("animation_time")
-        time = self.visio.t.x[time_point_indx]
+        time = self.manager.t.x[time_point_indx]
         animation_time_label.set_text(str(time))
         
         
@@ -548,9 +564,9 @@ class Controls(threading.Thread):
         for sec_name, vec in vecs_dic.iteritems():
             
             if legend:
-                area.plot(self.visio.t, vec, label=sec_name)
+                area.plot(self.manager.t, vec, label=sec_name)
             else:
-                area.plot(self.visio.t, vec)
+                area.plot(self.manager.t, vec)
 #        area.xlabel("Time [ms]")
 #        
 #        if var == 'v':
@@ -565,7 +581,6 @@ class Controls(threading.Thread):
         win = gtk.Window()
         win.connect("destroy", lambda x: gtk.Widget.destroy)
         win.set_size_request(550, 350)
-        win.set_position(gtk.WIN_POS_CENTER)
 
         vbox = gtk.VBox()
         win.add(vbox)

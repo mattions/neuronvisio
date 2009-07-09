@@ -54,6 +54,8 @@ As a quick example the following code:
 A quick example can be the following:    
     
     import nrnVisio         # importing the module
+    controls = nrnVisio.Controls() # Starting the GUI
+    
     from neuron import h    # Getting the HocInterpreter
     
     soma = h.Section()      # Creating a section

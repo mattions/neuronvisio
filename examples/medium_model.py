@@ -14,7 +14,7 @@ from itertools import chain
 
 # Importing NeuronVisio
 import nrnVisio
-
+controls = nrnVisio.Controls()
 # Importing the hoc interpreter
 from neuron import h
 

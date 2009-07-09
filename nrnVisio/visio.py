@@ -20,8 +20,6 @@
 
 from __future__ import division # to have the floating point properly managed
 import visual
-import visual.text
-from neuron import h
 import threading
 import gtk
 import gobject
@@ -48,30 +46,7 @@ class Visio(object):
         self.selected_section_color = () 
         self.default_section_color = () 
         self.background_color = ()
-        self.h = h # Link to the neuron interpreter
-        self.t = None # Var to track the time Vector
         self.drawn = False # Check if the section are alredy drawn or not
-        # Load the std run for NEURON
-        h.load_file("stdrun.hoc")
-
-        
-        
-    def getVec(self,sec, var=None):
-        """Return the vecs that record given a section
-        
-        param: 
-            sec - Section of interest
-            var - if None return all the vectors that record in that section
-            as a list, otherwise return the vector that record the variable var"""
-        vecsSection = [] 
-        for vecRef in self.vecRefs:
-            if vecRef.sec == sec:
-                if var is None:
-                    vecsSection.append(vecRef.vec)
-                elif var == vecRef.var:
-                    return vecRef.vec
-        
-        return vecsSection
                         
     
     def pickSection(self):
@@ -93,26 +68,6 @@ class Visio(object):
                      return sec
                      
                      #print "Section: %s Name: %s" %(sec, sec.name())
-    
-    
-    
-    def createVector(self, var):
-        """Create a Hoc Vector and record the variable given."""
-        
-        sec = self.pickSection()
-        vecNotPresent = True
-        for vecRef in self.vecRefs:
-            print "Searched: var %s, sec %s.\tCurrent var: %s sec: %s" %(var, sec, vecRef.var, vecRef.sec) 
-            if vecRef.var == var and vecRef.sec == sec:
-                  vecNotPresent = False
-                  break
-        if vecNotPresent:      
-            vec = h.Vector()
-            varRef = '_ref_' + var
-            vec.record(getattr(sec(0.5), varRef))
-            vecRef = VecRef(var, vec, sec)
-            self.vecRefs.append(vecRef)
-        return sec     
                        
     def retrieve_coordinate(self, sec):
         """Retrieve the coordinates of the section"""
@@ -297,61 +252,6 @@ class Visio(object):
                             obj.pos += offset
                             drag_pos = new_pos # New drag pos start is the new pos
                             
-    def addVecRef(self, var, sec):
-        """Add a vecRef in the list. It takes care to create the vector
-        
-        :param: 
-        var - The variable to record
-        sec - The section where to record
-        
-        return success"""
-        success = False
-        if hasattr(sec, var):
-            # Adding the vector only if does not exist
-            alreadyPresent=False
-            for vecRef in self.vecRefs:
-                if vecRef.sec.name() == sec.name():
-                    if vecRef.vecs.has_key(var):
-                        alreadyPresent = True
-                        break
-             
-            if not alreadyPresent:
-                
-                # Creating the vector
-                vec = h.Vector()
-                varRef = '_ref_' + var
-                vec.record(getattr(sec(0.5), varRef))
-                
-                # Adding to the list
-                vecRef = VecRef(sec)
-                vecRef.vecs[var] = vec
-                self.vecRefs.append(vecRef)
-                success = True
-        
-        return success
-    
-    def addAllVecRef(self, var):
-        """Create the vector for all the section with the given variable"""
-        done = False
-        responses = []
-        for sec in h.allsec():
-            response = self.addVecRef(var, sec)
-            responses.append(response)
-        # If all the responses are False it means we already
-        # created all the vecs and we are done    
-        if any(responses) == False: #all False we're done
-            done = True
-        return done
-                
-        
 
-class VecRef(object):
-    """Basic class to associate one or more vectors with a section"""
-    def __init__(self, sec):
-        # section
-        self.sec = sec
-        #Dict with all the vecs
-        # Key: var Value: Hoc.Vector
-        self.vecs = {}
         
     
