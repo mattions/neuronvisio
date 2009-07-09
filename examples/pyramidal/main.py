@@ -16,6 +16,7 @@
 
 # Importing the NeuronVisio
 import nrnVisio
+controls = nrnVisio.Controls()
 
 # Importing hoc interpreter
 from neuron import h

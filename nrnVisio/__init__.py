@@ -1,4 +1,5 @@
-# We import the controls    
+## We import the controls    
 from controls import Controls
-controls = Controls()
-controls.start()
+from visio import VecRef
+#controls = Controls()
+#controls.start()
