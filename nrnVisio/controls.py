@@ -578,7 +578,6 @@ class Controls(threading.Thread):
         win = gtk.Window()
         win.connect("destroy", lambda x: gtk.Widget.destroy)
         win.set_size_request(550, 350)
-        win.set_position(gtk.WIN_POS_CENTER)
 
         vbox = gtk.VBox()
         win.add(vbox)
