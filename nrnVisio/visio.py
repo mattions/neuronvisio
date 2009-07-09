@@ -23,6 +23,7 @@ import visual
 import threading
 import gtk
 import gobject
+from neuron import h
 
 
 """Manage the visual window and offer some useful methods to explore the model"""

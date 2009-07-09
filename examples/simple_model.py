@@ -33,3 +33,4 @@ syn.onset = 0.5
 syn.gmax = 0.05
 syn.e = 0
 
+controls.join() # Join the thread to have a clean exit.
