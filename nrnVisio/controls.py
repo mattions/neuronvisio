@@ -75,6 +75,9 @@ class Controls(threading.Thread):
         
         # Show the window
         self.window.show()
+        
+        # Starting the thread
+        self.start()
  
     def run(self):
         """Running the gtk loop in our thread"""
@@ -211,10 +214,20 @@ class Controls(threading.Thread):
         entry = self.builder.get_object("var_entry")
         var = entry.get_text()
         
+        # Control if there is any secs available.
+        num_secs = 0
+        for sec in self.h.allsec():
+            num_secs += 1
+        
         if var is "":
             no_var_warning = self.builder.get_object("novarwarning")
             no_var_warning.run()
             no_var_warning.hide()
+            
+        elif num_secs == 0:
+            no_section = self.builder.get_object("no_section")
+            no_section.run()
+            no_section.hide()
 
         else:
             if self.visio.t is None: # Create the time vector if not already there
