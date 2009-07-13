@@ -83,6 +83,25 @@ class Manager(object):
         if any(responses) == False: #all False we're done
             done = True
         return done
+    
+    def get_tree(self, sec):
+        "Return the minimal tree of section \
+        Using the given section as the last leave"
+        tree = []
+        tree.append(sec)
+        tree = self.__get_parent(sec, tree)
+        return tree
+    
+    def __get_parent(self, sec, tree):
+        "Recursive function used to create the tree list of section"
+        sec.push()
+        secRef = h.SectionRef()
+        if secRef.has_parent():
+            parentSeg = secRef.parent()
+            parentSec = parentSeg.sec
+            tree.append(parentSec)
+            tree = self.__get_parent(parentSec, tree)
+        return tree
 
 class VecRef(object):
     """Basic class to associate one or more vectors with a section"""
