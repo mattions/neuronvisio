@@ -113,7 +113,7 @@ class Manager(object):
             parentSeg = secRef.parent()
             parentSec = parentSeg.sec
             tree.append(parentSec)
-            tree = self.__getParent(parentSec, tree)
+            tree = self.__get_parent(parentSec, tree)
         return tree
 
 class VecRef(object):
