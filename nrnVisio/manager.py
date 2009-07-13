@@ -44,7 +44,7 @@ class Manager(object):
         var - The variable to record
         sec - The section where to record
         
-        return success"""
+        return True if the vector is created successfully."""
         success = False
         if hasattr(sec, var):
             # Adding the vector only if does not exist
@@ -69,23 +69,6 @@ class Manager(object):
                 success = True
         
         return success
-    
-    def getVec(self,sec, var=None):
-        """Return the vecs that record given a section
-        
-        param: 
-            sec - Section of interest
-            var - if None return all the vectors that record in that section
-            as a list, otherwise return the vector that record the variable var"""
-        vecsSection = [] 
-        for vecRef in self.vecRefs:
-            if vecRef.sec == sec:
-                if var is None:
-                    vecsSection.append(vecRef.vec)
-                elif var == vecRef.var:
-                    return vecRef.vec
-        
-        return vecsSection
     
     def addAllVecRef(self, var):
         """Create the vector for all the section present in the model 
