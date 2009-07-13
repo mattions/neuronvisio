@@ -252,7 +252,7 @@ class Controls(threading.Thread):
                     
                 # Section selected. Let's create the vector
                 else:
-                    success = self.manager.addVecRef(var, self.selectedSec)
+                    success = self.manager.add_vecRef(var, self.selectedSec)
                     if not success:
                         impossible_creation = self.builder.get_object("impossiblecreation")
                         impossible_creation.run()
@@ -262,7 +262,7 @@ class Controls(threading.Thread):
                         
             elif allSection_radio_btn.get_active():
                 # Create all the vectors
-                allCreated = self.manager.addAllVecRef(var)
+                allCreated = self.manager.add_all_vecRef(var)
                 if allCreated:
                     all_created_dial = self.builder.get_object("allvecscreated") 
                     all_created_dial.run()
@@ -306,8 +306,8 @@ class Controls(threading.Thread):
         
         # Add all the vectors
         for vecRef in self.manager.vec_refs:
-            sec = vecRef.sec
-            sec_iter = self.treestore.append(None, [sec.name()])
+            sec_name = vecRef.sec_name
+            sec_iter = self.treestore.append(None, [sec_name])
             for var,vec in vecRef.vecs.iteritems():
                 self.treestore.append(sec_iter, [var])
     
@@ -350,13 +350,12 @@ class Controls(threading.Thread):
                     # get the vecRef
                     
                     for vecRef in self.manager.vec_refs:
-                        sec = vecRef.sec
-                        #print "SectionName vecRef: %s" %sec.name()
-                        if sec.name() == sectionName:
+                        
+                        if vecRef.sec_name == sectionName:
                             # get the vec
                             vec = vecRef.vecs[var]
                             
-                            vecs_to_plot[sec.name()] = vec  
+                            vecs_to_plot[sectionName] = vec  
                             break # Out of the inner loop
             
             #plot it
