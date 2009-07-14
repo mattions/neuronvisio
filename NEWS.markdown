@@ -14,8 +14,8 @@ title: NeuronVisio News
 
 ### BUGFixes
 
-- Closed bug 8
-- Closed bug 3
+- Closed bug #8
+- Closed bug #3
 
 
 ## NeuronVisio 0.2.0 - 6 Jul 2009
@@ -29,9 +29,9 @@ Some new features has been introduced:
 
 ### BUGFixes
 
-- Closed bug 4
-- Closed bug 5
-- Closed bug 6
+- Closed bug #4
+- Closed bug #5
+- Closed bug #6
 
 
 
