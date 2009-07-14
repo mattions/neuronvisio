@@ -34,6 +34,3 @@ st = h.IClamp(0.5, sec=h.soma)
 st.amp = 0.25
 st.delay = 3
 st.dur = 40
-
-
-controls.join() # Join the thread to have a clean exit.
