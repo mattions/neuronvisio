@@ -50,7 +50,7 @@ class Manager(object):
             # Adding the vector only if does not exist
             alreadyPresent=False
             for vecRef in self.vec_refs:
-                if vecRef.sec_name == sec.name():
+                if vecRef.sec.name() == sec.name():
                     if vecRef.vecs.has_key(var):
                         alreadyPresent = True
                         break
@@ -120,7 +120,7 @@ class VecRef(object):
     """Basic class to associate one or more vectors with a section"""
     def __init__(self, sec):
         # section
-        self.sec_name = sec.name()
+        self.sec = sec
         #Dict with all the vecs
         # Key: var Value: Hoc.Vector
         self.vecs = {}

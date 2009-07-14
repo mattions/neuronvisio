@@ -115,14 +115,15 @@ class Visio(object):
         
         cyl.color = color
     
-    def show_variable_timecourse(self, var, time_point, start_value, start_col, end_value, end_col):
+    def show_variable_timecourse(self, var, time_point, start_value, 
+                                 start_col, end_value, end_col, vecRefs):
         """Show an animation of all the section that have 
         the recorded variable among time
         
         :params:
             var - the variable to show"""
         
-        for vecRef in self.vecRefs:
+        for vecRef in vecRefs:
             if vecRef.vecs.has_key(var):
                 vec = vecRef.vecs[var]
                 var_value = vec.x[time_point]
@@ -252,7 +253,3 @@ class Visio(object):
                     for obj in self.scene.objects:
                             obj.pos += offset
                             drag_pos = new_pos # New drag pos start is the new pos
-                            
-
-        
-    

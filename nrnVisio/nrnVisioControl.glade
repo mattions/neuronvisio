@@ -1004,6 +1004,19 @@
                     <property name="visible">True</property>
                     <property name="homogeneous">True</property>
                     <child>
+                      <object class="GtkButton" id="stop">
+                        <property name="label" translatable="yes">gtk-media-stop</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <property name="use_stock">True</property>
+                        <signal name="clicked" handler="on_stop_clicked"/>
+                      </object>
+                      <packing>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
                       <object class="GtkButton" id="play">
                         <property name="label" translatable="yes">gtk-media-play</property>
                         <property name="visible">True</property>
@@ -1014,7 +1027,7 @@
                       </object>
                       <packing>
                         <property name="fill">False</property>
-                        <property name="position">0</property>
+                        <property name="position">1</property>
                       </packing>
                     </child>
                     <child>
@@ -1026,7 +1039,7 @@
                         <signal name="value_changed" handler="on_timeline_value_changed"/>
                       </object>
                       <packing>
-                        <property name="position">1</property>
+                        <property name="position">2</property>
                       </packing>
                     </child>
                     <child>
@@ -1035,7 +1048,7 @@
                         <property name="label" translatable="yes">0.0</property>
                       </object>
                       <packing>
-                        <property name="position">2</property>
+                        <property name="position">3</property>
                       </packing>
                     </child>
                   </object>

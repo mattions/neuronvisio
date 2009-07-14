@@ -73,6 +73,9 @@ class Controls(threading.Thread):
         time_loop = TimeLoop(self)
         time_loop.start()
         
+        # Animation
+        self.continue_animation = True
+        
         # Pylab windows
         self.pylab_wins = []
         
@@ -306,7 +309,7 @@ class Controls(threading.Thread):
         
         # Add all the vectors
         for vecRef in self.manager.vec_refs:
-            sec_name = vecRef.sec_name
+            sec_name = vecRef.sec.name()
             sec_iter = self.treestore.append(None, [sec_name])
             for var,vec in vecRef.vecs.iteritems():
                 self.treestore.append(sec_iter, [var])
@@ -480,10 +483,12 @@ class Controls(threading.Thread):
         end_value = self.builder.get_object("end_var_value").get_text()
         
         self.visio.show_variable_timecourse(var, time_point_indx, start_value, 
-                                            self.start_color, end_value, self.end_color)
+                                            self.start_color, end_value, 
+                                            self.end_color, self.manager.vec_refs)
 
     def on_play_clicked(self, widget):
         """Play the animation with the voltage color coded"""
+        self.continue_animation = True 
         entry_var = self.builder.get_object("animation_var")
         var = entry_var.get_text()
         start_value = self.builder.get_object("start_var_value").get_text()
@@ -497,10 +502,15 @@ class Controls(threading.Thread):
         # Using a thread to run the cicle 
            
         thread_for_timeline = TimelineHelper(self, var, start_value, 
-                                            self.start_color, end_value, self.end_color)
+                                            self.start_color, end_value, 
+                                            self.end_color, self.manager.vec_refs)
         thread_for_timeline.start()
         
-        
+    
+    def on_stop_clicked(self, widget):
+        """Stop the animation"""
+        self.continue_animation = False
+    
     def update_timeline(self, t_indx, time):
         """update the timeline"""
         #print time
@@ -592,7 +602,8 @@ class Controls(threading.Thread):
 
 class TimelineHelper(threading.Thread):
     """Thread to update the timeline when the play button is clicked"""
-    def __init__(self, controls, var, start_value, start_color, end_value, end_color):
+    def __init__(self, controls, var, start_value, start_color, 
+                 end_value, end_color, vecRefs):
         threading.Thread.__init__(self)
         self.controls = controls
         self.var = var
@@ -600,14 +611,18 @@ class TimelineHelper(threading.Thread):
         self.start_color = start_color
         self.end_value = end_value
         self.end_color = end_color
+        self.vecRefs = vecRefs
+        
     
     def run(self):
-        for t_indx,time in enumerate(self.controls.visio.t):
-            self.controls.visio.show_variable_timecourse(self.var, t_indx, self.start_value, 
+        for t_indx,time in enumerate(self.controls.manager.t):
+            if self.controls.continue_animation == True:
+                self.controls.visio.show_variable_timecourse(self.var, t_indx, self.start_value, 
                                                          self.start_color, self.end_value, 
-                                                         self.end_color)
+                                                         self.end_color, self.vecRefs)
             # Update done on the main gtk
-            gobject.idle_add(self.controls.update_timeline, t_indx, str(time)) 
+                if t_indx % 4 == 0:
+                    gobject.idle_add(self.controls.update_timeline, t_indx, str(time)) 
         
 class TimeLoop(threading.Thread):
     """Daemon Thread to connect the console with the GUI"""
