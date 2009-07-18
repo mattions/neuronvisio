@@ -354,7 +354,7 @@ class Controls(threading.Thread):
                     
                     for vecRef in self.manager.vec_refs:
                         
-                        if vecRef.sec_name == sectionName:
+                        if vecRef.sec.name() == sectionName:
                             # get the vec
                             vec = vecRef.vecs[var]
                             

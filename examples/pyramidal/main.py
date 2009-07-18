@@ -23,8 +23,8 @@ from neuron import h
 
 # loading the model
 # importing the interview so the GUI does not freeze
-# Uncomment this if you use the interview GUI
-import neuron.gui
+# Uncomment this if you want to use also the interview GUI
+#simport neuron.gui
 
 # Load the script
 h.load_file("demo.hoc")
