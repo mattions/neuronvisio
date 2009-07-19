@@ -61,7 +61,7 @@ class Visio(object):
                      # Redraw the old one with the default color
                      if self.selected_cyl != None:
                          self.selected_cyl.color = self.default_section_color
-                     
+                     print picked
                      picked.color = self.selected_section_color
                      self.selected_cyl = picked
                      sec = self.cyl2sec[picked]
@@ -94,24 +94,26 @@ class Visio(object):
         
         # If we already draw the model we don't have to get the coords anymore.
         cyl = None
+                  
+        coords = self.retrieve_coordinate(sec)
+        x_ax = coords['x1'] -coords['x0']
+        y_ax = coords['y1'] -coords['y0']
+        z_ax = coords['z1'] -coords['z0']
         
-        if not self.drawn :
+        
+        if self.sec2cyl.has_key(sec.name()): # Update if present
+            cyl = self.sec2cyl[sec.name()]
+            cyl.pos = (coords['x0'], coords['y0'], coords['z0'])
+            cyl.axis = (x_ax, y_ax, z_ax)
+            cyl.radius = sec.diam/2
             
-            coords = self.retrieve_coordinate(sec)
-            x_ax = coords['x1'] -coords['x0']
-            y_ax = coords['y1'] -coords['y0']
-            z_ax = coords['z1'] -coords['z0']
-        
+        else: # Create the new one
             cyl = visual.cylinder(pos=(coords['x0'],coords['y0'],coords['z0']), 
-                          axis=(x_ax,y_ax,z_ax), radius=sec.diam/2)
+                      axis=(x_ax,y_ax,z_ax), radius=sec.diam/2)
+            self.sec2cyl[sec.name()] = cyl #Name for Hoc compability
             
-            if not self.cyl2sec.has_key(cyl):
-                self.cyl2sec[cyl] = sec
-        
-            if not self.sec2cyl.has_key(sec.name()):
-                self.sec2cyl[sec.name()] = cyl #Name for Hoc compability
-        else:
-            cyl = self.sec2cyl[sec.name()]   
+        if not self.cyl2sec.has_key(cyl):
+                self.cyl2sec[cyl] = sec   
         
         cyl.color = color
     
@@ -214,6 +216,7 @@ class Visio(object):
         """Draw the model.
         Params:
         controls - the main gui obj."""
+        
         # Draw the new one
         h.define_shape()
         num_sections = 0
