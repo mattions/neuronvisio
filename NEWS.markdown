@@ -5,6 +5,10 @@ title: NeuronVisio News
 
 # News
 
+## NeuronVisio 0.3.2 - 20 Jul 2009
+
+Bug Release. Closed Bug #9
+
 ## NeuronVisio 0.3.1 - 18 Jul 2009
 
 Bug Release.
