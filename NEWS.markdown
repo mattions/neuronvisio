@@ -5,6 +5,14 @@ title: NeuronVisio News
 
 # News
 
+## NeuronVisio 0.3.21 - 20 Jul 2009
+
+- Better handling of the pick section routine
+- Changed the examples to use the create statement for hoc, to have 
+a proper name of the section also in python.
+- Modified the GUI to handle a runtime change of a section. The model is redrawn
+completely, the zoom is conserved. 
+
 ## NeuronVisio 0.3.2 - 20 Jul 2009
 
 Bug Release. Closed Bug #9
