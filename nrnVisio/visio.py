@@ -93,28 +93,22 @@ class Visio(object):
             color - tuple for the color in RGB value. i.e.: (0,0,1) blue"""
         
         # If we already draw the model we don't have to get the coords anymore.
-        cyl = None
-                  
-        coords = self.retrieve_coordinate(sec)
-        x_ax = coords['x1'] -coords['x0']
-        y_ax = coords['y1'] -coords['y0']
-        z_ax = coords['z1'] -coords['z0']
-        
-        
-        if self.sec2cyl.has_key(sec.name()): # Update if present
-            cyl = self.sec2cyl[sec.name()]
-            cyl.pos = (coords['x0'], coords['y0'], coords['z0'])
-            cyl.axis = (x_ax, y_ax, z_ax)
-            cyl.radius = sec.diam/2
-            
-        else: # Create the new one
+        cyl = None     
+        # We need to retrieve only if it's not draw
+        if self.drawn == False:
+            coords = self.retrieve_coordinate(sec)
+            x_ax = coords['x1'] -coords['x0']
+            y_ax = coords['y1'] -coords['y0']
+            z_ax = coords['z1'] -coords['z0']
+             
             cyl = visual.cylinder(pos=(coords['x0'],coords['y0'],coords['z0']), 
                       axis=(x_ax,y_ax,z_ax), radius=sec.diam/2)
-            self.sec2cyl[sec.name()] = cyl #Name for Hoc compability
             
-        if not self.cyl2sec.has_key(cyl):
-                self.cyl2sec[cyl] = sec   
-        
+            self.sec2cyl[sec.name()] = cyl #Name for Hoc compability
+            self.cyl2sec[cyl] = sec    
+        else:
+            cyl = self.sec2cyl[sec.name()]
+            
         cyl.color = color
     
     def show_variable_timecourse(self, var, time_point, start_value, 
@@ -220,6 +214,16 @@ class Visio(object):
         # Draw the new one
         h.define_shape()
         num_sections = 0
+        section_mod_check_button = controls.builder.get_object("section_modified")
+        if section_mod_check_button.get_active() == True:
+            # Redraw the model
+            self.drawn = False
+            # Delete all the object
+            for obj in self.scene.objects:
+                obj.visible = False
+                
+            
+        
         for sec in h.allsec():
             if sec == controls.selectedSec:
                 self.draw_section(sec, self.selected_section_color)
