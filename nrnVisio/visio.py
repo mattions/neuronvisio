@@ -61,7 +61,6 @@ class Visio(object):
                      # Redraw the old one with the default color
                      if self.selected_cyl != None:
                          self.selected_cyl.color = self.default_section_color
-                     print picked
                      picked.color = self.selected_section_color
                      self.selected_cyl = picked
                      sec = self.cyl2sec[picked]

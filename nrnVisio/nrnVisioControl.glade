@@ -314,7 +314,6 @@
                                 <property name="relief">none</property>
                                 <property name="yalign">0.73000001907348633</property>
                                 <property name="draw_indicator">True</property>
-                                <signal name="toggled" handler="on_section_modified_toggled"/>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
