@@ -14,7 +14,7 @@
 
 
 // used to load_proc("nrnmainmenu") for early pre 5.x versions of neuron
-load_file("nrngui.hoc")
+//load_file("nrngui.hoc")
 
 
 // --------------------------------------------------------------
