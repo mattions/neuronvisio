@@ -69,7 +69,6 @@ class Visio(object):
                      
                      return sec
             else: # Reset the clicking
-                print self.scene.mouse.clicked
                 event_to_clear = self.scene.mouse.clicked
                 for event in range(event_to_clear - 1):
                     self.scene.mouse.getclick() #Just to clear to zero the event
