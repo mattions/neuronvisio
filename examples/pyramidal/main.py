@@ -29,6 +29,7 @@ from neuron import h
 # Load the script
 h.load_file("demo.hoc")
 
+
 ## Insert an IClamp
 st = h.IClamp(0.5, sec=h.soma)
 st.amp = 0.25

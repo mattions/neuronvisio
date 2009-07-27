@@ -19,6 +19,7 @@
 """
 
 from neuron import h
+import numpy
 
 class Manager(object):
     '''
@@ -115,12 +116,33 @@ class Manager(object):
             tree.append(parentSec)
             tree = self.__get_parent(parentSec, tree)
         return tree
+    
+    def convert_vec_refs(self):
+        """Convert all the vecRefs into the pickable"""
+        pickable_vec_refs = []
+        for vecRef in self.vec_refs:
+            vecRef.convert_to_pickable()
+            pickable_vec_refs.append(vecRef)
+        return pickable_vec_refs
+            
 
 class VecRef(object):
     """Basic class to associate one or more vectors with a section"""
     def __init__(self, sec):
         # section
         self.sec = sec
+        self.pickable = False
         #Dict with all the vecs
         # Key: var Value: Hoc.Vector
         self.vecs = {}
+    
+    def convert_to_pickable(self):
+        """Convert the object into a pickable one:
+        - substitute the section with the section name
+        - substistitute the hocVectors with a numpy array"""
+        
+        self.sec = self.sec.name()
+        self.pickable = True
+        for key, vec in self.vecs.iteritems():
+            self.vecs[key] = numpy.array(vec)
+        
