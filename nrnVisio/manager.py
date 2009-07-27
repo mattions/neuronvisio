@@ -51,7 +51,7 @@ class Manager(object):
             # Adding the vector only if does not exist
             alreadyPresent=False
             for vecRef in self.vec_refs:
-                if vecRef.sec.name() == sec.name():
+                if vecRef.sec_name == sec.name():
                     if vecRef.vecs.has_key(var):
                         alreadyPresent = True
                         break
@@ -80,7 +80,7 @@ class Manager(object):
             
             return - the vector that record the variable var"""
         for vecRef in self.vecRefs:
-            if vecRef.sec == sec:
+            if vecRef.sec_name == sec.name():
                 if vecRef.vecs.has_key(var):
                    return vecRef.vecs[var]
     
@@ -129,8 +129,10 @@ class Manager(object):
 class VecRef(object):
     """Basic class to associate one or more vectors with a section"""
     def __init__(self, sec):
+        """sec - The section which all the vectors belongs"""
         # section
-        self.sec = sec
+        #self.sec = sec
+        self.sec_name = sec.name()
         self.pickable = False
         #Dict with all the vecs
         # Key: var Value: Hoc.Vector
@@ -141,7 +143,6 @@ class VecRef(object):
         - substitute the section with the section name
         - substistitute the hocVectors with a numpy array"""
         
-        self.sec = self.sec.name()
         self.pickable = True
         for key, vec in self.vecs.iteritems():
             self.vecs[key] = numpy.array(vec)
