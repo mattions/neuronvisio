@@ -5,13 +5,20 @@ title: NeuronVisio News
 
 # News
 
+## NeuronVisio 0.3.22 - 31 Jul 2009
+
+- Closed bug #10
+- Changed the name of the module from nrnVisio to nrnvisio to be python
+standard compliant.
+- Manager being transformed into a library (WIP)
+
 ## NeuronVisio 0.3.21 - 20 Jul 2009
 
 - Better handling of the pick section routine
 - Changed the examples to use the create statement for hoc, to have 
 a proper name of the section also in python.
 - Modified the GUI to handle a runtime change of a section. The model is redrawn
-completely, the zoom is conserved. 
+completely, the zoom is conserved.
 
 ## NeuronVisio 0.3.2 - 20 Jul 2009
 
@@ -62,4 +69,3 @@ Fist public release.
 - Pylab integration to plot directly the result of the simulation
 - Explore of the timecourse of any variable among time using a color coded scale in the 3d representation
 - the GUI runs in its own thread so it's possible to use the console to modify/interact with the model.
-
