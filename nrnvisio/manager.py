@@ -172,6 +172,7 @@ class VecRef(object):
         
         """
         self.sec_name = sec.name()
+        self.sec = sec
         self.pickable = False
         #Dict with all the vecs
         # Key: var Value: Hoc.Vector
@@ -180,9 +181,11 @@ class VecRef(object):
     def convert_to_pickable(self):
         """Convert the object into a pickable one:
         
-        substistitute the hocVectors with a numpy array 
+        substistitute the hocVectors with a numpy array
+        Set to None the ref for the section. 
         """
         self.pickable = True
+        self.sec = None
         for key, vec in self.vecs.iteritems():
             self.vecs[key] = numpy.array(vec)
             

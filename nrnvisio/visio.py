@@ -133,8 +133,8 @@ class Visio(object):
                 color = self.calculate_gradient(var_value, start_value, 
                                                 start_col, end_value, 
                                                 end_col)
+                
                 self.draw_section(vecRef.sec, color=color)
-        #return # give back the control to the gtk thread
         
     def calculate_gradient(self, var_value, start_value, start_col, end_value, end_col):
         """Calculate the color in a gradient given the start and the end
