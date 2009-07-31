@@ -15,8 +15,8 @@
 # $ nrnivmodl 
 
 # Importing the NeuronVisio
-import nrnVisio
-controls = nrnVisio.Controls()
+import nrnvisio
+controls = nrnvisio.Controls()
 
 # Importing hoc interpreter
 from neuron import h

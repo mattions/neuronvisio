@@ -481,7 +481,7 @@ class Controls(threading.Thread):
         
         self.visio.show_variable_timecourse(var, time_point_indx, start_value, 
                                             self.start_color, end_value, 
-                                            self.end_color, self.manager.vec_refs)
+                                            self.end_color, self.manager.vecRefs)
 
     def on_play_clicked(self, widget):
         """Play the animation with the voltage color coded"""

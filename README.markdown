@@ -35,15 +35,15 @@ of examples are available from the examples folder.
 
 ### Quickstart
 
-This code is just to give an idea in how to use nrnVisio module:
+This code is just to give an idea in how to use nrnvisio module:
 
 1. fire up an ipython console
     ipython
     
 2. Import the module
-    import nrnVisio         # importing the module
+    import nrnvisio         # importing the module
     
-When nrnVisio is started the thread is launched. In this thread all the process of nrnVisio will happen without blocking the console.
+When nrnvisio is started the thread is launched. In this thread all the process of nrnvisio will happen without blocking the console.
 
 As a quick example the following code:
 
@@ -53,8 +53,8 @@ As a quick example the following code:
 
 A quick example can be the following:    
     
-    import nrnVisio         # importing the module
-    controls = nrnVisio.Controls() # Starting the GUI
+    import nrnvisio         # importing the module
+    controls = nrnvisio.Controls() # Starting the GUI
     
     from neuron import h    # Getting the HocInterpreter
     
