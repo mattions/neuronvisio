@@ -21,26 +21,22 @@
 import sys
 import gtk
 import gtk.glade
-import visio
+import cairo
 import threading
 import gobject
 import os
+import time
+
 import pylab
 import numpy
-import time
-import cairo
-import manager
 from neuron import h
+# uncomment to select /GTK/GTKAgg/GTKCairo
+#from matplotlib.backends.backend_gtk import FigureCanvasGTK as FigureCanvas
+from matplotlib.backends.backend_gtkagg import FigureCanvasGTKAgg as FigureCanvas
+#from matplotlib.backends.backend_gtkcairo import FigureCanvasGTKCairo as FigureCanvas
 
-try:
-    
-    from matplotlib.figure import Figure
-    # uncomment to select /GTK/GTKAgg/GTKCairo
-    #from matplotlib.backends.backend_gtk import FigureCanvasGTK as FigureCanvas
-    from matplotlib.backends.backend_gtkagg import FigureCanvasGTKAgg as FigureCanvas
-    #from matplotlib.backends.backend_gtkcairo import FigureCanvasGTKCairo as FigureCanvas
-except:
-    print "matlab and cairo backend not available"
+import visio
+import manager
 
 # We start the threads here
 
@@ -363,7 +359,8 @@ class Controls(threading.Thread):
             
             #plot it
             #print vecs_to_plot, var
-            self.plotVecs(vecs_to_plot, var, legend=True)
+            figure = self.manager.plotVecs(vecs_to_plot, var, legend=True)
+            self.pylab_win(figure)
 
     def on_init_clicked(self, widget):
         """Set the vm_init from the spin button and prepare the simulator"""
@@ -553,36 +550,7 @@ class Controls(threading.Thread):
         g = gtk_color.green / gtk_color_bit
         b = gtk_color.blue / gtk_color_bit
 
-        return [r,g,b] 
-
-#### Pylab stuff. Maybe another class?
-
-
-            
-    def plotVecs(self, vecs_dic, var, legend=True):
-        """Plot the vectors with pylab
-        :param:
-            vecs_dic - dictionary with section name as k and the vec obj 
-            as value
-            var - Which variable we are plotting. Used to put the unit in 
-            the graph
-            legend - boolean. If True the legend is plotted"""
-        figure = Figure(figsize=(5,4), dpi=100)
-        area = figure.add_subplot(111) # One subplot where to draw everything
-         
-        for sec_name, vec in vecs_dic.iteritems():
-            
-            if legend:
-                area.plot(self.manager.t, vec, label=sec_name)
-            else:
-                area.plot(self.manager.t, vec)
-#        area.xlabel("Time [ms]")
-#        
-#        if var == 'v':
-#            area.ylabel("Voltage [mV]")
-
-        # Figure ready. Let's create a window and show it
-        self.pylab_win(figure)
+        return [r,g,b]
             
     def pylab_win(self, figure):
         """Create a pylab window with the provided figure"""

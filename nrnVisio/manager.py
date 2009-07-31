@@ -20,6 +20,7 @@
 
 from neuron import h
 import numpy
+from matplotlib.figure import Figure
 
 class Manager(object):
     """The Manager class is used to manage all the vecRef, to create them 
@@ -53,6 +54,13 @@ class Manager(object):
                     if vecRef.vecs.has_key(var):
                         alreadyPresent = True
                         break
+                    else: # Adding a variable to an existing vecRef
+                        vec = h.Vector()
+                        varRef = '_ref_' + var
+                        vec.record(getattr(sec(0.5), varRef))
+                        vecRef.vecs[var] = vec
+                        alreadyPresent = True
+                        success = True
              
             if not alreadyPresent:
                 
@@ -129,7 +137,30 @@ class Manager(object):
         :param synVecRef: The synapse Vector Ref to add to the list.
         """
         self.synVecRefs.append(synVecRef)
-        
+    
+    #### Pylab stuff. Maybe another class?
+
+
+            
+    def plotVecs(self, vecs_dic, var, legend=True):
+        """Plot the vectors with pylab
+        :param:
+            vecs_dic - dictionary with section name as k and the vec obj 
+            as value
+            var - Which variable we are plotting. Used to put the unit in 
+            the graph
+            legend - boolean. If True the legend is plotted"""
+        figure = Figure(figsize=(5,4), dpi=100)
+        area = figure.add_subplot(111) # One subplot where to draw everything
+         
+        for sec_name, vec in vecs_dic.iteritems():
+            
+            if legend:
+                area.plot(self.t, vec, label=sec_name)
+            else:
+                area.plot(self.t, vec)
+
+        return figure
             
 class VecRef(object):
     """Basic class to associate one or more vectors with a section
