@@ -308,7 +308,7 @@ class Controls(threading.Thread):
         self.treestore.clear()
         
         # Add all the vectors
-        for vecRef in self.manager.vec_refs:
+        for vecRef in self.manager.vecRefs:
             sec_name = vecRef.sec_name
             sec_iter = self.treestore.append(None, [sec_name])
             for var,vec in vecRef.vecs.iteritems():
@@ -352,7 +352,7 @@ class Controls(threading.Thread):
                     #print sectionName
                     # get the vecRef
                     
-                    for vecRef in self.manager.vec_refs:
+                    for vecRef in self.manager.vecRefs:
                         
                         if vecRef.sec_name == sectionName:
                             # get the vec
