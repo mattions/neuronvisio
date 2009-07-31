@@ -20,7 +20,9 @@
 
 from neuron import h
 import numpy
-from matplotlib.figure import Figure
+import matplotlib
+import pylab
+
 
 class Manager(object):
     """The Manager class is used to manage all the vecRef, to create them 
@@ -169,17 +171,17 @@ class Manager(object):
             var - Which variable we are plotting. Used to put the unit in 
             the graph
             legend - boolean. If True the legend is plotted"""
-        figure = Figure(figsize=(5,4), dpi=100)
-        area = figure.add_subplot(111) # One subplot where to draw everything
+        #figure = Figure(figsize=(5,4), dpi=100)
+        ax  = pylab.subplot(111) # One subplot where to draw everything
          
         for sec_name, vec in vecs_dic.iteritems():
             
             if legend:
-                area.plot(self.t, vec, label=sec_name)
+                pylab.plot(self.t, vec, label=sec_name)
             else:
-                area.plot(self.t, vec)
+                pylab.plot(self.t, vec)
 
-        return figure
+        return pylab.get_current_fig_manager()
             
 class VecRef(object):
     """Basic class to associate one or more vectors with a section

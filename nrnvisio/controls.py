@@ -72,9 +72,6 @@ class Controls(threading.Thread):
         # Animation
         self.continue_animation = True
         
-        # Pylab windows
-        self.pylab_wins = []
-        
         # Show the window
         self.window.show()
         
@@ -110,8 +107,7 @@ class Controls(threading.Thread):
         animation_win.destroy()
         
         # Destroy all the Pylab win
-        for win in self.pylab_wins:
-            win.destroy()
+        pylab.close('all')
         
         gtk.main_quit()
         
@@ -204,11 +200,7 @@ class Controls(threading.Thread):
         info += "Ra: %f\n" % section.Ra
         info += "nseg: %f\n" % section.nseg
         
-        
-        
         return info
-        
-                
         
     def on_createVector_clicked(self, widget, data=None):
         """Create the vectors list"""
@@ -356,8 +348,9 @@ class Controls(threading.Thread):
             
             #plot it
             #print vecs_to_plot, var
-            figure = self.manager.plotVecs(vecs_to_plot, var, legend=True)
-            self.pylab_win(figure)
+            pylab_win_manager = self.manager.plotVecs(vecs_to_plot, var, legend=True)
+            pylab.show()
+            pylab.draw()
 
     def on_init_clicked(self, widget):
         """Set the vm_init from the spin button and prepare the simulator"""
@@ -549,20 +542,20 @@ class Controls(threading.Thread):
 
         return [r,g,b]
             
-    def pylab_win(self, figure):
-        """Create a pylab window with the provided figure"""
-        
-        win = gtk.Window()
-        win.connect("destroy", lambda x: gtk.Widget.destroy)
-        win.set_size_request(550, 350)
-
-        vbox = gtk.VBox()
-        win.add(vbox)
-       
-        canvas = FigureCanvas(figure)  # a gtk.DrawingArea
-        vbox.pack_start(canvas)
-        win.show_all()
-        self.pylab_wins.append(win)
+#    def pylab_win(self, figure):
+#        """Create a pylab window with the provided figure"""
+#        
+#        win = gtk.Window()
+#        win.connect("destroy", lambda x: gtk.Widget.destroy)
+#        win.set_size_request(550, 350)
+#
+#        vbox = gtk.VBox()
+#        win.add(vbox)
+#       
+#        canvas = FigureCanvas(figure)  # a gtk.DrawingArea
+#        vbox.pack_start(canvas)
+#        win.show_all()
+#        self.pylab_wins.append(win)
         
 
 class TimelineHelper(threading.Thread):
@@ -603,4 +596,3 @@ class TimeLoop(threading.Thread):
         while True:
             time.sleep(self.interval)
             gobject.idle_add(self.controls.update)
-            
