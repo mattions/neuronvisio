@@ -232,9 +232,6 @@ class Controls(threading.Thread):
             no_section.hide()
 
         else:
-            if self.manager.t is None: # Create the time vector if not already there
-                self.manager.t = h.Vector()
-                self.manager.t.record(h._ref_t)
             # Grab the section
             selectedSection_radio_btn = self.builder.get_object("selected_sec_btn")
             

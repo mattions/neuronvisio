@@ -45,6 +45,11 @@ class Manager(object):
         sec - The section where to record
         
         return True if the vector is created successfully."""
+        
+        if self.t is None: # Create the time vector if not already there
+            self.t = h.Vector()
+            self.t.record(h._ref_t)
+            
         success = False
         if hasattr(sec, var):
             # Adding the vector only if does not exist
@@ -90,6 +95,20 @@ class Manager(object):
                 if vecRef.vecs.has_key(var):
                    return vecRef.vecs[var]
     
+    def get_vectors(self, section_list, var):
+        """Return a dictionary containing the vector which record the var. The 
+        section name is used as key.
+        :param section_list: The list of the section which is interested
+        :param var: The variable of interest
+        
+        :return: The dictionary with section name as key and the vector as the value
+        """
+        vecs = {}
+        for sec in section_list:
+            vec = self.get_vector(sec, var)
+            vecs[sec.name()] = (vec)
+        return vecs
+            
     def add_all_vecRef(self, var):
         """Create the vector for all the section present in the model 
         with the given variable"""
