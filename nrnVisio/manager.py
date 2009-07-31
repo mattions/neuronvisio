@@ -22,17 +22,15 @@ from neuron import h
 import numpy
 
 class Manager(object):
-    '''
-    The Manager class is used to manage all the vecRef, to create them 
+    """The Manager class is used to manage all the vecRef, to create them 
     and retrieve the information
-    '''
+    """
 
 
     def __init__(self):
-        '''
-        Initialize the vecRef list
-        '''
-        self.vec_refs = []
+        
+        self.vecRefs = []
+        self.synVecRefs = []
         self.t = None # Var to track the time Vector
         # Load the std run for NEURON
         h.load_file("stdrun.hoc")
@@ -50,7 +48,7 @@ class Manager(object):
         if hasattr(sec, var):
             # Adding the vector only if does not exist
             alreadyPresent=False
-            for vecRef in self.vec_refs:
+            for vecRef in self.vecRefs:
                 if vecRef.sec_name == sec.name():
                     if vecRef.vecs.has_key(var):
                         alreadyPresent = True
@@ -66,7 +64,7 @@ class Manager(object):
                 # Adding to the list
                 vecRef = VecRef(sec)
                 vecRef.vecs[var] = vec
-                self.vec_refs.append(vecRef)
+                self.vecRefs.append(vecRef)
                 success = True
         
         return success
@@ -99,15 +97,15 @@ class Manager(object):
         return done
     
     def get_tree(self, sec):
-        "Return the minimal tree of section \
-        Using the given section as the last leave"
+        """Return the minimal tree of section 
+        Using the given section as the last leave"""
         tree = []
         tree.append(sec)
         tree = self.__get_parent(sec, tree)
         return tree
     
     def __get_parent(self, sec, tree):
-        "Recursive function used to create the tree list of section"
+        """Recursive function used to create the tree list of section"""
         sec.push()
         secRef = h.SectionRef()
         if secRef.has_parent():
@@ -120,18 +118,28 @@ class Manager(object):
     def convert_vec_refs(self):
         """Convert all the vecRefs into the pickable"""
         pickable_vec_refs = []
-        for vecRef in self.vec_refs:
+        for vecRef in self.vecRefs:
             vecRef.convert_to_pickable()
             pickable_vec_refs.append(vecRef)
         return pickable_vec_refs
-            
 
+    def add_synVecRef(self, synVecRef):
+        """Add the synVecRef object to the inner list
+        
+        :param synVecRef: The synapse Vector Ref to add to the list.
+        """
+        self.synVecRefs.append(synVecRef)
+        
+            
 class VecRef(object):
-    """Basic class to associate one or more vectors with a section"""
+    """Basic class to associate one or more vectors with a section
+    """
     def __init__(self, sec):
-        """sec - The section which all the vectors belongs"""
-        # section
-        #self.sec = sec
+        """Constructor
+        
+        :param sec: The section which all the vectors belongs
+        
+        """
         self.sec_name = sec.name()
         self.pickable = False
         #Dict with all the vecs
@@ -140,10 +148,40 @@ class VecRef(object):
     
     def convert_to_pickable(self):
         """Convert the object into a pickable one:
-        - substitute the section with the section name
-        - substistitute the hocVectors with a numpy array"""
         
+        substistitute the hocVectors with a numpy array 
+        """
         self.pickable = True
         for key, vec in self.vecs.iteritems():
             self.vecs[key] = numpy.array(vec)
+            
+class SynVecRef(object):
+    """Class to track all the synapse quantity of interest"""
+    
+    def __init__(self, chan_type, section_name):
+        """Constructor
         
+        :param chan_type: The type of the synaptic channel (ampa, nmda,..)
+        :type chan_type: ``str``
+        :param section_name: The section name where the synapses is attached
+        :type section_name: ``str``
+        """
+        self.chan_type = chan_type
+        self.section_name = section_name
+        self.syn_vecs = {}
+        
+    def createVec(self, syn):
+        """Create the vector to measure the activity of the synapse
+        
+        :param syn -  The synapse to record
+        """
+        
+        # Record the stimuls
+        self.synVecs["stimul"] = h.Vector()
+        syn.netCon.record(synVecs["stimul"]) 
+        
+        # Record the current into the synaptic chan 
+        synVecs["i"] = h.Vector()
+        synVecs["i"].record(syn.chan._ref_i)        
+        # Record the weight
+        synVecs['weight'] = []
