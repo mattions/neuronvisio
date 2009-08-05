@@ -97,6 +97,17 @@ class Manager(object):
                 if vecRef.vecs.has_key(var):
                    return vecRef.vecs[var]
     
+    def sum_vector(self, vec1, vec2):
+        """Sums two vectors with the same length. The vector are 
+        converted in numpy array and then summed together 
+        
+        :param vec1: First addendum
+        :param vec2: Second addendum
+        
+        :return numpy_sum: The numpy array sum of the two.
+        """
+        return numpy.array(vec1) + numpy.array(vec2)
+    
     def get_vectors(self, section_list, var):
         """Return a dictionary containing the vector which record the var. The 
         section name is used as key.
