@@ -490,7 +490,7 @@ class Controls(threading.Thread):
            
         thread_for_timeline = TimelineHelper(self, var, start_value, 
                                             self.start_color, end_value, 
-                                            self.end_color, self.manager.vec_refs)
+                                            self.end_color, self.manager.vecRefs)
         thread_for_timeline.start()
         
     
