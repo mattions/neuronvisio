@@ -136,7 +136,8 @@ class Visio(object):
                 
                 self.draw_section(vecRef.sec, color=color)
         
-    def calculate_gradient(self, var_value, start_value, start_col, end_value, end_col):
+    def calculate_gradient(self, var_value, start_value, start_col, 
+                           end_value, end_col):
         """Calculate the color in a gradient given the start and the end
         
         params:
@@ -151,9 +152,9 @@ class Visio(object):
         # See more on this
         # http://lists.cairographics.org/archives/cairo/2008-September/014955.html
         
-        # Cast from str to int
-        start_value = int(start_value)
-        end_value = int(end_value)
+        # Cast from str to float
+        start_value = float(start_value)
+        end_value = float(end_value)
         
         #Get the scale
         
@@ -166,11 +167,11 @@ class Visio(object):
         else:
             indx = abs(abs(start_value) + var_value)
  
-#        print "Scale: %f, start_value: %f, var_value: %f, end_value: %f, indx: %f" %(scale,
-#                                                                           start_value,
-#                                                                           var_value,
-#                                                                           end_value,
-#                                                                           indx)
+        print "Scale: %f, start_value: %f, var_value: %f, end_value: %f, indx: %f" %(scale,
+                                                                           start_value,
+                                                                           var_value,
+                                                                           end_value,
+                                                                           indx)
 
         
         # Now on the color

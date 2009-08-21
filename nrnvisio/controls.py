@@ -347,7 +347,12 @@ class Controls(threading.Thread):
                             break # Out of the inner loop
             
             #plot it
-            #print vecs_to_plot, var
+            
+            # Check if in a new figure
+            new_figure = self.builder.get_object("new_figure")
+            if new_figure.get_active() is True:
+                pylab.figure()
+            
             pylab_win_manager = self.manager.plotVecs(vecs_to_plot, var, legend=True)
             pylab.show()
             pylab.draw()
@@ -541,21 +546,6 @@ class Controls(threading.Thread):
         b = gtk_color.blue / gtk_color_bit
 
         return [r,g,b]
-            
-#    def pylab_win(self, figure):
-#        """Create a pylab window with the provided figure"""
-#        
-#        win = gtk.Window()
-#        win.connect("destroy", lambda x: gtk.Widget.destroy)
-#        win.set_size_request(550, 350)
-#
-#        vbox = gtk.VBox()
-#        win.add(vbox)
-#       
-#        canvas = FigureCanvas(figure)  # a gtk.DrawingArea
-#        vbox.pack_start(canvas)
-#        win.show_all()
-#        self.pylab_wins.append(win)
         
 
 class TimelineHelper(threading.Thread):
