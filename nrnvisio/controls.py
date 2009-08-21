@@ -352,8 +352,11 @@ class Controls(threading.Thread):
             new_figure = self.builder.get_object("new_figure")
             if new_figure.get_active() is True:
                 pylab.figure()
-            
-            pylab_win_manager = self.manager.plotVecs(vecs_to_plot, var, legend=True)
+                
+            legend = self.builder.get_object("legend")
+            legend_status = legend.get_active() #return True if toggled.
+            pylab_win_manager = self.manager.plotVecs(vecs_to_plot, var, 
+                                                          legend=legend_status)
             pylab.show()
             pylab.draw()
 

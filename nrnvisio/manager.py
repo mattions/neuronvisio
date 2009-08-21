@@ -187,10 +187,9 @@ class Manager(object):
          
         for sec_name, vec in vecs_dic.iteritems():
             
+            pylab.plot(self.t, vec, label=sec_name)
             if legend:
-                pylab.plot(self.t, vec, label=sec_name)
-            else:
-                pylab.plot(self.t, vec)
+                pylab.legend()
 
         return pylab.get_current_fig_manager()
             
