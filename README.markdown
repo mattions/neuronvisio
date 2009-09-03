@@ -38,11 +38,11 @@ This code is just to give an idea in how to use nrnvisio module:
 
 1. fire up an ipython console with pylab switch.
 
-	ipython -pylab 	# If you don't use the switch you will not see any graph.
+	`ipython -pylab 	# If you don't use the switch you will not see any graph.`
     
 2. Import the module
 
-    import nrnvisio # importing the module
+    `import nrnvisio # importing the module`
     
 When nrnvisio is started the thread is launched. In this thread all the process of nrnvisio will happen without blocking the console.
 
