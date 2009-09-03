@@ -37,9 +37,8 @@ of examples are available from the examples folder.
 
 This code is just to give an idea in how to use nrnvisio module:
 
-1. fire up an ipython console with pylab switch[^1]
+1. fire up an ipython console with pylab switch. (The pylab switch is nedeed because neuronVisio use the pylab thread for the graphs.)
     ipython -pylab
-    [^1] The pylab switch is nedeed because neuronVisio use the pylab thread for the graphs.
     
 2. Import the module
     import nrnvisio         # importing the module
