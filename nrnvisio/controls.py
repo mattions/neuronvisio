@@ -302,6 +302,8 @@ class Controls(threading.Thread):
     def on_about_activate(self, widget, data=None):
         """About dialogue pop up"""
         about_dialog = self.builder.get_object("aboutdialog")
+        # Setting the version also here. Should be read somewhere.
+        about_dialog.set_version("0.3.3") 
         about_dialog.run()
         about_dialog.hide()
     
