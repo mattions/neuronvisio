@@ -5,6 +5,12 @@ title: NeuronVisio News
 
 # News
 
+##  NeuronVisio 0.3.22 - 3 Sep 2009
+
+- Integrated the pylab interface using the GTK backend provided by pylab.
+It is possible to zoom and navigate the graph with the pylab tools.
+- It is now possible to decide in which figure to plot, using the current figure selector.
+
 ## NeuronVisio 0.3.22 - 31 Jul 2009
 
 - Closed bug #10
