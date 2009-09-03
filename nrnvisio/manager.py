@@ -174,15 +174,23 @@ class Manager(object):
 
 
             
-    def plotVecs(self, vecs_dic, var, legend=True):
+    def plotVecs(self, vecs_dic, var, legend=True, figure_num=None):
         """Plot the vectors with pylab
         :param:
             vecs_dic - dictionary with section name as k and the vec obj 
             as value
             var - Which variable we are plotting. Used to put the unit in 
             the graph
-            legend - boolean. If True the legend is plotted"""
-        #figure = Figure(figsize=(5,4), dpi=100)
+            legend - boolean. If True the legend is plotted
+            figure_num - in which figure we want to plot"""
+        
+        
+        if figure_num is not None:
+            pylab.figure(figure_num)
+        else:
+            pylab.figure()
+            
+        
         ax  = pylab.subplot(111) # One subplot where to draw everything
          
         for sec_name, vec in vecs_dic.iteritems():
@@ -190,8 +198,6 @@ class Manager(object):
             pylab.plot(self.t, vec, label=sec_name)
             if legend:
                 pylab.legend()
-
-        return pylab.get_current_fig_manager()
             
 class VecRef(object):
     """Basic class to associate one or more vectors with a section

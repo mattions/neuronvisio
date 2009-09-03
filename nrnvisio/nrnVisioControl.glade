@@ -624,19 +624,18 @@
                           </packing>
                         </child>
                         <child>
-                          <placeholder/>
-                        </child>
-                        <child>
-                          <object class="GtkCheckButton" id="new_figure">
-                            <property name="label" translatable="yes">New figure</property>
+                          <object class="GtkSpinButton" id="fig_num_selector">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="receives_default">False</property>
-                            <property name="draw_indicator">True</property>
+                            <property name="tooltip_text" translatable="yes">Change to the figure's number where you want to plot.</property>
+                            <property name="invisible_char">&#x25CF;</property>
+                            <property name="adjustment">adjustment_fig_num</property>
+                            <property name="snap_to_ticks">True</property>
+                            <property name="numeric">True</property>
+                            <property name="wrap">True</property>
                           </object>
                           <packing>
-                            <property name="expand">False</property>
-                            <property name="position">2</property>
+                            <property name="position">1</property>
                           </packing>
                         </child>
                         <child>
@@ -649,7 +648,7 @@
                           </object>
                           <packing>
                             <property name="expand">False</property>
-                            <property name="position">3</property>
+                            <property name="position">2</property>
                           </packing>
                         </child>
                       </object>
@@ -1230,5 +1229,11 @@ along with NeuronVisio.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</prop
   </object>
   <object class="GtkTextBuffer" id="section_info_buffer">
     <property name="text" translatable="yes">No Section Selected</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment_fig_num">
+    <property name="upper">100</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+    <property name="page_size">10</property>
   </object>
 </interface>

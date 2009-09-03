@@ -348,17 +348,21 @@ class Controls(threading.Thread):
             
             #plot it
             
-            # Check if in a new figure
-            new_figure = self.builder.get_object("new_figure")
-            if new_figure.get_active() is True:
-                pylab.figure()
-                
+            # Check the legend
             legend = self.builder.get_object("legend")
             legend_status = legend.get_active() #return True if toggled.
-            pylab_win_manager = self.manager.plotVecs(vecs_to_plot, var, 
-                                                          legend=legend_status)
-            pylab.show()
+            
+            #Retrieve the fig selector
+            fig_num_selector = self.builder.get_object("fig_num_selector")
+            
+            # Retrieve the fig num
+            fig_num = fig_num_selector.get_value_as_int()
+            
+            self.manager.plotVecs(vecs_to_plot, var, legend=legend_status, 
+                                  figure_num=fig_num)
             pylab.draw()
+            # Set the last plotted figure as default.
+            fig_num_selector.set_value(fig_num)
 
     def on_init_clicked(self, widget):
         """Set the vm_init from the spin button and prepare the simulator"""
