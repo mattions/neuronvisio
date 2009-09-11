@@ -23,7 +23,6 @@ import threading
 import os
 import time
 
-import pylab
 import numpy
 from neuron import h
 
@@ -34,16 +33,15 @@ try:
     import cairo
     import gobject
     from matplotlib.backends.backend_gtkagg import FigureCanvasGTKAgg as FigureCanvas
+    import pylab
+    # We start the threads here
+    gobject.threads_init()
 except:
     print "No GTK available. Batch execution"
 #from matplotlib.backends.backend_gtkcairo import FigureCanvasGTKCairo as FigureCanvas
 
 import visio
 import manager
-
-# We start the threads here
-
-gobject.threads_init()
 
 class Controls(threading.Thread):
     """Main GTK control window. create a control object and start with

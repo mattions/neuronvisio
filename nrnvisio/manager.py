@@ -21,7 +21,7 @@
 from neuron import h
 import numpy
 import matplotlib
-import pylab
+import matplotlib.pyplot as plt
 
 
 class Manager(object):
@@ -179,7 +179,7 @@ class Manager(object):
 
             
     def plotVecs(self, vecs_dic, var, legend=True, figure_num=None):
-        """Plot the vectors with pylab
+        """Plot the vectors with plt
         :param:
             vecs_dic - dictionary with section name as k and the vec obj 
             as value
@@ -190,18 +190,18 @@ class Manager(object):
         
         
         if figure_num is not None:
-            pylab.figure(figure_num)
+            plt.figure(figure_num)
         else:
-            pylab.figure()
+            plt.figure()
             
         
-        ax  = pylab.subplot(111) # One subplot where to draw everything
+        ax  = plt.subplot(111) # One subplot where to draw everything
          
         for sec_name, vec in vecs_dic.iteritems():
             
-            pylab.plot(self.t, vec, label=sec_name)
+            plt.plot(self.t, vec, label=sec_name)
             if legend:
-                pylab.legend()
+                plt.legend()
             
 class VecRef(object):
     """Basic class to associate one or more vectors with a section
