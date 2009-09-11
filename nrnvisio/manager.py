@@ -74,13 +74,18 @@ class Manager(object):
                 # Creating the vector
                 vec = h.Vector()
                 varRef = '_ref_' + var
-                vec.record(getattr(sec(0.5), varRef))
-                
-                # Adding to the list
-                vecRef = VecRef(sec)
-                vecRef.vecs[var] = vec
-                self.vecRefs.append(vecRef)
-                success = True
+                try:
+                    vec.record(getattr(sec(0.5), varRef))
+                except NameError:
+                    print "The variable %s is not present in the section %s" \
+                    % (varRef, sec.name())
+                    success = False
+                else:                                
+                    # Adding to the list
+                    vecRef = VecRef(sec)
+                    vecRef.vecs[var] = vec
+                    self.vecRefs.append(vecRef)
+                    success = True
         
         return success
     
@@ -163,14 +168,13 @@ class Manager(object):
             pickable_vec_refs.append(vecRef)
         return pickable_vec_refs
 
-    def add_synVecRef(self, synVecRef):
-        """Add the synVecRef object to the inner list
+    def add_synVecRef(self, synapse):
+        """Add the synVecRef object to the list
         
-        :param synVecRef: The synapse Vector Ref to add to the list.
+        :param synapse: The synapse to record.
         """
+        synVecRef = SynVecRef(synapse)
         self.synVecRefs.append(synVecRef)
-    
-    #### Pylab stuff. Maybe another class?
 
 
             
@@ -229,30 +233,11 @@ class VecRef(object):
 class SynVecRef(object):
     """Class to track all the synapse quantity of interest"""
     
-    def __init__(self, chan_type, section_name):
+    def __init__(self, syn):
         """Constructor
         
-        :param chan_type: The type of the synaptic channel (ampa, nmda,..)
-        :type chan_type: ``str``
-        :param section_name: The section name where the synapses is attached
-        :type section_name: ``str``
+        :param syn - The synapse to record
         """
-        self.chan_type = chan_type
-        self.section_name = section_name
-        self.syn_vecs = {}
-        
-    def createVec(self, syn):
-        """Create the vector to measure the activity of the synapse
-        
-        :param syn -  The synapse to record
-        """
-        
-        # Record the stimuls
-        self.synVecs["stimul"] = h.Vector()
-        syn.netCon.record(synVecs["stimul"]) 
-        
-        # Record the current into the synaptic chan 
-        synVecs["i"] = h.Vector()
-        synVecs["i"].record(syn.chan._ref_i)        
-        # Record the weight
-        synVecs['weight'] = []
+        self.chan_type = syn.chan_type
+        self.section_name = syn.section.name()
+        self.syn_vecs = syn.syn_vecs
