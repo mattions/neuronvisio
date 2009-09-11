@@ -19,11 +19,7 @@
 """
 
 import sys
-import gtk
-import gtk.glade
-import cairo
 import threading
-import gobject
 import os
 import time
 
@@ -33,6 +29,10 @@ from neuron import h
 
 # uncomment to select /GTK/GTKAgg/GTKCairo
 try:
+    import gtk
+    import gtk.glade
+    import cairo
+    import gobject
     from matplotlib.backends.backend_gtkagg import FigureCanvasGTKAgg as FigureCanvas
 except:
     print "No GTK available. Batch execution"
