@@ -19,10 +19,15 @@
 """
 
 from __future__ import division # to have the floating point properly managed
-import visual
+
 import threading
-import gtk
-import gobject
+try:
+    import gtk
+    import gobject
+    import visual
+except:
+    pass
+    #No printing here.
 from neuron import h
 
 

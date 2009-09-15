@@ -36,12 +36,13 @@ try:
     import pylab
     # We start the threads here
     gobject.threads_init()
+    import visio
+    import manager
 except:
     print "No GTK available. Batch execution"
 #from matplotlib.backends.backend_gtkcairo import FigureCanvasGTKCairo as FigureCanvas
 
-import visio
-import manager
+
 
 class Controls(threading.Thread):
     """Main GTK control window. create a control object and start with

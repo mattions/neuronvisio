@@ -20,7 +20,13 @@
 
 from neuron import h
 import numpy
+import os
 import matplotlib
+
+# Checking the variable DISPLAY to decide the backend
+if not os.environ.has_key("DISPLAY"):
+    matplotlib.use('Agg')
+    
 import matplotlib.pyplot as plt
 
 

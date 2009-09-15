@@ -13,8 +13,10 @@ DOI 10.3389/neuro.11/001.2009
 from itertools import chain
 
 # Importing NeuronVisio
-import nrnvisio
-controls = nrnvisio.Controls()
+# Importing the NeuronVisio
+from nrnvisio.controls import Controls
+controls = Controls()
+
 # Importing the hoc interpreter
 from neuron import h
 
