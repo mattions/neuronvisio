@@ -132,7 +132,7 @@ class Visio(object):
         for vecRef in vecRefs:
             if vecRef.vecs.has_key(var):
                 vec = vecRef.vecs[var]
-                var_value = vec.x[time_point]
+                var_value = vec[time_point]
                 
                 ## Use it to retrieve the value from the gradient with the index 
                 color = self.calculate_gradient(var_value, start_value, 

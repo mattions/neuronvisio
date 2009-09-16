@@ -258,7 +258,7 @@ class Controls(threading.Thread):
                     all_created_dial.run()
                     all_created_dial.hide()
                 else:
-                    self._update_tree_view()
+                    self.update_tree_view()
         
     def update(self):
         """Update the GUI spinbuttons only if the user is not using them 
@@ -289,7 +289,7 @@ class Controls(threading.Thread):
         
             
                     
-    def _update_tree_view(self):
+    def update_tree_view(self):
         # Fill the treeview wit all the vectors created
         #Clear all the row
         self.treestore.clear()
@@ -448,13 +448,13 @@ class Controls(threading.Thread):
             no_vector.run()
             no_vector.hide()
             #print "You didn't create any vector"
-        elif self.manager.t.size() == 0:
+        elif len (self.manager.t) == 0:
             no_simulation = self.builder.get_object("no_simulation")
             no_simulation.run()
             no_simulation.hide()
             #print "You should run the simulation first"
         else:
-            timeline.set_range(0, self.manager.t.size() - 1)
+            timeline.set_range(0, len (self.manager.t))
             #timeline.set_increments(1, 10) #minimal increment equal to dt    
             animation_win.show_all()
             
@@ -478,7 +478,7 @@ class Controls(threading.Thread):
         
         #Update the label on the scale
         animation_time_label = self.builder.get_object("animation_time")
-        time = self.manager.t.x[time_point_indx]
+        time = self.manager.t[time_point_indx]
         animation_time_label.set_text(str(time))
         
         
@@ -557,6 +557,27 @@ class Controls(threading.Thread):
         b = gtk_color.blue / gtk_color_bit
 
         return [r,g,b]
+    
+    def read_only(self, storage):
+        """Function used to inspect the results of a simulation"""
+        # convert sto into manager
+    
+        self.manager.t = storage.t
+        # Attach the section to the proper vecRefs
+        for sec in h.allsec():
+            for vecRef in storage.vecRefs:
+                if sec.name() == vecRef.sec_name:
+                    vecRef.sec = sec
+                    
+        self.manager.vecRefs = storage.vecRefs
+        self.manager.synVecRefs = storage.synVecRefs
+        
+        # Gray out stuff we can't use
+        btns = ["createVector", "init", "run_sim"]
+        for name in btns:
+            btn = self.builder.get_object(name)
+            btn.set_sensitive(False)
+        self.update_tree_view()
         
 
 class TimelineHelper(threading.Thread):
