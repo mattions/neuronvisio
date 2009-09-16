@@ -478,6 +478,8 @@ class Controls(threading.Thread):
         
         #Update the label on the scale
         animation_time_label = self.builder.get_object("animation_time")
+        if len (self.manager.t) == time_point_indx:
+            time_point_indx = time_point_indx - 1 # Avoid to go out of scale
         time = self.manager.t[time_point_indx]
         animation_time_label.set_text(str(time))
         
