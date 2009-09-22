@@ -162,38 +162,24 @@ class Visio(object):
         end_value = float(end_value)
         
         #Get the scale
-        
         scale = abs(start_value) + abs(end_value)
         
         # To calc the indx we need concord signs
-        indx = 0
         if var_value < 0:
             indx = abs(start_value - var_value)
+            offset = indx * 1 / end_value
         else:
             indx = abs(abs(start_value) + var_value)
+            offset = indx * 1 / end_value 
  
-        print "Scale: %f, start_value: %f, var_value: %f, end_value: %f, indx: %f" %(scale,
-                                                                           start_value,
-                                                                           var_value,
-                                                                           end_value,
-                                                                           indx)
-
-        
-        # Now on the color
-        (hue1, s1, v1) = visual.color.rgb_to_hsv(start_col)
-        (hue2, s2, v2) = visual.color.rgb_to_hsv(end_col)
-        
-        scale_color = hue1 + hue2
-        # scale : scale_color = indx : indx_col
-        indx_col = (scale_color * indx)/scale
-        hue = indx_col
-        
-
+#        print "Scale: %f, start_value: %f, var_value: %f, end_value: %f, indx: %f \
+#        offset %f" %(scale, start_value, var_value, end_value, indx, offset)
+        col = [0, 0, 0]
+        for i, primary in enumerate(col):
+            col[i] = (end_col[i] - start_col[i]) * offset + start_col[i] 
                                                                            
-#        print "Scale color: %f, hue1: %f, hue2: %f, hue: %f" %(scale_color, hue1, hue2, hue)
-        
-        color = visual.color.hsv_to_rgb((hue, s1,v1)) # Saturation and Value are the same
-        return color 
+#        print "Calculated color %s" % col
+        return col
                 
     def findSecs(self, secList, secName):
         """Find a section with a given Name in a List of Section"""
