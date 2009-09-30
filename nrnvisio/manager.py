@@ -167,13 +167,32 @@ class Manager(object):
         return tree
     
     def convert_vec_refs(self):
-        """Convert all the vecRefs into the pickable"""
+        """Convert all the vecRefs into the pickable
+        substistitute the hocVectors with a numpy array
+        Set to None the ref for the section. 
+        """
+        
         pickable_vec_refs = []
         for vecRef in self.vecRefs:
-            vecRef.convert_to_pickable()
+            vecRef.pickable = True
+            vecRef.sec = None
+            for key, vec in vecRef.vecs.iteritems():
+                vecRef.vecs[key] = numpy.array(vec)
             pickable_vec_refs.append(vecRef)
         return pickable_vec_refs
 
+    
+    def convert_syn_vec_refs(self):
+        """Convert the synVecRef into pickable changing the hocVector with 
+        a numpy array"""
+        pickable_synVecRefs = []
+        for synVecRef in self.synVecRefs:
+            for key, vec in synVecRef.syn_vecs.iteritems():
+                synVecRef.syn_vecs[key] = numpy.array(vec)
+                
+            pickable_synVecRefs.append(synVecRef)
+        return pickable_synVecRefs
+    
     def add_synVecRef(self, synapse):
         """Add the synVecRef object to the list
         
@@ -181,7 +200,6 @@ class Manager(object):
         """
         synVecRef = SynVecRef(synapse)
         self.synVecRefs.append(synVecRef)
-
 
             
     def plotVecs(self, vecs_dic, var, legend=True, figure_num=None):
@@ -224,17 +242,7 @@ class VecRef(object):
         #Dict with all the vecs
         # Key: var Value: Hoc.Vector
         self.vecs = {}
-    
-    def convert_to_pickable(self):
-        """Convert the object into a pickable one:
         
-        substistitute the hocVectors with a numpy array
-        Set to None the ref for the section. 
-        """
-        self.pickable = True
-        self.sec = None
-        for key, vec in self.vecs.iteritems():
-            self.vecs[key] = numpy.array(vec)
             
 class SynVecRef(object):
     """Class to track all the synapse quantity of interest"""
@@ -245,5 +253,7 @@ class SynVecRef(object):
         :param syn - The synapse to record
         """
         self.chan_type = syn.chan_type
+        print "Creating synVec: syn type %s, synvec type %s" %(syn.chan_type,
+                                                               self.chan_type)
         self.section_name = syn.section.name()
         self.syn_vecs = syn.syn_vecs
