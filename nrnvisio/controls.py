@@ -61,6 +61,10 @@ class Controls(threading.Thread):
         self.builder.connect_signals(self)
         self.window = self.builder.get_object("window")
         self.treestore = self.builder.get_object("treestore")
+        # multiple selection
+        treeview = self.builder.get_object("treeview")
+        treeview.get_selection().set_mode(gtk.SELECTION_MULTIPLE)
+        
         self.sectionCol = 0 # Defined in Glade 
         self.visio = visio.Visio()
         
@@ -338,18 +342,14 @@ class Controls(threading.Thread):
                 else:
                     # Retrieve the correct vecRef
                     sectionName = treestore.get_value(parent, self.sectionCol)
-                    #print sectionName
-                    # get the vecRef
                     
                     for vecRef in self.manager.vecRefs:
                         
                         if vecRef.sec_name == sectionName:
                             # get the vec
                             vec = vecRef.vecs[var]
-                            
-                            vecs_to_plot[sectionName] = vec  
-                            break # Out of the inner loop
-            
+                            key = sectionName + "_" + var
+                            vecs_to_plot[key] = vec
             #plot it
             
             # Check the legend
@@ -362,7 +362,7 @@ class Controls(threading.Thread):
             # Retrieve the fig num
             fig_num = fig_num_selector.get_value_as_int()
             
-            self.manager.plotVecs(vecs_to_plot, var, legend=legend_status, 
+            self.manager.plotVecs(vecs_to_plot, legend=legend_status, 
                                   figure_num=fig_num)
             pylab.draw()
             # Set the last plotted figure as default.

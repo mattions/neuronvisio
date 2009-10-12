@@ -202,7 +202,7 @@ class Manager(object):
         self.synVecRefs.append(synVecRef)
 
             
-    def plotVecs(self, vecs_dic, var, legend=True, figure_num=None):
+    def plotVecs(self, vecs_dic,legend=True, figure_num=None):
         """Plot the vectors with plt
         :param:
             vecs_dic - dictionary with section name as k and the vec obj 
@@ -221,9 +221,9 @@ class Manager(object):
         
         ax  = plt.subplot(111) # One subplot where to draw everything
          
-        for sec_name, vec in vecs_dic.iteritems():
+        for key, vec in vecs_dic.iteritems():
             
-            plt.plot(self.t, vec, label=sec_name)
+            plt.plot(self.t, vec, label=key)
             if legend:
                 plt.legend()
             
