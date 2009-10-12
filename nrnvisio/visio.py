@@ -117,6 +117,7 @@ class Visio(object):
             self.sec2cyl[sec.name()] = cyl #Name for Hoc compability
             self.cyl2sec[cyl] = sec    
         else:
+            
             cyl = self.sec2cyl[sec.name()]
             
         cyl.color = color
@@ -138,8 +139,18 @@ class Visio(object):
                 color = self.calculate_gradient(var_value, start_value, 
                                                 start_col, end_value, 
                                                 end_col)
-                
                 self.draw_section(vecRef.sec, color=color)
+    
+    
+    def calc_offset(self, start_v, end_v, v):
+        """Calculate the offset for the cairo gradient 
+        according to the input variable"""
+        
+        range = abs(start_v - end_v)
+        delta = abs(start_v - v)
+        # range : delta = 1 : offset
+        offset = delta/range
+        return offset
         
     def calculate_gradient(self, var_value, start_value, start_col, 
                            end_value, end_col):
@@ -156,24 +167,13 @@ class Visio(object):
         # Has to be implemented by hand.
         # See more on this
         # http://lists.cairographics.org/archives/cairo/2008-September/014955.html
-        
-        # Cast from str to float
         start_value = float(start_value)
         end_value = float(end_value)
-        
-        #Get the scale
-        scale = abs(start_value) + abs(end_value)
-        
-        # To calc the indx we need concord signs
-        if var_value < 0:
-            indx = abs(start_value - var_value)
-            offset = indx * 1 / end_value
-        else:
-            indx = abs(abs(start_value) + var_value)
-            offset = indx * 1 / end_value 
+        var_value = float(var_value)
+        offset = self.calc_offset(start_value, end_value, var_value)
  
-#        print "Scale: %f, start_value: %f, var_value: %f, end_value: %f, indx: %f \
-#        offset %f" %(scale, start_value, var_value, end_value, indx, offset)
+#        print "Start_value: %f, var_value: %f, end_value: %f, offset \
+#        %f" %(start_value, var_value, end_value, offset)
         col = [0, 0, 0]
         for i, primary in enumerate(col):
             col[i] = (end_col[i] - start_col[i]) * offset + start_col[i] 
