@@ -67,6 +67,7 @@ class Controls(threading.Thread):
         
         self.sectionCol = 0 # Defined in Glade 
         self.visio = visio.Visio()
+        self.set_colors()
         
         self.manager = manager.Manager()
         
@@ -123,12 +124,13 @@ class Controls(threading.Thread):
         self.visio.scene.mouse.events = 0 # Discard all the previous event
         self.visio.drag_model()
         
-    def on_draw_clicked(self, widget, data=None):
-        """Draw the whole model"""
-        # get the color
+    
+    def set_colors(self):
+        """Set the colors in the visio module"""
         back_col_btn = self.builder.get_object("background_button")
         back_col = back_col_btn.get_color()
         self.visio.background_color = self._scale_rgb(back_col)
+        self.visio.scene.background = self.visio.background_color
         
         default_section_btn = self.builder.get_object("section_button")
         default_col = default_section_btn.get_color()
@@ -137,7 +139,12 @@ class Controls(threading.Thread):
         selected_section_btn = self.builder.get_object("selected_section_button")
         selected_col = selected_section_btn.get_color()
         self.visio.selected_section_color = self._scale_rgb(selected_col)
-        
+    
+    def on_draw_clicked(self, widget, data=None):
+        """Draw the whole model"""
+        # 
+        self.set_colors()
+               
         if self.visio.draw_model(self) == True:
             self.update_visio_buttons()
         else:

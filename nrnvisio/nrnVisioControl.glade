@@ -253,7 +253,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
-                                <property name="color">#000000000000</property>
+                                <property name="color">#ffffffffffff</property>
                                 <signal name="color_set" handler="on_background_button_color_set"/>
                               </object>
                               <packing>
@@ -268,7 +268,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
-                                <property name="color">#cccccccccccc</property>
+                                <property name="color">#737373737373</property>
                                 <signal name="color_set" handler="on_section_button_color_set"/>
                               </object>
                               <packing>
