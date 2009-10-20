@@ -253,7 +253,7 @@ class SynVecRef(object):
         :param syn - The synapse to record
         """
         self.chan_type = syn.chan_type
-        print "Creating synVec: syn type %s, synvec type %s" %(syn.chan_type,
-                                                               self.chan_type)
+#        print "Creating synVec: syn type %s, synvec type %s" %(syn.chan_type,
+#                                                               self.chan_type)
         self.section_name = syn.section.name()
         self.syn_vecs = syn.syn_vecs
