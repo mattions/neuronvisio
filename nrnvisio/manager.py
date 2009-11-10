@@ -1,21 +1,25 @@
+# * Copyright (C) Thu Jul  9 11:08:09 BST 2009 - Michele Mattioni:
+# *  
+# * This file is part of NeuronVisio
+# * 
+# * NeuronVisio is free software: you can redistribute it and/or modify
+# * it under the terms of the GNU General Public License as published by
+# * the Free Software Foundation, either version 3 of the License, or
+# * (at your option) any later version.
+#
+# * NeuronVisio is distributed in the hope that it will be useful,
+# * but WITHOUT ANY WARRANTY; without even the implied warranty of
+# * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# * GNU General Public License for more details.
+#
+# * You should have received a copy of the GNU General Public License
+# * along with NeuronVisio.  If not, see <http://www.gnu.org/licenses/>.
+
 """
- * Copyright (C) Thu Jul  9 11:08:09 BST 2009 - Michele Mattioni:
- *  
- * This file is part of NeuronVisio
- * 
- * NeuronVisio is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+:synopsis: Manage the map between vectors and sections
 
- * NeuronVisio is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
-
- * You should have received a copy of the GNU General Public License
- * along with NeuronVisio.  If not, see <http://www.gnu.org/licenses/>.
-
+The :class:`VecRef` and the :class:`SynVecRef` are managed, created and modified 
+by the :class:`Manager`.  
 """
 
 from neuron import h
@@ -31,7 +35,8 @@ import matplotlib.pyplot as plt
 
 
 class Manager(object):
-    """The Manager class is used to manage all the vecRef, to create them 
+    """
+    The Manager class is used to manage all the vecRef, to create them 
     and retrieve the information
     """
 
@@ -46,13 +51,11 @@ class Manager(object):
         
     def add_vecRef(self, var, sec):
         """Add the vecRef to the vec_res list. It takes care to create the vector 
-        and record the given variable
-                
-        :params: 
-        var - The variable to record
-        sec - The section where to record
+        and record the given variable.
         
-        return True if the vector is created successfully."""
+        :param var: The variable to record
+        :param sec: The section where to record
+        :return: True if the vector is created successfully."""
         
         if self.t is None: # Create the time vector if not already there
             self.t = h.Vector()
@@ -98,11 +101,10 @@ class Manager(object):
     def get_vector(self, sec, var):
         """Return the vec that record the var in a given section
         
-        param: 
-            sec - Section of interest
-            var - variable recorded by the vector.
-            
-            return - the vector that record the variable var"""
+        :param sec: Section of interest
+        :param var: variable recorded by the vector.
+        :return: the vector that record the variable var"""
+        
         for vecRef in self.vecRefs:
             if vecRef.sec_name == sec.name():
                 if vecRef.vecs.has_key(var):
@@ -114,18 +116,19 @@ class Manager(object):
         
         :param vec1: First addendum
         :param vec2: Second addendum
-        
-        :return numpy_sum: The numpy array sum of the two.
+        :return: The numpy array sum of the two.
+        :rtype: Numpy array
         """
         return numpy.array(vec1) + numpy.array(vec2)
     
     def get_vectors(self, section_list, var):
         """Return a dictionary containing the vector which record the var. The 
         section name is used as key.
+        
         :param section_list: The list of the section which is interested
         :param var: The variable of interest
-        
         :return: The dictionary with section name as key and the vector as the value
+        :rtype: dictionary
         """
         vecs = {}
         for sec in section_list:
@@ -135,7 +138,9 @@ class Manager(object):
             
     def add_all_vecRef(self, var):
         """Create the vector for all the section present in the model 
-        with the given variable"""
+        with the given variable
+        :param var: The variable to record"""
+        
         done = False
         responses = []
         for sec in h.allsec():
@@ -149,7 +154,11 @@ class Manager(object):
     
     def get_tree(self, sec):
         """Return the minimal tree of section 
-        Using the given section as the last leave"""
+        Using the given section as the last leaf
+        
+        :param sec: The section that will be used as the last leaf
+        :return: The section's tree in a list format"""
+        
         tree = []
         tree.append(sec)
         tree = self.__get_parent(sec, tree)
@@ -169,7 +178,7 @@ class Manager(object):
     def convert_vec_refs(self):
         """Convert all the vecRefs into the pickable
         substistitute the hocVectors with a numpy array
-        Set to None the ref for the section. 
+        Set to None the ref for the section.
         """
         
         pickable_vec_refs = []
@@ -204,13 +213,12 @@ class Manager(object):
             
     def plotVecs(self, vecs_dic,legend=True, figure_num=None):
         """Plot the vectors with plt
-        :param:
-            vecs_dic - dictionary with section name as k and the vec obj 
-            as value
-            var - Which variable we are plotting. Used to put the unit in 
-            the graph
-            legend - boolean. If True the legend is plotted
-            figure_num - in which figure we want to plot"""
+        
+        :param vecs_dic: dictionary with section name as k and the vec obj as value
+        :param var: Which variable we are plotting.
+        :param legend:  If True the legend is plotted
+        :param figure_num: in which figure we want to plot the line
+        """
         
         
         if figure_num is not None:
@@ -231,7 +239,8 @@ class VecRef(object):
     """Basic class to associate one or more vectors with a section
     """
     def __init__(self, sec):
-        """Constructor
+        """Create a vecRef object which map the section name and the 
+        recorded vectors.
         
         :param sec: The section which all the vectors belongs
         
@@ -248,9 +257,10 @@ class SynVecRef(object):
     """Class to track all the synapse quantity of interest"""
     
     def __init__(self, syn):
-        """Constructor
+        """Create a synVecRef object which map the synapse positiona and name 
+        and the recorded vectors in it.
         
-        :param syn - The synapse to record
+        :param syn: The synapse to map
         """
         self.chan_type = syn.chan_type
 #        print "Creating synVec: syn type %s, synvec type %s" %(syn.chan_type,

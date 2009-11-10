@@ -1,21 +1,24 @@
+# * Copyright (C) Thu May 21 11:46:55 BST 2009 - Michele Mattioni:
+# *  
+# * This file is part of NeuronVisio
+# * 
+# * NeuronVisio is free software: you can redistribute it and/or modify
+# * it under the terms of the GNU General Public License as published by
+# * the Free Software Foundation, either version 3 of the License, or
+# * (at your option) any later version.
+#
+# * NeuronVisio is distributed in the hope that it will be useful,
+# * but WITHOUT ANY WARRANTY; without even the implied warranty of
+# * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# * GNU General Public License for more details.
+#
+# * You should have received a copy of the GNU General Public License
+# * along with NeuronVisio.  If not, see <http://www.gnu.org/licenses/>.
+
 """
- * Copyright (C) Thu May 21 11:46:55 BST 2009 - Michele Mattioni:
- *  
- * This file is part of NeuronVisio
- * 
- * NeuronVisio is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+:synopsis: 3D Visual operations
 
- * NeuronVisio is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
-
- * You should have received a copy of the GNU General Public License
- * along with NeuronVisio.  If not, see <http://www.gnu.org/licenses/>.
-
+Contain all the 3D operations.
 """
 
 from __future__ import division # to have the floating point properly managed
@@ -95,12 +98,11 @@ class Visio(object):
         
     
     def draw_section(self, sec, color):
-        """Draw the section with the optional color
+        """Draw the section with the optional color 
         and add it to the dictionary cyl2sec
         
-        :params:
-            sec - Section to draw
-            color - tuple for the color in RGB value. i.e.: (0,0,1) blue"""
+        :param sec: Section to draw
+        :param color: tuple for the color in RGB value. i.e.: (0,0,1) blue"""
         
         # If we already draw the model we don't have to get the coords anymore.
         cyl = None     
@@ -127,8 +129,7 @@ class Visio(object):
         """Show an animation of all the section that have 
         the recorded variable among time
         
-        :params:
-            var - the variable to show"""
+        :param var: the variable to show"""
         
         for vecRef in vecRefs:
             if vecRef.vecs.has_key(var):

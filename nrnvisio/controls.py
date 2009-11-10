@@ -1,21 +1,24 @@
+# * Copyright (C) Thu May 28 00:58:29 BST 2009 - Michele Mattioni:
+# *  
+# * This file is part of NeuronVisio
+# * 
+# * NeuronVisio is free software: you can redistribute it and/or modify
+# * it under the terms of the GNU General Public License as published by
+# * the Free Software Foundation, either version 3 of the License, or
+# * (at your option) any later version.
+#
+# * NeuronVisio is distributed in the hope that it will be useful,
+# * but WITHOUT ANY WARRANTY; without even the implied warranty of
+# * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# * GNU General Public License for more details.
+#
+# * You should have received a copy of the GNU General Public License
+# * along with NeuronVisio.  If not, see <http://www.gnu.org/licenses/>.
+
 """
- * Copyright (C) Thu May 28 00:58:29 BST 2009 - Michele Mattioni:
- *  
- * This file is part of NeuronVisio
- * 
- * NeuronVisio is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+:synopsis: Gtk UI module
 
- * NeuronVisio is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
-
- * You should have received a copy of the GNU General Public License
- * along with NeuronVisio.  If not, see <http://www.gnu.org/licenses/>.
-
+GTK2 class and helper thread
 """
 
 import sys
