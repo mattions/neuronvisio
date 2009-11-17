@@ -15,10 +15,9 @@
 # * You should have received a copy of the GNU General Public License
 # * along with NeuronVisio.  If not, see <http://www.gnu.org/licenses/>.
 
-"""
-:synopsis: Gtk UI module
+""":synopsis: Gtk UI module
 
-GTK2 class and helper thread
+GTK2 class and helpers' thread
 """
 
 import sys
