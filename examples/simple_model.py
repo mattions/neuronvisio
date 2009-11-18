@@ -1,7 +1,7 @@
 # This example comes with NeuronVisio.
 
 # Importing the NeuronVisio
-from nrnvisio.controls import Controls
+from neuronvisio.controls import Controls
 controls = Controls()
 # Importing hoc interpreter
 from neuron import h
