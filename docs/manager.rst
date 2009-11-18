@@ -2,7 +2,7 @@
 =======================================================================
 
    
-.. automodule:: nrnvisio.manager
+.. automodule:: neuronvisio.manager
 
 :class:`Manager`
 ----------------
