@@ -20,7 +20,7 @@ copyright = '2009, Michele Mattioni'
 # Extension
 extensions = ['sphinx.ext.autodoc', 'sphinx.ext.intersphinx', 'sphinx.ext.todo', 
 'sphinx.ext.coverage', 'sphinx.ext.pngmath', 'sphinx.ext.ifconfig', 
-'sphinx.ext.autosummary']
+'sphinx.ext.autosummary', 'github.tools.sphinx']
 
 intersphinx_mapping = {'http://docs.python.org/': None}
 htmlhelp_basename = 'NeuronVisiodoc'

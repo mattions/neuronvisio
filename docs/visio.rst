@@ -1,4 +1,4 @@
-:mod:`nrnvisio.visio` -- 3D Visual operations
+:mod:`neuronvisio.visio` -- 3D Visual operations
 =============================================
 
 .. automodule:: neuronvisio.visio

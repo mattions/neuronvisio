@@ -1,4 +1,4 @@
-:mod:`nrnvisio.controls` -- Gtk UI module
+:mod:`neuronvisio.controls` -- Gtk UI module
 =========================================
 
 .. automodule:: neuronvisio.controls

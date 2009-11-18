@@ -62,14 +62,14 @@ Description: NeuronVisio
         
         This code is just to give an idea in how to use nrnvisio module:
         
-        1. fire up an ipython console with pylab switch.
+        1. fire up an ipython console with pylab switch.::
         
-        `ipython -pylab 	# If you don't use the switch you will not see any graph.`
+        ipython -pylab 	# If you don't use the switch you will not see any graph.
         
-        2. Import the module
+        2. Import the module::
         
-        `from nrnvisio.controls import Controls
-        controls = Controls()`
+        from neuronvisio.controls import Controls
+        controls = Controls()
         
         When nrnvisio is started the thread is launched. In this thread all the process of
         nrnvisio will happen without blocking the console.
@@ -80,7 +80,7 @@ Description: NeuronVisio
         2. Insert an Hodgkey-Huxley channel and a passive conductance
         3. Insert an alphaSynapse to provide a stimul.
         
-        A quick example can be the following:
+        A quick example can be the following:::
         
         from nrnvisio.controls import Controls
         controls = Controls() # Starting the GUI
@@ -97,6 +97,21 @@ Description: NeuronVisio
         
         More example in the example directory show how to use Neuronvisio with more
         complex model.
+        
+        
+        
+        Quick overview
+        ==============
+        
+        Quick overview of the 3D capabilites. More [screenshots available](screenshots.html).
+        
+        <a href="images/neuronWithSpines.png"><img src="images/neuronWithSpines_thumbnail.png"
+        width="388" height="257" border="0" name="Neuron with Spines" alt="Neuron with Spines"></a>
+        
+        <a href="images/spines_detailed.png"><img src="images/spines_detailed_thumbnail.png" width="251"
+        height="166" border="0" name="Spines details" alt="Spines details"></a>
+        
+        
         
         
         Contacts

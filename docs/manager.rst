@@ -1,4 +1,4 @@
-:mod:`nrnvisio.manager` -- Manage the map between vectors and sections
+:mod:`neuronvisio.manager` -- Manage the map between vectors and sections
 =======================================================================
 
    

@@ -5,15 +5,18 @@ Welcome to NeuronVisio's documentation!
 
 .. include:: ../README.rst
 
-Contents:
+Contents
+========
 
 .. toctree::
     :maxdepth: 2
-   
+    
+    
     gettingstarted
     manager
     visio
     controls
+    changes
    
 
 Indices and tables
