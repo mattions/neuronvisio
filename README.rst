@@ -1,11 +1,15 @@
-# NeuronVisio 
+NeuronVisio
+===========
 
-## What is it
+What is it
+----------
 
-NeuronVisio is a GTK2 user interface for NEURON simulator <http://www.neuron.yale.edu/neuron/>. 
+NeuronVisio is a GTK2 user interface for `NEURON simulator enviroment 
+<http://www.neuron.yale.edu/neuron/>`_. 
 NeuronVisio connect with NEURON using the new python NEURON interface.
 
-## Features
+Features
+--------
 
 - 3D visualization of the model with the possibility to change it runtime
 - Creation of vectors to record any variables present in the section 
@@ -13,26 +17,40 @@ NeuronVisio connect with NEURON using the new python NEURON interface.
 - Exploration of the timecourse of any variable among time using a color coded scale
 - the GUI runs in its own thread so it's possible to use the console (strongly suggested ipython)
 
-## Install
+
+Installation
+============
 
 To install NeuronVisio you need to satisfy the following dependencies
-
-### Dependences:
 
 - pygtk <http://www.pygtk.org/>
 - visual <http://vpython.org/>
 - matplotlib <http://matplotlib.sourceforge.net/>
 
-then extract the archive and from the directory write
+Easy Install
+------------
 
-    python setup.py install
-    
-## Documentation
+The easiest way to get neuronvisio is if you have setuptools_ installed::
 
-The documentation is available [online](http://mattions.github.com/neuronvisio/docs.html) and a series 
-of examples are available from the examples folder.  
+	easy_install neuronvisio
 
-### Quickstart
+Without setuptools, it's still pretty easy. Download the neuronvisio.tgz file from 
+`neuronvisio's Cheeseshop page`_, untar it and run::
+
+	python setup.py install
+
+.. _neuronvisio's Cheeseshop page: http://pypi.python.org/pypi/neuronvisio/
+.. _setuptools: http://peak.telecommunity.com/DevCenter/EasyInstall
+
+Documentation
+=============
+
+The documentation is available in the doc folder or online_.
+
+.. _online: http://mattions.github.com/neuronvisio
+
+Quickstart
+==========
 
 This code is just to give an idea in how to use nrnvisio module:
 
@@ -69,30 +87,21 @@ A quick example can be the following:
     syn.gmax = 0.05         # the conductance of the synapse
     syn.e = 0               # the reversal potential
 
-More example in the example directory show how to use NeuronVisio with more complex model.
+More example in the example directory show how to use Neuronvisio with more 
+complex model.
 
-More info can be found on the Documentation page
-<http://mattions.github.com/neuronvisio/docs.html>
 
-## Contacts
+Contacts
+========
 
 Homepage: <http://mattions.github.com/neuronvisio/>
+Mailing List: http://groups.google.com/group/neuronvisio
 
-mail: <mattioni@ebi.ac.uk>
+Help and development
+====================
 
-### Development
+If you'd like to help out, you can fork the project
+at http://github.com/mattions/neuronvisio and report any bugs 
+at http://github.com/mattions/neuronvisio/issues.
 
-The code is on github at this address
 
-<http://github.com/mattions/neuronvisio/tree/master>
-
-and git is used as software management tool
-
-To contribute fork the repository with
-
-    git clone git://github.com/mattions/neuronvisio.git
-
-and send me back a patch.
-
-More info on git here: 
-<http://git-scm.com/>
