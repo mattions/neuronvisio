@@ -1,24 +1,39 @@
----
-layout: default
-title: NeuronVisio News
----
 
-# News
+Release development
+==================
 
-##  NeuronVisio 0.3.22 - 3 Sep 2009
+- Using sphinx for the doc
+- Using paver for deployment
+- python egg ans easy install support
+
+
+Release 0.3.4 - 15 Sep 2009
+===========================
+
+Code reorganized
+
+Release 0.3.3 - 3 Sep 2009
+==========================
+
+Introduced the version also on the About Dialog. Changed the setup.
+
+Release 0.3.22 - 3 Sep 2009
+===============================
 
 - Integrated the pylab interface using the GTK backend provided by pylab.
 It is possible to zoom and navigate the graph with the pylab tools.
 - It is now possible to decide in which figure to plot, using the current figure selector.
 
-## NeuronVisio 0.3.22 - 31 Jul 2009
+Release 0.3.22 - 31 Jul 2009
+================================
 
 - Closed bug #10
 - Changed the name of the module from nrnVisio to nrnvisio to be python
 standard compliant.
 - Manager being transformed into a library (WIP)
 
-## NeuronVisio 0.3.21 - 20 Jul 2009
+Release 0.3.21 - 20 Jul 2009
+================================
 
 - Better handling of the pick section routine
 - Changed the examples to use the create statement for hoc, to have 
@@ -26,37 +41,45 @@ a proper name of the section also in python.
 - Modified the GUI to handle a runtime change of a section. The model is redrawn
 completely, the zoom is conserved.
 
-## NeuronVisio 0.3.2 - 20 Jul 2009
+Release 0.3.2 - 20 Jul 2009
+===============================
 
 Bug Release. Closed Bug #9
 
-## NeuronVisio 0.3.1 - 18 Jul 2009
+Release 0.3.1 - 18 Jul 2009
+===============================
 
 Bug Release.
 
-## NeuronVisio 0.3.0 - 14 Jul 2009
+Release 0.3.0 - 14 Jul 2009
+===============================
 
-### New Features
+New Features
+------------
 
 - Stop Button on the animation Control
 - Better handling on the timeline updating routine.
 
-### BUGFixes
+BUGFixes
+--------
 
 - Closed bug #8
 - Closed bug #3
 
 
-## NeuronVisio 0.2.0 - 6 Jul 2009
+Release 0.2.0 - 6 Jul 2009
+==============================
 
-### New Features
+New Features
+------------
 
 Some new features has been introduced:
 
 - User defined color. The user can now change the colors of the model for a better contrast.
 - Info tab. Reports the properties of the selected section.
 
-### BUGFixes
+BUGFixes
+--------
 
 - Closed bug #4
 - Closed bug #5
@@ -64,7 +87,8 @@ Some new features has been introduced:
 
 
 
-## NeuronVisio 0.1.0 - 30 Jun 2009
+Release 0.1.0 - 30 Jun 2009
+===============================
 
 Fist public release.
  
