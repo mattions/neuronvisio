@@ -10,5 +10,8 @@
 *i686
 dist
 
-#Sphinx picled
+#Sphinx pickled
 docs/_build/doctrees
+
+#eclipse coding
+.settings
