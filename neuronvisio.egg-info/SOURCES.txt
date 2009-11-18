@@ -7,10 +7,16 @@ pavement.py
 paver-minilib.zip
 setup.py
 docs/conf.py
+docs/controls.rst
 docs/index.rst
+docs/manager.rst
+docs/visio.rst
 docs/_static/.gitignore
 docs/_templates/.gitignore
 neuronvisio/__init__.py
+neuronvisio/controls.py
+neuronvisio/manager.py
+neuronvisio/visio.py
 neuronvisio.egg-info/PKG-INFO
 neuronvisio.egg-info/SOURCES.txt
 neuronvisio.egg-info/dependency_links.txt
