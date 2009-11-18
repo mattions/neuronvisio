@@ -9,3 +9,6 @@
 *~
 *i686
 dist
+
+#Sphinx picled
+docs/_build/doctrees
