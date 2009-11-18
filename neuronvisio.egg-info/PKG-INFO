@@ -1,0 +1,41 @@
+Metadata-Version: 1.0
+Name: neuronvisio
+Version: 0.3.5dev
+Summary: NeuronVisio is a GTK2 user interface for NEURON simulator enviroment
+Home-page: http://mattions.github.com/neuronvisio/
+Author: Michele Mattioni
+Author-email: mattioni@ebi.ac.uk
+License: GPLv3
+Description: ===========
+        neuronvisio
+        ===========
+        
+        
+        Installation
+        ------------
+        
+        The easiest way to get neuronvisio is if you have setuptools_ installed::
+        
+        easy_install neuronvisio
+        
+        Without setuptools, it's still pretty easy. Download the neuronvisio.tgz file from
+        `neuronvisio's Cheeseshop page`_, untar it and run::
+        
+        python setup.py install
+        
+        .. _neuronvisio's Cheeseshop page: http://pypi.python.org/pypi/neuronvisio/
+        .. _setuptools: http://peak.telecommunity.com/DevCenter/EasyInstall
+        
+        
+        Help and development
+        ====================
+        
+        If you'd like to help out, you can fork the project
+        at http://github.com/mattions/neuronvisio and report any bugs
+        at http://github.com/mattions/neuronvisio/issues.
+        
+        
+        
+Keywords: neuron,gui,pylab,3D,visualization
+Platform: UNKNOWN
+Classifier: Development Status :: 1 - Planning
