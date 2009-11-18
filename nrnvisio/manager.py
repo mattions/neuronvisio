@@ -16,9 +16,7 @@
 # * along with NeuronVisio.  If not, see <http://www.gnu.org/licenses/>.
 
 """:synopsis: Manage the map between vectors and sections
-
-The :class:`VecRef` and the :class:`SynVecRef` are managed, created and modified 
-by the :class:`Manager`.  
+ 
 """
 
 from neuron import h
@@ -36,6 +34,7 @@ import matplotlib.pyplot as plt
 class Manager(object):
     """The Manager class is used to manage all the vecRef, to create them 
     and retrieve the information
+    
     """
 
 

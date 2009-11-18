@@ -1,8 +1,10 @@
 :mod:`nrnvisio.visio` -- 3D Visual operations
 =============================================
 
-.. module:: nrnvisio.visio
-   :synopsis: 3D Visual operations
+.. automodule:: nrnvisio.visio
 
-.. autoclass:: nrnvisio.visio.Visio
+:class:`Visio`
+--------------
+
+.. autoclass:: Visio
    :members:

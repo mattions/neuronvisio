@@ -15,24 +15,7 @@ Contents:
     visio
     controls
 
-:mod:`nrnvisio.manager` -- Manage the map between vectors and sections
-=======================================================================
 
-.. currentmodule:: nrnvisio.manager
-.. automodule:: nrnvisio.manager
-
-:mod:`nrnvisio.controls` -- Gtk UI module
-=========================================
-
-.. currentmodule:: nrnvisio.controls
-.. automodule:: nrnvisio.controls
-
-
-:mod:`nrnvisio.visio` -- 3D Visual operations
-=============================================
-
-.. currentmodule:: nrnvisio.visio
-.. automodule:: nrnvisio.visio
 
 
 Indices and tables

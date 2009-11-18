@@ -4,12 +4,23 @@
    
 .. automodule:: nrnvisio.manager
 
-.. autosummary::
-   :toctree: generated/
+:class:`Manager`
+----------------
+
+.. autoclass:: Manager
+   :members:
+
+:class:`VecRef`
+---------------
+
+.. autoclass:: VecRef
+   :members:
    
-   Manager
-   VecRef
-   SynVecRef
+:class:`SynVecRef`
+------------------
+
+.. autoclass:: SynVecRef
+   :members:
    
 
 

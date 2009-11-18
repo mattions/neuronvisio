@@ -1,14 +1,22 @@
 :mod:`nrnvisio.controls` -- Gtk UI module
-================================================
+=========================================
 
-.. module:: nrnvisio.controls
-   :synopsis: Gtk UI module
+.. automodule:: nrnvisio.controls
+   
+:class:`Controls`
+-----------------
 
-.. autoclass:: nrnvisio.controls.Controls
+.. autoclass:: Controls
    :members:
+
+:class:`TimelineHelper`
+-----------------------
    
-.. autoclass:: nrnvisio.controls.TimelineHelper
+.. autoclass:: TimelineHelper
    :members:
+
+:class:`TimeLoop`
+-----------------
    
-.. autoclass:: nrnvisio.controls.TimeLoop
+.. autoclass:: TimeLoop
    :members:
