@@ -1,18 +1,7 @@
-#!/usr/bin/env python
+import os
+if os.path.exists("paver-minilib.zip"):
+    import sys
+    sys.path.insert(0, "paver-minilib.zip")
 
-# File to install NeuronVisio module
-# To install the package run: 
-# python setup.py install
-
-
-from distutils.core import setup
-import nrnvisio
-setup(name='NeuronVisio',
-      version="0.3.4" ,
-      description='NeuronVisio is a GTK2 user interface for NEURON \
-      simulator.',
-      author='Michele Mattioni',
-      author_email='mattioni@ebi.ac.uk',
-      url='http://mattions.github.com/neuronvisio/',
-      packages=['nrnvisio']
-     )
+import paver.tasks
+paver.tasks.main()
