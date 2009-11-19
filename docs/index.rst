@@ -1,7 +1,4 @@
-Welcome to NeuronVisio's documentation!
-=======================================
-
-NeuronVisio
+Neuronvisio  
 ===========
 
 What is it
@@ -31,12 +28,28 @@ Quick overview of the 3D capabilites. More [screenshots available](screenshots.h
     :scale: 50
 
 
-.. image:: images/spines_detailed_thumbnail.png
-    :scale: 70
+.. image:: images/spines_detailed.png
+    :scale: 30
 
+Help and development
+====================
 
+MailingList
+-----------
 
+There is a `google group`_ to ask for help or send patches. 
 
+.. _google group: http://groups.google.com/group/neuronvisio
+
+Code
+----
+
+You can browse the `source code`_ online. If you find a bug please 
+submit it to the `tracker`_. 
+
+.. _source code:  http://github.com/mattions/neuronvisio
+
+.. _tracker:  http://github.com/mattions/neuronvisio/issues
 
 Contents
 ========
