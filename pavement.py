@@ -95,7 +95,27 @@ if ALL_TASKS_LOADED:
         
 @task
 @needs(['gh_pages_build'])
-def html_fix():
-    """Replace the _images with image in the generated html
+def gh_pages_build_fix():
+    """Generate the html and fix the _images with image
+    
     Bug submitted: http://github.com/dinoboff/github-tools/issues#issue/10
     """
+    import glob
+    import os.path
+    
+    root_dir = 'docs/_build/html/'
+    for filename in glob.glob(os.path.join(root_dir, '*.html')):
+        f = open(filename, 'r')
+        buffer = ""
+        try:
+            for line in f:
+                buffer += line.replace('_images', 'images')
+        except:
+            pass
+        f.close()
+        # reopen and rewriting
+        f = open(filename, 'w')
+        f.write(buffer)
+        f.close()
+    print "html documentation fixed."
+    
