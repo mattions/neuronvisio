@@ -92,3 +92,10 @@ if ALL_TASKS_LOADED:
     @needs('generate_setup', 'minilib', 'setuptools.command.sdist')
     def sdist():
         """Overrides sdist to make sure that our setup.py is generated."""
+        
+@task
+@needs(['gh_pages_build'])
+def html_fix():
+    """Replace the _images with image in the generated html
+    Bug submitted: http://github.com/dinoboff/github-tools/issues#issue/10
+    """
