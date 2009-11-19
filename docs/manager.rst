@@ -1,5 +1,5 @@
 :mod:`neuronvisio.manager` -- Manage the map between vectors and sections
-=======================================================================
+=========================================================================
 
    
 .. automodule:: neuronvisio.manager

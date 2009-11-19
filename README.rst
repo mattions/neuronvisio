@@ -14,8 +14,10 @@ Features
 - 3D visualization of the model with the possibility to change it runtime
 - Creation of vectors to record any variables present in the section 
 - Pylab integration to plot directly the result of the simulation
-- Exploration of the timecourse of any variable among time using a color coded scale
-- the GUI runs in its own thread so it's possible to use the console (strongly suggested ipython)
+- Exploration of the timecourse of any variable among time using a color 
+coded scale
+- the GUI runs in its own thread so it's possible to use the console 
+(strongly suggested ipython)
 
 
 Installation
@@ -23,9 +25,13 @@ Installation
 
 To install NeuronVisio you need to satisfy the following dependencies
 
-- pygtk <http://www.pygtk.org/>
-- visual <http://vpython.org/>
-- matplotlib <http://matplotlib.sourceforge.net/>
+- pygtk: http://www.pygtk.org/
+- visual: http://vpython.org/
+- matplotlib: http://matplotlib.sourceforge.net/
+
+and of course _NEURON
+
+.. NEURON: http://www.neuron.yale.edu/neuron/
 
 Easy Install
 ------------
@@ -93,7 +99,7 @@ complex model.
 Contacts
 ========
 
-Homepage: <http://mattions.github.com/neuronvisio/>
+Homepage: http://mattions.github.com/neuronvisio/
 Mailing List: http://groups.google.com/group/neuronvisio
 
 Help and development
