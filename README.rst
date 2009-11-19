@@ -90,22 +90,6 @@ A quick example can be the following:::
 More example in the example directory show how to use Neuronvisio with more 
 complex model.
 
-
-
-Quick overview
-==============
-
-Quick overview of the 3D capabilites. More [screenshots available](screenshots.html).
-
-<a href="images/neuronWithSpines.png"><img src="images/neuronWithSpines_thumbnail.png" 
-width="388" height="257" border="0" name="Neuron with Spines" alt="Neuron with Spines"></a>
-
-<a href="images/spines_detailed.png"><img src="images/spines_detailed_thumbnail.png" width="251" 
-height="166" border="0" name="Spines details" alt="Spines details"></a>
-
-
-
-
 Contacts
 ========
 

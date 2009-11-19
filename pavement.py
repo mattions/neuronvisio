@@ -22,7 +22,10 @@ version = '0.3.5dev'
 
 classifiers = [
     # Get more strings from http://www.python.org/pypi?%3Aaction=list_classifiers
-    "Development Status :: 1 - Planning",
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python",
+    "Topic :: Scientific/Engineering :: Visualization"
+
     ]
 
 install_requires = [

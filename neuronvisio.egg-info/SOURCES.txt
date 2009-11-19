@@ -9,10 +9,13 @@ setup.py
 docs/changes.rst
 docs/conf.py
 docs/controls.rst
+docs/find.png
 docs/index.rst
 docs/manager.rst
+docs/neuronWithSpines_thumbnail.png
 docs/visio.rst
 docs/_static/.gitignore
+docs/_static/find.png
 docs/_templates/.gitignore
 docs/images/NeuronVisio_Controls.png
 docs/images/NeuronVisio_Controls_Drag.png
