@@ -44,7 +44,7 @@ There is a `google group`_ to ask for help or send patches.
 Code
 ----
 
-You can browse the `source code`_ online. If you find a bug please 
+You can browse the `source code`_ online or if you find a bug please 
 submit it to the `tracker`_. 
 
 .. _source code:  http://github.com/mattions/neuronvisio
