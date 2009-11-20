@@ -1135,7 +1135,7 @@
   <object class="GtkAboutDialog" id="aboutdialog">
     <property name="border_width">5</property>
     <property name="type_hint">normal</property>
-    <property name="program_name">NeuronVisio</property>
+    <property name="program_name">Neuronvisio</property>
     <property name="copyright" translatable="yes">Michele Mattioni 2009 &#xA9;</property>
     <property name="license">Copyright (C) May 2009 - Michele Mattioni:
 
