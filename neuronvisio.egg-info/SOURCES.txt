@@ -11,7 +11,7 @@ docs/conf.py
 docs/controls.rst
 docs/gettingstarted.rst
 docs/index.rst
-docs/installation.rst
+docs/install.rst
 docs/manager.rst
 docs/reference.rst
 docs/screenshots.rst

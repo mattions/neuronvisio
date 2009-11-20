@@ -1,5 +1,8 @@
-Installation
-============
+.. _install:
+
+*******
+Install
+*******
 
 To install NeuronVisio you need to satisfy the following dependencies
 
@@ -12,27 +15,33 @@ and of course _NEURON
 .. NEURON: http://www.neuron.yale.edu/neuron/
 
 Easy Install
-------------
+============
 
 The easiest way to get neuronvisio is if you have setuptools_ installed::
 
     easy_install neuronvisio
 
 Without setuptools, it's still pretty easy. Download the neuronvisio.tgz file from 
-`neuronvisio's Cheeseshop page`_, untar it and run::
+`Neuronvisio's Cheeseshop page`_, untar it and run::
 
     python setup.py install
 
-.. _neuronvisio's Cheeseshop page: http://pypi.python.org/pypi/neuronvisio/
+.. _Neuronvisio's Cheeseshop page: http://pypi.python.org/pypi/neuronvisio/
 .. _setuptools: http://peak.telecommunity.com/DevCenter/EasyInstall
 
-Source Code
------------
+You can find all the Neuronvisio release on `github repo`_
 
-The `source code`_ is on _github at this address and _git is used as software 
+.. _github repo: http://github.com/mattions/neuronvisio/downloads
+
+.. _source-code:
+
+Source Code
+===========
+
+The `source code`_ is on github_ at this address and git_ is used as software 
 management tool
 
-.. _source code: _http://github.com/mattions/neuronvisio
+.. _source code: http://github.com/mattions/neuronvisio
 .. _github: https://github.com/
 .. _git: http://git-scm.com/
 

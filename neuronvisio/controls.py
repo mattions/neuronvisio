@@ -464,8 +464,11 @@ class Controls(threading.Thread):
             #print "You should run the simulation first"
         else:
             timeline.set_range(0, len (self.manager.t))
-            #timeline.set_increments(1, 10) #minimal increment equal to dt    
+            #timeline.set_increments(1, 10) #minimal increment equal to dt
             animation_win.show_all()
+            animation_win.present()
+                
+             
             
     def on_start_color_set(self, widget):
         """Set the start color when changed"""

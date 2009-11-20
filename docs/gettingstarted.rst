@@ -1,8 +1,9 @@
+***************
 Getting Started
-===============
+***************
 
 How does it work
-----------------
+================
 
 You need to use NeuronVisio from an _ipython console started with the 
 pylab switch::
@@ -23,13 +24,13 @@ the prompt as you would do normally when using _NEURON.
 .. NEURON: http://www.neuron.yale.edu/neuron/
 
 How to integrate NeuronVisio with your code
--------------------------------------------
+===========================================
 
 The integration is rather simple and you can use either the python or the hoc 
 scripts that you already have.
 
 Python integration
-^^^^^^^^^^^^^^^^^^
+------------------
 
 If you have a model written in python, just import the module on top of your 
 script. The simple example (in the example directory) give you an idea how to do 
@@ -43,7 +44,7 @@ A classical template is::
     # Your model here
 
 Hoc Intergration
-^^^^^^^^^^^^^^^^
+----------------
 
 You have to load your hoc script using the python interface of _NEURON. 
 The pyramidal example gives an idea how to integrate existent _NEURON model 
@@ -57,10 +58,10 @@ A classical template is::
     h.load_file("path/to/my_model.hoc")
 
 NeuronVisio features
---------------------
+====================
 
 Visualization
-^^^^^^^^^^^^^
+-------------
 
 To visualize you model after you loaded you have to click the Draw button.
 
@@ -68,18 +69,18 @@ To visualize you model after you loaded you have to click the Draw button.
     :scale: 50
 
 How to rotate
-^^^^^^^^^^^^^ 
+-------------
 
 Hold the third button of your mouse (usually clicking the wheel) and move 
 the mouse.
 
 How to zoom
-^^^^^^^^^^^
+-----------
 
 Hold the right button of your mouse and move the mouse.
 
 How to move
-^^^^^^^^^^^
+-----------
 
 Click on `Drag` button and then pick a section of your model to move it.
 
@@ -87,10 +88,10 @@ Click on `Drag` button and then pick a section of your model to move it.
     :scale: 50
 
 Plotting the simulation results
--------------------------------
+===============================
 
 Creating the vectors
-^^^^^^^^^^^^^^^^^^^^
+--------------------
 
 To plot the simulation's results you first have to create a Vector 
 (or more than one) to record the variable that you are interested in.
@@ -109,7 +110,7 @@ section clicking on 'Pick a Section' and then select the section on the GUI.
 
 
 Run the simulation
-^^^^^^^^^^^^^^^^^^^^^^
+------------------
 
 The simulation can be run clicking on the `Init & Run` button. 
 It will run until the tstop.
@@ -118,10 +119,15 @@ It will run until the tstop.
     :scale: 80
     
 Plotting the simulation
-^^^^^^^^^^^^^^^^^^^^^^^
+-----------------------
 
-To plot the results click on the tab 'Plots' and selec the variable 
+To plot the results click on the tab 'Plots' and select the variable 
 from the section you want to plot. Then click `Plot`.
+
+If you want to plot more variables in one go hold `Ctrl` and select as 
+many as you want, then click `Plot`
+
+If you want to insert the legend just select the `legend box` 
 
 .. image:: images/plotting_variable.png
     :scale: 70

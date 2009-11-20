@@ -1,10 +1,11 @@
+***********
 Screenshots
-===========
+***********
 
 Everybody loves screenshots so here we go.
 
 Gtk GUI control
----------------
+===============
 
 This is the main GTK window to cotrol Neuronvisio. You can create vectors and 
 run the simulation. The time shows you the time of the NEURON_ simulator.
@@ -17,7 +18,7 @@ the console.
 .. image:: images/userInterface-0.3.png
 
 3-Dimensions with a simple model
---------------------------------
+================================
 
 Rendering of a simple model with 3 section.
 
@@ -28,7 +29,7 @@ The colors can be changed by the user.
 .. image:: images/nrnvisio-user-color.png
 
 3-Dimensions with a complex model
----------------------------------
+=================================
 
 Rendering of a more complex model, a pyramidal neuron.
 
@@ -37,13 +38,13 @@ Rendering of a more complex model, a pyramidal neuron.
 
 
 Animation window and pylab graph
---------------------------------
+================================
 
 The animation window and the pylab graph, showing the variation of the voltage 
 in the soma and the behaviour of the same variable through the cell.
 
 Simple model
-^^^^^^^^^^^^
+------------
 
 A simple 3 sections model showing the different value of the voltage in the cell.
 
@@ -51,7 +52,7 @@ A simple 3 sections model showing the different value of the voltage in the cell
 
 
 Pyramidal neuron
-^^^^^^^^^^^^^^^^
+----------------
 
 The propagation of the voltage among the neuron. The stimul was given in the soma.
 

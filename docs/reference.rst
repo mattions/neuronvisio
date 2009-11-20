@@ -1,5 +1,6 @@
+*********
 Reference
-=========
+*********
 
 The API directly from the docstrings in the code_.
 

@@ -1,15 +1,16 @@
+***********
 Neuronvisio  
-===========
+***********
 
 What is it
-----------
+==========
 
 NeuronVisio is a GTK2 user interface for `NEURON simulator enviroment 
 <http://www.neuron.yale.edu/neuron/>`_. 
 NeuronVisio connect with NEURON using the new python NEURON interface.
 
 Features
---------
+========
 
 - 3D visualization of the model with the possibility to change it runtime
 - Creation of vectors to record any variables present in the section 
@@ -44,11 +45,13 @@ There is a `google group`_ to ask for help or send patches.
 Code
 ----
 
-You can browse the `source code`_ online or if you find a bug please 
-submit it to the `tracker`_. 
+- To **install** Neuronvisio check the :ref:`install`
+- To **browse** the code online go to the `github repo`_
+- To **download and install** the code from github check the :ref:`source-code` section
+- To **submit a bug** use the `tracker`_
 
-.. _source code:  http://github.com/mattions/neuronvisio
 
+.. _github repo:  http://github.com/mattions/neuronvisio
 .. _tracker:  http://github.com/mattions/neuronvisio/issues
 
 Contents
@@ -57,7 +60,7 @@ Contents
 .. toctree::
     :maxdepth: 2
     
-    installation
+    install
     gettingstarted
     screenshots
     reference
