@@ -268,7 +268,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
-                                <property name="color">#737373737373</property>
+                                <property name="color">#808080808080</property>
                                 <signal name="color_set" handler="on_section_button_color_set"/>
                               </object>
                               <packing>
@@ -958,7 +958,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
-                        <property name="color">#ffffffb40000</property>
+                        <property name="color">#000000000000</property>
                         <signal name="color_set" handler="on_end_color_set"/>
                       </object>
                       <packing>
@@ -973,7 +973,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
-                        <property name="color">#ffff00000000</property>
+                        <property name="color">#ffff94940000</property>
                         <signal name="color_set" handler="on_start_color_set"/>
                       </object>
                       <packing>
@@ -1231,6 +1231,8 @@ along with NeuronVisio.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</prop
     <property name="text" translatable="yes">No Section Selected</property>
   </object>
   <object class="GtkAdjustment" id="adjustment_fig_num">
+    <property name="value">1</property>
+    <property name="lower">1</property>
     <property name="upper">100</property>
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
