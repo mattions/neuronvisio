@@ -12,6 +12,8 @@ dist
 
 #Sphinx pickled
 docs/_build/doctrees
+# Latex source for the manual
+docs/_build/pdf
 
 #eclipse coding
 .settings

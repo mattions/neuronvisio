@@ -119,3 +119,28 @@ def gh_pages_build_fix():
         f.close()
     print "html documentation fixed."
     
+@task
+def build_pdf():
+    """Build the User Manual"""
+    import os
+    from subprocess import call
+    root = os.getcwd()
+    docs = os.path.join(root, 'docs')
+    pdf_building = os.path.join(docs, '_build/pdf/')
+    manual_filename = 'Neuronvisio_User_Manual.pdf'
+    print "root dir: %s, docs dir: %s" %(root, docs)
+    
+    # building latex
+    call(['sphinx-build', '-b', 'latex', docs, pdf_building])
+    
+    # building pdf
+    os.chdir(pdf_building)
+    call(['pdflatex', 'neuronvisio.tex'])
+    # second round for the toc
+    call(['pdflatex', 'neuronvisio.tex'])
+    
+    #copying the file
+    os.rename(os.path.join(pdf_building, 'neuronvisio.pdf'), 
+              os.path.join(docs, manual_filename))
+    print "Usual Manual created in the docs dir"
+    
