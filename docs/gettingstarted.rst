@@ -55,7 +55,7 @@ A classical template is::
     import nrnvisio
     from neuron import h
     controls = nrnvisio.Controls()
-    h.load_file("path/to/my_model.hoc")
+    h.load_file('path/to/my_model.hoc')
 
 NeuronVisio features
 ====================

@@ -15,7 +15,7 @@ run the simulation. The time shows you the time of the NEURON_ simulator.
 You can change the `tstop`, the `dt` and the initial voltage from the GUI or 
 the console.
 
-.. image:: images/userInterface-0.3.png
+.. image:: images/Neuronvisio-Controls.png
 
 3-Dimensions with a simple model
 ================================

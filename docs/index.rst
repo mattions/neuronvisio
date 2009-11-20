@@ -35,6 +35,13 @@ Quick overview of the 3D capabilites. More [screenshots available](screenshots.h
 Help and development
 ====================
 
+Documentation
+-------------
+
+You can read the documentation online or download the latest manual_
+
+.. _manual: http://github.com/mattions/neuronvisio/blob/master/docs/Neuronvisio_User_Manual.pdf
+
 MailingList
 -----------
 

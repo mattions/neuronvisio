@@ -51,7 +51,7 @@ Without setuptools, it's still pretty easy. Download the neuronvisio.tgz file fr
 Documentation
 =============
 
-The documentation is available in the doc folder or online_.
+The documentation is available in the doc folder or online_ or in pdf format in the docs direcotry
 
 .. _online: http://mattions.github.com/neuronvisio
 

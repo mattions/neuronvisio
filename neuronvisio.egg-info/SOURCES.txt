@@ -6,6 +6,7 @@ gpl.txt
 pavement.py
 paver-minilib.zip
 setup.py
+docs/Neuronvisio_User_Manual.pdf
 docs/changes.rst
 docs/conf.py
 docs/controls.rst
@@ -21,9 +22,8 @@ docs/_templates/.gitignore
 docs/images/NeuronVisio_Controls.png
 docs/images/NeuronVisio_Controls_Drag.png
 docs/images/NeuronVisio_Controls_selecting_variable.png
+docs/images/Neuronvisio-Controls.png
 docs/images/Simple_model.png
-docs/images/document-save.png
-docs/images/find.png
 docs/images/init_and_run.png
 docs/images/neuronWithSpines.png
 docs/images/nrnvisio-user-color.png
@@ -35,7 +35,7 @@ docs/images/pyramidal.png
 docs/images/pyramidal_3D_change_voltage.png
 docs/images/spines_detailed.png
 docs/images/userInterface-0.2.png
-docs/images/userInterface-0.3.png
+docs/images/userInterface-0_3.png
 docs/images/voltage_variation_among_time.png
 neuronvisio/__init__.py
 neuronvisio/controls.py
