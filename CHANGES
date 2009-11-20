@@ -1,9 +1,10 @@
-0.3.5dev - 
+0.3.5 - 20 Nov 2009 
 ==========
 
 - Using sphinx for the doc
 - Using paver for deployment
-- python egg ans easy install support
+- python egg and easy install support
+- User manuel available in pdf format
 
 
 0.3.4 - 15 Sep 2009

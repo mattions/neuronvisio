@@ -1,6 +1,6 @@
 Metadata-Version: 1.0
 Name: neuronvisio
-Version: 0.3.5dev
+Version: 0.3.5
 Summary: NeuronVisio is a GTK2 user interface for NEURON simulator enviroment
 Home-page: http://mattions.github.com/neuronvisio/
 Author: Michele Mattioni
@@ -59,7 +59,7 @@ Description: NeuronVisio
         Documentation
         =============
         
-        The documentation is available in the doc folder or online_.
+        The documentation is available in the doc folder or online_ or in pdf format in the docs direcotry
         
         .. _online: http://mattions.github.com/neuronvisio
         
