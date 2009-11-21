@@ -29,9 +29,9 @@ To install NeuronVisio you need to satisfy the following dependencies
 - visual: http://vpython.org/
 - matplotlib: http://matplotlib.sourceforge.net/
 
-and of course _NEURON
+and of course NEURON_
 
-.. NEURON: http://www.neuron.yale.edu/neuron/
+.. _NEURON: http://www.neuron.yale.edu/neuron/
 
 Easy Install
 ------------

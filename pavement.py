@@ -31,6 +31,10 @@ classifiers = [
 install_requires = [
     # -*- Install requires: -*-
     'setuptools',
+    'pygtk',
+    'matplotlib',
+    'numpy',
+    'scipy'
     ]
 
 entry_points="""
