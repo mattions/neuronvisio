@@ -31,10 +31,6 @@ classifiers = [
 install_requires = [
     # -*- Install requires: -*-
     'setuptools',
-    'pygtk',
-    'matplotlib',
-    'numpy',
-    'scipy'
     ]
 
 entry_points="""
@@ -55,7 +51,6 @@ setup(
     license='GPLv3',
     packages = find_packages(exclude=['bootstrap', 'pavement',]),
     include_package_data=True,
-    test_suite='nose.collector',
     zip_safe=False,
     install_requires=install_requires,
     entry_points=entry_points,

@@ -5,6 +5,8 @@ bootstrap.py
 gpl.txt
 pavement.py
 paver-minilib.zip
+pip-log.txt
+requirements.txt
 setup.py
 docs/Neuronvisio_User_Manual.pdf
 docs/changes.rst
