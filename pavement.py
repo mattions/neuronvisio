@@ -18,7 +18,7 @@ except ImportError, e:
 
 
 
-version = '0.3.5'
+version = '0.3.5.1'
 
 classifiers = [
     # Get more strings from http://www.python.org/pypi?%3Aaction=list_classifiers
@@ -88,9 +88,11 @@ options.setup.package_data=paver.setuputils.find_package_data(
 
 if ALL_TASKS_LOADED:
     @task
-    @needs('generate_setup', 'minilib', 'setuptools.command.sdist')
+    @needs('generate_setup', 'minilib', 'setuptools.command.sdist', 
+           'gh_pages_build_fix', 'build_pdf')
     def sdist():
         """Overrides sdist to make sure that our setup.py is generated."""
+        print "Package baked."
         
 @task
 @needs(['gh_pages_build'])
@@ -142,4 +144,18 @@ def build_pdf():
     os.rename(os.path.join(pdf_building, 'neuronvisio.pdf'), 
               os.path.join(docs, manual_filename))
     print "Usual Manual created in the docs dir"
-    
+
+@task
+def build_and_upload_source_deb(package_ver):
+    """Build a source debian package of the version supplied"""
+    from subprocess import call
+    import os.path
+    dist_dir = 'dist'
+    taball = os.path.join('dist', package_ver)
+    call(['py2dsc', tarball])
+    os.chdir(dist_dir)
+    call(['debuild', '-S', '-sa'])
+    os.chdir('..')
+    package_src_changes = package_ver + '_source.changes'
+    call(['dput', 'neuronvisio-ppa', os.path.join('deb_dist', 
+                                                  package_src_changes)])
