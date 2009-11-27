@@ -49,4 +49,5 @@ neuronvisio.egg-info/dependency_links.txt
 neuronvisio.egg-info/entry_points.txt
 neuronvisio.egg-info/not-zip-safe
 neuronvisio.egg-info/requires.txt
+neuronvisio.egg-info/stdeb.cfg
 neuronvisio.egg-info/top_level.txt
