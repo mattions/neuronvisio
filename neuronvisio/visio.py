@@ -26,10 +26,16 @@ import threading
 try:
     import gtk
     import gobject
-    import visual
 except:
     pass
     #No printing here.
+try:
+    import visual
+except:
+    message = "No visual module available. Install visual from\
+    http://vpython.org/"
+    print message
+    
 from neuron import h
 
 
