@@ -49,8 +49,8 @@ There is a `google group`_ to ask for help or send patches.
 
 .. _google group: http://groups.google.com/group/neuronvisio
 
-Code
-----
+Install
+-------
 
 - To **install** Neuronvisio check the :ref:`install`
 - To **browse** the code online go to the `github repo`_

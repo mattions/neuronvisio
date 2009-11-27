@@ -4,6 +4,9 @@
 Install
 *******
 
+Requirements
+============
+
 To install NeuronVisio you need to satisfy the following dependencies
 
 - pygtk: http://www.pygtk.org/
@@ -14,6 +17,11 @@ and of course _NEURON
 
 .. NEURON: http://www.neuron.yale.edu/neuron/
 
+
+On Ubuntu you can easily install all the requirements using apt-get with::
+
+    sudo apt-get install python-numpy python-gtk2 python-visual python-matplotlib
+
 Easy Install
 ============
 
@@ -21,8 +29,8 @@ The easiest way to get neuronvisio is if you have setuptools_ installed::
 
     easy_install neuronvisio
 
-Without setuptools, it's still pretty easy. Download the neuronvisio.tgz file from 
-`Neuronvisio's Cheeseshop page`_, untar it and run::
+Without setuptools, it's still pretty easy. Download the lates neuronvisio.tgz file 
+from `Neuronvisio's Cheeseshop page`_, untar it and run::
 
     python setup.py install
 
