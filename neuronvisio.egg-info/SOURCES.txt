@@ -11,6 +11,7 @@ setup.py
 docs/Neuronvisio_User_Manual.pdf
 docs/changes.rst
 docs/conf.py
+docs/contents.rst
 docs/controls.rst
 docs/gettingstarted.rst
 docs/index.rst

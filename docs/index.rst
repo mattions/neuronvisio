@@ -1,5 +1,5 @@
 ***********
-Neuronvisio  
+Neuronvisio 
 ***********
 
 What is it
@@ -35,20 +35,6 @@ Quick overview of the 3D capabilites. More [screenshots available](screenshots.h
 Help and development
 ====================
 
-Documentation
--------------
-
-You can read the documentation online or download the latest manual_
-
-.. _manual: http://github.com/mattions/neuronvisio/blob/master/docs/Neuronvisio_User_Manual.pdf
-
-MailingList
------------
-
-There is a `google group`_ to ask for help or send patches. 
-
-.. _google group: http://groups.google.com/group/neuronvisio
-
 Install
 -------
 
@@ -61,25 +47,29 @@ Install
 .. _github repo:  http://github.com/mattions/neuronvisio
 .. _tracker:  http://github.com/mattions/neuronvisio/issues
 
-Contents
+MailingList
+-----------
+
+There is a `google group`_ to ask for help or send patches. 
+
+.. _google group: http://groups.google.com/group/neuronvisio
+
+Site Map
 ========
 
 .. toctree::
     :maxdepth: 2
     
+    self
     install
     gettingstarted
     screenshots
     reference
     changes
     
- 
-   
-
 Indices and tables
 ==================
 
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-

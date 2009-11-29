@@ -1,9 +1,9 @@
 0.3.5+ dev
-========
+==========
 
 
 0.3.5 - 20 Nov 2009 
-==========
+===================
 
 - Using sphinx for the doc
 - Using paver for deployment
