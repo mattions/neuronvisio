@@ -54,7 +54,7 @@ Install
 
 - To **install** Neuronvisio check the :ref:`install`
 - To **browse** the code online go to the `github repo`_
-- To **download and install** the code from github check the :ref:`source-code` section
+- To **download and install** the code from github check the :ref:`source-code-section` section
 - To **submit a bug** use the `tracker`_
 
 
