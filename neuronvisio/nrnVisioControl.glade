@@ -927,16 +927,16 @@
     <property name="destroy_with_parent">True</property>
     <signal name="delete_event" handler="on_animation_control_delete_event"/>
     <child>
-      <object class="GtkFrame" id="frame1">
+      <object class="GtkFrame" id="frame4">
         <property name="visible">True</property>
         <property name="label_xalign">0</property>
         <property name="shadow_type">none</property>
         <child>
-          <object class="GtkAlignment" id="alignment1">
+          <object class="GtkAlignment" id="alignment5">
             <property name="visible">True</property>
             <property name="left_padding">12</property>
             <child>
-              <object class="GtkVBox" id="vbox1">
+              <object class="GtkVBox" id="vbox2">
                 <property name="visible">True</property>
                 <property name="orientation">vertical</property>
                 <child>
@@ -949,7 +949,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkTable" id="table1">
+                  <object class="GtkTable" id="table2">
                     <property name="visible">True</property>
                     <property name="n_rows">2</property>
                     <property name="n_columns">3</property>
@@ -1008,13 +1008,13 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkLabel" id="label2">
+                      <object class="GtkLabel" id="label9">
                         <property name="visible">True</property>
                         <property name="label" translatable="yes">Starting color</property>
                       </object>
                     </child>
                     <child>
-                      <object class="GtkLabel" id="label3">
+                      <object class="GtkLabel" id="label10">
                         <property name="visible">True</property>
                         <property name="label" translatable="yes">Ending color</property>
                       </object>
@@ -1029,10 +1029,10 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox2">
+                  <object class="GtkHBox" id="hbox10">
                     <property name="visible">True</property>
                     <child>
-                      <object class="GtkLabel" id="label4">
+                      <object class="GtkLabel" id="label11">
                         <property name="visible">True</property>
                         <property name="label" translatable="yes">var to show</property>
                       </object>
@@ -1057,12 +1057,12 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox1">
+                  <object class="GtkHBox" id="hbox11">
                     <property name="visible">True</property>
                     <property name="homogeneous">True</property>
                     <child>
                       <object class="GtkButton" id="stop">
-                        <property name="label" translatable="yes">gtk-media-stop</property>
+                        <property name="label">gtk-media-stop</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -1075,7 +1075,7 @@
                     </child>
                     <child>
                       <object class="GtkButton" id="play">
-                        <property name="label" translatable="yes">gtk-media-play</property>
+                        <property name="label">gtk-media-play</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -1118,7 +1118,7 @@
           </object>
         </child>
         <child type="label">
-          <object class="GtkLabel" id="label1">
+          <object class="GtkLabel" id="label12">
             <property name="visible">True</property>
             <property name="label" translatable="yes">&lt;b&gt;Animation Control&lt;/b&gt;</property>
             <property name="use_markup">True</property>

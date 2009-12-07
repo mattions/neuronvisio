@@ -20,12 +20,12 @@
 GTK2 class and helpers' thread
 """
 
-import sys
+
 import threading
 import os
 import time
 
-import numpy
+
 from neuron import h
 
 # uncomment to select /GTK/GTKAgg/GTKCairo
@@ -34,15 +34,17 @@ try:
     import gtk.glade
     import cairo
     import gobject
-    from matplotlib.backends.backend_gtkagg import FigureCanvasGTKAgg as FigureCanvas
-    import pylab
     # We start the threads here
     gobject.threads_init()
+    from matplotlib.backends.backend_gtkagg import FigureCanvasGTKAgg as FigureCanvas
+    import pylab
+
     import visio
     import manager
 except:
     print "No GTK available. Batch execution"
 #from matplotlib.backends.backend_gtkcairo import FigureCanvasGTKCairo as FigureCanvas
+
 
 
 
