@@ -9,7 +9,8 @@ gobject.threads_init()
 import gtk
 import visual
 
-class HelloWorld:
+class HelloWorld(object):
+    
     def launch_visual_window(self, widget, data=None):
         print "Lauching visual window"
         gobject.idle_add(visual.cylinder())
@@ -56,3 +57,4 @@ class HelloWorld:
 if __name__ == "__main__":
     hello = HelloWorld()
     hello.main()
+

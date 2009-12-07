@@ -46,8 +46,6 @@ except:
 #from matplotlib.backends.backend_gtkcairo import FigureCanvasGTKCairo as FigureCanvas
 
 
-
-
 class Controls(threading.Thread):
     """Main GTK control window. create a control object and start with
     controls.start()"""
