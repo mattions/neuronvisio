@@ -69,24 +69,24 @@ class Visio(object):
         # Reset the click.
         while(True):
             if self.scene.mouse.clicked == 1:
-                 m = self.scene.mouse.getclick()
-                 loc = m.pos
-                 picked = m.pick
-                 if picked is not None:
-                     # Redraw the old one with the default color
-                     if self.selected_cyl != None:
-                         self.selected_cyl.color = self.default_section_color
-                     picked.color = self.selected_section_color
-                     self.selected_cyl = picked
-                     sec = self.cyl2sec[picked]
-                     
-                     return sec
+                m = self.scene.mouse.getclick()
+                loc = m.pos
+                picked = m.pick
+                if picked is not None:
+                    # Redraw the old one with the default color
+                    if self.selected_cyl != None:
+                        self.selected_cyl.color = self.default_section_color
+                    picked.color = self.selected_section_color
+                    self.selected_cyl = picked
+                    sec = self.cyl2sec[picked]
+                    return sec
+                
             else: # Reset the clicking
                 event_to_clear = self.scene.mouse.clicked
                 for event in range(event_to_clear - 1):
                     self.scene.mouse.getclick() #Just to clear to zero the event
                      
-                     #print "Section: %s Name: %s" %(sec, sec.name())
+                    #print "Section: %s Name: %s" %(sec, sec.name())
                        
     def retrieve_coordinate(self, sec):
         """Retrieve the coordinates of the section"""

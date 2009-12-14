@@ -22,8 +22,11 @@ Features
 Quick overview
 ==============
 
-Quick overview of the 3D capabilites. More [screenshots available](screenshots.html).
+Quick overview of the 3D capabilites. More :ref:`screenshots`.
 
+.. warning:: 3D capabilites are working on ubuntu jaunty and not working on ubuntu karmic. `Issue 11`_ 
+
+.. _Issue 11: http://github.com/mattions/neuronvisio/issues#issue/11
 
 .. image:: images/neuronWithSpines.png
     :scale: 50
@@ -31,6 +34,8 @@ Quick overview of the 3D capabilites. More [screenshots available](screenshots.h
 
 .. image:: images/spines_detailed.png
     :scale: 30
+
+
 
 Help and development
 ====================
