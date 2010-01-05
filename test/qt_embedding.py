@@ -18,6 +18,7 @@ from enthought.traits.api import HasTraits, Instance, on_trait_change, \
 from enthought.traits.ui.api import View, Item
 from enthought.mayavi.core.ui.api import MayaviScene, MlabSceneModel, \
         SceneEditor
+from enthought.mayavi import mlab
 
 import numpy as np
 import matplotlib
