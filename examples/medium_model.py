@@ -14,7 +14,7 @@ from itertools import chain
 
 # Importing NeuronVisio
 # Importing the NeuronVisio
-from neuronvisio.controls import Controls
+from neuronvisio.control2 import Controls
 controls = Controls()
 
 # Importing the hoc interpreter
