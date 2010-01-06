@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -183,17 +183,17 @@
        <property name="geometry">
         <rect>
          <x>260</x>
-         <y>60</y>
+         <y>30</y>
          <width>30</width>
          <height>31</height>
         </rect>
        </property>
       </widget>
-      <widget class="ColorButton" name="colorButton_3">
+      <widget class="ColorButton" name="defaultSec_colorButton">
        <property name="geometry">
         <rect>
          <x>260</x>
-         <y>100</y>
+         <y>80</y>
          <width>30</width>
          <height>31</height>
         </rect>
@@ -203,7 +203,7 @@
        <property name="geometry">
         <rect>
          <x>100</x>
-         <y>70</y>
+         <y>40</y>
          <width>146</width>
          <height>18</height>
         </rect>
@@ -216,36 +216,13 @@
        <property name="geometry">
         <rect>
          <x>100</x>
-         <y>110</y>
+         <y>90</y>
          <width>138</width>
          <height>18</height>
         </rect>
        </property>
        <property name="text">
         <string>Default Section Color</string>
-       </property>
-      </widget>
-      <widget class="ColorButton" name="colorButton">
-       <property name="geometry">
-        <rect>
-         <x>260</x>
-         <y>20</y>
-         <width>30</width>
-         <height>31</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QLabel" name="label_2">
-       <property name="geometry">
-        <rect>
-         <x>100</x>
-         <y>30</y>
-         <width>115</width>
-         <height>18</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Background Color</string>
        </property>
       </widget>
      </widget>

@@ -18,52 +18,47 @@
 #@PydevCodeAnalysisIgnoren 
 import os
 os.environ['ETS_TOOLKIT'] = 'qt4'
+import sys
+sys.path.append(os.path.dirname(__file__)) 
 
 from PyQt4 import QtGui, QtCore, uic
 
-from enthought.mayavi import mlab
-from enthought.tvtk.tools import visual
-
-from neuron import h
-
-
-# Testing pylab here
+# Pylab
 import numpy as np
 import matplotlib
 matplotlib.use("Qt4Agg")
 matplotlib.interactive(True)
 import matplotlib.pyplot as plt
 
-class Control():
+from neuron import h
+
+# Visio
+
+from visio2 import Visio
+
+
+class Controls():
     """Main class Neuronvisio"""
     def __init__(self):
         app = QtGui.QApplication.instance()
         # Loading the UI
-        self.main_win = uic.loadUi("neuronvisio.ui")
+        self.main_win = uic.loadUi(os.path.join(os.path.dirname(__file__),
+                                                "neuronvisio.ui"))
+        
+        # Connecting
         self.main_win.Plot3D.connect(self.main_win.Plot3D, 
-                                     QtCore.SIGNAL('clicked()'), self.launch_mayavi)
+                                     QtCore.SIGNAL('clicked()'), self.launch_visio)
         self.main_win.pylab_test.connect(self.main_win.pylab_test,
                                          QtCore.SIGNAL('clicked()'), self.plot_x)
         self.main_win.show()
-        self.mayavi_started = False
         
         # Start the main event loop.
         app.exec_()
         
-    def launch_mayavi(self):
-        self.visio = Visio()
-        if self.mayavi_started is False:     
-            self.mayavi_fig = mlab.figure(size=(500,500))
-            # Tell visual to use this as the viewer.
-            visual.set_viewer(self.mayavi_fig)
-        self.plotCyl()
-        
-        
-    def plotCyl(self):
-        
-        cyl = visual.Cylinder(pos=(0.,0.,0.), radius=8, length=10)
-        cyl2 = visual.Cylinder(pos=(8.,0.,0.,), axis=(0.,4.,5.), radius=4, length=13)
-        cyl3 = visual.Cylinder(pos=(-4.,0.,0.))
+    def launch_visio(self):
+        if not hasattr(self, 'visio'):
+            self.visio = Visio()
+            self.visio.draw_model(self.main_win.defaultSec_colorButton.color)
     
     def plot_x(self):
         
