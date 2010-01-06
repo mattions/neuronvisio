@@ -51,8 +51,8 @@ class Controls():
         self.main_win.pylab_test.connect(self.main_win.pylab_test,
                                          QtCore.SIGNAL('clicked()'), self.plot_x)
         
-        self.main_win.defaultSec_color_button.setColor(QtGui.QColor(1.,1.,1.))
-        self.main_win.selectedSec_color_button.setColor(QtGui.QColor(0.,1.,1.))                                                     
+        self.main_win.defaultSec_color_button.setColor(QtGui.QColor(255.,255.,255.))
+        self.main_win.selectedSec_color_button.setColor(QtGui.QColor(0.,0.,255.))                                                     
         self.main_win.show()
         
         # Start the main event loop.
