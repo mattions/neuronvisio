@@ -31,6 +31,7 @@ matplotlib.interactive(True)
 import matplotlib.pyplot as plt
 
 from neuron import h
+h.load_file("stdrun.hoc")
 
 # Visio
 
@@ -52,7 +53,9 @@ class Controls():
                                          QtCore.SIGNAL('clicked()'), self.plot_x)
         
         self.ui.def_col_btn.setColor(QtGui.QColor(255.,255.,255.))
-        self.ui.sel_col_btn.setColor(QtGui.QColor(0.,0.,255.))                                                     
+        self.ui.sel_col_btn.setColor(QtGui.QColor(0.,0.,255.))
+        self.ui.init_btn.connect(self.ui.init_btn, QtCore.SIGNAL('clicked()'), self.init)
+        self.ui.run_btn.connect(self.ui.run_btn, QtCore.SIGNAL('clicked()'), self.run)                                               
         self.ui.show()
         
         # Start the main event loop.
@@ -65,6 +68,29 @@ class Controls():
             self.ui.def_col_btn.connect(self.ui.def_col_btn,
                                         QtCore.SIGNAL("colorChanged(QColor)"),
                                         self.visio.draw_model)
+    
+    def init(self):
+        """Set the vm_init from the spin button and prepare the simulator"""
+        
+        v_init = self.ui.vmSpinBox.value()
+        
+        # Set the v_init
+        h.v_init = v_init
+        h.finitialize(v_init)
+        h.fcurrent()
+        
+        # Reset the time in the GUI
+        self.ui.time_label.setText(str(h.t))
+    
+    def run(self):
+        """Run the simulator till tstop"""
+        
+        #Initializing
+        self.init()
+        # Run
+        while h.t < h.tstop:
+            h.fadvance()
+            self.ui.time_label.setText("<b>" + str(h.t) + "</b>")
     
     def plot_x(self):
         

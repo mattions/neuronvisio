@@ -44,14 +44,6 @@ class Visio(object):
         self.vecRefs = []
         
         
-        
-    def plotCyl(self):
-        
-        self.cyl = visual.Cylinder(pos=(0.,0.,0.), radius=8, length=10)
-        self.cyl2 = visual.Cylinder(pos=(8.,0.,0.,), axis=(0.,4.,5.), radius=4, length=13)
-        self.cyl3 = visual.Cylinder(pos=(-4.,0.,0.), axis=(0.,4.,5.))
-        
-        
     def draw_model(self, color, selected_sec=None, selected_color=None):
         """Draw the model.
         Params:
@@ -75,8 +67,6 @@ class Visio(object):
                     self.draw_section(sec, selected_color)
             else:
                 self.draw_section(sec, color)
-        
-        
     
     def draw_section(self, sec, color):
         """Draw the section with the optional color 
