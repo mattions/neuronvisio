@@ -160,7 +160,7 @@
         <x>280</x>
         <y>110</y>
         <width>301</width>
-        <height>171</height>
+        <height>131</height>
        </rect>
       </property>
       <property name="title">
@@ -183,7 +183,7 @@
        <property name="geometry">
         <rect>
          <x>260</x>
-         <y>30</y>
+         <y>80</y>
          <width>30</width>
          <height>31</height>
         </rect>
@@ -193,7 +193,7 @@
        <property name="geometry">
         <rect>
          <x>260</x>
-         <y>80</y>
+         <y>40</y>
          <width>30</width>
          <height>31</height>
         </rect>
@@ -203,7 +203,7 @@
        <property name="geometry">
         <rect>
          <x>100</x>
-         <y>40</y>
+         <y>90</y>
          <width>146</width>
          <height>18</height>
         </rect>
@@ -216,7 +216,7 @@
        <property name="geometry">
         <rect>
          <x>100</x>
-         <y>90</y>
+         <y>50</y>
          <width>138</width>
          <height>18</height>
         </rect>
@@ -326,11 +326,23 @@
     </property>
     <addaction name="actionQuit"/>
    </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="actionAbout"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuHelp"/>
   </widget>
   <action name="actionQuit">
    <property name="text">
     <string>Quit</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="text">
+    <string>About</string>
    </property>
   </action>
  </widget>
