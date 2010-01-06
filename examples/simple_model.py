@@ -1,7 +1,7 @@
 # This example comes with NeuronVisio.
 
 # Importing the NeuronVisio
-from neuronvisio.controls import Controls
+from neuronvisio.control2 import Controls
 controls = Controls()
 # Importing hoc interpreter
 from neuron import h
@@ -17,7 +17,11 @@ dend2 = h.dend2
 
 soma.diam = 10
 dend1.diam = 3
-dend2.diam = 3  
+dend2.diam = 3
+soma.L = 50
+dend1.L = 100
+dend2.L = 100
+  
 dend1.connect(soma)
 dend2.connect(soma)
 
