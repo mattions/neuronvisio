@@ -9,6 +9,7 @@
 *~
 *i686
 dist
+deb_dist
 
 #Sphinx pickled
 docs/_build/doctrees
