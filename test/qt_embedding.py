@@ -23,6 +23,7 @@ from enthought.mayavi import mlab
 import numpy as np
 import matplotlib
 matplotlib.use("Qt4Agg")
+matplotlib.interactive(True)
 import matplotlib.pyplot as plt
 
 ################################################################################
