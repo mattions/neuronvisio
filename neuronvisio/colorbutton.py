@@ -25,7 +25,7 @@ from PyQt4.QtGui import *
 
 class ColorButton(QToolButton):
 
-    __pyqtSignals__ = ("colorChanged(QColor)",)
+    __pyqtSignals__ = ("colorChanged(QColor)")
     
     def __init__(self, parent = None):
     

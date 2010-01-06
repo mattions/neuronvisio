@@ -41,13 +41,9 @@ class Visio(object):
         self.sec2cyl = {}
         
         self.selected_cyl = None # Used for storing the cyl when picked
-        
         self.vecRefs = []
         
-        self.selected_section_color = () 
-        self.default_section_color = () 
-        self.background_color = ()
-        self.drawn = False # Check if the section are alredy drawn or not
+        
         
     def plotCyl(self):
         

@@ -42,18 +42,18 @@ class Controls():
     def __init__(self):
         app = QtGui.QApplication.instance()
         # Loading the UI
-        self.main_win = uic.loadUi(os.path.join(os.path.dirname(__file__),
+        self.ui = uic.loadUi(os.path.join(os.path.dirname(__file__),
                                                 "neuronvisio.ui"))
         
         # Connecting
-        self.main_win.Plot3D.connect(self.main_win.Plot3D, 
+        self.ui.Plot3D.connect(self.ui.Plot3D, 
                                      QtCore.SIGNAL('clicked()'), self.launch_visio)
-        self.main_win.pylab_test.connect(self.main_win.pylab_test,
+        self.ui.pylab_test.connect(self.ui.pylab_test,
                                          QtCore.SIGNAL('clicked()'), self.plot_x)
         
-        self.main_win.defaultSec_color_button.setColor(QtGui.QColor(255.,255.,255.))
-        self.main_win.selectedSec_color_button.setColor(QtGui.QColor(0.,0.,255.))                                                     
-        self.main_win.show()
+        self.ui.def_col_btn.setColor(QtGui.QColor(255.,255.,255.))
+        self.ui.sel_col_btn.setColor(QtGui.QColor(0.,0.,255.))                                                     
+        self.ui.show()
         
         # Start the main event loop.
         app.exec_()
@@ -61,7 +61,10 @@ class Controls():
     def launch_visio(self):
         if not hasattr(self, 'visio'):
             self.visio = Visio()
-            self.visio.draw_model(self.main_win.defaultSec_color_button.color)
+            self.visio.draw_model(self.ui.def_col_btn.color)
+            self.ui.def_col_btn.connect(self.ui.def_col_btn,
+                                        QtCore.SIGNAL("colorChanged(QColor)"),
+                                        self.visio.draw_model)
     
     def plot_x(self):
         
