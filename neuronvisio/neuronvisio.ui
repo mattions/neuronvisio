@@ -179,7 +179,7 @@
         <string>Plot3D</string>
        </property>
       </widget>
-      <widget class="ColorButton" name="colorButton_2">
+      <widget class="ColorButton" name="selectedSec_color_button">
        <property name="geometry">
         <rect>
          <x>260</x>
@@ -189,7 +189,7 @@
         </rect>
        </property>
       </widget>
-      <widget class="ColorButton" name="defaultSec_colorButton">
+      <widget class="ColorButton" name="defaultSec_color_button">
        <property name="geometry">
         <rect>
          <x>260</x>
