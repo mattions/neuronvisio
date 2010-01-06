@@ -26,6 +26,8 @@ from enthought.tvtk.tools import visual
 
 from neuron import h
 
+
+# Testing pylab here
 import numpy as np
 import matplotlib
 matplotlib.use("Qt4Agg")
@@ -40,6 +42,8 @@ class Control():
         self.main_win = uic.loadUi("neuronvisio.ui")
         self.main_win.Plot3D.connect(self.main_win.Plot3D, 
                                      QtCore.SIGNAL('clicked()'), self.launch_mayavi)
+        self.main_win.pylab_test.connect(self.main_win.pylab_test,
+                                         QtCore.SIGNAL('clicked()'), self.plot_x)
         self.main_win.show()
         self.mayavi_started = False
         
@@ -47,6 +51,7 @@ class Control():
         app.exec_()
         
     def launch_mayavi(self):
+        self.visio = Visio()
         if self.mayavi_started is False:     
             self.mayavi_fig = mlab.figure(size=(500,500))
             # Tell visual to use this as the viewer.
@@ -55,9 +60,16 @@ class Control():
         
         
     def plotCyl(self):
+        
         cyl = visual.Cylinder(pos=(0.,0.,0.), radius=8, length=10)
         cyl2 = visual.Cylinder(pos=(8.,0.,0.,), axis=(0.,4.,5.), radius=4, length=13)
         cyl3 = visual.Cylinder(pos=(-4.,0.,0.))
+    
+    def plot_x(self):
+        
+        fig = plt.figure()
+        x = np.linspace(0,10)
+        plt.plot(x, np.sin(x))
      
 if __name__ == "__main__":
     ctl = Control()
