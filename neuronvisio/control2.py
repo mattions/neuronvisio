@@ -63,6 +63,10 @@ class Controls():
         self.ui.vSpinBox.connect(self.ui.vSpinBox, QtCore.SIGNAL('valueChanged(double)'), 
                                      self.v_changed)
         
+        spinBoxDic = {'dt' : self.ui.dtSpinBox, 'tstop' : self.ui.tstopSpinBox,
+                      'v_init' : self.ui.vSpinBox}
+        self.timeLoop = Timeloop(spinBoxDic)
+        self.timeLoop.start()
                                               
         self.ui.show()
         
@@ -120,15 +124,23 @@ class Controls():
         x = np.linspace(0,10)
         plt.plot(x, np.sin(x))
 
-#class Timeloop(qtcore.qthread):
-#    """daemon thread to connect the console with the gui"""
-#    def __init__(self):
-#        qtcore.qthread.__init__(self)
-#        self.interval = 0.5 # more relaxed
-#        
-#        
-#    def run(self):
-#        """update the gui interface calling the update method"""
-#        while true:
-#            time.sleep(self.interval)
-#            gobject.idle_add(self.controls.update)
+class Timeloop(QtCore.QThread):
+    """daemon thread to connect the console with the gui"""
+    def __init__(self, spinBoxDict, parent = None):
+        QtCore.QThread.__init__(self, parent)
+        self.spinBoxDict = spinBoxDict
+        
+        
+    def run(self):
+        """update the gui interface calling the update method"""
+        while True:
+            self.sleep(1) #check every sec
+            
+            if h.dt != self.spinBoxDict['dt'].value():
+                self.spinBoxDict['dt'].setValue(h.dt)
+            if h.tstop != self.spinBoxDict['tstop'].value():
+                self.spinBoxDict['tstop'].setValue(h.tstop)
+            if h.v_init != self.spinBoxDict['v_init'].value():
+                self.spinBoxDict['v_init'].setValue(h.v_init)
+            
+            
