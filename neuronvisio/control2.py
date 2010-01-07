@@ -15,7 +15,7 @@
 # * You should have received a copy of the GNU General Public License
 # * along with NeuronVisio.  If not, see <http://www.gnu.org/licenses/>.
 
-#@PydevCodeAnalysisIgnoren 
+#@PydevCodeAnalysisIgnoren
 import os
 os.environ['ETS_TOOLKIT'] = 'qt4'
 import sys
@@ -36,7 +36,7 @@ h.load_file("stdrun.hoc")
 # Visio
 
 from visio2 import Visio
-
+import manager
 
 class Controls():
     """Main class Neuronvisio"""
@@ -54,20 +54,33 @@ class Controls():
         
         self.ui.def_col_btn.setColor(QtGui.QColor(255.,255.,255.))
         self.ui.sel_col_btn.setColor(QtGui.QColor(0.,0.,255.))
-        self.ui.init_btn.connect(self.ui.init_btn, QtCore.SIGNAL('clicked()'), self.init)
-        self.ui.run_btn.connect(self.ui.run_btn, QtCore.SIGNAL('clicked()'), self.run)
-        self.ui.dtSpinBox.connect(self.ui.dtSpinBox, QtCore.SIGNAL('valueChanged(double)'), 
+        self.ui.init_btn.connect(self.ui.init_btn, 
+                                 QtCore.SIGNAL('clicked()'), self.init)
+        self.ui.run_btn.connect(self.ui.run_btn, 
+                                QtCore.SIGNAL('clicked()'), self.run)
+        self.ui.dtSpinBox.connect(self.ui.dtSpinBox, 
+                                  QtCore.SIGNAL('valueChanged(double)'), 
                                   self.dt_changed)
-        self.ui.tstopSpinBox.connect(self.ui.tstopSpinBox, QtCore.SIGNAL('valueChanged(double)'), 
+        self.ui.tstopSpinBox.connect(self.ui.tstopSpinBox, 
+                                     QtCore.SIGNAL('valueChanged(double)'), 
                                      self.tstop_changed)
-        self.ui.vSpinBox.connect(self.ui.vSpinBox, QtCore.SIGNAL('valueChanged(double)'), 
+        self.ui.vSpinBox.connect(self.ui.vSpinBox, 
+                                 QtCore.SIGNAL('valueChanged(double)'), 
                                      self.v_changed)
+        self.ui.create_vector.connect(self.ui.create_vector,
+                                      QtCore.SIGNAL('clicked()'), 
+                                      self.create_vector)
         
+        ### Connection with the console
         spinBoxDic = {'dt' : self.ui.dtSpinBox, 'tstop' : self.ui.tstopSpinBox,
                       'v_init' : self.ui.vSpinBox}
         self.timeLoop = Timeloop(spinBoxDic)
         self.timeLoop.start()
-                                              
+        
+        
+        ### Manager class 
+        self.manager = manager.Manager()
+                            
         self.ui.show()
         
         # Start the main event loop.
@@ -123,16 +136,55 @@ class Controls():
         fig = plt.figure()
         x = np.linspace(0,10)
         plt.plot(x, np.sin(x))
+    
+    def create_vector(self):
+        
+        var = self.ui.var.text()
+        allCreated = self.manager.add_all_vecRef(str(var))
+        self._update_tree_view()
+        
+    def _update_tree_view(self):
+        # Fill the treeview wit all the vectors created
+        #Clear all the row
+        self.ui.treeWidget.clear()
+        
+        # Add all the vectors
+        for vecRef in self.manager.vecRefs:
+            sec_name = vecRef.sec_name
+            sec_root_item = QtGui.QTreeWidgetItem(self.ui.treeWidget)
+            sec_root_item.setText(0, sec_name) 
+            for var,vec in vecRef.vecs.iteritems():
+                item = QtGui.QTreeWidgetItem(sec_root_item)
+                item.setText(0, var)
+                sec_root_item.addChild(item)
+    
+    def get_info(self, section):
+        """Get the info of the given section"""
+        
+        info = "Name: %s\n" %section.name()
+        info += "L: %f\n" % section.L
+        info += "diam: %f\n" % section.diam
+        info += "cm: %f\n" % section.cm
+        info += "Ra: %f\n" % section.Ra
+        info += "nseg: %f\n" % section.nseg
+        return info
+                
+
+#QTreeWidgetItem *cities = new QTreeWidgetItem(treeWidget);
+#     cities->setText(0, tr("Cities"));
+#     QTreeWidgetItem *osloItem = new QTreeWidgetItem(cities);
+#     osloItem->setText(0, tr("Oslo"));
+#     osloItem->setText(1, tr("Yes"));
 
 class Timeloop(QtCore.QThread):
-    """daemon thread to connect the console with the gui"""
+    """Daemon thread to connect the console with the gui"""
     def __init__(self, spinBoxDict, parent = None):
         QtCore.QThread.__init__(self, parent)
         self.spinBoxDict = spinBoxDict
         
         
     def run(self):
-        """update the gui interface calling the update method"""
+        """Update the gui interface"""
         while True:
             self.sleep(1) #check every sec
             

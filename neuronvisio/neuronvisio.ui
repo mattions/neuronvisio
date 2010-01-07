@@ -18,7 +18,7 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>0</y>
+      <y>10</y>
       <width>611</width>
       <height>331</height>
      </rect>
@@ -266,7 +266,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="lineEdit"/>
+         <widget class="QLineEdit" name="var"/>
         </item>
         <item>
          <widget class="QPushButton" name="create_vector">
@@ -307,8 +307,8 @@
      <widget class="QPushButton" name="pylab_test">
       <property name="geometry">
        <rect>
-        <x>180</x>
-        <y>100</y>
+        <x>80</x>
+        <y>10</y>
         <width>92</width>
         <height>28</height>
        </rect>
@@ -316,6 +316,24 @@
       <property name="text">
        <string>pylab test</string>
       </property>
+     </widget>
+     <widget class="QTreeWidget" name="treeWidget">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>40</y>
+        <width>441</width>
+        <height>251</height>
+       </rect>
+      </property>
+      <property name="columnCount">
+       <number>1</number>
+      </property>
+      <column>
+       <property name="text">
+        <string>Vector</string>
+       </property>
+      </column>
      </widget>
     </widget>
    </widget>
