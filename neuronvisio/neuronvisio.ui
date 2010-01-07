@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>621</width>
-    <height>365</height>
+    <width>615</width>
+    <height>388</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,7 +20,7 @@
       <x>0</x>
       <y>0</y>
       <width>611</width>
-      <height>301</height>
+      <height>331</height>
      </rect>
     </property>
     <property name="currentIndex">
@@ -33,92 +33,20 @@
      <widget class="QGroupBox" name="groupBox">
       <property name="geometry">
        <rect>
-        <x>10</x>
+        <x>0</x>
         <y>100</y>
         <width>291</width>
-        <height>191</height>
+        <height>221</height>
        </rect>
       </property>
       <property name="title">
        <string>Run Control</string>
       </property>
-      <widget class="QLabel" name="label_5">
-       <property name="geometry">
-        <rect>
-         <x>15</x>
-         <y>65</y>
-         <width>68</width>
-         <height>18</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>tStop [ms]</string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="label_6">
-       <property name="geometry">
-        <rect>
-         <x>15</x>
-         <y>99</y>
-         <width>47</width>
-         <height>18</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>dt [ms]</string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="label_7">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>140</y>
-         <width>67</width>
-         <height>18</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Time [ms]</string>
-       </property>
-      </widget>
-      <widget class="QDoubleSpinBox" name="doubleSpinBox_3">
-       <property name="geometry">
-        <rect>
-         <x>190</x>
-         <y>90</y>
-         <width>63</width>
-         <height>26</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QDoubleSpinBox" name="doubleSpinBox_2">
-       <property name="geometry">
-        <rect>
-         <x>190</x>
-         <y>60</y>
-         <width>63</width>
-         <height>26</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QLabel" name="time_label">
-       <property name="geometry">
-        <rect>
-         <x>200</x>
-         <y>140</y>
-         <width>41</width>
-         <height>20</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>0.0</string>
-       </property>
-      </widget>
       <widget class="QPushButton" name="init_btn">
        <property name="geometry">
         <rect>
-         <x>8</x>
-         <y>30</y>
+         <x>40</x>
+         <y>26</y>
          <width>85</width>
          <height>28</height>
         </rect>
@@ -130,8 +58,8 @@
       <widget class="QPushButton" name="run_btn">
        <property name="geometry">
         <rect>
-         <x>100</x>
-         <y>30</y>
+         <x>140</x>
+         <y>26</y>
          <width>85</width>
          <height>28</height>
         </rect>
@@ -140,24 +68,97 @@
         <string>Init + Run</string>
        </property>
       </widget>
-      <widget class="QDoubleSpinBox" name="vmSpinBox">
+      <widget class="QWidget" name="">
        <property name="geometry">
         <rect>
-         <x>190</x>
-         <y>30</y>
-         <width>63</width>
-         <height>26</height>
+         <x>11</x>
+         <y>61</y>
+         <width>253</width>
+         <height>122</height>
         </rect>
        </property>
-       <property name="toolTip">
-        <string>Initial Voltage [mV]</string>
-       </property>
+       <layout class="QFormLayout" name="formLayout">
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>Initial voltage [mV]</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QDoubleSpinBox" name="vSpinBox">
+          <property name="toolTip">
+           <string>Initial Voltage [mV]</string>
+          </property>
+          <property name="minimum">
+           <double>-300.000000000000000</double>
+          </property>
+          <property name="maximum">
+           <double>400.000000000000000</double>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_5">
+          <property name="text">
+           <string>tStop [ms]</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QDoubleSpinBox" name="tstopSpinBox">
+          <property name="suffix">
+           <string/>
+          </property>
+          <property name="maximum">
+           <double>999999999.000000000000000</double>
+          </property>
+          <property name="singleStep">
+           <double>0.010000000000000</double>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="label_6">
+          <property name="text">
+           <string>dt [ms]</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QDoubleSpinBox" name="dtSpinBox">
+          <property name="singleStep">
+           <double>0.010000000000000</double>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="label_7">
+          <property name="text">
+           <string>Time [ms]</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QLabel" name="time_label">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="text">
+           <string>0.0</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </widget>
      </widget>
      <widget class="QGroupBox" name="groupBox_2">
       <property name="geometry">
        <rect>
-        <x>280</x>
+        <x>300</x>
         <y>110</y>
         <width>301</width>
         <height>131</height>
@@ -166,11 +167,17 @@
       <property name="title">
        <string>3D control</string>
       </property>
+      <property name="flat">
+       <bool>false</bool>
+      </property>
+      <property name="checkable">
+       <bool>false</bool>
+      </property>
       <widget class="QPushButton" name="Plot3D">
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>60</y>
+         <y>49</y>
          <width>85</width>
          <height>28</height>
         </rect>
@@ -183,7 +190,7 @@
        <property name="geometry">
         <rect>
          <x>260</x>
-         <y>80</y>
+         <y>69</y>
          <width>30</width>
          <height>31</height>
         </rect>
@@ -193,7 +200,7 @@
        <property name="geometry">
         <rect>
          <x>260</x>
-         <y>40</y>
+         <y>29</y>
          <width>30</width>
          <height>31</height>
         </rect>
@@ -203,7 +210,7 @@
        <property name="geometry">
         <rect>
          <x>100</x>
-         <y>90</y>
+         <y>79</y>
          <width>146</width>
          <height>18</height>
         </rect>
@@ -216,7 +223,7 @@
        <property name="geometry">
         <rect>
          <x>100</x>
-         <y>50</y>
+         <y>39</y>
          <width>138</width>
          <height>18</height>
         </rect>
@@ -316,7 +323,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>621</width>
+     <width>615</width>
      <height>25</height>
     </rect>
    </property>

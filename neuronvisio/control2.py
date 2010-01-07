@@ -55,7 +55,15 @@ class Controls():
         self.ui.def_col_btn.setColor(QtGui.QColor(255.,255.,255.))
         self.ui.sel_col_btn.setColor(QtGui.QColor(0.,0.,255.))
         self.ui.init_btn.connect(self.ui.init_btn, QtCore.SIGNAL('clicked()'), self.init)
-        self.ui.run_btn.connect(self.ui.run_btn, QtCore.SIGNAL('clicked()'), self.run)                                               
+        self.ui.run_btn.connect(self.ui.run_btn, QtCore.SIGNAL('clicked()'), self.run)
+        self.ui.dtSpinBox.connect(self.ui.dtSpinBox, QtCore.SIGNAL('valueChanged(double)'), 
+                                  self.dt_changed)
+        self.ui.tstopSpinBox.connect(self.ui.tstopSpinBox, QtCore.SIGNAL('valueChanged(double)'), 
+                                     self.tstop_changed)
+        self.ui.vSpinBox.connect(self.ui.vSpinBox, QtCore.SIGNAL('valueChanged(double)'), 
+                                     self.v_changed)
+        
+                                              
         self.ui.show()
         
         # Start the main event loop.
@@ -72,7 +80,7 @@ class Controls():
     def init(self):
         """Set the vm_init from the spin button and prepare the simulator"""
         
-        v_init = self.ui.vmSpinBox.value()
+        v_init = self.ui.vSpinBox.value()
         
         # Set the v_init
         h.v_init = v_init
@@ -80,7 +88,7 @@ class Controls():
         h.fcurrent()
         
         # Reset the time in the GUI
-        self.ui.time_label.setText(str(h.t))
+        self.ui.time_label.setNum(h.t)
     
     def run(self):
         """Run the simulator till tstop"""
@@ -90,13 +98,37 @@ class Controls():
         # Run
         while h.t < h.tstop:
             h.fadvance()
+            
             self.ui.time_label.setText("<b>" + str(h.t) + "</b>")
+            
+    def tstop_changed(self):
+        
+        h.tstop = self.ui.tstopSpinBox.value()
+        
+        
+    def dt_changed(self):
+        
+        h.dt = self.ui.dtSpinBox.value()
+    
+    def v_changed(self):
+        
+        h.v_init = self.ui.vSpinBox.value()
     
     def plot_x(self):
         
         fig = plt.figure()
         x = np.linspace(0,10)
         plt.plot(x, np.sin(x))
-     
-if __name__ == "__main__":
-    ctl = Control()
+
+#class Timeloop(qtcore.qthread):
+#    """daemon thread to connect the console with the gui"""
+#    def __init__(self):
+#        qtcore.qthread.__init__(self)
+#        self.interval = 0.5 # more relaxed
+#        
+#        
+#    def run(self):
+#        """update the gui interface calling the update method"""
+#        while true:
+#            time.sleep(self.interval)
+#            gobject.idle_add(self.controls.update)
