@@ -2,6 +2,7 @@
 from paver.easy import *
 from paver.setuputils import setup
 from setuptools import find_packages
+import neuronvisio
 
 try:
     # Optional tasks, only needed for development
@@ -18,7 +19,7 @@ except ImportError, e:
 
 
 
-version = '0.3.5'
+version = neuronvisio.__version__
 
 classifiers = [
     # Get more strings from http://www.python.org/pypi?%3Aaction=list_classifiers

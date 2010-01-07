@@ -1,5 +1,5 @@
 #"""
-#NeuronVisio is a GTK2 user interface for NEURON simulator enviroment
+#NeuronVisio is a Graphical User Interface for NEURON simulator enviroment
 #
 #Copyright (c) 2009, Michele Mattioni
 #All rights reserved.
@@ -20,4 +20,5 @@
 #
 #"""
 
-__author__ = 'Michele Mattioni <mattioni@ebi.ac.uk>'
+__authors__ = 'Michele Mattioni <mattioni@ebi.ac.uk>'
+__version__ = '0.3.99'
