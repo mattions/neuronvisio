@@ -23,13 +23,6 @@ sys.path.append(os.path.dirname(__file__))
 
 from PyQt4 import QtGui, QtCore, uic
 
-# Pylab
-import numpy as np
-import matplotlib
-matplotlib.use("Qt4Agg")
-matplotlib.interactive(True)
-import matplotlib.pyplot as plt
-
 from neuron import h
 h.load_file("stdrun.hoc")
 
@@ -49,8 +42,8 @@ class Controls():
         # Connecting
         self.ui.Plot3D.connect(self.ui.Plot3D, 
                                      QtCore.SIGNAL('clicked()'), self.launch_visio)
-        self.ui.pylab_test.connect(self.ui.pylab_test,
-                                         QtCore.SIGNAL('clicked()'), self.plot_x)
+        self.ui.plot_vector_btn.connect(self.ui.plot_vector_btn,
+                                         QtCore.SIGNAL('clicked()'), self.plot_vector)
         
         self.ui.def_col_btn.setColor(QtGui.QColor(255.,255.,255.))
         self.ui.sel_col_btn.setColor(QtGui.QColor(0.,0.,255.))
@@ -70,6 +63,9 @@ class Controls():
         self.ui.create_vector.connect(self.ui.create_vector,
                                       QtCore.SIGNAL('clicked()'), 
                                       self.create_vector)
+        self.ui.actionAbout.connect(self.ui.actionAbout,
+                                      QtCore.SIGNAL('triggered()'), 
+                                      self.about)
         
         ### Connection with the console
         spinBoxDic = {'dt' : self.ui.dtSpinBox, 'tstop' : self.ui.tstopSpinBox,
@@ -131,12 +127,36 @@ class Controls():
         
         h.v_init = self.ui.vSpinBox.value()
     
-    def plot_x(self):
+    def plot_vector(self):
         
-        fig = plt.figure()
-        x = np.linspace(0,10)
-        plt.plot(x, np.sin(x))
-    
+        items = self.ui.treeWidget.selectedItems()
+        vecs_to_plot = {}
+        var = ""
+        for item in items:
+            if item.parent() is None:
+                print "Can't plot the section, skipping."
+            else:
+                sectionName = item.parent().text(0) #Column used
+                var = item.text(0)
+                
+                sectionName = str(sectionName) # This will go with Py3
+                var = str(var) #idem
+                for vecRef in self.manager.vecRefs:
+                    
+                    if vecRef.sec_name == sectionName:
+                        # get the vec
+                        vec = vecRef.vecs[var]
+                        key = sectionName + "_" + var
+                        vecs_to_plot[key] = vec
+        
+        # Plot legend if required
+        legend_status = self.ui.legend.isChecked() #return True if toggled.
+        
+        # Retrieve the fig num
+        fig_num = self.ui.fig_num_spinBox.value()
+        
+        self.manager.plotVecs(vecs_to_plot, legend=legend_status, 
+                              figure_num=fig_num)
     def create_vector(self):
         
         var = self.ui.var.text()
@@ -168,14 +188,21 @@ class Controls():
         info += "Ra: %f\n" % section.Ra
         info += "nseg: %f\n" % section.nseg
         return info
-                
-
-#QTreeWidgetItem *cities = new QTreeWidgetItem(treeWidget);
-#     cities->setText(0, tr("Cities"));
-#     QTreeWidgetItem *osloItem = new QTreeWidgetItem(cities);
-#     osloItem->setText(0, tr("Oslo"));
-#     osloItem->setText(1, tr("Yes"));
-
+    
+    def about(self):
+        
+        self.aboutUi = uic.loadUi(os.path.join(os.path.dirname(__file__),
+                                                "qtAbout.ui"))
+        import neuronvisio
+        name = '<font size=32><b>Neuronvisio %s<b><font>' %neuronvisio.__version__
+        authors = '%s' %neuronvisio.__authors__
+        
+        self.aboutUi.name.setText(name)
+        self.aboutUi.authors.setText(authors)
+        
+        self.aboutUi.show()
+        
+        
 class Timeloop(QtCore.QThread):
     """Daemon thread to connect the console with the gui"""
     def __init__(self, spinBoxDict, parent = None):

@@ -26,7 +26,10 @@ import matplotlib
 
 # Checking the variable DISPLAY to decide the backend
 if not os.environ.has_key("DISPLAY"):
-    matplotlib.use('Agg')
+    matplotlib.use('Agg') # No display, writing to file
+else:
+    matplotlib.use("Qt4Agg")
+    matplotlib.interactive(True)
     
 import matplotlib.pyplot as plt
 

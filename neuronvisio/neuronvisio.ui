@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>615</width>
-    <height>388</height>
+    <width>580</width>
+    <height>395</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,12 +19,12 @@
      <rect>
       <x>0</x>
       <y>10</y>
-      <width>611</width>
-      <height>331</height>
+      <width>571</width>
+      <height>321</height>
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -161,7 +161,7 @@
      <widget class="QGroupBox" name="groupBox_2">
       <property name="geometry">
        <rect>
-        <x>300</x>
+        <x>270</x>
         <y>110</y>
         <width>301</width>
         <height>131</height>
@@ -304,36 +304,76 @@
      <attribute name="title">
       <string>Plots</string>
      </attribute>
-     <widget class="QPushButton" name="pylab_test">
+     <widget class="QWidget" name="">
       <property name="geometry">
        <rect>
-        <x>80</x>
+        <x>11</x>
         <y>10</y>
-        <width>92</width>
-        <height>28</height>
+        <width>545</width>
+        <height>271</height>
        </rect>
       </property>
-      <property name="text">
-       <string>pylab test</string>
-      </property>
-     </widget>
-     <widget class="QTreeWidget" name="treeWidget">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>40</y>
-        <width>441</width>
-        <height>251</height>
-       </rect>
-      </property>
-      <property name="columnCount">
-       <number>1</number>
-      </property>
-      <column>
-       <property name="text">
-        <string>Vector</string>
-       </property>
-      </column>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <widget class="QPushButton" name="plot_vector_btn">
+           <property name="text">
+            <string>plot</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="fig_num_spinBox">
+           <property name="minimum">
+            <number>1</number>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="legend">
+           <property name="text">
+            <string>legend</string>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>298</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QTreeWidget" name="treeWidget">
+         <property name="alternatingRowColors">
+          <bool>true</bool>
+         </property>
+         <property name="selectionMode">
+          <enum>QAbstractItemView::MultiSelection</enum>
+         </property>
+         <property name="columnCount">
+          <number>1</number>
+         </property>
+         <column>
+          <property name="text">
+           <string>Vector</string>
+          </property>
+         </column>
+        </widget>
+       </item>
+      </layout>
      </widget>
     </widget>
    </widget>
@@ -344,7 +384,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>615</width>
+     <width>580</width>
      <height>25</height>
     </rect>
    </property>
