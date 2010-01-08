@@ -28,7 +28,7 @@ h.load_file("stdrun.hoc")
 
 # Visio
 
-from visio2 import Visio
+from visio import Visio
 import manager
 
 class Controls():
