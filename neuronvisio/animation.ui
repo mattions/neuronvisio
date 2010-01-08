@@ -58,10 +58,10 @@
   <widget class="QWidget" name="">
    <property name="geometry">
     <rect>
-     <x>40</x>
-     <y>180</y>
-     <width>365</width>
-     <height>129</height>
+     <x>41</x>
+     <y>181</y>
+     <width>371</width>
+     <height>124</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -79,7 +79,7 @@
         <property name="toolTip">
          <string>starting color</string>
         </property>
-        <property name="color">
+        <property name="color" stdset="0">
          <color>
           <red>255</red>
           <green>255</green>
@@ -107,7 +107,7 @@
         <property name="toolTip">
          <string>ending color</string>
         </property>
-        <property name="color">
+        <property name="color" stdset="0">
          <color>
           <red>255</red>
           <green>0</green>
@@ -155,41 +155,11 @@
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
-       <widget class="QToolButton" name="play_btn">
-        <property name="text">
-         <string>Play</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QToolButton" name="stop_btn">
-        <property name="text">
-         <string>Stop</string>
-        </property>
-       </widget>
-      </item>
-      <item>
        <widget class="QSlider" name="timelineSlider">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
        </widget>
-      </item>
-      <item>
-       <spacer name="horizontalSpacer">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeType">
-         <enum>QSizePolicy::Fixed</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>108</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
       </item>
       <item>
        <widget class="QLabel" name="animationTime">

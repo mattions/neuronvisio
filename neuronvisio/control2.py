@@ -247,7 +247,6 @@ class Controls():
         start_value = float(self.a_ui.startValue.text())
         end_value = float(self.a_ui.endValue.text())
 
-        print "Start value %s, end value %s" %(start_value, end_value)
         start_col = self.a_ui.starting_color_btn.color
         end_col = self.a_ui.ending_color_btn.color
         self.visio.show_variable_timecourse(var, time_point_indx, start_value, 

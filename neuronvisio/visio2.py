@@ -80,7 +80,11 @@ class Visio(object):
         # If we already draw the model we don't have to get the coords anymore.
         cyl = None     
         # We need to retrieve only if it's not draw
+        
+
         if sec not in self.sec2cyl.keys():
+            
+            print ("Drawing sec %s, %s" %(sec.name(), sec))
             coords = self.retrieve_coordinate(sec)
             x_ax = coords['x1'] -coords['x0']
             y_ax = coords['y1'] -coords['y0']
@@ -121,8 +125,8 @@ class Visio(object):
         
         offset = self.calc_offset(start_value, end_value, var_value)
  
-        print "Start_value: %f, var_value: %f, end_value: %f, offset \
-        %f" %(start_value, var_value, end_value, offset)
+#        print "Start_value: %f, var_value: %f, end_value: %f, offset \
+#        %f" %(start_value, var_value, end_value, offset)
         
         start_col = self._rgb(start_col)
         end_col = self._rgb(end_col)
@@ -130,8 +134,8 @@ class Visio(object):
         for i, primary in enumerate(col):
             col[i] = (end_col[i] - start_col[i]) * offset + start_col[i] 
                                                                            
-#        print "Calculated color %s" % col
-        return QtGui.QColor(col * 255)
+        #print "start %s, end %s Calculated color %s" % (start_col, end_col, col)
+        return QtGui.QColor(col[0],col[1],col[2])
     
     def show_variable_timecourse(self, var, time_point, start_value, 
                                  start_col, end_value, end_col, vecRefs):
@@ -142,7 +146,7 @@ class Visio(object):
             if vecRef.vecs.has_key(var):
                 vec = vecRef.vecs[var]
                 var_value = vec[time_point]
-                print "Sec to draw: %s" %vecRef.sec
+                
                 ## Use it to retrieve the value from the gradient with the index
                 color = self.calculate_gradient(var_value, start_value, 
                                                 start_col, end_value, 

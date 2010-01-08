@@ -311,6 +311,9 @@
           </item>
           <item>
            <widget class="QRadioButton" name="selected_section">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="text">
              <string>Selected section</string>
             </property>
@@ -462,18 +465,18 @@
    </hints>
   </connection>
   <connection>
-   <sender>run_btn</sender>
+   <sender>animation_btn</sender>
    <signal>clicked()</signal>
-   <receiver>animation_btn</receiver>
-   <slot>showNormal()</slot>
+   <receiver>Plot3D</receiver>
+   <slot>click()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>209</x>
-     <y>199</y>
+     <x>443</x>
+     <y>211</y>
     </hint>
     <hint type="destinationlabel">
-     <x>473</x>
-     <y>203</y>
+     <x>383</x>
+     <y>214</y>
     </hint>
    </hints>
   </connection>
