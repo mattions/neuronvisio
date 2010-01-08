@@ -20,11 +20,11 @@
       <x>0</x>
       <y>10</y>
       <width>571</width>
-      <height>321</height>
+      <height>331</height>
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -35,9 +35,12 @@
        <rect>
         <x>0</x>
         <y>100</y>
-        <width>291</width>
-        <height>221</height>
+        <width>271</width>
+        <height>191</height>
        </rect>
+      </property>
+      <property name="styleSheet">
+       <string>border-color: rgb(0, 0, 0);</string>
       </property>
       <property name="title">
        <string>Run Control</string>
@@ -68,7 +71,7 @@
         <string>Init + Run</string>
        </property>
       </widget>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
         <rect>
          <x>11</x>
@@ -161,10 +164,10 @@
      <widget class="QGroupBox" name="groupBox_2">
       <property name="geometry">
        <rect>
-        <x>270</x>
-        <y>110</y>
-        <width>301</width>
-        <height>131</height>
+        <x>290</x>
+        <y>100</y>
+        <width>251</width>
+        <height>161</height>
        </rect>
       </property>
       <property name="title">
@@ -179,8 +182,8 @@
       <widget class="QPushButton" name="Plot3D">
        <property name="geometry">
         <rect>
-         <x>0</x>
-         <y>49</y>
+         <x>30</x>
+         <y>30</y>
          <width>85</width>
          <height>28</height>
         </rect>
@@ -192,8 +195,8 @@
       <widget class="ColorButton" name="sel_col_btn">
        <property name="geometry">
         <rect>
-         <x>260</x>
-         <y>69</y>
+         <x>190</x>
+         <y>110</y>
          <width>30</width>
          <height>31</height>
         </rect>
@@ -202,8 +205,8 @@
       <widget class="ColorButton" name="def_col_btn">
        <property name="geometry">
         <rect>
-         <x>260</x>
-         <y>29</y>
+         <x>190</x>
+         <y>70</y>
          <width>30</width>
          <height>31</height>
         </rect>
@@ -212,8 +215,8 @@
       <widget class="QLabel" name="label_3">
        <property name="geometry">
         <rect>
-         <x>100</x>
-         <y>79</y>
+         <x>30</x>
+         <y>120</y>
          <width>146</width>
          <height>18</height>
         </rect>
@@ -225,14 +228,27 @@
       <widget class="QLabel" name="label_4">
        <property name="geometry">
         <rect>
-         <x>100</x>
-         <y>39</y>
+         <x>30</x>
+         <y>80</y>
          <width>138</width>
          <height>18</height>
         </rect>
        </property>
        <property name="text">
         <string>Default Section Color</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="animation_btn">
+       <property name="geometry">
+        <rect>
+         <x>130</x>
+         <y>30</y>
+         <width>92</width>
+         <height>28</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Animation</string>
        </property>
       </widget>
      </widget>
@@ -304,7 +320,7 @@
      <attribute name="title">
       <string>Plots</string>
      </attribute>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>11</x>

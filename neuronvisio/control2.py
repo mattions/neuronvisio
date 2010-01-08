@@ -66,6 +66,19 @@ class Controls():
         self.ui.actionAbout.connect(self.ui.actionAbout,
                                       QtCore.SIGNAL('triggered()'), 
                                       self.about)
+        self.ui.animation_btn.connect(self.ui.animation_btn,
+                                      QtCore.SIGNAL('clicked()'),
+                                      self.animation)
+        self.a_ui = uic.loadUi(os.path.join(os.path.dirname(__file__),
+                                                "animation.ui"))
+        self.a_ui.view.connect(self.a_ui.view, QtCore.SIGNAL('changed()'),
+                               self.draw_gradient)
+        self.a_ui.starting_color_btn.connect(self.a_ui.starting_color_btn,
+                                        QtCore.SIGNAL("colorChanged(QColor)"),
+                                        self.draw_gradient)
+        self.a_ui.ending_color_btn.connect(self.a_ui.ending_color_btn,
+                                QtCore.SIGNAL("colorChanged(QColor)"),
+                                self.draw_gradient)
         
         ### Connection with the console
         spinBoxDic = {'dt' : self.ui.dtSpinBox, 'tstop' : self.ui.tstopSpinBox,
@@ -178,6 +191,36 @@ class Controls():
                 item.setText(0, var)
                 sec_root_item.addChild(item)
     
+    def animation(self):
+    
+        self.draw_gradient()
+        self.a_ui.show()
+    
+    def draw_gradient(self):
+        
+        x = self.a_ui.view.x()
+        y = self.a_ui.view.y()
+        h = self.a_ui.view.height()
+        w = self.a_ui.view.width()
+        
+        gradient = QtGui.QLinearGradient(x, y/2, x+w, y/2)
+        gradient.setColorAt(0.0, self.a_ui.starting_color_btn.color)
+        gradient.setColorAt(1.0, self.a_ui.ending_color_btn.color)
+        brush = QtGui.QBrush(gradient)
+        scene = QtGui.QGraphicsScene()
+        scene.setSceneRect(x,y,w,h)    
+        
+        # Rect fills all the graphicview
+        rect = QtGui.QGraphicsRectItem(x, y, w, h) 
+        rect.setBrush(brush)
+        scene.addItem(rect)
+        
+        #scene.addText("Hello")
+        self.a_ui.view.setScene(scene)
+        self.a_ui.view.show()
+        
+
+    
     def get_info(self, section):
         """Get the info of the given section"""
         
@@ -198,8 +241,7 @@ class Controls():
         authors = '%s' %neuronvisio.__authors__
         
         self.aboutUi.name.setText(name)
-        self.aboutUi.authors.setText(authors)
-        
+        self.aboutUi.authors.setText(authors)    
         self.aboutUi.show()
         
         

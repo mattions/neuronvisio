@@ -21,4 +21,4 @@
 #"""
 
 __authors__ = 'Michele Mattioni <mattioni@ebi.ac.uk>'
-__version__ = '0.3.99'
+__version__ = '0.3.99dev'
