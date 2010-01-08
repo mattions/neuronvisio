@@ -109,15 +109,18 @@ class Controls():
     def init(self):
         """Set the vm_init from the spin button and prepare the simulator"""
         
-        v_init = self.ui.vSpinBox.value()
+        if len(self.manager.vecRefs) == 0:
+            print "No vector Created. Create at least one vector to run the simulation"
+        else:
+            v_init = self.ui.vSpinBox.value()
+            
+            # Set the v_init
+            h.v_init = v_init
+            h.finitialize(v_init)
+            h.fcurrent()
         
-        # Set the v_init
-        h.v_init = v_init
-        h.finitialize(v_init)
-        h.fcurrent()
-        
-        # Reset the time in the GUI
-        self.ui.time_label.setNum(h.t)
+            # Reset the time in the GUI
+            self.ui.time_label.setNum(h.t)
     
     def run(self):
         """Run the simulator till tstop"""
@@ -178,7 +181,10 @@ class Controls():
     def create_vector(self):
         
         var = self.ui.var.text()
-        allCreated = self.manager.add_all_vecRef(str(var))
+        if var.isEmpty():
+            print "No var specified."
+        else:
+            allCreated = self.manager.add_all_vecRef(str(var))
         self._update_tree_view()
         
     def _update_tree_view(self):
@@ -271,7 +277,7 @@ class Controls():
         self.aboutUi = uic.loadUi(os.path.join(os.path.dirname(__file__),
                                                 "qtAbout.ui"))
         import neuronvisio
-        name = '<font size=32><b>Neuronvisio %s<b><font>' %neuronvisio.__version__
+        name = '<font size=24><b>Neuronvisio %s<b><font>' %neuronvisio.__version__
         authors = '%s' %neuronvisio.__authors__
         
         self.aboutUi.name.setText(name)

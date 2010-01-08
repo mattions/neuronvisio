@@ -84,7 +84,6 @@ class Visio(object):
 
         if sec.name() not in self.sec2cyl.keys():
             
-            print ("Drawing sec %s, %s" %(sec.name(), sec))
             coords = self.retrieve_coordinate(sec)
             x_ax = coords['x1'] -coords['x0']
             y_ax = coords['y1'] -coords['y0']
