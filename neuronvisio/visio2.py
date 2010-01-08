@@ -82,7 +82,7 @@ class Visio(object):
         # We need to retrieve only if it's not draw
         
 
-        if sec not in self.sec2cyl.keys():
+        if sec.name() not in self.sec2cyl.keys():
             
             print ("Drawing sec %s, %s" %(sec.name(), sec))
             coords = self.retrieve_coordinate(sec)
