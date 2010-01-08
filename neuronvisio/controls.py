@@ -105,6 +105,10 @@ class Controls():
             self.ui.def_col_btn.connect(self.ui.def_col_btn,
                                         QtCore.SIGNAL("colorChanged(QColor)"),
                                         self.visio.draw_model)
+        else:
+            #Raise the visio window
+            pass
+        
     
     def init(self):
         """Set the vm_init from the spin button and prepare the simulator"""
