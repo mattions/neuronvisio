@@ -20,6 +20,8 @@
 Contain all the 3D operations.
 """
 
+from PyQt4 import QtGui
+
 from enthought.mayavi import mlab
 from enthought.tvtk.tools import visual
 
@@ -93,6 +95,60 @@ class Visio(object):
             cyl = self.sec2cyl[sec.name()]
             
         cyl.color = (color.red()/255., color.green()/255., color.blue()/255.)
+    
+    
+    def calc_offset(self, start_v, end_v, v):
+        """Calculate the offset for the gradient 
+        according to the input variable"""
+        
+        range = abs(start_v - end_v)
+        delta = abs(start_v - v)
+        # range : delta = 1 : offset
+        offset = delta/range
+        return offset
+    
+    def calculate_gradient(self, var_value, start_value, start_col, 
+                           end_value, end_col):
+        """Calculate the color in a gradient given the start and the end
+        
+        params:
+        var_value - The value read from the vector
+        start_value - the initial value for the var
+        end_value - the final value for the var
+        start_col - the starting color for the linear gradient
+        end_col - the final color for the linear gradient"""
+        
+        
+        offset = self.calc_offset(start_value, end_value, var_value)
+ 
+        print "Start_value: %f, var_value: %f, end_value: %f, offset \
+        %f" %(start_value, var_value, end_value, offset)
+        
+        start_col = self._rgb(start_col)
+        end_col = self._rgb(end_col)
+        col = [0, 0, 0]
+        for i, primary in enumerate(col):
+            col[i] = (end_col[i] - start_col[i]) * offset + start_col[i] 
+                                                                           
+#        print "Calculated color %s" % col
+        return QtGui.QColor(col * 255)
+    
+    def show_variable_timecourse(self, var, time_point, start_value, 
+                                 start_col, end_value, end_col, vecRefs):
+        """Show an animation of all the section that have 
+        the recorded variable among time"""
+        
+        for vecRef in vecRefs:
+            if vecRef.vecs.has_key(var):
+                vec = vecRef.vecs[var]
+                var_value = vec[time_point]
+                print "Sec to draw: %s" %vecRef.sec
+                ## Use it to retrieve the value from the gradient with the index
+                color = self.calculate_gradient(var_value, start_value, 
+                                                start_col, end_value, 
+                                                end_col)
+                
+                self.draw_section(vecRef.sec, color=color)
         
     def retrieve_coordinate(self, sec):
         """Retrieve the coordinates of the section"""
@@ -106,3 +162,6 @@ class Visio(object):
         coords['z1'] = h.z3d((h.n3d()- 1))
         h.pop_section()
         return coords
+    
+    def _rgb(self, qcolor):
+        return (qcolor.red(), qcolor.green(), qcolor.blue())

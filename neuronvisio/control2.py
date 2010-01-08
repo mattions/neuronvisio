@@ -79,6 +79,9 @@ class Controls():
         self.a_ui.ending_color_btn.connect(self.a_ui.ending_color_btn,
                                 QtCore.SIGNAL("colorChanged(QColor)"),
                                 self.draw_gradient)
+        self.a_ui.timelineSlider.connect(self.a_ui.timelineSlider,
+                                         QtCore.SIGNAL("valueChanged(int)"),
+                                         self.on_timeline_value_changed)
         
         ### Connection with the console
         spinBoxDic = {'dt' : self.ui.dtSpinBox, 'tstop' : self.ui.tstopSpinBox,
@@ -126,7 +129,9 @@ class Controls():
             h.fadvance()
             
             self.ui.time_label.setText("<b>" + str(h.t) + "</b>")
-            
+        # Enabling the animation
+        self.ui.animation_btn.setEnabled(True)
+                    
     def tstop_changed(self):
         
         h.tstop = self.ui.tstopSpinBox.value()
@@ -192,7 +197,8 @@ class Controls():
                 sec_root_item.addChild(item)
     
     def animation(self):
-    
+        
+        self.a_ui.timelineSlider.setRange(0, len (self.manager.t))
         self.draw_gradient()
         self.a_ui.show()
     
@@ -219,8 +225,37 @@ class Controls():
         self.a_ui.view.setScene(scene)
         self.a_ui.view.show()
         
+    def on_timeline_value_changed(self):
+        """Draw the animation according to the value of the timeline"""
+        
+        # cast to int from str
+        time_point_indx = self.a_ui.timelineSlider.value()
+        
+        
 
-    
+        var = self.a_ui.varToShow.text()
+        var = str(var) # This will go with Py3
+#        
+#        #Update the label on the scale
+        
+        if len (self.manager.t) == time_point_indx:
+            time_point_indx = time_point_indx - 1 # Avoid to go out of scale
+        time = self.manager.t[time_point_indx]
+        self.a_ui.animationTime.setText(str(time))
+        
+        
+        start_value = float(self.a_ui.startValue.text())
+        end_value = float(self.a_ui.endValue.text())
+
+        print "Start value %s, end value %s" %(start_value, end_value)
+        start_col = self.a_ui.starting_color_btn.color
+        end_col = self.a_ui.ending_color_btn.color
+        self.visio.show_variable_timecourse(var, time_point_indx, start_value, 
+                                            start_col, 
+                                            end_value, 
+                                            end_col, 
+                                            self.manager.vecRefs)
+        
     def get_info(self, section):
         """Get the info of the given section"""
         

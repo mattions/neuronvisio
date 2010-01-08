@@ -239,6 +239,9 @@
        </property>
       </widget>
       <widget class="QPushButton" name="animation_btn">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="geometry">
         <rect>
          <x>130</x>
@@ -249,6 +252,9 @@
        </property>
        <property name="text">
         <string>Animation</string>
+       </property>
+       <property name="checkable">
+        <bool>false</bool>
        </property>
       </widget>
      </widget>
@@ -452,6 +458,22 @@
     <hint type="destinationlabel">
      <x>287</x>
      <y>193</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>run_btn</sender>
+   <signal>clicked()</signal>
+   <receiver>animation_btn</receiver>
+   <slot>showNormal()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>209</x>
+     <y>199</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>473</x>
+     <y>203</y>
     </hint>
    </hints>
   </connection>
