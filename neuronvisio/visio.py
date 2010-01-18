@@ -20,20 +20,73 @@
 Contain all the 3D operations.
 """
 
-from PyQt4 import QtGui
 
-from enthought.mayavi import mlab
+import os
+os.environ['ETS_TOOLKIT'] = 'qt4'
+
+from PyQt4 import QtGui, QtCore, uic
+
+from enthought.traits.api import HasTraits, Instance, on_trait_change, \
+    Int, Dict
+from enthought.traits.ui.api import View, Item
+from enthought.mayavi.core.ui.api import MayaviScene, MlabSceneModel, \
+        SceneEditor
+
 from enthought.tvtk.tools import visual
 
 from neuron import h
 
+
+################################################################################
+#The actual visualization
+class Visualization(HasTraits):
+    scene = Instance(MlabSceneModel, ())
+
+    @on_trait_change('scene.activated')
+    def update_plot(self):
+        # This function is called when the view is opened. We don't
+        # populate the scene when the view is not yet open, as some 
+        # VTK features require a GLContext.
+
+        # We can do normal mlab calls on the embedded scene.
+#        self.scene.mlab.test_points3d()
+        pass
+
+    # the layout of the dialog screated
+    view = View(Item('scene', editor=SceneEditor(scene_class=MayaviScene),
+                     height=250, width=300, show_label=False),
+                resizable=True # We need this to resize with the parent widget
+                )
+
+
+################################################################################
+# The QWidget containing the visualization, this is pure PyQt4 code.
+class MayaviQWidget(QtGui.QWidget):
+    def __init__(self, parent=None):
+        QtGui.QWidget.__init__(self, parent)
+        layout = QtGui.QVBoxLayout(self)
+        layout.setMargin(0)
+        layout.setSpacing(0)
+        self.visualization = Visualization()
+
+        # If you want to debug, beware that you need to remove the Qt
+        # input hook.
+        #QtCore.pyqtRemoveInputHook()
+        #import pdb ; pdb.set_trace()
+        #QtCore.pyqtRestoreInputHook()
+
+        # The edit_traits call will generate the widget to embed.
+        self.ui = self.visualization.edit_traits(parent=self, 
+                                                 kind='subpanel').control
+        layout.addWidget(self.ui)
+        self.ui.setParent(self)
+
+
+
+
 class Visio(object):
     
-    def __init__(self):
-        
-        self.fig = mlab.figure(size=(500,500))
-        # Tell visual to use this as the viewer.
-        visual.set_viewer(self.fig)
+    def __init__(self):       
         
         # Needed when user pick the cylinder from visio and 
         # we need to get the section
@@ -45,6 +98,28 @@ class Visio(object):
         self.selected_cyl = None # Used for storing the cyl when picked
         self.vecRefs = []
         
+        
+        container = QtGui.QWidget()
+        container.setWindowTitle("Neuronvisio 3D")
+        
+        self.mayavi = MayaviQWidget(container)
+        layout = QtGui.QVBoxLayout(container)
+        layout.addWidget(self.mayavi)
+                
+        # Tell visual to use this as the viewer.
+        visual.set_viewer(self.mayavi.visualization.scene)
+        
+        # binding to hide event.
+        container.connect(container, QtCore.SIGNAL('closeEvent()'), 
+                               self.closeEvent)
+        
+        container.show()
+        
+        self.container = container
+    
+    def closeEvent(self):
+        """Just hide the window to not loose the mayavi hook"""
+        self.container.hide()
         
     def draw_model(self, color, selected_sec=None, selected_color=None):
         """Draw the model.
