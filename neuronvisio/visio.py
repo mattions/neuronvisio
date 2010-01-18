@@ -54,7 +54,7 @@ class Visualization(HasTraits):
 
     # the layout of the dialog screated
     view = View(Item('scene', editor=SceneEditor(scene_class=MayaviScene),
-                     height=250, width=300, show_label=False),
+                     height=400, width=500, show_label=False),
                 resizable=True # We need this to resize with the parent widget
                 )
 
