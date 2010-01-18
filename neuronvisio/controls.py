@@ -107,7 +107,7 @@ class Controls():
                                         self.visio.draw_model)
         else:
             #Raise the visio window
-            self.visio.container.show()
+            pass
         
     
     def init(self):
