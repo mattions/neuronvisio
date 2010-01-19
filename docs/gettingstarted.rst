@@ -5,10 +5,9 @@ Getting Started
 How does it work
 ================
 
-You need to use NeuronVisio from an _ipython console started with the 
-pylab switch::
+You need to use Neuronvisio from an ipython_ console started with the qt4 thread switch::
 
-    ipython -pylab
+    ipython -q4thread
 
 .. _ipython: http://ipython.scipy.org/
 
@@ -63,29 +62,29 @@ NeuronVisio features
 Visualization
 -------------
 
-To visualize you model after you loaded you have to click the Draw button.
+To visualize you model after you loaded you have to click the Plot3d button.
 
-.. image: images/NeuronVisio_Controls.png
-    :scale: 50
+.. image:: images/Neuronvisio_Controls.png
+    
+
+The 3D window will open showing your model:
+    
+.. image:: images/Neuronvisio_3D.png
 
 How to rotate
 -------------
 
-Hold the third button of your mouse (usually clicking the wheel) and move 
-the mouse.
+Hold the left button and move the mouse.
 
 How to zoom
 -----------
 
-Hold the right button of your mouse and move the mouse.
+Use your mouse's wheel or the right button of the mouse.
 
 How to move
 -----------
 
-Click on `Drag` button and then pick a section of your model to move it.
-
-.. image: images/NeuronVisio_Controls_Drag.png
-    :scale: 50
+Hold the wheel down and move the mouse.
 
 Plotting the simulation results
 ===============================
@@ -97,17 +96,9 @@ To plot the simulation's results you first have to create a Vector
 (or more than one) to record the variable that you are interested in.
 
 For example if you are interested in the voltage you have to insert `v` 
-in the 'Variable to record and click record'. 
+in the 'Variable to record` and click `Create Vector`. 
 
 .. image:: images/NeuronVisio_Controls_selecting_variable.png
-    :scale: 70
-
-If you want to create a vector for only one section just pick that 
-section clicking on 'Pick a Section' and then select the section on the GUI.
-
-.. image::images/pick_section.png
-    :scale: 70
-
 
 Run the simulation
 ------------------
@@ -116,7 +107,7 @@ The simulation can be run clicking on the `Init & Run` button.
 It will run until the tstop.
 
 .. image:: images/init_and_run.png
-    :scale: 80
+    
     
 Plotting the simulation
 -----------------------

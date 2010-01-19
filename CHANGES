@@ -1,6 +1,9 @@
-0.3.5+ dev
-==========
+0.4.0 - 19 Jan 2010
+========================
 
+- Remplemented using Mayavi2 and Qt4 for better performance and better usability.
+- Cleanup and refactoring of the code.
+- Closed #11, #12, #15
 
 0.3.5 - 20 Nov 2009 
 ===================

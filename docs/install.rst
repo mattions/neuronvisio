@@ -9,12 +9,13 @@ Requirements
 
 To install NeuronVisio you need to satisfy the following dependencies
 
-- pygtk: http://www.pygtk.org/
-- visual: http://vpython.org/
+- PyQt4: http://www.riverbankcomputing.co.uk/software/pyqt/download
+- ipython: http://ipython.scipy.org/moin/
+- mayavi2: http://code.enthought.com/projects/mayavi/
 - matplotlib: http://matplotlib.sourceforge.net/
 
 
-and of course NEURON_.
+and of course NEURON_. compiled with python support
 
 .. _NEURON: http://www.neuron.yale.edu/neuron/
 
@@ -23,7 +24,7 @@ Ubuntu and friends
 
 On Ubuntu you can easily install all the requirements using apt-get with::
 
-    sudo apt-get install python-numpy python-gtk2 python-visual python-matplotlib
+    sudo apt-get install python-qt4 ipython mayavi2 python-matplotlib
 
 and then add the `Neuronvisio PPA`_ on launchpad adding the repositories::
     
@@ -41,55 +42,58 @@ updating and installing::
     
 .. _Neuronvisio PPA: https://launchpad.net/~mattions/+archive/neuronvisio
 
-If you are running a different flavour of GNU/Linux, like Fedora for example, just install the requirements 
-with your package manager, then go to the `Package Install`.
+If you are running a different flavour of GNU/Linux, like Fedora for example, just install 
+the requirements with your package manager, then go to the `Package Install`_.
 
 Mac OS X
 ========
 
-You need to install the requirements by yourself, because there is no package manager 
-able to do it for you. I suggest you to get an `Ubuntu`_. Anyway, for the brave, I'll give here 
-some links to make this work easier for you:
+Install the PyQt4_
 
-- `GTK for MAC`_ : this is the GTK port for MAC
-- `Visual for MAC`_ : there is a dedicated installer
-- `Matplotlib for MAC`_ : Install the superpack and you will get Numpy, Scipy, and matplotlib.
+.. _PyQt4: http://www.riverbankcomputing.co.uk/software/pyqt/download
 
-.. _Ubuntu: http://www.ubuntu.com/
-.. _GTK for MAC: http://gtk-osx.sourceforge.net/
-.. _Visual for MAC: http://vpython.org/OSX_download.html
-.. _Matplotlib for MAC: http://macinscience.org/?page_id=6 
+To get ipython, mayavi and matplotlib it's higly suggested to get a 
+prepackaged scientific python distribution
 
-If you have all this stuff installed then proceed to the `Package Install`_.
+Some pointers:
+ 
+- Enthought Distribution: http://www.enthought.com/products/epd.php
+- Scipy SuperPack: http://macinscience.org/?page_id=6
+
+The last one is maybe missing mayavi2. Follow the instruction on `mayavi doc_` to install it
+
+.. mayavi doc: http://code.enthought.com/projects/mayavi/ 
+ 
+Then move to `Package Install`.
 
 Windows
 =======
 
-Seriously? As for Mac, you need to install the requirements by yourself, because there is no package manager 
-able to do it for you. It can be done but it's really painful. I suggest you to get an `Ubuntu`_. 
-Anyway, for the brave:
+You need to install 
 
+- PyQt4:  http://www.riverbankcomputing.co.uk/software/pyqt/download
 
-- `PyGTK stack`_: To get this working you need to build the GTK, libglade, and PyGTK and install python
-- `Visual Python`_: You can install the visual package with the install
-- `Matplot and numpy`_: You need to compile everything.
+Some pointers as for MAC:
 
-.. _Ubuntu: http://www.ubuntu.com/
-.. _PyGTK stack: http://faq.pygtk.org/index.py?file=faq21.002.htp&req=show
-.. _Visual Python: http://vpython.org/win_download25.html
-.. _Matplot and numpy: http://www.scipy.org/Installing_SciPy/Windows
+- Enthought Distribution: http://www.enthought.com/products/epd.php
+- Python(x,y): http://www.pythonxy.com/foreword.php
 
-If you have all this stuff installed then proceed to the `Package Install`_.
+The last one is maybe missing mayavi2. Follow the instruction on `mayavi doc_` to install it
+
+.. mayavi doc: http://code.enthought.com/projects/mayavi/
+
+Proceed to the `Package Install` .
 
 Package Install
 ===============
 
-If you have `pip`_ installed and all the requirements are already met you can install neuronvisio and a really handy way::
+If you have `pip`_ installed and all the requirements are already met you can install neuronvisio 
+in a really handy way::
 
     pip install neuronvisio
 
-Without pip, if you met all the requirements it's still pretty easy. Download the lates neuronvisio.tgz file 
-from `Neuronvisio's PyPI page`_, untar it and run::
+Without pip, if you met all the requirements it's still pretty easy. Download the latest 
+neuronvisio.tgz file from `Neuronvisio's PyPI page`_, untar it and run::
 
     python setup.py install
 
