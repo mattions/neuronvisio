@@ -6,402 +6,320 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>580</width>
-    <height>395</height>
+    <width>579</width>
+    <height>414</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Neuronvisio</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QTabWidget" name="tabWidget">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>10</y>
-      <width>571</width>
-      <height>331</height>
-     </rect>
-    </property>
-    <property name="currentIndex">
-     <number>0</number>
-    </property>
-    <widget class="QWidget" name="tab">
-     <attribute name="title">
-      <string>Model</string>
-     </attribute>
-     <widget class="QGroupBox" name="groupBox">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>100</y>
-        <width>271</width>
-        <height>191</height>
-       </rect>
+   <layout class="QGridLayout" name="gridLayout_4">
+    <item row="0" column="0">
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
       </property>
-      <property name="styleSheet">
-       <string>border-color: rgb(0, 0, 0);</string>
+      <property name="currentIndex">
+       <number>0</number>
       </property>
-      <property name="title">
-       <string>Run Control</string>
-      </property>
-      <widget class="QPushButton" name="init_btn">
-       <property name="geometry">
-        <rect>
-         <x>40</x>
-         <y>26</y>
-         <width>85</width>
-         <height>28</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Init </string>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="run_btn">
-       <property name="geometry">
-        <rect>
-         <x>140</x>
-         <y>26</y>
-         <width>85</width>
-         <height>28</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Init + Run</string>
-       </property>
-      </widget>
-      <widget class="QWidget" name="layoutWidget">
-       <property name="geometry">
-        <rect>
-         <x>11</x>
-         <y>61</y>
-         <width>253</width>
-         <height>122</height>
-        </rect>
-       </property>
-       <layout class="QFormLayout" name="formLayout">
-        <item row="0" column="0">
-         <widget class="QLabel" name="label_2">
-          <property name="text">
-           <string>Initial voltage [mV]</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QDoubleSpinBox" name="vSpinBox">
-          <property name="toolTip">
-           <string>Initial Voltage [mV]</string>
-          </property>
-          <property name="minimum">
-           <double>-300.000000000000000</double>
-          </property>
-          <property name="maximum">
-           <double>400.000000000000000</double>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="label_5">
-          <property name="text">
-           <string>tStop [ms]</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QDoubleSpinBox" name="tstopSpinBox">
-          <property name="suffix">
-           <string/>
-          </property>
-          <property name="maximum">
-           <double>999999999.000000000000000</double>
-          </property>
-          <property name="singleStep">
-           <double>0.010000000000000</double>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="label_6">
-          <property name="text">
-           <string>dt [ms]</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1">
-         <widget class="QDoubleSpinBox" name="dtSpinBox">
-          <property name="decimals">
-           <number>4</number>
-          </property>
-          <property name="singleStep">
-           <double>0.000100000000000</double>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="0">
-         <widget class="QLabel" name="label_7">
-          <property name="text">
-           <string>Time [ms]</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="1">
-         <widget class="QLabel" name="time_label">
-          <property name="enabled">
-           <bool>true</bool>
-          </property>
-          <property name="text">
-           <string>0.0</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_2">
-      <property name="geometry">
-       <rect>
-        <x>290</x>
-        <y>100</y>
-        <width>251</width>
-        <height>161</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>3D control</string>
-      </property>
-      <property name="flat">
-       <bool>false</bool>
-      </property>
-      <property name="checkable">
-       <bool>false</bool>
-      </property>
-      <widget class="QPushButton" name="Plot3D">
-       <property name="geometry">
-        <rect>
-         <x>30</x>
-         <y>30</y>
-         <width>85</width>
-         <height>28</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Plot3D</string>
-       </property>
-      </widget>
-      <widget class="ColorButton" name="sel_col_btn">
-       <property name="geometry">
-        <rect>
-         <x>190</x>
-         <y>110</y>
-         <width>30</width>
-         <height>31</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="ColorButton" name="def_col_btn">
-       <property name="geometry">
-        <rect>
-         <x>190</x>
-         <y>70</y>
-         <width>30</width>
-         <height>31</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QLabel" name="label_3">
-       <property name="geometry">
-        <rect>
-         <x>30</x>
-         <y>120</y>
-         <width>146</width>
-         <height>18</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Selected Section Color</string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="label_4">
-       <property name="geometry">
-        <rect>
-         <x>30</x>
-         <y>80</y>
-         <width>138</width>
-         <height>18</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Default Section Color</string>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="animation_btn">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="geometry">
-        <rect>
-         <x>130</x>
-         <y>30</y>
-         <width>92</width>
-         <height>28</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Animation</string>
-       </property>
-       <property name="checkable">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_3">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>10</y>
-        <width>601</width>
-        <height>81</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Vector Control</string>
-      </property>
-      <widget class="QWidget" name="layoutWidget">
-       <property name="geometry">
-        <rect>
-         <x>11</x>
-         <y>20</y>
-         <width>527</width>
-         <height>56</height>
-        </rect>
-       </property>
-       <layout class="QHBoxLayout" name="horizontalLayout">
+      <widget class="QWidget" name="tab">
+       <attribute name="title">
+        <string>Model</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>
-         <widget class="QLabel" name="label">
-          <property name="text">
-           <string>Variable to Record</string>
+         <widget class="QGroupBox" name="groupBox_3">
+          <property name="title">
+           <string>Vector Control</string>
           </property>
+          <layout class="QHBoxLayout" name="horizontalLayout">
+           <item>
+            <widget class="QLabel" name="label">
+             <property name="text">
+              <string>Variable to Record</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="var"/>
+           </item>
+           <item>
+            <widget class="QPushButton" name="create_vector">
+             <property name="text">
+              <string>Create Vector</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <layout class="QVBoxLayout" name="verticalLayout">
+             <item>
+              <widget class="QRadioButton" name="all_sections">
+               <property name="text">
+                <string>All Sections</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QRadioButton" name="selected_section">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="text">
+                <string>Selected section</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="var"/>
-        </item>
-        <item>
-         <widget class="QPushButton" name="create_vector">
-          <property name="text">
-           <string>Create Vector</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <layout class="QVBoxLayout" name="verticalLayout">
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
           <item>
-           <widget class="QRadioButton" name="all_sections">
-            <property name="text">
-             <string>All Sections</string>
+           <widget class="QGroupBox" name="groupBox">
+            <property name="styleSheet">
+             <string>border-color: rgb(0, 0, 0);</string>
             </property>
-            <property name="checked">
-             <bool>true</bool>
+            <property name="title">
+             <string>Run Control</string>
             </property>
+            <layout class="QGridLayout" name="gridLayout">
+             <item row="0" column="0">
+              <widget class="QPushButton" name="init_btn">
+               <property name="text">
+                <string>Init </string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1" colspan="2">
+              <widget class="QPushButton" name="run_btn">
+               <property name="text">
+                <string>Init + Run</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0" colspan="2">
+              <widget class="QLabel" name="label_2">
+               <property name="text">
+                <string>Initial voltage [mV]</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="2">
+              <widget class="QDoubleSpinBox" name="vSpinBox">
+               <property name="toolTip">
+                <string>Initial Voltage [mV]</string>
+               </property>
+               <property name="minimum">
+                <double>-300.000000000000000</double>
+               </property>
+               <property name="maximum">
+                <double>400.000000000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="label_5">
+               <property name="text">
+                <string>tStop [ms]</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="2">
+              <widget class="QDoubleSpinBox" name="tstopSpinBox">
+               <property name="suffix">
+                <string/>
+               </property>
+               <property name="maximum">
+                <double>999999999.000000000000000</double>
+               </property>
+               <property name="singleStep">
+                <double>0.010000000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="0">
+              <widget class="QLabel" name="label_6">
+               <property name="text">
+                <string>dt [ms]</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="2">
+              <widget class="QDoubleSpinBox" name="dtSpinBox">
+               <property name="decimals">
+                <number>4</number>
+               </property>
+               <property name="singleStep">
+                <double>0.000100000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="0">
+              <widget class="QLabel" name="label_7">
+               <property name="text">
+                <string>Time [ms]</string>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="2">
+              <widget class="QLabel" name="time_label">
+               <property name="enabled">
+                <bool>true</bool>
+               </property>
+               <property name="text">
+                <string>0.0</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </widget>
           </item>
           <item>
-           <widget class="QRadioButton" name="selected_section">
-            <property name="enabled">
+           <widget class="QGroupBox" name="groupBox_2">
+            <property name="title">
+             <string>3D control</string>
+            </property>
+            <property name="flat">
              <bool>false</bool>
             </property>
-            <property name="text">
-             <string>Selected section</string>
+            <property name="checkable">
+             <bool>false</bool>
             </property>
+            <layout class="QGridLayout" name="gridLayout_2">
+             <item row="0" column="0">
+              <widget class="QPushButton" name="Plot3D">
+               <property name="text">
+                <string>Plot3D</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1" colspan="2">
+              <widget class="QPushButton" name="animation_btn">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="text">
+                <string>Animation</string>
+               </property>
+               <property name="checkable">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0" colspan="2">
+              <widget class="QLabel" name="label_4">
+               <property name="text">
+                <string>Default Section Color</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="2">
+              <widget class="ColorButton" name="def_col_btn"/>
+             </item>
+             <item row="2" column="0" colspan="2">
+              <widget class="QLabel" name="label_3">
+               <property name="text">
+                <string>Selected Section Color</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="2">
+              <widget class="ColorButton" name="sel_col_btn"/>
+             </item>
+            </layout>
            </widget>
           </item>
          </layout>
         </item>
        </layout>
       </widget>
-     </widget>
-    </widget>
-    <widget class="QWidget" name="tab_2">
-     <attribute name="title">
-      <string>Plots</string>
-     </attribute>
-     <widget class="QWidget" name="layoutWidget">
-      <property name="geometry">
-       <rect>
-        <x>11</x>
-        <y>10</y>
-        <width>545</width>
-        <height>271</height>
-       </rect>
-      </property>
-      <layout class="QVBoxLayout" name="verticalLayout_2">
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_2">
-         <item>
-          <widget class="QPushButton" name="plot_vector_btn">
-           <property name="text">
-            <string>plot</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QSpinBox" name="fig_num_spinBox">
-           <property name="minimum">
-            <number>1</number>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="legend">
-           <property name="text">
-            <string>legend</string>
-           </property>
-           <property name="checkable">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer name="horizontalSpacer">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>298</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="QTreeWidget" name="treeWidget">
-         <property name="alternatingRowColors">
-          <bool>true</bool>
-         </property>
-         <property name="selectionMode">
-          <enum>QAbstractItemView::MultiSelection</enum>
-         </property>
-         <property name="columnCount">
-          <number>1</number>
-         </property>
-         <column>
-          <property name="text">
-           <string>Vector</string>
+      <widget class="QWidget" name="tab_2">
+       <attribute name="title">
+        <string>Plots</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_3">
+        <item row="0" column="0">
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <widget class="QPushButton" name="plot_vector_btn">
+            <property name="text">
+             <string>plot</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="fig_num_spinBox">
+            <property name="minimum">
+             <number>1</number>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="legend">
+            <property name="text">
+             <string>legend</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>298</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+        <item row="1" column="0">
+         <widget class="QTreeWidget" name="treeWidget">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
           </property>
-         </column>
-        </widget>
-       </item>
-      </layout>
+          <property name="alternatingRowColors">
+           <bool>true</bool>
+          </property>
+          <property name="selectionMode">
+           <enum>QAbstractItemView::MultiSelection</enum>
+          </property>
+          <property name="columnCount">
+           <number>1</number>
+          </property>
+          <column>
+           <property name="text">
+            <string>Vector</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+       </layout>
+      </widget>
      </widget>
-    </widget>
-   </widget>
+    </item>
+   </layout>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QMenuBar" name="menuBar">
@@ -409,7 +327,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>580</width>
+     <width>579</width>
      <height>25</height>
     </rect>
    </property>
