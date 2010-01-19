@@ -23,7 +23,7 @@ version = neuronvisio.__version__
 
 classifiers = [
     # Get more strings from http://www.python.org/pypi?%3Aaction=list_classifiers
-    "Development Status :: 4 - Beta",
+    "Development Status :: 4 - Production/Stable",
     "Programming Language :: Python",
     "Topic :: Scientific/Engineering :: Visualization"
 
@@ -42,7 +42,7 @@ entry_points="""
 setup(
     name='neuronvisio',
     version=version,
-    description='NeuronVisio is a GTK2 user interface for NEURON simulator enviroment',
+    description='NeuronVisio is a Graphical User Interface for NEURON simulator enviroment',
     long_description=open('README.rst', 'r').read(),
     classifiers=classifiers,
     keywords='neuron, gui, pylab, 3D, visualization',
@@ -147,12 +147,15 @@ def build_pdf():
     print "Usual Manual created in the docs dir"
 
 @task
-def build_and_upload_source_deb(package_ver):
+def build_and_upload_source_deb():
     """Build a source debian package of the version supplied"""
     from subprocess import call
     import os.path
+    import neuronvisio
+    package_ver = neuronvisio.__version__
     dist_dir = 'dist'
-    taball = os.path.join('dist', package_ver)
+    package_name = 'neuronvisio' + '-' + package_ver + '.tar.gz'
+    tarball = os.path.join('dist', package_name)
     call(['py2dsc', tarball])
     os.chdir(dist_dir)
     call(['debuild', '-S', '-sa'])
