@@ -4,7 +4,7 @@ NeuronVisio
 What is it
 ----------
 
-NeuronVisio is a GTK2 user interface for `NEURON simulator enviroment 
+NeuronVisio is a Graphical User Interface for `NEURON simulator enviroment 
 <http://www.neuron.yale.edu/neuron/>`_. 
 NeuronVisio connect with NEURON using the new python NEURON interface.
 
@@ -16,8 +16,7 @@ Features
 - Pylab integration to plot directly the result of the simulation
 - Exploration of the timecourse of any variable among time using a color 
 coded scale
-- the GUI runs in its own thread so it's possible to use the console 
-(strongly suggested ipython)
+- the GUI runs in its own thread so it's possible to use the console (strongly suggested to run through ipython)
 
 
 Installation
