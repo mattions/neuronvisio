@@ -11,7 +11,7 @@ To install NeuronVisio you need to satisfy the following dependencies
 
 - PyQt4: http://www.riverbankcomputing.co.uk/software/pyqt/download
 - ipython: http://ipython.scipy.org/moin/
-- mayavi2: http://code.enthought.com/projects/mayavi/
+- mayavi2: http://code.enthought.com/projects/mayavi/ 3.4+ (`Mayavi SVN`_)
 - matplotlib: http://matplotlib.sourceforge.net/
 
 
@@ -24,7 +24,7 @@ Ubuntu and friends
 
 On Ubuntu you can easily install all the requirements using apt-get with::
 
-    sudo apt-get install python-qt4 ipython mayavi2 python-matplotlib
+    sudo apt-get install python-qt4 ipython python-matplotlib
 
 and then add the `Neuronvisio PPA`_ on launchpad adding the repositories::
     
@@ -45,6 +45,19 @@ updating and installing::
 If you are running a different flavour of GNU/Linux, like Fedora for example, just install 
 the requirements with your package manager, then go to the `Package Install`_.
 
+Mayavi SVN
+==========
+
+Neuronvisio takes advantage of some of the new features which are only present in Mayavi SVN ATM
+
+`How to install Mayavi from SVN`_.
+
+.. _How to install Mayavi from SVN: http://code.enthought.com/projects/mayavi/docs/development/html/mayavi/installation.html#the-bleeding-edge-svn
+
+On Ubuntu you will need to install manually these two modules: `python-vtk python-configobj`::
+
+    sudo apt-get install python-vtk python-configobj
+
 Mac OS X
 ========
 
@@ -64,7 +77,7 @@ The last one is maybe missing mayavi2. Follow the instruction on `mayavi doc_` t
 
 .. mayavi doc: http://code.enthought.com/projects/mayavi/ 
  
-Then move to `Package Install`.
+Then move to `Package Install`_.
 
 Windows
 =======
@@ -82,7 +95,7 @@ The last one is maybe missing mayavi2. Follow the instruction on `mayavi doc_` t
 
 .. mayavi doc: http://code.enthought.com/projects/mayavi/
 
-Proceed to the `Package Install` .
+Proceed to the `Package Install`_ .
 
 Package Install
 ===============
