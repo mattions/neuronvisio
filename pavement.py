@@ -89,7 +89,7 @@ options.setup.package_data=paver.setuputils.find_package_data(
 
 if ALL_TASKS_LOADED:
     @task
-    @needs('generate_setup', 'minilib', 'gh_pages_build_fix', 'build_pdf', 
+    @needs('generate_setup', 'minilib', 'gh_pages_build_fix', 
            'setuptools.command.sdist')
     def sdist():
         """Overrides sdist to make sure that our setup.py is generated."""
