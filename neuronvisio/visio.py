@@ -130,20 +130,19 @@ class Visio(object):
         h.define_shape()
         num_sections = 0
 
-        # Redraw the model
         
-        # Delete all the object
-        # for all the cyl
-        #    cyl.visibility = False
-        # del cylinder list
-        
-        
+        # Disable the render. Faster drawing.
+         
+        self.mayavi.visualization.scene.disable_render = True
         for sec in h.allsec():
             if selected_sec is not None:
                 if sec.name() == selected_sec.name():
                     self.draw_section(sec, selected_color)
             else:
                 self.draw_section(sec, color)
+        
+        # ReEnable the rendering
+        self.mayavi.visualization.scene.disable_render = False
     
     def draw_section(self, sec, color):
         """Draw the section with the optional color 
