@@ -6,7 +6,6 @@ gpl.txt
 pavement.py
 paver-minilib.zip
 setup.py
-docs/Neuronvisio_User_Manual.pdf
 docs/Neuronvisio_controls.png
 docs/changes.rst
 docs/conf.py
