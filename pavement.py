@@ -1,6 +1,7 @@
 # -*- Import: -*-
 from paver.easy import *
 from paver.setuputils import setup
+#from setuptools import setup
 from setuptools import find_packages
 import neuronvisio
 
@@ -147,7 +148,7 @@ def build_pdf():
     print "Usual Manual created in the docs dir"
 
 @task
-def build_and_upload_source_deb():
+def build_source_deb():
     """Build a source debian package of the version supplied"""
     from subprocess import call
     import os.path
@@ -160,6 +161,11 @@ def build_and_upload_source_deb():
     os.chdir(dist_dir)
     call(['debuild', '-S', '-sa'])
     os.chdir('..')
-    package_src_changes = package_ver + '_source.changes'
+
+@task
+def upload_to_launchpad():
+    package_ver = neuronvisio.__version__
+    dist_dir = 'dist'
+    package_src_changes = 'neuronvisio_' + package_ver + '_source.changes'
     call(['dput', 'neuronvisio-ppa', os.path.join('deb_dist', 
                                                   package_src_changes)])
