@@ -100,11 +100,14 @@ class Controls():
         
     def launch_visio(self):
         if not hasattr(self, 'visio'):
-            self.visio = Visio()
-            self.visio.draw_model(self.ui.def_col_btn.color)
+            self.visio = Visio(self.ui.def_col_btn.color, self.ui.sel_col_btn.color)
+            self.visio.draw_model()
             self.ui.def_col_btn.connect(self.ui.def_col_btn,
                                         QtCore.SIGNAL("colorChanged(QColor)"),
                                         self.visio.draw_model)
+            self.ui.sel_col_btn.connect(self.ui.sel_col_btn,
+                                        QtCore.SIGNAL("colorChanged(QColor)"),
+                                        self.visio.update_selected_sec)
         else:
             #Raise the visio window
             self.visio.container.show()
@@ -287,7 +290,14 @@ class Controls():
         self.aboutUi.name.setText(name)
         self.aboutUi.authors.setText(authors)    
         self.aboutUi.show()
+    
+    def on_def_col_btn_changed(self):
         
+        self.visio.default_cyl_col = self.ui.def_col_btn.color
+    
+    def on_sel_col_btn_changed(self):
+        
+        self.visio.selected_cyl_col = self.ui.sel_col_btn.color
         
 class Timeloop(QtCore.QThread):
     """Daemon thread to connect the console with the gui"""

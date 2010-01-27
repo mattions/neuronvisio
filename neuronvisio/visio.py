@@ -86,7 +86,7 @@ class MayaviQWidget(QtGui.QWidget):
 
 class Visio(object):
     
-    def __init__(self):       
+    def __init__(self, default_cyl_color, selected_cyl_color):       
         
         # Needed when user pick the cylinder from visio and 
         # we need to get the section
@@ -95,9 +95,12 @@ class Visio(object):
         # Needed to update the value of a cyl bound to a section
         self.sec2cyl = {}
         
-        self.selected_cyl = None # Used for storing the cyl when picked
+        
         self.vecRefs = []
         
+        self.selected_cyl = None # Used for storing the cyl when picked
+        self.default_cyl_color = default_cyl_color
+        self.selected_cyl_color = selected_cyl_color
         
         container = QtGui.QWidget()
         container.setWindowTitle("Neuronvisio 3D")
@@ -130,13 +133,18 @@ class Visio(object):
             if picked == cyl.actor:
                 sec = self.cyl2sec[cyl]
                 print "Picked Section: %s" % sec.name()
-                cyl.color = (1.,0.,0.)
+                # Deselect the old selection if exists
+                if self.selected_cyl is not None:
+                    self.update_color(self.selected_cyl, self.default_cyl_color)
+                
+                self.selected_cyl = cyl
+                self.update_color(cyl, self.selected_cyl_color) 
     
     def closeEvent(self):
         """Just hide the window to not loose the mayavi hook"""
         self.container.hide()
         
-    def draw_model(self, color, selected_sec=None, selected_color=None):
+    def draw_model(self):
         """Draw the model.
         Params:
         controls - the main gui obj."""
@@ -150,11 +158,12 @@ class Visio(object):
          
         self.mayavi.visualization.scene.disable_render = True
         for sec in h.allsec():
-            if selected_sec is not None:
-                if sec.name() == selected_sec.name():
-                    self.draw_section(sec, selected_color)
+            if self.selected_cyl is not None:
+                self.update_color(self.selected_cyl, self.selected_cyl_color)
+#                if sec.name() == selected_sec.name():
+#                    self.draw_section(sec, selected_color)
             else:
-                self.draw_section(sec, color)
+                self.draw_section(sec, self.default_cyl_color)
         
         # ReEnable the rendering
         self.mayavi.visualization.scene.disable_render = False
@@ -186,9 +195,18 @@ class Visio(object):
         else:
             cyl = self.sec2cyl[sec.name()]
             
+        self.update_color(cyl, color)
+    
+    def update_color(self, cyl, color):
+        
         cyl.color = (color.red()/255., color.green()/255., color.blue()/255.)
     
-    
+    def update_selected_sec(self, color):
+        """Update the color of the select section"""
+        if self.selected_cyl is not None:
+            self.draw_section(self.cyl2sec[self.selected_cyl], color)
+            self.selected_cyl_color = color
+        
     def calc_offset(self, start_v, end_v, v):
         """Calculate the offset for the gradient 
         according to the input variable"""
