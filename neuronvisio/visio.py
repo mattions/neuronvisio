@@ -116,6 +116,21 @@ class Visio(object):
         container.show()
         
         self.container = container
+        
+        # Connecting the picker.
+        fig = self.mayavi.visualization.scene.mlab.gcf()
+        fig.on_mouse_pick(self.picker_callback)
+        
+    def picker_callback(self, picker):
+        """ Picker callback: this get called when on pick events. 
+        """
+        picked = picker.actor
+        print picked.__class__,
+        for cyl in self.cyl2sec.keys():
+            if picked == cyl.actor:
+                sec = self.cyl2sec[cyl]
+                print "Picked Section: %s" % sec.name()
+                cyl.color = (1.,0.,0.)
     
     def closeEvent(self):
         """Just hide the window to not loose the mayavi hook"""
