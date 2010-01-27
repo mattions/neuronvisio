@@ -26,29 +26,14 @@ On Ubuntu you can easily install all the requirements using apt-get with::
 
     sudo apt-get install python-qt4 ipython python-matplotlib
 
-and then add the `Neuronvisio PPA`_ on launchpad adding the repositories::
-    
-    deb http://ppa.launchpad.net/mattions/neuronvisio/ubuntu karmic main 
-    deb-src http://ppa.launchpad.net/mattions/neuronvisio/ubuntu karmic main
-
-adding the key::
-    
-    sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4B2C6C7E
-    
-updating and installing::
-    
-    sudo update
-    sudo install neuronvisio     
-    
-.. _Neuronvisio PPA: https://launchpad.net/~mattions/+archive/neuronvisio
-
 If you are running a different flavour of GNU/Linux, like Fedora for example, just install 
 the requirements with your package manager, then go to the `Package Install`_.
 
 Mayavi SVN
 ==========
 
-Neuronvisio takes advantage of some of the new features which are only present in Mayavi SVN ATM
+Neuronvisio takes advantage of some of the new features which are only present in 
+Mayavi SVN ATM.
 
 `How to install Mayavi from SVN`_.
 
