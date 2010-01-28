@@ -130,4 +130,4 @@ Select a section (Just click over it) and you can retrieve the info about it
 on the Sec Info Tab.
 
 .. image:: images/Neuronvisio_sec_info.png
-    :scale: 70
+    :scale: 85
