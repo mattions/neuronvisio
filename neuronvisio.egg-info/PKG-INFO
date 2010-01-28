@@ -120,6 +120,6 @@ Description: NeuronVisio
         
 Keywords: neuron,gui,pylab,3D,visualization
 Platform: UNKNOWN
-Classifier: Development Status :: 4 - Production/Stable
+Classifier: Development Status :: 5 - Production/Stable
 Classifier: Programming Language :: Python
 Classifier: Topic :: Scientific/Engineering :: Visualization
