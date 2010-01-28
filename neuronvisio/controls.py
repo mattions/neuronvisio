@@ -109,6 +109,7 @@ class Controls():
             self.ui.sel_col_btn.connect(self.ui.sel_col_btn,
                                         QtCore.SIGNAL("colorChanged(QColor)"),
                                         self.visio.update_selected_sec)
+            self.ui.selected_section.setEnabled(True)
         else:
             #Raise the visio window
             self.visio.container.show()
@@ -192,7 +193,15 @@ class Controls():
         if var.isEmpty():
             print "No var specified."
         else:
-            allCreated = self.manager.add_all_vecRef(str(var))
+            if self.ui.all_sections.isChecked():
+                allCreated = self.manager.add_all_vecRef(str(var))
+            elif self.ui.selected_section.isChecked():
+                if self.visio.selected_cyl is not None:
+                    sec = self.visio.cyl2sec[self.visio.selected_cyl]
+                    self.manager.add_vecRef(str(var), sec)
+                else:
+                    print ("Error: No vector has been created.")
+                    print ("Reason: No section has been selected.")
         self._update_tree_view()
         
     def _update_tree_view(self):
