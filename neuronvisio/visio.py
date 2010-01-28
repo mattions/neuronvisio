@@ -129,16 +129,21 @@ class Visio(object):
         """
         picked = picker.actor
         print picked.__class__,
+        
+        #deselect
+        if self.selected_cyl is not None:
+            self.update_color(self.selected_cyl, self.default_cyl_color)
+            self.selected_cyl = None
+            
         for cyl in self.cyl2sec.keys():
             if picked == cyl.actor:
                 sec = self.cyl2sec[cyl]
-                print "Picked Section: %s" % sec.name()
-                # Deselect the old selection if exists
-                if self.selected_cyl is not None:
-                    self.update_color(self.selected_cyl, self.default_cyl_color)
-                
                 self.selected_cyl = cyl
-                self.update_color(cyl, self.selected_cyl_color) 
+                self.update_color(cyl, self.selected_cyl_color)
+                break
+                
+            
+
     
     def closeEvent(self):
         """Just hide the window to not loose the mayavi hook"""
