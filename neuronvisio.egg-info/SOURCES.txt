@@ -22,6 +22,7 @@ docs/_templates/.gitignore
 docs/images/NeuronVisio_Controls_selecting_variable.png
 docs/images/Neuronvisio_3D.png
 docs/images/Neuronvisio_Controls.png
+docs/images/Neuronvisio_sec_info.png
 docs/images/Simple_model.png
 docs/images/init_and_run.png
 docs/images/neuronWithSpines.png

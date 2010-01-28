@@ -100,11 +100,16 @@ class Controls():
         
     def launch_visio(self):
         if not hasattr(self, 'visio'):
-            self.visio = Visio()
-            self.visio.draw_model(self.ui.def_col_btn.color)
+            self.visio = Visio(self.ui.def_col_btn.color, self.ui.sel_col_btn.color,
+                               self.ui.sec_info_label)
+            self.visio.draw_model()
             self.ui.def_col_btn.connect(self.ui.def_col_btn,
                                         QtCore.SIGNAL("colorChanged(QColor)"),
                                         self.visio.draw_model)
+            self.ui.sel_col_btn.connect(self.ui.sel_col_btn,
+                                        QtCore.SIGNAL("colorChanged(QColor)"),
+                                        self.visio.update_selected_sec)
+            self.ui.selected_section.setEnabled(True)
         else:
             #Raise the visio window
             self.visio.container.show()
@@ -188,7 +193,15 @@ class Controls():
         if var.isEmpty():
             print "No var specified."
         else:
-            allCreated = self.manager.add_all_vecRef(str(var))
+            if self.ui.all_sections.isChecked():
+                allCreated = self.manager.add_all_vecRef(str(var))
+            elif self.ui.selected_section.isChecked():
+                if self.visio.selected_cyl is not None:
+                    sec = self.visio.cyl2sec[self.visio.selected_cyl]
+                    self.manager.add_vecRef(str(var), sec)
+                else:
+                    print ("Error: No vector has been created.")
+                    print ("Reason: No section has been selected.")
         self._update_tree_view()
         
     def _update_tree_view(self):
@@ -264,17 +277,6 @@ class Controls():
                                             end_value, 
                                             end_col, 
                                             self.manager.vecRefs)
-        
-    def get_info(self, section):
-        """Get the info of the given section"""
-        
-        info = "Name: %s\n" %section.name()
-        info += "L: %f\n" % section.L
-        info += "diam: %f\n" % section.diam
-        info += "cm: %f\n" % section.cm
-        info += "Ra: %f\n" % section.Ra
-        info += "nseg: %f\n" % section.nseg
-        return info
     
     def about(self):
         
@@ -287,7 +289,14 @@ class Controls():
         self.aboutUi.name.setText(name)
         self.aboutUi.authors.setText(authors)    
         self.aboutUi.show()
+    
+    def on_def_col_btn_changed(self):
         
+        self.visio.default_cyl_col = self.ui.def_col_btn.color
+    
+    def on_sel_col_btn_changed(self):
+        
+        self.visio.selected_cyl_col = self.ui.sel_col_btn.color
         
 class Timeloop(QtCore.QThread):
     """Daemon thread to connect the console with the gui"""
