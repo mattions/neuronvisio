@@ -141,8 +141,11 @@ class Visio(object):
                 self.selected_cyl = cyl
                 self.update_color(cyl, self.selected_cyl_color)
                 break
-        info = self.get_sec_info(self.cyl2sec[self.selected_cyl])
-        self.sec_info_label.setText(info)
+        if self.selected_cyl is not None:
+            info = self.get_sec_info(self.cyl2sec[self.selected_cyl])
+            self.sec_info_label.setText(info)
+        else:
+            self.sec_info_label.setText("No section is selected.")
         
         
     def get_sec_info(self, section):
