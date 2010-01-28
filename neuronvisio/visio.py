@@ -86,7 +86,7 @@ class MayaviQWidget(QtGui.QWidget):
 
 class Visio(object):
     
-    def __init__(self, default_cyl_color, selected_cyl_color):       
+    def __init__(self, default_cyl_color, selected_cyl_color, sec_info_label):       
         
         # Needed when user pick the cylinder from visio and 
         # we need to get the section
@@ -101,6 +101,7 @@ class Visio(object):
         self.selected_cyl = None # Used for storing the cyl when picked
         self.default_cyl_color = default_cyl_color
         self.selected_cyl_color = selected_cyl_color
+        self.sec_info_label = sec_info_label # Info for the selected sec
         
         container = QtGui.QWidget()
         container.setWindowTitle("Neuronvisio 3D")
@@ -128,7 +129,6 @@ class Visio(object):
         """ Picker callback: this get called when on pick events. 
         """
         picked = picker.actor
-        print picked.__class__,
         
         #deselect
         if self.selected_cyl is not None:
@@ -141,6 +141,20 @@ class Visio(object):
                 self.selected_cyl = cyl
                 self.update_color(cyl, self.selected_cyl_color)
                 break
+        info = self.get_sec_info(self.cyl2sec[self.selected_cyl])
+        self.sec_info_label.setText(info)
+        
+        
+    def get_sec_info(self, section):
+        """Get the info of the given section"""
+        
+        info = "<b>Name:</b> %s<br/>" %section.name()
+        info += "<b>L:</b> %f<br/>" % section.L
+        info += "<b>diam:</b> %f<br/>" % section.diam
+        info += "<b>cm:</b> %f<br/>" % section.cm
+        info += "<b>Ra:</b> %f<br/>" % section.Ra
+        info += "<b>nseg:</b> %f<br/>" % section.nseg
+        return info
                 
             
 
