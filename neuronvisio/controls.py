@@ -100,7 +100,8 @@ class Controls():
         
     def launch_visio(self):
         if not hasattr(self, 'visio'):
-            self.visio = Visio(self.ui.def_col_btn.color, self.ui.sel_col_btn.color)
+            self.visio = Visio(self.ui.def_col_btn.color, self.ui.sel_col_btn.color,
+                               self.ui.sec_info_label)
             self.visio.draw_model()
             self.ui.def_col_btn.connect(self.ui.def_col_btn,
                                         QtCore.SIGNAL("colorChanged(QColor)"),
@@ -267,17 +268,6 @@ class Controls():
                                             end_value, 
                                             end_col, 
                                             self.manager.vecRefs)
-        
-    def get_info(self, section):
-        """Get the info of the given section"""
-        
-        info = "Name: %s\n" %section.name()
-        info += "L: %f\n" % section.L
-        info += "diam: %f\n" % section.diam
-        info += "cm: %f\n" % section.cm
-        info += "Ra: %f\n" % section.Ra
-        info += "nseg: %f\n" % section.nseg
-        return info
     
     def about(self):
         
