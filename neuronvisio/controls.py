@@ -202,9 +202,9 @@ class Controls():
                 else:
                     print ("Error: No vector has been created.")
                     print ("Reason: No section has been selected.")
-        self._update_tree_view()
+        self.update_tree_view()
         
-    def _update_tree_view(self):
+    def update_tree_view(self):
         # Fill the treeview wit all the vectors created
         #Clear all the row
         self.ui.treeWidget.clear()

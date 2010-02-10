@@ -43,7 +43,7 @@ class Manager(object):
 
     def __init__(self):
         
-        self.vecRefs = []
+        self.vecRefs = [] 
         self.synVecRefs = []
         self.t = None # Var to track the time Vector
         # Load the std run for NEURON
