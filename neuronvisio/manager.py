@@ -20,7 +20,7 @@
 """
 
 from neuron import h
-import numpy
+import numpy as np
 import os
 import matplotlib
 
@@ -32,6 +32,9 @@ else:
     matplotlib.interactive(True)
     
 import matplotlib.pyplot as plt
+import sqlite3
+import cPickle
+import datetime
 
 
 class Manager(object):
@@ -46,6 +49,7 @@ class Manager(object):
         self.vecRefs = [] 
         self.synVecRefs = []
         self.t = None # Var to track the time Vector
+        self.stims = []
         # Load the std run for NEURON
         h.load_file("stdrun.hoc")
         
@@ -119,7 +123,7 @@ class Manager(object):
         :return: The numpy array sum of the two.
         :rtype: Numpy array
         """
-        return numpy.array(vec1) + numpy.array(vec2)
+        return np.array(vec1) + np.array(vec2)
     
     def get_vectors(self, section_list, var):
         """Return a dictionary containing the vector which record the var. The 
@@ -186,7 +190,7 @@ class Manager(object):
             vecRef.pickable = True
             vecRef.sec = None
             for key, vec in vecRef.vecs.iteritems():
-                vecRef.vecs[key] = numpy.array(vec)
+                vecRef.vecs[key] = np.array(vec)
             pickable_vec_refs.append(vecRef)
         return pickable_vec_refs
 
@@ -197,7 +201,7 @@ class Manager(object):
         pickable_synVecRefs = []
         for synVecRef in self.synVecRefs:
             for key, vec in synVecRef.syn_vecs.iteritems():
-                synVecRef.syn_vecs[key] = numpy.array(vec)
+                synVecRef.syn_vecs[key] = np.array(vec)
                 
             pickable_synVecRefs.append(synVecRef)
         return pickable_synVecRefs
@@ -234,6 +238,176 @@ class Manager(object):
             plt.plot(self.t, vec, label=key)
             if legend:
                 plt.legend()
+
+    def create_new_dir(self, prefix="./"):
+        """
+            Create the directory where to put the simulation
+        """
+        self.dirRoot = os.path.join(prefix, "Sims")
+        
+        today = datetime.date.today()
+        free = False
+        index = 0
+        
+        dirDate = today.strftime("%d-%m-%Y")
+        
+        dirComp = os.path.join(self.dirRoot, dirDate)
+        dir = os.path.join(dirComp, "Sim_" + str(index))
+        while not free :
+            if os.path.exists(dir):
+                index = index + 1
+                simNum = "Sim_" + str(index)
+                dir = os.path.join(dirComp, simNum )
+            else:
+                free = True
+                os.makedirs(dir)
+        return dir
+
+
+    def store_in_db(self):
+        """Store the simulation results in a database"""
+        
+        saving_dir = self.create_new_dir(prefix=os.getcwd())
+        db_name = 'storage.sqlite'
+        
+        conn = sqlite3.connect(os.path.join(saving_dir, db_name))
+        cursor = conn.cursor()
+        
+        table = "Vectors"
+        # Create the table.
+        sql_stm = "CREATE TABLE IF NOT EXISTS " + table + " (var TEXT, sec_name TEXT,\
+         vec BLOB)"
+        
+        cursor.execute(sql_stm)
+        conn.commit()
+        # Storing the time
+        t = np.array(self.t)
+        sql_stm = """INSERT INTO """ + table + """ VALUES(?,?,?)"""
+        cursor.execute(sql_stm, ('t', 'NULL', 
+                                 sqlite3.Binary(cPickle.dumps((t),-1))))
+        
+        
+        # Vec Ref
+        pickable_vec_refs = self.convert_vec_refs()
+        
+        # Vec ref share the 
+        # #vec tag
+        # #var tag
+        # secName
+        for vec_ref in pickable_vec_refs:
+            for var in vec_ref.vecs.keys():
+                array = cPickle.dumps(vec_ref.vecs[var], -1)
+                cursor.execute(sql_stm, (var, vec_ref.sec_name, 
+                                         sqlite3.Binary(array)))
+        
+        conn.commit()
+        
+        ###############
+        # SynVec
+        pickable_synVecRefs = self.convert_syn_vec_refs()
+        
+        table = "SynVectors"
+        # Create the table.
+        sql_stm = "CREATE TABLE IF NOT EXISTS " + table + " (var TEXT, chan_type TEXT, \
+        sec_name TEXT, vec BLOB)"
+        cursor.execute(sql_stm)
+        conn.commit()
+        
+        sql_stm = "INSERT INTO " + table + " VALUES(?,?,?,?)"
+        for syn_vec_ref in pickable_synVecRefs:
+            for var in syn_vec_ref.syn_vecs.keys():
+                array = cPickle.dumps(syn_vec_ref.syn_vecs[var], -1)
+                cursor.execute(sql_stm, (var, syn_vec_ref.chan_type, 
+                               syn_vec_ref.section_name,
+                               sqlite3.Binary(array))) 
+                               
+        
+        conn.commit()
+        return saving_dir
+        
+        ################
+        # timeseries
+        table = "Timeseries"
+        # Create the table.
+        sql_stm = "CREATE TABLE IF NOT EXISTS " + table + " (var TEXT, pos REAL, \
+        parent TEXT, sec_name TEXT, vec BLOB)"
+        cursor.execute(sql_stm)
+        conn.commit()
+        
+        sql_stm = "INSERT INTO " + table + " VALUES(?,?,?,?,?)"
+        for spine in nrnSim.spines:
+            # Retrieving the biochemical timecourses
+            spine.ecellMan.converToTimeCourses()
+            time_courses = spine.ecellMan.timeCourses 
+            notes = '#timecourse'
+            pos = str(spine.pos)
+            parent = spine.parent.name()
+            sec_name = str(spine.id)
+            
+            # Adding a record for each variable
+            for key in time_courses.keys():
+                var = key
+                array = cPickle.dumps(time_courses[key], -1)
+                cursor.execute(sql_stm, (var, pos, parent, sec_name,
+                                         sqlite3.Binary(array)))
+                
+        conn.commit()
+        cursor.close()
+        
+    def load_db(self, path_to_sqlite):
+        
+        # Loading the time
+        conn = sqlite3.connect(path_to_sqlite)
+        cursor = conn.cursor()
+        sql_stm = """SELECT * FROM Vectors WHERE var='t'"""
+        cursor.execute(sql_stm)
+        for row in cursor:
+            array = cPickle.loads(str(row[2]))
+            
+        self.t = array
+        
+        # Loading the VecRef
+        sql_stm = """SELECT * from Vectors""" 
+        cursor.execute(sql_stm)
+        
+        vecRefs = []
+        
+        for row in cursor:
+            # vecrRef
+            sec_name = str(row[1])
+            
+            if sec_name != 'NULL':
+                
+                var = str(row[0])
+                array = cPickle.loads(str(row[2]))                
+                found = False
+                
+                # Check if the vecREf exists.
+                # If it does we add the variable vec to the vecs dict
+                # otherwise we create a new one.
+                
+                for vecRef in vecRefs:
+                    if vecRef.sec_name == sec_name:
+                        found = True
+                        break
+                if found:
+                    vecRef.vecs[var] = array
+                    continue #Move to next record
+                else:
+                    nrn_sec = eval('h.' + sec_name)        
+                    vecRef = VecRef(nrn_sec)
+                    vecRef.vecs[var] = array
+                
+                vecRefs.append(vecRef)
+        #print vecRefs
+        conn.close()
+        
+        for sec in h.allsec():
+            for vecRef in vecRefs:
+                if sec.name() == vecRef.sec_name:
+                    vecRef.sec = sec
+                    break
+        self.vecRefs = vecRefs
             
 class VecRef(object):
     """Basic class to associate one or more vectors with a section
