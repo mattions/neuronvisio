@@ -1,0 +1,9 @@
+<RCC>
+  <qresource prefix="icons" >
+    <file>document-save-as.svg</file>
+    <file>help-browser.svg</file>
+    <file>system-log-out.svg</file>
+    <file>document-save.svg</file>
+    <file>document-open.svg</file>
+  </qresource>
+</RCC>

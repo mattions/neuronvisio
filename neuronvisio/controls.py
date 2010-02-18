@@ -30,6 +30,7 @@ h.load_file("stdrun.hoc")
 
 from visio import Visio
 import manager
+import res # icons
 
 class Controls():
     """Main class Neuronvisio"""
@@ -83,10 +84,14 @@ class Controls():
                                          QtCore.SIGNAL("valueChanged(int)"),
                                          self.on_timeline_value_changed)
         
+        self.ui.actionLoad.connect(self.ui.actionLoad, 
+                                   QtCore.SIGNAL("triggered()"),
+                                   self.load_db)
+        
         ### Connection with the console
-        spinBoxDic = {'dt' : self.ui.dtSpinBox, 'tstop' : self.ui.tstopSpinBox,
-                      'v_init' : self.ui.vSpinBox}
-        self.timeLoop = Timeloop(spinBoxDic)
+        widgetDic = {'dt' : self.ui.dtSpinBox, 'tstop' : self.ui.tstopSpinBox,
+                      'v_init' : self.ui.vSpinBox, 'time_label' : self.ui.time_label}
+        self.timeLoop = Timeloop(widgetDic)
         self.timeLoop.start()
         
         
@@ -97,6 +102,10 @@ class Controls():
         
         # Start the main event loop.
         app.exec_()
+    
+    def load_db(self):
+        filename = QtGui.QFileDialog.getOpenFileName()
+
         
     def launch_visio(self):
         if not hasattr(self, 'visio'):
@@ -120,9 +129,9 @@ class Controls():
         
         if len(self.manager.vecRefs) == 0:
             print "No vector Created. Create at least one vector to run the simulation"
+            return False
         else:
             v_init = self.ui.vSpinBox.value()
-            
             # Set the v_init
             h.v_init = v_init
             h.finitialize(v_init)
@@ -130,19 +139,21 @@ class Controls():
         
             # Reset the time in the GUI
             self.ui.time_label.setNum(h.t)
+            return True
+            
     
     def run(self):
         """Run the simulator till tstop"""
         
         #Initializing
-        self.init()
-        # Run
-        while h.t < h.tstop:
-            h.fadvance()
-            
-            self.ui.time_label.setText("<b>" + str(h.t) + "</b>")
-        # Enabling the animation
-        self.ui.animation_btn.setEnabled(True)
+        if self.init():
+            # Run
+            while h.t < h.tstop:
+                h.fadvance()
+                
+                self.ui.time_label.setText("<b>" + str(h.t) + "</b>")
+            # Enabling the animation
+            self.ui.animation_btn.setEnabled(True)
                     
     def tstop_changed(self):
         
@@ -300,9 +311,9 @@ class Controls():
         
 class Timeloop(QtCore.QThread):
     """Daemon thread to connect the console with the gui"""
-    def __init__(self, spinBoxDict, parent = None):
+    def __init__(self, widgetDic, parent = None):
         QtCore.QThread.__init__(self, parent)
-        self.spinBoxDict = spinBoxDict
+        self.widgetDic = widgetDic
         
         
     def run(self):
@@ -310,11 +321,15 @@ class Timeloop(QtCore.QThread):
         while True:
             self.sleep(1) #check every sec
             
-            if h.dt != self.spinBoxDict['dt'].value():
-                self.spinBoxDict['dt'].setValue(h.dt)
-            if h.tstop != self.spinBoxDict['tstop'].value():
-                self.spinBoxDict['tstop'].setValue(h.tstop)
-            if h.v_init != self.spinBoxDict['v_init'].value():
-                self.spinBoxDict['v_init'].setValue(h.v_init)
+            if h.dt != self.widgetDic['dt'].value():
+                self.widgetDic['dt'].setValue(h.dt)
+            if h.tstop != self.widgetDic['tstop'].value():
+                self.widgetDic['tstop'].setValue(h.tstop)
+            if h.v_init != self.widgetDic['v_init'].value():
+                self.widgetDic['v_init'].setValue(h.v_init)
+#            if h.t != float (self.widgetDic['time_label'].text()):
+#                self.widgetDic['time_label'].setText(str(h.t))
+            
+                
             
             
