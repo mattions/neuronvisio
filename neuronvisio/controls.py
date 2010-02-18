@@ -87,6 +87,12 @@ class Controls():
         self.ui.actionLoad.connect(self.ui.actionLoad, 
                                    QtCore.SIGNAL("triggered()"),
                                    self.load_db)
+        self.ui.actionSave.connect(self.ui.actionSave,
+                                   QtCore.SIGNAL("triggered()"),
+                                   self.save_db)
+        self.ui.actionSave_As.connect(self.ui.actionSave_As,
+                                      QtCore.SIGNAL("triggered()"),
+                                      self.save_as_db)
         
         ### Connection with the console
         widgetDic = {'dt' : self.ui.dtSpinBox, 'tstop' : self.ui.tstopSpinBox,
@@ -97,7 +103,7 @@ class Controls():
         
         ### Manager class 
         self.manager = manager.Manager()
-                            
+        self.path_to_sql = None                    
         self.ui.show()
         
         # Start the main event loop.
@@ -105,6 +111,31 @@ class Controls():
     
     def load_db(self):
         filename = QtGui.QFileDialog.getOpenFileName()
+        self.path_to_sql = str(filename)
+        self.manager.load_db(self.path_to_sql)
+        self.update_tree_view()
+        msg = "Loaded db: %s" % self.path_to_sql
+        self.ui.statusbar.showMessage(msg, 3500)
+        
+        
+        
+    def save_db(self):
+        if not self.path_to_sql:
+            filename = QtGui.QFileDialog.getSaveFileName()
+            self.path_to_sql = str(filename) # It will go with python 3
+        self.manager.store_in_db(self.path_to_sql)
+        msg = "Saved Loaded db: %s" % self.path_to_sql
+        self.ui.statusbar.showMessage(msg, 3500)
+        
+    def save_as_db(self):
+
+        filename = QtGui.QFileDialog.getSaveFileName()
+        self.path_to_sql = str(filename)
+        self.manager.store_in_db(self.path_to_sql)
+        msg = "Saved Loaded db: %s" % self.path_to_sql
+        self.ui.statusbar.showMessage(msg, 3500)
+            
+        
 
         
     def launch_visio(self):

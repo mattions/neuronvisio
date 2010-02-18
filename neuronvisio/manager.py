@@ -263,14 +263,9 @@ class Manager(object):
                 os.makedirs(dir)
         return dir
 
-
-    def store_in_db(self):
+    def store_in_db(self, filename):
         """Store the simulation results in a database"""
-        
-        saving_dir = self.create_new_dir(prefix=os.getcwd())
-        db_name = 'storage.sqlite'
-        
-        conn = sqlite3.connect(os.path.join(saving_dir, db_name))
+        conn = sqlite3.connect(filename)
         cursor = conn.cursor()
         
         table = "Vectors"
@@ -286,14 +281,9 @@ class Manager(object):
         cursor.execute(sql_stm, ('t', 'NULL', 
                                  sqlite3.Binary(cPickle.dumps((t),-1))))
         
-        
         # Vec Ref
         pickable_vec_refs = self.convert_vec_refs()
         
-        # Vec ref share the 
-        # #vec tag
-        # #var tag
-        # secName
         for vec_ref in pickable_vec_refs:
             for var in vec_ref.vecs.keys():
                 array = cPickle.dumps(vec_ref.vecs[var], -1)
@@ -301,58 +291,8 @@ class Manager(object):
                                          sqlite3.Binary(array)))
         
         conn.commit()
-        
-        ###############
-        # SynVec
-        pickable_synVecRefs = self.convert_syn_vec_refs()
-        
-        table = "SynVectors"
-        # Create the table.
-        sql_stm = "CREATE TABLE IF NOT EXISTS " + table + " (var TEXT, chan_type TEXT, \
-        sec_name TEXT, vec BLOB)"
-        cursor.execute(sql_stm)
-        conn.commit()
-        
-        sql_stm = "INSERT INTO " + table + " VALUES(?,?,?,?)"
-        for syn_vec_ref in pickable_synVecRefs:
-            for var in syn_vec_ref.syn_vecs.keys():
-                array = cPickle.dumps(syn_vec_ref.syn_vecs[var], -1)
-                cursor.execute(sql_stm, (var, syn_vec_ref.chan_type, 
-                               syn_vec_ref.section_name,
-                               sqlite3.Binary(array))) 
-                               
-        
-        conn.commit()
-        return saving_dir
-        
-        ################
-        # timeseries
-        table = "Timeseries"
-        # Create the table.
-        sql_stm = "CREATE TABLE IF NOT EXISTS " + table + " (var TEXT, pos REAL, \
-        parent TEXT, sec_name TEXT, vec BLOB)"
-        cursor.execute(sql_stm)
-        conn.commit()
-        
-        sql_stm = "INSERT INTO " + table + " VALUES(?,?,?,?,?)"
-        for spine in nrnSim.spines:
-            # Retrieving the biochemical timecourses
-            spine.ecellMan.converToTimeCourses()
-            time_courses = spine.ecellMan.timeCourses 
-            notes = '#timecourse'
-            pos = str(spine.pos)
-            parent = spine.parent.name()
-            sec_name = str(spine.id)
-            
-            # Adding a record for each variable
-            for key in time_courses.keys():
-                var = key
-                array = cPickle.dumps(time_courses[key], -1)
-                cursor.execute(sql_stm, (var, pos, parent, sec_name,
-                                         sqlite3.Binary(array)))
-                
-        conn.commit()
         cursor.close()
+        
         
     def load_db(self, path_to_sqlite):
         
