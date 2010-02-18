@@ -202,7 +202,12 @@ class Controls():
         
         var = self.ui.var.text()
         if var.isEmpty():
-            print "No var specified."
+
+            msgBox = QtGui.QMessageBox()
+            msgBox.setText("No var specified.")
+            msgBox.setIcon(QtGui.QMessageBox.Warning)
+            msgBox.exec_()
+ 
         else:
             if self.ui.all_sections.isChecked():
                 allCreated = self.manager.add_all_vecRef(str(var))
@@ -211,8 +216,12 @@ class Controls():
                     sec = self.visio.cyl2sec[self.visio.selected_cyl]
                     self.manager.add_vecRef(str(var), sec)
                 else:
-                    print ("Error: No vector has been created.")
-                    print ("Reason: No section has been selected.")
+                    msgBox = QtGui.QMessageBox()
+                    msgBox.setText("<b>No vector has been created.</b>")
+                    msg = "You need to select the section where you want to create the vector"
+                    msgBox.setInformativeText(msg)
+                    msgBox.setIcon(QtGui.QMessageBox.Warning)
+                    msgBox.exec_()
         self.update_tree_view()
         
     def update_tree_view(self):
