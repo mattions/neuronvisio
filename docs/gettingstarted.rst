@@ -131,3 +131,63 @@ and the section info will be displayed in the Sec Info Tab.
 
 .. image:: images/Neuronvisio_sec_info.png
     :scale: 85
+    
+Loading And Saving the simulation results
+=========================================
+
+Neuronvisio can store the simulation results in a sqlite3 database. This is very handy 
+when you simulation takes a long time to run and you want to reaccess to the results, 
+without re-run it.
+
+More over, if you use the manager object to create the vectors, you can access the simulation's
+results and explore them with Neuronvisio. 
+
+To do that you need to:
+
+1. Instantiate the same geometry of the model which you have run the simulation
+2. Load the database.
+
+Using the manager object to store the results of your simulation
+----------------------------------------------------------------
+
+This is a quick example how to save the simulation in neuronvisio::
+    
+    # Model already instantiated. 
+    #   
+    from neuronvisio import Manager
+    manager = Manager()
+    manager.add_all_vecRef('v')
+    
+    # file where to save the results
+    filename = 'storage.sqlite'
+    # Saving the vectors
+    manager.store_in_db(filename)
+    
+If you run a lot of simulation you want maybe to run the same script but without rewriting 
+the same results. Manager has a nice method to help you called create_new_dir::
+    
+    saving_dir = manager.create_new_dir() # Create a New dir per Simulation, ordered by Day.
+    db_name = 'storage.sqlite'
+    filename = os.path.join(saving_dir, db_name)
+    # Saving the vectors
+    manager.store_in_db(filename)
+
+That's all.
+
+Loading a previous simulation
+-----------------------------
+
+To load the simulation results you need to reload the same kind of geometry.
+A Classic approach will be::
+    from neuronvisio import Control
+    
+    # reload your model here
+    
+    control = Control()
+    
+    # Now you can use the gui, or do it by console.
+    
+    # By console
+    controls.manager.load_db(path_to_sql_db) # Loading the db
+    controls.update_tree_view() # Updating the vectors view in the plotting tab
+    
