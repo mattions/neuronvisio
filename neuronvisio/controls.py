@@ -205,9 +205,8 @@ class Controls():
         vecs_to_plot = {}
         var = ""
         for item in items:
-            if item.parent() is None:
-                print "Can't plot the section, skipping."
-            else:
+            if item.parent() is not None:
+                
                 sectionName = item.parent().text(0) #Column used
                 var = item.text(0)
                 
