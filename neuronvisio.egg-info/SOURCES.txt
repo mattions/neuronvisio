@@ -19,12 +19,12 @@ docs/screenshots.rst
 docs/visio.rst
 docs/_static/.gitignore
 docs/_templates/.gitignore
-docs/images/NeuronVisio_Controls_selecting_variable.png
 docs/images/Neuronvisio_3D.png
 docs/images/Neuronvisio_Controls.png
+docs/images/Neuronvisio_Controls_Init_and_Run.png
+docs/images/Neuronvisio_Controls_selecting_variable.png
 docs/images/Neuronvisio_sec_info.png
 docs/images/Simple_model.png
-docs/images/init_and_run.png
 docs/images/neuronWithSpines.png
 docs/images/nrnvisio-user-color.png
 docs/images/plotting_variable.png
@@ -38,6 +38,7 @@ neuronvisio/__init__.py
 neuronvisio/colorbutton.py
 neuronvisio/controls.py
 neuronvisio/manager.py
+neuronvisio/res.py
 neuronvisio/visio.py
 neuronvisio.egg-info/PKG-INFO
 neuronvisio.egg-info/SOURCES.txt

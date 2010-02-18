@@ -106,7 +106,7 @@ Run the simulation
 The simulation can be run clicking on the `Init & Run` button. 
 It will run until the tstop.
 
-.. image:: images/init_and_run.png
+.. image:: images/Neuronvisio_Controls_Init_and_Run.png
     
     
 Plotting the simulation
@@ -135,16 +135,16 @@ and the section info will be displayed in the Sec Info Tab.
 Loading And Saving the simulation results
 =========================================
 
-Neuronvisio can store the simulation results in a sqlite3 database. This is very handy 
-when you simulation takes a long time to run and you want to reaccess to the results, 
+Neuronvisio can store simulation's results in a sqlite3 database. This is very handy 
+when you simulation takes a long time to run and you want to inspect again the results, 
 without re-run it.
 
-More over, if you use the manager object to create the vectors, you can access the simulation's
-results and explore them with Neuronvisio. 
+More over, if you use the manager object to create the vectors, you can access any simulation's
+results and explore them with Neuronvisio even of you ran it on a cluster or remote computers. 
 
 To do that you need to:
 
-1. Instantiate the same geometry of the model which you have run the simulation
+1. Instantiate the same geometry of the model with which you have ran the simulation
 2. Load the database.
 
 Using the manager object to store the results of your simulation
@@ -152,7 +152,7 @@ Using the manager object to store the results of your simulation
 
 This is a quick example how to save the simulation in neuronvisio::
     
-    # Model already instantiated. 
+    # Model geometry already instantiated. 
     #   
     from neuronvisio import Manager
     manager = Manager()
@@ -163,16 +163,14 @@ This is a quick example how to save the simulation in neuronvisio::
     # Saving the vectors
     manager.store_in_db(filename)
     
-If you run a lot of simulation you want maybe to run the same script but without rewriting 
+If you run a lot of simulations you want maybe to run the same script but without rewriting 
 the same results. Manager has a nice method to help you called create_new_dir::
     
-    saving_dir = manager.create_new_dir() # Create a New dir per Simulation, ordered by Day.
+    saving_dir = manager.create_new_dir() # Create a new dir per Simulation, ordered by Day.
     db_name = 'storage.sqlite'
     filename = os.path.join(saving_dir, db_name)
     # Saving the vectors
     manager.store_in_db(filename)
-
-That's all.
 
 Loading a previous simulation
 -----------------------------
@@ -186,8 +184,10 @@ A Classic approach will be::
     control = Control()
     
     # Now you can use the gui, or do it by console.
+    # Using the gui, click on the Load button.
     
-    # By console
+    # Loading the db by code
+    
     controls.manager.load_db(path_to_sql_db) # Loading the db
     controls.update_tree_view() # Updating the vectors view in the plotting tab
     
