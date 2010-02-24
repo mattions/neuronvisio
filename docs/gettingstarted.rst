@@ -98,7 +98,7 @@ To plot the simulation's results you first have to create a Vector
 For example if you are interested in the voltage you have to insert `v` 
 in the 'Variable to record` and click `Create Vector`. 
 
-.. image:: images/NeuronVisio_Controls_selecting_variable.png
+.. image:: images/Neuronvisio_Controls_selecting_variable.png
 
 Run the simulation
 ------------------
@@ -177,6 +177,7 @@ Loading a previous simulation
 
 To load the simulation results you need to reload the same kind of geometry.
 A Classic approach will be::
+    
     from neuronvisio import Control
     
     # reload your model here
