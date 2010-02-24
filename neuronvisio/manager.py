@@ -237,7 +237,7 @@ class Manager(object):
             
             plt.plot(self.t, vec, label=key)
             if legend:
-                plt.legend()
+                plt.legend(loc=0)
 
     def create_new_dir(self, prefix="./"):
         """
