@@ -139,6 +139,8 @@ class Controls():
 
         
     def launch_visio(self):
+        msg = "Plotting..."
+        self.ui.statusbar.showMessage(msg, 3500)
         if not hasattr(self, 'visio'):
             self.visio = Visio(self.ui.def_col_btn.color, self.ui.sel_col_btn.color,
                                self.ui.sec_info_label)
@@ -179,6 +181,8 @@ class Controls():
         #Initializing
         if self.init():
             # Run
+            msg = "Running simulation. It will take a while maybe..."
+            self.ui.statusbar.showMessage(msg, 5000)
             while h.t < h.tstop:
                 h.fadvance()
                 
