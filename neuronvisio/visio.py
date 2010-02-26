@@ -151,12 +151,12 @@ class Visio(object):
     def get_sec_info(self, section):
         """Get the info of the given section"""
         
-        info = "<b>Name:</b> %s<br/>" %section.name()
-        info += "<b>L:</b> %f<br/>" % section.L
-        info += "<b>diam:</b> %f<br/>" % section.diam
-        info += "<b>cm:</b> %f<br/>" % section.cm
-        info += "<b>Ra:</b> %f<br/>" % section.Ra
-        info += "<b>nseg:</b> %f<br/>" % section.nseg
+        info = "<b>Section Name:</b> %s<br/>" %section.name()
+        info += "<b>Length [um]:</b> %f<br/>" % section.L
+        info += "<b>Diameter [um]:</b> %f<br/>" % section.diam
+        info += "<b>Membrane Capacitance:</b> %f<br/>" % section.cm
+        info += "<b>Axial Resistance :</b> %f<br/>" % section.Ra
+        info += "<b>Number of Segments:</b> %f<br/>" % section.nseg
         return info
                 
             
