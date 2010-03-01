@@ -37,9 +37,9 @@ it.
 
 A classical template is::
 
-    from nrnvisio.controls import Controls 
+    from nrnvisio.controls import Controls
+    from neuron import h 
     controls = Controls()   # starting the GUI
-    from neuron import h
     # Your model here
 
 Hoc Intergration
@@ -51,9 +51,9 @@ with it.
 
 A classical template is::
 
-    import nrnvisio
-    from neuron import h
-    controls = nrnvisio.Controls()
+    from nrnvisio.controls import Controls
+    from neuron import h 
+    controls = Controls()   # starting the GUI
     h.load_file('path/to/my_model.hoc')
 
 NeuronVisio features
@@ -154,7 +154,7 @@ This is a quick example how to save the simulation in neuronvisio::
     
     # Model geometry already instantiated. 
     #   
-    from neuronvisio import Manager
+    from neuronvisio.manger import Manager
     manager = Manager()
     manager.add_all_vecRef('v')
     
