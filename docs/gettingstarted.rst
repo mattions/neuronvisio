@@ -178,7 +178,7 @@ Loading a previous simulation
 To load the simulation results you need to reload the same kind of geometry.
 A Classic approach will be::
     
-    from neuronvisio import Control
+    from neuronvisio.controls import Controls
     
     # reload your model here
     
