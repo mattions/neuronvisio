@@ -9,14 +9,8 @@
 .. autoclass:: Controls
    :members:
 
-:class:`TimelineHelper`
------------------------
-   
-.. autoclass:: TimelineHelper
-   :members:
-
-:class:`TimeLoop`
+:class:`Timeloop`
 -----------------
    
-.. autoclass:: TimeLoop
+.. autoclass:: Timeloop
    :members:
