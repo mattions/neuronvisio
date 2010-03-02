@@ -182,7 +182,7 @@ A Classic approach will be::
     
     # reload your model here
     
-    control = Control()
+    controls = Controls()
     
     # Now you can use the gui, or do it by console.
     # Using the gui, click on the Load button.
