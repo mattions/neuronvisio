@@ -1,4 +1,4 @@
-NeuronVisio
+Neuronvisio
 ===========
 
 What is it
