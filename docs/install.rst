@@ -11,7 +11,7 @@ To install NeuronVisio you need to satisfy the following dependencies
 
 - PyQt4: http://www.riverbankcomputing.co.uk/software/pyqt/download
 - ipython: http://ipython.scipy.org/moin/
-- mayavi2: http://code.enthought.com/projects/mayavi/ 3.4+ (`Mayavi SVN`_)
+- mayavi2: http://code.enthought.com/projects/mayavi/ 3.3.1 (or better)
 - matplotlib: http://matplotlib.sourceforge.net/
 
 
@@ -29,15 +29,20 @@ On Ubuntu you can easily install all the requirements using apt-get with::
 If you are running a different flavour of GNU/Linux, like Fedora for example, just install 
 the requirements with your package manager, then go to the `Package Install`_.
 
-Mayavi SVN
-==========
+Mayavi 
+======
 
-Neuronvisio takes advantage of some of the new features which are only present in 
-Mayavi SVN ATM.
+If you have pip_ installed you can install Mayavi just running::
 
-`How to install Mayavi from SVN`_.
+    pip install "Mayavi[app]"
+    
+if you prefer easy_install just run::
 
-.. _How to install Mayavi from SVN: http://code.enthought.com/projects/mayavi/docs/development/html/mayavi/installation.html#the-bleeding-edge-svn
+    easy_install "Mayavi[app]"
+    
+If you want to use another method for installation look at the `Mayavi doc`_
+
+.. _Mayavi doc: http://code.enthought.com/projects/mayavi/docs/development/html/mayavi/installation.html
 
 On Ubuntu you will need to install manually these two modules: `python-vtk python-configobj`::
 
@@ -78,7 +83,7 @@ Some pointers as for MAC:
 
 The last one is maybe missing mayavi2. Follow the instruction on `mayavi doc_` to install it
 
-.. mayavi doc: http://code.enthought.com/projects/mayavi/
+.. mayavi doc: http://code.enthought.com/projects/mayavi/docs/development/html/mayavi/installation.html
 
 Proceed to the `Package Install`_ .
 
