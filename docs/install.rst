@@ -103,10 +103,23 @@ neuronvisio.tgz file from `Neuronvisio's PyPI page`_, untar it and run::
 .. _Neuronvisio's PyPI page: http://pypi.python.org/pypi/neuronvisio/
 .. _pip: http://pypi.python.org/pypi/pip
 
+Running the bleeding edge
+-------------------------
+
+If you want to run the latest code you can clone the git repo and run the software from there::
+
+    git clone git://github.com/mattions/neuronvisio.git neuronvisio
+
+then you need to add the directory (the absolute path) to your PYTHONPATH (in bash)::
+    
+    export PYTHONPATH=$PYTHONPATH:/path-to-neuronvisio
+    
 Legacy releases
 ===============
 
-You can find all the old Neuronvisio releases on `github repo`_
+You can find all the old Neuronvisio releases on `github repo`_ Note there was a major
+rewriting of the software from series 0.3 to 0.4 and the use of the old releases is not 
+encouraged. 
 
 .. _github repo: http://github.com/mattions/neuronvisio/downloads
 
