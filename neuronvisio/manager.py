@@ -215,6 +215,8 @@ class Manager(object):
                               synapse.syn_vecs)
         
         self.synVecRefs.append(synVecRef)
+        print "adding syn chan: %s, len synvecREfs: %d" %(synapse.chan_type,
+                                                          len (self.synVecRefs))
 
             
     def plotVecs(self, vecs_dic,legend=True, figure_num=None):
@@ -381,8 +383,9 @@ class Manager(object):
                     
                     for synVecRef in synVecRefs:
                         if synVecRef.sec_name == sec_name:
-                            found = True
-                            break
+                            if synVecRef.chan_type == chan_type:
+                                found = True
+                                break
                     if found:
                         synVecRef.syn_vecs[var] = array
                         continue #Move to next record
