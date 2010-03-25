@@ -272,6 +272,26 @@ class Controls():
                 item = QtGui.QTreeWidgetItem(sec_root_item)
                 item.setText(0, var)
                 sec_root_item.addChild(item)
+                
+        if hasattr(self.manager, 'synVecRefs'):
+            self.ui.treeWidget.selectAll()
+            items = self.ui.treeWidget.selectedItems()
+            for item in items:
+                if item.parent() is None: #top level sec name
+                
+                    sectionName = item.text(0) #Column used
+                    sectionName = str(sectionName) # This will go with Py3
+                    
+                    for synVecRef in self.manager.synVecRefs:
+                        if synVecRef.sec_name == sectionName:
+                            for var,vec in synVecRef.syn_vecs.iteritems():
+                                var += " (" + synVecRef.chan_type +")"
+                                child_item = QtGui.QTreeWidgetItem(item)
+                                child_item.setText(0, var)
+                                child_item.addChild(item)
+        self.ui.treeWidget.reset()
+            # for all the row in treeview
+                # for all the synVecRef
     
     def animation(self):
         

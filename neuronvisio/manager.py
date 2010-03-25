@@ -211,7 +211,9 @@ class Manager(object):
         
         :param synapse: The synapse to record.
         """
-        synVecRef = SynVecRef(synapse)
+        synVecRef = SynVecRef(synapse.chan_type, synapse.section.name(), 
+                              synapse.syn_vecs)
+        
         self.synVecRefs.append(synVecRef)
 
             
@@ -291,27 +293,28 @@ class Manager(object):
                                          sqlite3.Binary(array)))
         
         conn.commit()
+        
+        
+        
         cursor.close()
+    
+    def _load_time(self, cursor):
+        """Load the time vector"""
         
-        
-    def load_db(self, path_to_sqlite):
-        
-        # Loading the time
-        conn = sqlite3.connect(path_to_sqlite)
-        cursor = conn.cursor()
         sql_stm = """SELECT * FROM Vectors WHERE var='t'"""
         cursor.execute(sql_stm)
         for row in cursor:
             array = cPickle.loads(str(row[2]))
             
         self.t = array
+    
+    def _load_vecRef(self, cursor):
+        """Load the vecref in memory"""
         
-        # Loading the VecRef
         sql_stm = """SELECT * from Vectors""" 
         cursor.execute(sql_stm)
         
         vecRefs = []
-        
         for row in cursor:
             # vecrRef
             sec_name = str(row[1])
@@ -339,15 +342,78 @@ class Manager(object):
                     vecRef.vecs[var] = array
                 
                 vecRefs.append(vecRef)
-        #print vecRefs
-        conn.close()
-        
+                
         for sec in h.allsec():
             for vecRef in vecRefs:
                 if sec.name() == vecRef.sec_name:
                     vecRef.sec = sec
                     break
         self.vecRefs = vecRefs
+    
+    def _load_synVec(self, cursor):
+        """Load the SynVec in memory if they exist"""
+        
+        sql_stm = """SELECT * from SynVectors"""
+        synVecs_exist = False 
+        try:
+            cursor.execute(sql_stm)
+            synVecs_exist = True
+        except sqlite3.Error, e:
+            # No synVectors
+            synVecs_exist = False
+        
+        if synVecs_exist:
+            synVecRefs = []
+            for row in cursor:
+                # vecrRef
+                sec_name = str(row[2])
+                
+                if sec_name != 'NULL':
+                    
+                    var = str(row[0])
+                    chan_type = str(row[1])
+                    array = cPickle.loads(str(row[3]))                
+                    found = False
+                    
+                    # Check if the vecREf exists.
+                    # If it does we add the variable vec to the vecs dict
+                    # otherwise we create a new one.
+                    
+                    for synVecRef in synVecRefs:
+                        if synVecRef.sec_name == sec_name:
+                            found = True
+                            break
+                    if found:
+                        synVecRef.syn_vecs[var] = array
+                        continue #Move to next record
+                    else:
+                        nrn_sec = eval('h.' + sec_name)
+                        syn_vecs = {}
+                        syn_vecs[var] = array
+                        synVecRef = SynVecRef(chan_type, sec_name, syn_vecs)        
+                        
+                    
+                    synVecRefs.append(synVecRef)
+                    
+            self.synVecRefs = synVecRefs
+        
+    def load_db(self, path_to_sqlite):
+        """Loads the database in the Neuronvisio structure"""
+        
+        conn = sqlite3.connect(path_to_sqlite)
+        cursor = conn.cursor()
+        
+        # Loading the time
+        self._load_time(cursor)
+        
+        # Loading the VecRef
+        self._load_vecRef(cursor)
+        
+        # Loading the SynVec
+        self._load_synVec(cursor)
+        
+        conn.close()
+        
             
 class VecRef(object):
     """Basic class to associate one or more vectors with a section
@@ -370,15 +436,17 @@ class VecRef(object):
 class SynVecRef(object):
     """Class to track all the synapse quantity of interest"""
     
-    def __init__(self, syn):
-        """Create a synVecRef object which map the synapse positiona and name 
+    def __init__(self, chan_type, section_name, syn_vecs):
+        """Create a synVecRef object which map the synapse position and name 
         and the recorded vectors in it.
         
-        :param syn: The synapse to map
+        :param chan_type: The channel in the synapse
+        :param sectiona_name: Name of the section where the synapse is
+        :param syn_vecs: Dictionary with the synapse vecs
         """
-        self.chan_type = syn.chan_type
+        self.chan_type = chan_type
 #        print "Creating synVec: syn type %s, synvec type %s" %(syn.chan_type,
 #                                                               self.chan_type)
 #        print "syn Vectors %s" %syn.syn_vecs
-        self.section_name = syn.section.name()
-        self.syn_vecs = syn.syn_vecs
+        self.sec_name = section_name
+        self.syn_vecs = syn_vecs
