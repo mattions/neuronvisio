@@ -106,6 +106,10 @@ class Controls():
         self.path_to_sql = None                    
         self.ui.show()
         
+        # Constant for the Treeview
+        self.Vectors_Group_Label = "Vectors"
+        self.SynVectors_Group_Label = "SynVectors"
+        
         # Start the main event loop.
         app.exec_()
     
@@ -209,21 +213,32 @@ class Controls():
         vecs_to_plot = {}
         var = ""
         for item in items:
-            if item.parent() is not None:
+            if item.childCount() == 0: # Leaf, so it is the variable to plot
                 
-                sectionName = item.parent().text(0) #Column used
+                sectionItem = item.parent()
+                sectionName = sectionItem.text(0) #Column used
                 var = item.text(0)
                 
                 sectionName = str(sectionName) # This will go with Py3
                 var = str(var) #idem
-                for vecRef in self.manager.vecRefs:
-                    
-                    if vecRef.sec_name == sectionName:
-                        # get the vec
-                        vec = vecRef.vecs[var]
-                        key = sectionName + "_" + var
-                        vecs_to_plot[key] = vec
-        
+                
+                group = str(sectionItem.parent().text(0))
+                if group == self.Vectors_Group_Label:
+                    for vecRef in self.manager.vecRefs: # TODO: Change the 
+                        
+                        if vecRef.sec_name == sectionName:
+                            # get the vec
+                            vec = vecRef.vecs[var]
+                            key = sectionName + "_" + var
+                            vecs_to_plot[key] = vec
+                            
+                if group == self.SynVectors_Group_Label:
+                    for synVecRef in self.manager.synVecRefs:
+                        if synVecRef.sec_name == sectionName:
+                            vec = synVecRef.syn_vecs[var]
+                            chan_type = synVecRef.chan_type
+                            key = sectionName + '_' + var + "_" + chan_type 
+                            vecs_to_plot[key] = vec
         # Plot legend if required
         legend_status = self.ui.legend.isChecked() #return True if toggled.
         
@@ -257,39 +272,67 @@ class Controls():
                     msgBox.setIcon(QtGui.QMessageBox.Warning)
                     msgBox.exec_()
         self.update_tree_view()
-        
-    def update_tree_view(self):
-        # Fill the treeview wit all the vectors created
-        #Clear all the row
-        self.ui.treeWidget.clear()
-        
+    
+    def insert_vectors_treeview(self):
+        """Adding the vectors To the treeview"""
         # Add all the vectors
+        root_item = QtGui.QTreeWidgetItem(self.ui.treeWidget)
+        root_item.setText(0, self.Vectors_Group_Label)
         for vecRef in self.manager.vecRefs:
             sec_name = vecRef.sec_name
-            sec_root_item = QtGui.QTreeWidgetItem(self.ui.treeWidget)
-            sec_root_item.setText(0, sec_name) 
+            sec_root_item = QtGui.QTreeWidgetItem(root_item)
+            sec_root_item.setText(0, sec_name)
             for var,vec in vecRef.vecs.iteritems():
                 item = QtGui.QTreeWidgetItem(sec_root_item)
                 item.setText(0, var)
                 sec_root_item.addChild(item)
                 
-        if hasattr(self.manager, 'synVecRefs'):
-            self.ui.treeWidget.selectAll()
-            items = self.ui.treeWidget.selectedItems()
-            for item in items:
-                if item.parent() is None: #top level sec name
+    def insert_synvectors_treeview(self):
+        """Insert the synVectors"""
+        root_item = QtGui.QTreeWidgetItem(self.ui.treeWidget)
+        root_item.setText(0, self.SynVectors_Group_Label)
+        # Order the synVecRef for section
+        
+        for synVecRef in self.manager.synVecRefs:
+            sec_name = synVecRef.sec_name
+            
+            target_item = None 
+            children = root_item.childCount()
+            
+            # Search for if the section is already inserted.
+            for child in range (children):
+                item = root_item.child(child)
+                if item.text(0) == sec_name:
+                    target_item = item
+                    break
+            
+            if target_item is None: # Create the item if not present
+                sec_root_item = QtGui.QTreeWidgetItem(root_item)
+                sec_root_item.setText(0, sec_name)
+                target_item = sec_root_item
                 
-                    sectionName = item.text(0) #Column used
-                    sectionName = str(sectionName) # This will go with Py3
-                    
-                    for synVecRef in self.manager.synVecRefs:
-                        if synVecRef.sec_name == sectionName:
-                            for var,vec in synVecRef.syn_vecs.iteritems():
-                                var += " (" + synVecRef.chan_type +")"
-                                child_item = QtGui.QTreeWidgetItem(item)
-                                child_item.setText(0, var)
-                                child_item.addChild(item)
-        self.ui.treeWidget.reset()
+            for var,vec in synVecRef.syn_vecs.iteritems():
+                child_item = QtGui.QTreeWidgetItem(sec_root_item)
+                child_item.setText(0, var)
+                child_item.setText(1, synVecRef.chan_type)
+                target_item.addChild(child_item)
+            
+                        
+    def update_tree_view(self):
+        # Fill the treeview wit all the vectors created
+        #Clear all the row
+        self.ui.treeWidget.clear()
+        
+        self.insert_vectors_treeview()
+        
+        if hasattr(self.manager, 'synVecRefs'):
+            
+#            iterator = QtGui.QTreeWidgetItemIterator(self.ui.treeWidget)
+#            item = iterator.value()
+#            while(item):
+            self.insert_synvectors_treeview()
+            
+                
             # for all the row in treeview
                 # for all the synVecRef
     

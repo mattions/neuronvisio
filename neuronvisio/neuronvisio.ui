@@ -306,11 +306,16 @@
            <enum>QAbstractItemView::MultiSelection</enum>
           </property>
           <property name="columnCount">
-           <number>1</number>
+           <number>2</number>
           </property>
           <column>
            <property name="text">
             <string>Vector</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Details</string>
            </property>
           </column>
          </widget>
