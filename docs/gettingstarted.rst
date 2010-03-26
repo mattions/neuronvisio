@@ -189,6 +189,5 @@ A Classic approach will be::
     
     # Loading the db by code
     
-    controls.manager.load_db(path_to_sql_db) # Loading the db
-    controls.update_tree_view() # Updating the vectors view in the plotting tab
+    controls.load_db(path_to_sql_db) # Loading the db
     
