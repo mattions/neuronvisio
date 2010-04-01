@@ -243,11 +243,11 @@ class Manager(object):
             if legend:
                 plt.legend(loc=0)
 
-    def create_new_dir(self, prefix="./"):
+    def create_new_dir(self, prefix="./", root="Sims"):
         """
             Create the directory where to put the simulation
         """
-        self.dirRoot = os.path.join(prefix, "Sims")
+        self.dirRoot = os.path.join(prefix, root)
         
         today = datetime.date.today()
         free = False
