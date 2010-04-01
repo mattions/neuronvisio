@@ -154,7 +154,7 @@ This is a quick example how to save the simulation in neuronvisio::
     
     # Model geometry already instantiated. 
     #   
-    from neuronvisio.manger import Manager
+    from neuronvisio.manager import Manager
     manager = Manager()
     manager.add_all_vecRef('v')
     
