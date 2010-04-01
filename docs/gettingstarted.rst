@@ -37,7 +37,7 @@ it.
 
 A classical template is::
 
-    from nrnvisio.controls import Controls
+    from neuronvisio.controls import Controls
     from neuron import h 
     controls = Controls()   # starting the GUI
     # Your model here
@@ -51,7 +51,7 @@ with it.
 
 A classical template is::
 
-    from nrnvisio.controls import Controls
+    from neuronvisio.controls import Controls
     from neuron import h 
     controls = Controls()   # starting the GUI
     h.load_file('path/to/my_model.hoc')

@@ -57,7 +57,7 @@ The documentation is available in the doc folder or online_ or in pdf format in 
 Quickstart
 ==========
 
-This code is just to give an idea in how to use nrnvisio module:
+This code is just to give an idea in how to use neuronvisio module:
 
 1. fire up an ipython console with pylab switch.::
 
@@ -68,8 +68,8 @@ This code is just to give an idea in how to use nrnvisio module:
     from neuronvisio.controls import Controls
     controls = Controls()
     
-When nrnvisio is started the thread is launched. In this thread all the process of 
-nrnvisio will happen without blocking the console.
+When neuronvisio is started the thread is launched. In this thread all the process of 
+neuronvisio will happen without blocking the console.
 
 As a quick example the following code:
 
@@ -79,7 +79,7 @@ As a quick example the following code:
 
 A quick example can be the following:::
     
-    from nrnvisio.controls import Controls
+    from neuronvisio.controls import Controls
     controls = Controls() # Starting the GUI
     
     from neuron import h    # Getting the HocInterpreter
