@@ -1,8 +1,8 @@
-0.4.3+
-======
+0.4.4 - 1 Apr 2010
+==================
 
 - Fixed the name on the README
-- Not more necessary to update the treeview when loading the db
+- Treeview updated everytime a database is loaded.
 
 
 0.4.3 - 2 Mar 2010
