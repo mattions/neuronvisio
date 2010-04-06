@@ -1,6 +1,6 @@
 Metadata-Version: 1.0
 Name: neuronvisio
-Version: 0.4.4
+Version: 0.4.4-
 Summary: NeuronVisio is a Graphical User Interface for NEURON simulator enviroment
 Home-page: http://mattions.github.com/neuronvisio/
 Author: Michele Mattioni
@@ -65,7 +65,7 @@ Description: Neuronvisio
         Quickstart
         ==========
         
-        This code is just to give an idea in how to use nrnvisio module:
+        This code is just to give an idea in how to use neuronvisio module:
         
         1. fire up an ipython console with pylab switch.::
         
@@ -76,8 +76,8 @@ Description: Neuronvisio
         from neuronvisio.controls import Controls
         controls = Controls()
         
-        When nrnvisio is started the thread is launched. In this thread all the process of
-        nrnvisio will happen without blocking the console.
+        When neuronvisio is started the thread is launched. In this thread all the process of
+        neuronvisio will happen without blocking the console.
         
         As a quick example the following code:
         
@@ -87,7 +87,7 @@ Description: Neuronvisio
         
         A quick example can be the following:::
         
-        from nrnvisio.controls import Controls
+        from neuronvisio.controls import Controls
         controls = Controls() # Starting the GUI
         
         from neuron import h    # Getting the HocInterpreter
