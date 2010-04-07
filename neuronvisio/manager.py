@@ -22,16 +22,6 @@
 from neuron import h
 import numpy as np
 import os
-import matplotlib
-
-# Checking the variable DISPLAY to decide the backend
-if not os.environ.has_key("DISPLAY"):
-    matplotlib.use('Agg') # No display, writing to file
-else:
-    matplotlib.use("Qt4Agg")
-    matplotlib.interactive(True)
-    
-import matplotlib.pyplot as plt
 import sqlite3
 import cPickle
 import datetime
@@ -44,7 +34,7 @@ class Manager(object):
     """
 
 
-    def __init__(self):
+    def __init__(self, backend='Agg'):
         
         self.vecRefs = [] 
         self.synVecRefs = []
@@ -52,6 +42,12 @@ class Manager(object):
         self.stims = []
         # Load the std run for NEURON
         h.load_file("stdrun.hoc")
+        import matplotlib
+        matplotlib.use(backend)
+        if backend == 'Qt4Agg':
+            matplotlib.interactive(True)
+            
+        import matplotlib.pyplot as plt
         
     def add_vecRef(self, var, sec):
         """Add the vecRef to the vec_res list. It takes care to create the vector 
