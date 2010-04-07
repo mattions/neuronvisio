@@ -22,7 +22,11 @@ import sys
 sys.path.append(os.path.dirname(__file__)) 
 
 from PyQt4 import QtGui, QtCore, uic
-backend="Qt4Agg"
+
+import matplotlib
+matplotlib.use('Qt4Agg')
+matplotlib.interactive(True)
+
 from neuron import h
 h.load_file("stdrun.hoc")
 
@@ -102,7 +106,7 @@ class Controls():
         
         
         ### Manager class 
-        self.manager = manager.Manager(backend=backend)
+        self.manager = manager.Manager()
         self.path_to_sql = None                    
         self.ui.show()
         

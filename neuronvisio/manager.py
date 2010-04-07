@@ -26,6 +26,9 @@ import sqlite3
 import cPickle
 import datetime
 
+import matplotlib
+import matplotlib.pyplot as plt
+
 
 class Manager(object):
     """The Manager class is used to manage all the vecRef, to create them 
@@ -34,7 +37,7 @@ class Manager(object):
     """
 
 
-    def __init__(self, backend='Agg'):
+    def __init__(self):
         
         self.vecRefs = [] 
         self.synVecRefs = []
@@ -42,12 +45,7 @@ class Manager(object):
         self.stims = []
         # Load the std run for NEURON
         h.load_file("stdrun.hoc")
-        import matplotlib
-        matplotlib.use(backend)
-        if backend == 'Qt4Agg':
-            matplotlib.interactive(True)
-            
-        import matplotlib.pyplot as plt
+
         
     def add_vecRef(self, var, sec):
         """Add the vecRef to the vec_res list. It takes care to create the vector 
