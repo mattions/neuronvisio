@@ -315,8 +315,7 @@ class Manager(object):
         
         conn.commit()
         
-        # TODO: Destroy the file.
-        # os.remove(tmp_file)
+        os.remove(tmp_file)
         
         
     def store_in_db(self, filename):
@@ -431,16 +430,17 @@ class Manager(object):
     def _load_geom(self, cursor):
         """Select the NeuroML from the table, write it to a tmp file and then load into NEURON"""
         
-#        sql_stm = """SELECT * from Geometry"""
-#        cursor.execute(sql_stm)
-#        xml_data = ''
-#        for row in cursor:
-#            xml_data = row[0]
+        sql_stm = """SELECT * from Geometry"""
+        cursor.execute(sql_stm)
+        xml_data = ''
+        for row in cursor:
+            xml_data = row[0]
         
-        #tmp_file = 'tmp_file2.xml'
+        print xml_data
         tmp_file = 'temp.xml'
-#        f = open(tmp_file, 'w')
-#        f.write(xml_data)
+        f = open(tmp_file, 'w')
+        f.write(xml_data)
+        f.close()
         
         import rdxml # This has to go ASAP they fix NEURON install
         h.load_file('celbild.hoc')
@@ -448,8 +448,7 @@ class Manager(object):
         cb.manage.neuroml(tmp_file)
         cb.cexport(1)
         
-        # TODO: Destroy the file.
-        # os.remove(tmp_file)
+        os.remove(tmp_file)
         
         
     def load_db(self, path_to_sqlite):
