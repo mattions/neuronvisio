@@ -261,10 +261,7 @@ class Manager(object):
                 os.makedirs(dir)
         return dir
 
-    def store_in_db(self, filename):
-        """Store the simulation results in a database"""
-        conn = sqlite3.connect(filename)
-        cursor = conn.cursor()
+    def _store_vectors(self, cursor, conn):
         
         table = "Vectors"
         # Create the table.
@@ -290,8 +287,45 @@ class Manager(object):
         
         conn.commit()
         
+    def _store_geom(self, cursor, conn):
+        """Create a Geometry table where the NeuroML is saved"""
+        
+        table = "Geometry"
+        # Create the table.
+        sql_stm = "CREATE TABLE IF NOT EXISTS " + table + " (neuroml TEXT)"
+        
+        cursor.execute(sql_stm)
+        conn.commit()
+        
+        # writing the NeuroML model
+        h.define_shape() # We need the 3D points
+        
+        h.load_file('mview.hoc')
+        modelView = h.ModelView(0)
+        modelXml = h.ModelViewXML(modelView)
+        tmp_file = 'temp.xml'
+        modelXml.xportLevel1(tmp_file)
+        
+        xml_data = ''
+        with open(tmp_file, 'r') as f:
+            xml_data = f.read()
+        
+        sql_stm = """INSERT INTO """ + table + """ VALUES (?)"""
+        cursor.execute(sql_stm, (xml_data,))
+        
+        conn.commit()
+        
+        # TODO: Destroy the file.
+        # os.remove(tmp_file)
         
         
+    def store_in_db(self, filename):
+        
+        """Store the simulation results in a database"""
+        conn = sqlite3.connect(filename)
+        cursor = conn.cursor()
+        self._store_geom(cursor, conn)
+        self._store_vectors(cursor, conn)
         cursor.close()
     
     def _load_time(self, cursor):
@@ -393,12 +427,39 @@ class Manager(object):
                     synVecRefs.append(synVecRef)
                     
             self.synVecRefs = synVecRefs
+            
+    def _load_geom(self, cursor):
+        """Select the NeuroML from the table, write it to a tmp file and then load into NEURON"""
+        
+#        sql_stm = """SELECT * from Geometry"""
+#        cursor.execute(sql_stm)
+#        xml_data = ''
+#        for row in cursor:
+#            xml_data = row[0]
+        
+        #tmp_file = 'tmp_file2.xml'
+        tmp_file = 'temp.xml'
+#        f = open(tmp_file, 'w')
+#        f.write(xml_data)
+        
+        import rdxml # This has to go ASAP they fix NEURON install
+        h.load_file('celbild.hoc')
+        cb = h.CellBuild(0)
+        cb.manage.neuroml(tmp_file)
+        cb.cexport(1)
+        
+        # TODO: Destroy the file.
+        # os.remove(tmp_file)
+        
         
     def load_db(self, path_to_sqlite):
         """Loads the database in the Neuronvisio structure"""
         
         conn = sqlite3.connect(path_to_sqlite)
         cursor = conn.cursor()
+        
+        # Loading the geometry
+        self._load_geom(cursor)
         
         # Loading the time
         self._load_time(cursor)
