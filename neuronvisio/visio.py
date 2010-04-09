@@ -226,8 +226,19 @@ class Visio(object):
     def update_selected_sec(self, color):
         """Update the color of the select section"""
         if self.selected_cyl is not None:
-            self.draw_section(self.cyl2sec[self.selected_cyl], color)
+            self.update_color(self.selected_cyl, color)
             self.selected_cyl_color = color
+    
+    def update_def_sec(self, color):
+        """Update the default color of all cyls"""
+        cyls = self.cyl2sec.keys()
+        for cyl in cyls:
+            self.update_color(cyl, color)
+        
+        if self.selected_cyl:
+            self.update_color(self.selected_cyl, self.selected_cyl_color)
+        self.default_cyl_col = color
+        
         
     def calc_offset(self, start_v, end_v, v):
         """Calculate the offset for the gradient 

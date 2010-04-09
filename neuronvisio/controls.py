@@ -166,7 +166,7 @@ class Controls():
             self.visio.draw_model()
             self.ui.def_col_btn.connect(self.ui.def_col_btn,
                                         QtCore.SIGNAL("colorChanged(QColor)"),
-                                        self.visio.draw_model)
+                                        self.visio.update_def_sec)
             self.ui.sel_col_btn.connect(self.ui.sel_col_btn,
                                         QtCore.SIGNAL("colorChanged(QColor)"),
                                         self.visio.update_selected_sec)
@@ -421,14 +421,7 @@ class Controls():
         self.aboutUi.name.setText(name)
         self.aboutUi.authors.setText(authors)    
         self.aboutUi.show()
-    
-    def on_def_col_btn_changed(self):
-        
-        self.visio.default_cyl_col = self.ui.def_col_btn.color
-    
-    def on_sel_col_btn_changed(self):
-        
-        self.visio.selected_cyl_col = self.ui.sel_col_btn.color
+            
         
 class Timeloop(QtCore.QThread):
     """Daemon thread to connect the console with the gui"""
