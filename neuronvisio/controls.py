@@ -118,19 +118,24 @@ class Controls():
         app.exec_()
     
     def load_db(self, path_to_sql=None):
-        
-        if path_to_sql == None:
-            filename = QtGui.QFileDialog.getOpenFileName()
-            self.path_to_sql = str(filename)
-        else:
+        """Load the slite db"""
+        if path_to_sql != None:
             self.path_to_sql=path_to_sql
-        self.manager.load_db(self.path_to_sql)
-        self.update_tree_view()
-        msg = "Loaded db: %s" % self.path_to_sql
-        self.ui.statusbar.showMessage(msg, 3500)
-        # Enablig the Animation button
-        self.ui.animation_btn.setEnabled(True)
         
+        else:
+            filename = QtGui.QFileDialog.getOpenFileName()
+            if filename:
+                self.path_to_sql = str(filename)
+        
+        if self.path_to_sql != None:
+            
+            self.manager.load_db(self.path_to_sql)
+            self.update_tree_view()
+            msg = "Loaded db: %s" % self.path_to_sql
+            self.ui.statusbar.showMessage(msg, 3500)
+            # Enablig the Animation button
+            self.ui.animation_btn.setEnabled(True)
+            # TODO: Disabling all the rest
         
         
     def save_db(self):
