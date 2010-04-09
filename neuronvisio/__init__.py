@@ -22,3 +22,18 @@
 
 __authors__ = 'Michele Mattioni <mattioni@ebi.ac.uk>'
 __version__ = '0.4.4+'
+
+
+import os
+# this add the commit of to the software version when run from a git repo
+try:
+    import git
+    root = os.path.dirname(__path__[0]) # Getting the root of the module
+    if git.repo.is_git_dir(os.path.join(root, ".git")):
+        r = git.Repo(root)
+        git_commit = r.head.commit.sha
+        __version__ = __version__ + ' : ' + git_commit
+    raise ImportError
+except ImportError:
+    pass
+
