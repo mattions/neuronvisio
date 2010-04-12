@@ -26,7 +26,9 @@ import cPickle
 import datetime
 try:
     from sqlalchemy import create_engine
-    from sqlalchemy.orm import create_session
+    from sqlalchemy.orm import sessionmaker
+    Session = sessionmaker(autoflush=False)
+
 except ImportError:
     print "Sqlalchemy not installed. Please install it from \
     http://www.sqlalchemy.org/"
@@ -36,7 +38,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 
 
-from db.tables import Base, Geometry
+from db.tables import Base, Geometry, Vectors
 
 class Manager(object):
     """The Manager class is used to manage all the vecRef, to create them 
@@ -269,31 +271,28 @@ class Manager(object):
                 os.makedirs(dir)
         return dir
 
-    def _store_vectors(self, cursor, conn):
+    def _store_vectors(self, session):
         
-        table = "Vectors"
-        # Create the table.
-        sql_stm = "CREATE TABLE IF NOT EXISTS " + table + " (var TEXT, sec_name TEXT,\
-         vec BLOB)"
-        
-        cursor.execute(sql_stm)
-        conn.commit()
         # Storing the time
         t = np.array(self.t)
-        sql_stm = """INSERT INTO """ + table + """ VALUES(?,?,?)"""
-        cursor.execute(sql_stm, ('t', 'NULL', 
-                                 sqlite3.Binary(cPickle.dumps((t),-1))))
+#        sql_stm = """INSERT INTO """ + table + """ VALUES(?,?,?)"""
+#        cursor.execute(sql_stm, ('t', 'NULL', 
+#                                 sqlite3.Binary(cPickle.dumps((t),-1))))
         
         # Vec Ref
         pickable_vec_refs = self.convert_vec_refs()
-        
+        records = []
         for vec_ref in pickable_vec_refs:
             for var in vec_ref.vecs.keys():
                 array = cPickle.dumps(vec_ref.vecs[var], -1)
-                cursor.execute(sql_stm, (var, vec_ref.sec_name, 
-                                         sqlite3.Binary(array)))
-        
-        conn.commit()
+                record = Vectors(x=t, x_label="Time [ms]",
+                                 y=array, y_label=var,
+                                 sec_name=vec_ref.sec_name)
+                records.append(record)
+#                cursor.execute(sql_stm, (var, vec_ref.sec_name, 
+#                                         sqlite3.Binary(array)))
+        session.add_all(records)
+        session.flush()
         
     def _store_geom(self, session):
         """Store the NeuroML in the geometry table"""
@@ -313,7 +312,6 @@ class Manager(object):
         
         geom = Geometry(neuroml=xml_data)
         session.add(geom)
-        print session.dirty
         session.flush()
         
         os.remove(tmp_file)
@@ -321,18 +319,16 @@ class Manager(object):
         
     def store_in_db(self, filename):
         """Store the simulation results in a database"""
-        db_path = 'sqlite:////' + filename
-        print filename
+        db_path = 'sqlite:////' + os.path.abspath(filename)
+        
         engine = create_engine(db_path, echo=True)
+        Session.configure(bind=engine)
         Base.metadata.create_all(engine)
-        session = create_session(bind=engine)
+        session = Session()
         
         self._store_geom(session)
-#        conn = sqlite3.connect(filename)
-#        cursor = conn.cursor()
-#        self._store_geom(cursor, conn)
-#        self._store_vectors(cursor, conn)
-#        cursor.close()
+        self._store_vectors(session)
+        session.commit()
     
     def _load_time(self, cursor):
         """Load the time vector"""
