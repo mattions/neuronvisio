@@ -22,13 +22,21 @@
 from neuron import h
 import numpy as np
 import os
-import sqlite3
 import cPickle
 import datetime
+try:
+    from sqlalchemy import create_engine
+    from sqlalchemy.orm import create_session
+except ImportError:
+    print "Sqlalchemy not installed. Please install it from \
+    http://www.sqlalchemy.org/"
+
 
 import matplotlib
 import matplotlib.pyplot as plt
 
+
+from db.tables import Base, Geometry
 
 class Manager(object):
     """The Manager class is used to manage all the vecRef, to create them 
@@ -287,15 +295,8 @@ class Manager(object):
         
         conn.commit()
         
-    def _store_geom(self, cursor, conn):
-        """Create a Geometry table where the NeuroML is saved"""
-        
-        table = "Geometry"
-        # Create the table.
-        sql_stm = "CREATE TABLE IF NOT EXISTS " + table + " (neuroml TEXT)"
-        
-        cursor.execute(sql_stm)
-        conn.commit()
+    def _store_geom(self, session):
+        """Store the NeuroML in the geometry table"""
         
         # writing the NeuroML model
         h.define_shape() # We need the 3D points
@@ -310,22 +311,28 @@ class Manager(object):
         with open(tmp_file, 'r') as f:
             xml_data = f.read()
         
-        sql_stm = """INSERT INTO """ + table + """ VALUES (?)"""
-        cursor.execute(sql_stm, (xml_data,))
-        
-        conn.commit()
+        geom = Geometry(neuroml=xml_data)
+        session.add(geom)
+        print session.dirty
+        session.flush()
         
         os.remove(tmp_file)
         
         
     def store_in_db(self, filename):
-        
         """Store the simulation results in a database"""
-        conn = sqlite3.connect(filename)
-        cursor = conn.cursor()
-        self._store_geom(cursor, conn)
-        self._store_vectors(cursor, conn)
-        cursor.close()
+        db_path = 'sqlite:////' + filename
+        print filename
+        engine = create_engine(db_path, echo=True)
+        Base.metadata.create_all(engine)
+        session = create_session(bind=engine)
+        
+        self._store_geom(session)
+#        conn = sqlite3.connect(filename)
+#        cursor = conn.cursor()
+#        self._store_geom(cursor, conn)
+#        self._store_vectors(cursor, conn)
+#        cursor.close()
     
     def _load_time(self, cursor):
         """Load the time vector"""
