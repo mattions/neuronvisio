@@ -223,7 +223,7 @@ class Manager(object):
                                                           len (self.synVecRefs))
 
             
-    def plotVecs(self, vecs_dic,legend=True, figure_num=None):
+    def plotVecs(self, x=None, vecs_dic,legend=True, figure_num=None):
         """Plot the vectors with plt
         
         :param vecs_dic: dictionary with section name as k and the vec obj as value
@@ -242,8 +242,10 @@ class Manager(object):
         ax  = plt.subplot(111) # One subplot where to draw everything
          
         for key, vec in vecs_dic.iteritems():
-            
-            plt.plot(self.t, vec, label=key)
+            if x is None:
+                plt.plot(self.t, vec, label=key)
+            else:
+                plt.plot(x, vec, label=key)
             if legend:
                 plt.legend(loc=0)
 
