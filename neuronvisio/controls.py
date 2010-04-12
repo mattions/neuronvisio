@@ -120,7 +120,7 @@ class Controls():
     def load_db(self, path_to_sql=None):
         """Load the slite db"""
         if path_to_sql != None:
-            self.path_to_sql=path_to_sql
+            self.path_to_sql=os.path.abspath(path_to_sql)
         
         else:
             filename = QtGui.QFileDialog.getOpenFileName()

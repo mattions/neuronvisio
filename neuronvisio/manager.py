@@ -284,7 +284,7 @@ class Manager(object):
         records = []
         for vec_ref in pickable_vec_refs:
             for var in vec_ref.vecs.keys():
-                array = cPickle.dumps(vec_ref.vecs[var], -1)
+                array = vec_ref.vecs[var]
                 record = Vectors(x=t, x_label="Time [ms]",
                                  y=array, y_label=var,
                                  sec_name=vec_ref.sec_name)
@@ -330,33 +330,26 @@ class Manager(object):
         self._store_vectors(session)
         session.commit()
     
-    def _load_time(self, cursor):
+    def _load_time(self, session):
         """Load the time vector"""
         
-        sql_stm = """SELECT * FROM Vectors WHERE var='t'"""
-        cursor.execute(sql_stm)
-        for row in cursor:
-            array = cPickle.loads(str(row[2]))
-            
-        self.t = array
+        for vec in session.query(Vectors).filter(Vectors.id==1):
+            self.t = vec.x
     
-    def _load_vecRef(self, cursor):
+    def _load_vecRef(self, session):
         """Load the vecref in memory"""
         
-        sql_stm = """SELECT * from Vectors""" 
-        cursor.execute(sql_stm)
-        
         vecRefs = []
-        for row in cursor:
-            # vecrRef
-            sec_name = str(row[1])
+        for y_label, y, sec_name in session.query(Vectors.y_label, 
+                                                  Vectors.y,
+                                                  Vectors.sec_name):
             
-            if sec_name != 'NULL':
+            if sec_name != None:
                 
-                var = str(row[0])
-                array = cPickle.loads(str(row[2]))                
+                var = y_label
+                array = y         
                 found = False
-                
+                print type(array)
                 # Check if the vecREf exists.
                 # If it does we add the variable vec to the vecs dict
                 # otherwise we create a new one.
@@ -381,6 +374,42 @@ class Manager(object):
                     vecRef.sec = sec
                     break
         self.vecRefs = vecRefs
+        
+#        vecRefs = []
+#        for row in cursor:
+#            # vecrRef
+#            sec_name = str(row[1])
+#            
+#            if sec_name != 'NULL':
+#                
+#                var = str(row[0])
+#                array = cPickle.loads(str(row[2]))                
+#                found = False
+#                
+#                # Check if the vecREf exists.
+#                # If it does we add the variable vec to the vecs dict
+#                # otherwise we create a new one.
+#                
+#                for vecRef in vecRefs:
+#                    if vecRef.sec_name == sec_name:
+#                        found = True
+#                        break
+#                if found:
+#                    vecRef.vecs[var] = array
+#                    continue #Move to next record
+#                else:
+#                    nrn_sec = eval('h.' + sec_name)        
+#                    vecRef = VecRef(nrn_sec)
+#                    vecRef.vecs[var] = array
+#                
+#                vecRefs.append(vecRef)
+#                
+#        for sec in h.allsec():
+#            for vecRef in vecRefs:
+#                if sec.name() == vecRef.sec_name:
+#                    vecRef.sec = sec
+#                    break
+#        self.vecRefs = vecRefs
     
     def _load_synVec(self, cursor):
         """Load the SynVec in memory if they exist"""
@@ -430,16 +459,15 @@ class Manager(object):
                     
             self.synVecRefs = synVecRefs
             
-    def _load_geom(self, cursor):
+    def _load_geom(self, session):
         """Select the NeuroML from the table, write it to a tmp file and then load into NEURON"""
         
-        sql_stm = """SELECT * from Geometry"""
-        cursor.execute(sql_stm)
         xml_data = ''
-        for row in cursor:
-            xml_data = row[0]
+        for neuroml, in session.query(Geometry.neuroml):
+            xml_data = str(neuroml)
         
-        print xml_data
+        
+        print type(xml_data)
         tmp_file = 'temp.xml'
         f = open(tmp_file, 'w')
         f.write(xml_data)
@@ -456,23 +484,22 @@ class Manager(object):
         
     def load_db(self, path_to_sqlite):
         """Loads the database in the Neuronvisio structure"""
-        
-        conn = sqlite3.connect(path_to_sqlite)
-        cursor = conn.cursor()
-        
+        db_path = 'sqlite:////' + path_to_sqlite
+        engine = create_engine(db_path, echo=True)
+        Session.configure(bind=engine)
+        Base.metadata.create_all(engine)
+        session = Session()
         # Loading the geometry
-        self._load_geom(cursor)
+        self._load_geom(session)
         
         # Loading the time
-        self._load_time(cursor)
-        
-        # Loading the VecRef
-        self._load_vecRef(cursor)
-        
-        # Loading the SynVec
-        self._load_synVec(cursor)
-        
-        conn.close()
+        self._load_time(session)
+#        
+#        # Loading the VecRef
+        self._load_vecRef(session)
+#        
+#        # Loading the SynVec
+#        self._load_synVec(session)
         
             
 class VecRef(object):

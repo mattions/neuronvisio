@@ -5,7 +5,7 @@
 Tables used by Neuronvisio
 """
 
-from sqlalchemy import Column, Integer, String, PickleType
+from sqlalchemy import Column, Integer, Text, PickleType
 from sqlalchemy.ext.declarative import declarative_base
 
 
@@ -16,7 +16,7 @@ class Geometry(Base):
     __tablename__ = 'geometry'
     
     id = Column(Integer, primary_key=True)
-    neuroml = Column(String)
+    neuroml = Column(Text)
 
 class Vectors(Base):
     
@@ -25,11 +25,12 @@ class Vectors(Base):
     id = Column(Integer, primary_key=True)
     x = Column(PickleType)
     y = Column(PickleType)
-    x_label = Column(String)
-    y_label = Column(String)
-    sec_name = Column(String)
+    x_label = Column(Text)
+    y_label = Column(Text)
+    sec_name = Column(Text)
 
     def __init__(self, x, y, x_label, y_label, sec_name):
+        
          self.x = x
          self.y = y
          self.x_label = x_label
