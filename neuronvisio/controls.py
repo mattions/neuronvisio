@@ -109,11 +109,6 @@ class Controls():
         self.manager = manager.Manager()
         self.path_to_sql = None                    
         self.ui.show()
-        
-        # Constant for the Treeview
-        self.Vectors_Group_Label = "Vectors"
-        self.SynVectors_Group_Label = "SynVectors"
-        
         # Start the main event loop.
         app.exec_()
     
@@ -227,6 +222,7 @@ class Controls():
         items = self.ui.treeWidget.selectedItems()
         vecs_to_plot = {}
         var = ""
+        x = None
         for item in items:
             if item.childCount() == 0: # Leaf, so it is the variable to plot
                 
@@ -238,29 +234,31 @@ class Controls():
                 var = str(var) #idem
                 
                 group = str(sectionItem.parent().text(0))
-                if group == self.Vectors_Group_Label:
-                    for vecRef in self.manager.vecRefs: # TODO: Change the 
-                        
+                if group == self.manager.Vectors_Group_Label:
+                    x = self.manager.indipendent_variables[self.manager.Vectors_Group_Label]
+                    for vecRef in self.manager.vecRefs: 
                         if vecRef.sec_name == sectionName:
                             # get the vec
                             vec = vecRef.vecs[var]
                             key = sectionName + "_" + var
                             vecs_to_plot[key] = vec
                             
-                if group == self.SynVectors_Group_Label:
+                if group == self.manager.SynVectors_Group_Label:
+                    x = self.manager.indipendent_variables[self.manager.SynVectors_Group_Label]
                     for synVecRef in self.manager.synVecRefs:
                         if synVecRef.sec_name == sectionName:
                             vec = synVecRef.syn_vecs[var]
                             chan_type = synVecRef.chan_type
                             key = sectionName + '_' + var + "_" + chan_type 
                             vecs_to_plot[key] = vec
+        
         # Plot legend if required
         legend_status = self.ui.legend.isChecked() #return True if toggled.
         
         # Retrieve the fig num
         fig_num = self.ui.fig_num_spinBox.value()
         
-        self.manager.plotVecs(vecs_to_plot, legend=legend_status, 
+        self.manager.plotVecs(vecs_to_plot, x=x, legend=legend_status, 
                               figure_num=fig_num)
     def create_vector(self):
         
@@ -292,7 +290,7 @@ class Controls():
         """Adding the vectors To the treeview"""
         # Add all the vectors
         root_item = QtGui.QTreeWidgetItem(self.ui.treeWidget)
-        root_item.setText(0, self.Vectors_Group_Label)
+        root_item.setText(0, self.manager.Vectors_Group_Label)
         for vecRef in self.manager.vecRefs:
             sec_name = vecRef.sec_name
             sec_root_item = QtGui.QTreeWidgetItem(root_item)
@@ -305,7 +303,7 @@ class Controls():
     def insert_synvectors_treeview(self):
         """Insert the synVectors"""
         root_item = QtGui.QTreeWidgetItem(self.ui.treeWidget)
-        root_item.setText(0, self.SynVectors_Group_Label)
+        root_item.setText(0, self.manager.SynVectors_Group_Label)
         # Order the synVecRef for section
         
         for synVecRef in self.manager.synVecRefs:

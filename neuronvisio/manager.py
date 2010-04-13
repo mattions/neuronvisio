@@ -51,6 +51,9 @@ class Manager(object):
         
         self.vecRefs = [] 
         self.synVecRefs = []
+        self.indipendent_variables = {}
+        self.Vectors_Group_Label = 'Vectors'
+        self.SynVectors_Group_Label = "SynVectors"
         self.t = None # Var to track the time Vector
         self.stims = []
         # Load the std run for NEURON
@@ -332,14 +335,12 @@ class Manager(object):
         self._store_vectors(session)
         session.commit()
     
-    def _load_time(self, session):
-        """Load the time vector"""
+    def _load_vecRef(self, session):
+        """Load the vecref in memory"""
         
         for vec in session.query(Vectors).filter(Vectors.label=='t'):
             self.t = vec.var
-    
-    def _load_vecRef(self, session):
-        """Load the vecref in memory"""
+            self.indipendent_variables[self.Vectors_Group_Label] = self.t
         
         vecRefs = []
         for var, label, sec_name in session.query(Vectors.var, 
@@ -457,10 +458,7 @@ class Manager(object):
         session = Session()
         # Loading the geometry
         self._load_geom(session)
-        
-        # Loading the time
-        self._load_time(session)
-#        
+         
 #        # Loading the VecRef
         self._load_vecRef(session)
 #        
