@@ -223,7 +223,7 @@ class Manager(object):
                                                           len (self.synVecRefs))
 
             
-    def plotVecs(self, x=None, vecs_dic,legend=True, figure_num=None):
+    def plotVecs(self, vecs_dic, x=None, legend=True, figure_num=None):
         """Plot the vectors with plt
         
         :param vecs_dic: dictionary with section name as k and the vec obj as value
@@ -275,24 +275,24 @@ class Manager(object):
 
     def _store_vectors(self, session):
         
+        records = []
+        
         # Storing the time
         t = np.array(self.t)
-#        sql_stm = """INSERT INTO """ + table + """ VALUES(?,?,?)"""
-#        cursor.execute(sql_stm, ('t', 'NULL', 
-#                                 sqlite3.Binary(cPickle.dumps((t),-1))))
+        
+        # Saving time
+        record = Vectors(var=t, label='t', sec_name=None)
+        records.append(record)
         
         # Vec Ref
         pickable_vec_refs = self.convert_vec_refs()
-        records = []
         for vec_ref in pickable_vec_refs:
-            for var in vec_ref.vecs.keys():
-                array = vec_ref.vecs[var]
-                record = Vectors(x=t, x_label="Time [ms]",
-                                 y=array, y_label=var,
+            for var_type in vec_ref.vecs.keys():
+                array = vec_ref.vecs[var_type]
+                record = Vectors(var=array, label=var_type,
                                  sec_name=vec_ref.sec_name)
                 records.append(record)
-#                cursor.execute(sql_stm, (var, vec_ref.sec_name, 
-#                                         sqlite3.Binary(array)))
+
         session.add_all(records)
         session.flush()
         
@@ -335,23 +335,23 @@ class Manager(object):
     def _load_time(self, session):
         """Load the time vector"""
         
-        for vec in session.query(Vectors).filter(Vectors.id==1):
-            self.t = vec.x
+        for vec in session.query(Vectors).filter(Vectors.label=='t'):
+            self.t = vec.var
     
     def _load_vecRef(self, session):
         """Load the vecref in memory"""
         
         vecRefs = []
-        for y_label, y, sec_name in session.query(Vectors.y_label, 
-                                                  Vectors.y,
+        for var, label, sec_name in session.query(Vectors.var, 
+                                                  Vectors.label,
                                                   Vectors.sec_name):
             
             if sec_name != None:
                 
-                var = y_label
-                array = y         
+                var_type = label
+                array = var
                 found = False
-                print type(array)
+                
                 # Check if the vecREf exists.
                 # If it does we add the variable vec to the vecs dict
                 # otherwise we create a new one.
@@ -361,12 +361,12 @@ class Manager(object):
                         found = True
                         break
                 if found:
-                    vecRef.vecs[var] = array
+                    vecRef.vecs[var_type] = array
                     continue #Move to next record
                 else:
                     nrn_sec = eval('h.' + sec_name)        
                     vecRef = VecRef(nrn_sec)
-                    vecRef.vecs[var] = array
+                    vecRef.vecs[var_type] = array
                 
                 vecRefs.append(vecRef)
                 
@@ -376,42 +376,6 @@ class Manager(object):
                     vecRef.sec = sec
                     break
         self.vecRefs = vecRefs
-        
-#        vecRefs = []
-#        for row in cursor:
-#            # vecrRef
-#            sec_name = str(row[1])
-#            
-#            if sec_name != 'NULL':
-#                
-#                var = str(row[0])
-#                array = cPickle.loads(str(row[2]))                
-#                found = False
-#                
-#                # Check if the vecREf exists.
-#                # If it does we add the variable vec to the vecs dict
-#                # otherwise we create a new one.
-#                
-#                for vecRef in vecRefs:
-#                    if vecRef.sec_name == sec_name:
-#                        found = True
-#                        break
-#                if found:
-#                    vecRef.vecs[var] = array
-#                    continue #Move to next record
-#                else:
-#                    nrn_sec = eval('h.' + sec_name)        
-#                    vecRef = VecRef(nrn_sec)
-#                    vecRef.vecs[var] = array
-#                
-#                vecRefs.append(vecRef)
-#                
-#        for sec in h.allsec():
-#            for vecRef in vecRefs:
-#                if sec.name() == vecRef.sec_name:
-#                    vecRef.sec = sec
-#                    break
-#        self.vecRefs = vecRefs
     
     def _load_synVec(self, cursor):
         """Load the SynVec in memory if they exist"""

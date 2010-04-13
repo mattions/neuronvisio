@@ -23,17 +23,13 @@ class Vectors(Base):
     __tablename__ = 'vectors'
     
     id = Column(Integer, primary_key=True)
-    x = Column(PickleType)
-    y = Column(PickleType)
-    x_label = Column(Text)
-    y_label = Column(Text)
+    var = Column(PickleType)
+    label = Column(Text)
     sec_name = Column(Text)
 
-    def __init__(self, x, y, x_label, y_label, sec_name):
+    def __init__(self, var, label, sec_name):
         
-         self.x = x
-         self.y = y
-         self.x_label = x_label
-         self.y_label = y_label
+         self.var = var
+         self.label = label
          self.sec_name = sec_name
          
