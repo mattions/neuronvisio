@@ -71,6 +71,7 @@ class Manager(object):
         if self.t is None: # Create the time vector if not already there
             self.t = h.Vector()
             self.t.record(h._ref_t)
+            self.indipendent_variables[self.Vectors_Group_Label] = self.t
             
         success = False
         if hasattr(sec, var):
@@ -292,12 +293,16 @@ class Manager(object):
         for vec_ref in pickable_vec_refs:
             for var_type in vec_ref.vecs.keys():
                 array = vec_ref.vecs[var_type]
+                sec_name_neuroMl_accepted = self.sanitized_sec(vec_ref.sec_name)
                 record = Vectors(var=array, label=var_type,
-                                 sec_name=vec_ref.sec_name)
+                                 sec_name=sec_name_neuroMl_accepted)
                 records.append(record)
 
         session.add_all(records)
         session.flush()
+        
+    def _sanitezed_sec(self, sec_name):
+        import re
         
     def _store_geom(self, session):
         """Store the NeuroML in the geometry table"""
@@ -332,7 +337,7 @@ class Manager(object):
         session = Session()
         
         self._store_geom(session)
-        self._store_vectors(session)
+        #self._store_vectors(session)
         session.commit()
     
     def _load_vecRef(self, session):
@@ -460,7 +465,7 @@ class Manager(object):
         self._load_geom(session)
          
 #        # Loading the VecRef
-        self._load_vecRef(session)
+        #self._load_vecRef(session)
 #        
 #        # Loading the SynVec
 #        self._load_synVec(session)
@@ -483,6 +488,10 @@ class VecRef(object):
         # Key: var Value: Hoc.Vector
         self.vecs = {}
         
+        
+    def __str__(self):
+        return "section: %s, vars recorded: %s" %(self.sec_name, 
+                                                  self.vecs.keys())
             
 class SynVecRef(object):
     """Class to track all the synapse quantity of interest"""
@@ -501,3 +510,8 @@ class SynVecRef(object):
 #        print "syn Vectors %s" %syn.syn_vecs
         self.sec_name = section_name
         self.syn_vecs = syn_vecs
+
+    def __str__(self):
+        return "section: %s, chan_type: %s, \
+        vars recorded: %s" %(self.sec_name, self.chan_type, self.syn_vecs.keys())
+        
