@@ -23,13 +23,23 @@ class Vectors(Base):
     __tablename__ = 'vectors'
     
     id = Column(Integer, primary_key=True)
-    var = Column(PickleType)
-    label = Column(Text)
+    vec = Column(PickleType)
+    var = Column(Text)
     sec_name = Column(Text)
 
-    def __init__(self, var, label, sec_name):
+    def __init__(self, vec, var, sec_name):
         
+         self.vec = vec
          self.var = var
-         self.label = label
          self.sec_name = sec_name
+         
+class SynVectors(Base):
+    
+    __tablename__ = 'synvectors'
+    
+    id = Column(Integer, primary_key=True)
+    var = Column(Text)
+    chan_type = Column(Text)
+    sec_name = Column(Text)
+    vec = Column(PickleType)
          

@@ -38,7 +38,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 
 
-from db.tables import Base, Geometry, Vectors
+from db.tables import Base, Geometry, Vectors, SynVectors
 
 class Manager(object):
     """The Manager class is used to manage all the vecRef, to create them 
@@ -277,7 +277,8 @@ class Manager(object):
                 os.makedirs(dir)
         return dir
 
-    def _store_vectors(self, session):
+    def _store_synvectors(self, session):
+        """Store the Vectors in the database"""
         
         records = []
         
@@ -285,16 +286,44 @@ class Manager(object):
         t = np.array(self.t)
         
         # Saving time
-        record = Vectors(var=t, label='t', sec_name=None)
+        record = Vectors(vec=t, var='t', sec_name=None)
+        records.append(record)
+        
+        pickable_synVecRefs = self.convert_syn_vec_refs()
+        
+        for syn_vec_ref in pickable_synVecRefs:
+            for var in syn_vec_ref.syn_vecs.keys():
+                vec = syn_vec_ref.syn_vecs[var]
+                sec_name = self._sanitized_sec(syn_vec_ref.sec_name)
+                record = SynVectors(var=var,
+                                    vec=vec,
+                                    sec_name=sec_name,
+                                    chan_type=syn_vec_ref.chan_type
+                                    )
+                records.append(record)
+        print 'Saving SynVecRef'
+        session.add_all(records)
+        session.flush()
+        
+    def _store_vectors(self, session):
+        """Store the Vectors in the database"""
+        
+        records = []
+        
+        # Storing the time
+        t = np.array(self.t)
+        
+        # Saving time
+        record = Vectors(vec=t, var='t', sec_name=None)
         records.append(record)
         
         # Vec Ref
         pickable_vec_refs = self.convert_vec_refs()
         for vec_ref in pickable_vec_refs:
-            for var_type in vec_ref.vecs.keys():
-                array = vec_ref.vecs[var_type]
+            for var in vec_ref.vecs.keys():
+                vec = vec_ref.vecs[var]
                 sec_name_neuroMl_accepted = self._sanitized_sec(vec_ref.sec_name)
-                record = Vectors(var=array, label=var_type,
+                record = Vectors(vec=vec, var=var,
                                  sec_name=sec_name_neuroMl_accepted)
                 records.append(record)
 
@@ -314,7 +343,7 @@ class Manager(object):
             m = re.match ('(\w+)\[(\d+)\]', name)
             if m:
                 sec = m.group(1) +'_'+ m.group(2)
-                print "original: %s, sanitized: %s" %(sec_name, sec)
+                
             else:
                 sec = name
         print "original: %s, sanitized: %s" %(sec_name, sec)
@@ -354,6 +383,7 @@ class Manager(object):
         
         self._store_geom(session)
         self._store_vectors(session)
+        self._store_synvectors(session)
         session.commit()
     
     def _load_vecRef(self, session):
@@ -364,14 +394,12 @@ class Manager(object):
             self.indipendent_variables[self.Vectors_Group_Label] = self.t
         
         vecRefs = []
-        for var, label, sec_name in session.query(Vectors.var, 
-                                                  Vectors.label,
+        for vec, var, sec_name in session.query(Vectors.vec, 
+                                                  Vectors.var,
                                                   Vectors.sec_name):
             
             if sec_name != None:
                 
-                var_type = label
-                array = var
                 found = False
                 
                 # Check if the vecREf exists.
@@ -383,12 +411,12 @@ class Manager(object):
                         found = True
                         break
                 if found:
-                    vecRef.vecs[var_type] = array
+                    vecRef.vecs[var] = vec
                     continue #Move to next record
                 else: 
                     nrn_sec = eval('h.' + sec_name)        
                     vecRef = VecRef(nrn_sec)
-                    vecRef.vecs[var_type] = array
+                    vecRef.vecs[var_type] = vec
                 
                 vecRefs.append(vecRef)
                 
@@ -399,53 +427,86 @@ class Manager(object):
                     break
         self.vecRefs = vecRefs
     
-    def _load_synVec(self, cursor):
+    def _load_synVec(self, session):
         """Load the SynVec in memory if they exist"""
         
-        sql_stm = """SELECT * from SynVectors"""
-        synVecs_exist = False 
-        try:
-            cursor.execute(sql_stm)
-            synVecs_exist = True
-        except sqlite3.Error, e:
-            # No synVectors
-            synVecs_exist = False
         
-        if synVecs_exist:
-            synVecRefs = []
-            for row in cursor:
-                # vecrRef
-                sec_name = str(row[2])
+        for record in session.query(SynVectors).filter(SynVectors.var=='t'):
+            self.t = record.vec
+            # Create Plotter here TODO
+            self.indipendent_variables[self.SynVectors_Group_Label] = self.t
+        
+        synVecRefs = []
+        
+        for vec, var, sec_name in session.query(SynVectors.vec, 
+                                                  SynVectors.var,
+                                                  SynVectors.sec_name,
+                                                  SynVectors.chan_type):
+            if sec_name != None:               
+                for synVecRef in synVecRefs:
+                    if synVecRef.sec_name == sec_name:
+                        if synVecRef.chan_type == chan_type:
+                            found = True
+                            break
+                if found:
+                    synVecRef.syn_vecs[var] = vec
+                    continue #Move to next record
+                else:
+                    nrn_sec = eval('h.' + sec_name)
+                    syn_vecs = {}
+                    syn_vecs[var] = vec
+                    synVecRef = SynVecRef(chan_type, sec_name, syn_vecs)        
+                    
                 
-                if sec_name != 'NULL':
-                    
-                    var = str(row[0])
-                    chan_type = str(row[1])
-                    array = cPickle.loads(str(row[3]))                
-                    found = False
-                    
-                    # Check if the vecREf exists.
-                    # If it does we add the variable vec to the vecs dict
-                    # otherwise we create a new one.
-                    
-                    for synVecRef in synVecRefs:
-                        if synVecRef.sec_name == sec_name:
-                            if synVecRef.chan_type == chan_type:
-                                found = True
-                                break
-                    if found:
-                        synVecRef.syn_vecs[var] = array
-                        continue #Move to next record
-                    else:
-                        nrn_sec = eval('h.' + sec_name)
-                        syn_vecs = {}
-                        syn_vecs[var] = array
-                        synVecRef = SynVecRef(chan_type, sec_name, syn_vecs)        
-                        
-                    
-                    synVecRefs.append(synVecRef)
+                synVecRefs.append(synVecRef)
                     
             self.synVecRefs = synVecRefs
+                
+#        
+#        sql_stm = """SELECT * from SynVectors"""
+#        synVecs_exist = False 
+#        try:
+#            cursor.execute(sql_stm)
+#            synVecs_exist = True
+#        except sqlite3.Error, e:
+#            # No synVectors
+#            synVecs_exist = False
+#        
+#        if synVecs_exist:
+#            synVecRefs = []
+#            for row in cursor:
+#                # vecrRef
+#                sec_name = str(row[2])
+#                
+#                if sec_name != 'NULL':
+#                    
+#                    var = str(row[0])
+#                    chan_type = str(row[1])
+#                    array = cPickle.loads(str(row[3]))                
+#                    found = False
+#                    
+#                    # Check if the vecREf exists.
+#                    # If it does we add the variable vec to the vecs dict
+#                    # otherwise we create a new one.
+#                    
+#                    for synVecRef in synVecRefs:
+#                        if synVecRef.sec_name == sec_name:
+#                            if synVecRef.chan_type == chan_type:
+#                                found = True
+#                                break
+#                    if found:
+#                        synVecRef.syn_vecs[var] = array
+#                        continue #Move to next record
+#                    else:
+#                        nrn_sec = eval('h.' + sec_name)
+#                        syn_vecs = {}
+#                        syn_vecs[var] = array
+#                        synVecRef = SynVecRef(chan_type, sec_name, syn_vecs)        
+#                        
+#                    
+#                    synVecRefs.append(synVecRef)
+#                    
+#            self.synVecRefs = synVecRefs
             
     def _load_geom(self, session):
         """Select the NeuroML from the table, write it to a tmp file and then load into NEURON"""
@@ -484,7 +545,7 @@ class Manager(object):
         self._load_vecRef(session)
 #        
 #        # Loading the SynVec
-#        self._load_synVec(session)
+        #self._load_synVec(session)
         
             
 class VecRef(object):
