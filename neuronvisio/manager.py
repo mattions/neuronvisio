@@ -389,8 +389,8 @@ class Manager(object):
     def _load_vecRef(self, session):
         """Load the vecref in memory"""
         
-        for vec in session.query(Vectors).filter(Vectors.label=='t'):
-            self.t = vec.var
+        for record in session.query(Vectors).filter(Vectors.var=='t'):
+            self.t = record.vec
             self.indipendent_variables[self.Vectors_Group_Label] = self.t
         
         vecRefs = []
@@ -416,7 +416,7 @@ class Manager(object):
                 else: 
                     nrn_sec = eval('h.' + sec_name)        
                     vecRef = VecRef(nrn_sec)
-                    vecRef.vecs[var_type] = vec
+                    vecRef.vecs[var] = vec
                 
                 vecRefs.append(vecRef)
                 
