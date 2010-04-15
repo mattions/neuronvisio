@@ -293,7 +293,7 @@ class Manager(object):
         for vec_ref in pickable_vec_refs:
             for var_type in vec_ref.vecs.keys():
                 array = vec_ref.vecs[var_type]
-                sec_name_neuroMl_accepted = self.sanitized_sec(vec_ref.sec_name)
+                sec_name_neuroMl_accepted = self._sanitized_sec(vec_ref.sec_name)
                 record = Vectors(var=array, label=var_type,
                                  sec_name=sec_name_neuroMl_accepted)
                 records.append(record)
@@ -301,8 +301,24 @@ class Manager(object):
         session.add_all(records)
         session.flush()
         
-    def _sanitezed_sec(self, sec_name):
+    def _sanitized_sec(self, sec_name):
+        """Sanitize the neuroML """
         import re
+        split = sec_name.split('.') # Getting rid of the Cell name
+        sec = ''
+        name = ''
+        if len(split) == 1:
+            sec = split[0]
+        elif len(split) == 2: 
+            name = split[1]
+            m = re.match ('(\w+)\[(\d+)\]', name)
+            if m:
+                sec = m.group(1) +'_'+ m.group(2)
+                print "original: %s, sanitized: %s" %(sec_name, sec)
+            else:
+                sec = name
+        print "original: %s, sanitized: %s" %(sec_name, sec)
+        return sec
         
     def _store_geom(self, session):
         """Store the NeuroML in the geometry table"""
@@ -331,13 +347,13 @@ class Manager(object):
         """Store the simulation results in a database"""
         db_path = 'sqlite:////' + os.path.abspath(filename)
         
-        engine = create_engine(db_path, echo=True)
+        engine = create_engine(db_path, echo=False)
         Session.configure(bind=engine)
         Base.metadata.create_all(engine)
         session = Session()
         
         self._store_geom(session)
-        #self._store_vectors(session)
+        self._store_vectors(session)
         session.commit()
     
     def _load_vecRef(self, session):
@@ -369,7 +385,7 @@ class Manager(object):
                 if found:
                     vecRef.vecs[var_type] = array
                     continue #Move to next record
-                else:
+                else: 
                     nrn_sec = eval('h.' + sec_name)        
                     vecRef = VecRef(nrn_sec)
                     vecRef.vecs[var_type] = array
@@ -457,7 +473,7 @@ class Manager(object):
     def load_db(self, path_to_sqlite):
         """Loads the database in the Neuronvisio structure"""
         db_path = 'sqlite:////' + path_to_sqlite
-        engine = create_engine(db_path, echo=True)
+        engine = create_engine(db_path, echo=False)
         Session.configure(bind=engine)
         Base.metadata.create_all(engine)
         session = Session()
@@ -465,7 +481,7 @@ class Manager(object):
         self._load_geom(session)
          
 #        # Loading the VecRef
-        #self._load_vecRef(session)
+        self._load_vecRef(session)
 #        
 #        # Loading the SynVec
 #        self._load_synVec(session)

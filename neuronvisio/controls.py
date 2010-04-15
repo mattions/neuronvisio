@@ -137,9 +137,10 @@ class Controls():
         if not self.path_to_sql:
             filename = QtGui.QFileDialog.getSaveFileName()
             self.path_to_sql = str(filename) # It will go with python 3
-        self.manager.store_in_db(self.path_to_sql)
-        msg = "Saved Loaded db: %s" % self.path_to_sql
-        self.ui.statusbar.showMessage(msg, 3500)
+            if self.path_to_sql != None:
+                self.manager.store_in_db(self.path_to_sql)
+                msg = "Saved Loaded db: %s" % self.path_to_sql
+                self.ui.statusbar.showMessage(msg, 3500)
         
     def save_as_db(self):
 
