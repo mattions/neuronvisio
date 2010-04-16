@@ -431,10 +431,7 @@ class Manager(object):
         """Load the SynVec in memory if they exist"""
         
         
-        for record in session.query(SynVectors).filter(SynVectors.var=='t'):
-            self.t = record.vec
-            # Create Plotter here TODO
-            self.indipendent_variables[self.SynVectors_Group_Label] = self.t
+        self.indipendent_variables[self.SynVectors_Group_Label] = self.t
         
         synVecRefs = []
         

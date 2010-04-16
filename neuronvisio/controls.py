@@ -300,7 +300,7 @@ class Controls():
                 item = QtGui.QTreeWidgetItem(sec_root_item)
                 item.setText(0, var)
                 sec_root_item.addChild(item)
-                
+        
     def insert_synvectors_treeview(self):
         """Insert the synVectors"""
         root_item = QtGui.QTreeWidgetItem(self.ui.treeWidget)
