@@ -438,10 +438,11 @@ class Manager(object):
         
         synVecRefs = []
         
-        for vec, var, sec_name in session.query(SynVectors.vec, 
+        for vec, var, sec_name, chan_type in session.query(SynVectors.vec, 
                                                   SynVectors.var,
                                                   SynVectors.sec_name,
                                                   SynVectors.chan_type):
+            found = False
             if sec_name != None:               
                 for synVecRef in synVecRefs:
                     if synVecRef.sec_name == sec_name:
@@ -461,52 +462,6 @@ class Manager(object):
                 synVecRefs.append(synVecRef)
                     
             self.synVecRefs = synVecRefs
-                
-#        
-#        sql_stm = """SELECT * from SynVectors"""
-#        synVecs_exist = False 
-#        try:
-#            cursor.execute(sql_stm)
-#            synVecs_exist = True
-#        except sqlite3.Error, e:
-#            # No synVectors
-#            synVecs_exist = False
-#        
-#        if synVecs_exist:
-#            synVecRefs = []
-#            for row in cursor:
-#                # vecrRef
-#                sec_name = str(row[2])
-#                
-#                if sec_name != 'NULL':
-#                    
-#                    var = str(row[0])
-#                    chan_type = str(row[1])
-#                    array = cPickle.loads(str(row[3]))                
-#                    found = False
-#                    
-#                    # Check if the vecREf exists.
-#                    # If it does we add the variable vec to the vecs dict
-#                    # otherwise we create a new one.
-#                    
-#                    for synVecRef in synVecRefs:
-#                        if synVecRef.sec_name == sec_name:
-#                            if synVecRef.chan_type == chan_type:
-#                                found = True
-#                                break
-#                    if found:
-#                        synVecRef.syn_vecs[var] = array
-#                        continue #Move to next record
-#                    else:
-#                        nrn_sec = eval('h.' + sec_name)
-#                        syn_vecs = {}
-#                        syn_vecs[var] = array
-#                        synVecRef = SynVecRef(chan_type, sec_name, syn_vecs)        
-#                        
-#                    
-#                    synVecRefs.append(synVecRef)
-#                    
-#            self.synVecRefs = synVecRefs
             
     def _load_geom(self, session):
         """Select the NeuroML from the table, write it to a tmp file and then load into NEURON"""
@@ -545,7 +500,7 @@ class Manager(object):
         self._load_vecRef(session)
 #        
 #        # Loading the SynVec
-        #self._load_synVec(session)
+        self._load_synVec(session)
         
             
 class VecRef(object):
