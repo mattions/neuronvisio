@@ -252,6 +252,7 @@ class Controls():
                             chan_type = synVecRef.chan_type
                             key = sectionName + '_' + var + "_" + chan_type 
                             vecs_to_plot[key] = vec
+                
         
         # Plot legend if required
         legend_status = self.ui.legend.isChecked() #return True if toggled.
@@ -261,6 +262,9 @@ class Controls():
         
         self.manager.plotVecs(vecs_to_plot, x=x, legend=legend_status, 
                               figure_num=fig_num)
+        
+        
+    
     def create_vector(self):
         
         var = self.ui.var.text()
@@ -340,15 +344,9 @@ class Controls():
         self.insert_vectors_treeview()
         
         if hasattr(self.manager, 'synVecRefs'):
-            
-#            iterator = QtGui.QTreeWidgetItemIterator(self.ui.treeWidget)
-#            item = iterator.value()
-#            while(item):
-            self.insert_synvectors_treeview()
-            
-                
-            # for all the row in treeview
-                # for all the synVecRef
+            if len(self.manager.synVecRefs) > 0:
+                self.insert_synvectors_treeview()
+
     
     def animation(self):
         

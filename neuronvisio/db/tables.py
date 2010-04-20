@@ -26,12 +26,7 @@ class Vectors(Base):
     vec = Column(PickleType)
     var = Column(Text)
     sec_name = Column(Text)
-
-    def __init__(self, vec, var, sec_name):
-        
-         self.vec = vec
-         self.var = var
-         self.sec_name = sec_name
+    details = Column(Text)
          
 class SynVectors(Base):
     
@@ -39,7 +34,7 @@ class SynVectors(Base):
     
     id = Column(Integer, primary_key=True)
     var = Column(Text)
-    chan_type = Column(Text)
-    sec_name = Column(Text)
     vec = Column(PickleType)
+    sec_name = Column(Text)
+    details = Column(Text)
          

@@ -329,6 +329,32 @@ class Manager(object):
 
         session.add_all(records)
         session.flush()
+
+    def _store_synvectors(self, session):
+        """Store the SynVectors in the database"""
+        
+        records = []
+        
+        # Storing the time
+        t = np.array(self.t)
+        
+        # Saving time
+        
+        pickable_synVecRefs = self.convert_syn_vec_refs()
+        
+        for syn_vec_ref in pickable_synVecRefs:
+            for var in syn_vec_ref.vecs.keys():
+                vec = syn_vec_ref.vecs[var]
+                sec_name = self._sanitized_sec(syn_vec_ref.sec_name)
+                record = SynVectors(var=var,
+                                    vec=vec,
+                                    sec_name=sec_name,
+                                    details=syn_vec_ref.chan_type
+                                    )
+                records.append(record)
+        print 'Saving SynVecRef'
+        session.add_all(records)
+        session.flush()
         
     def _sanitized_sec(self, sec_name):
         """Sanitize the neuroML """
@@ -346,7 +372,7 @@ class Manager(object):
                 
             else:
                 sec = name
-        print "original: %s, sanitized: %s" %(sec_name, sec)
+        #print "original: %s, sanitized: %s" %(sec_name, sec)
         return sec
         
     def _store_geom(self, session):
@@ -394,18 +420,17 @@ class Manager(object):
             self.indipendent_variables[self.Vectors_Group_Label] = self.t
         
         vecRefs = []
-        for vec, var, sec_name in session.query(Vectors.vec, 
-                                                  Vectors.var,
-                                                  Vectors.sec_name):
+
+
+        for vec, var, sec_name in session.query(Vectors.vec,
+                                                Vectors.var,
+                                                Vectors.sec_name):
             
             if sec_name != None:
-                
                 found = False
-                
                 # Check if the vecREf exists.
                 # If it does we add the variable vec to the vecs dict
                 # otherwise we create a new one.
-                
                 for vecRef in vecRefs:
                     if vecRef.sec_name == sec_name:
                         found = True
@@ -413,8 +438,8 @@ class Manager(object):
                 if found:
                     vecRef.vecs[var] = vec
                     continue #Move to next record
-                else: 
-                    nrn_sec = eval('h.' + sec_name)        
+                else:
+                    nrn_sec = eval('h.' + sec_name)
                     vecRef = VecRef(nrn_sec)
                     vecRef.vecs[var] = vec
                 
@@ -435,25 +460,25 @@ class Manager(object):
         
         synVecRefs = []
         
-        for vec, var, sec_name, chan_type in session.query(SynVectors.vec, 
+        for vec, var, sec_name, details in session.query(SynVectors.vec,
                                                   SynVectors.var,
                                                   SynVectors.sec_name,
-                                                  SynVectors.chan_type):
+                                                  SynVectors.details):
             found = False
-            if sec_name != None:               
+            if sec_name != None:
                 for synVecRef in synVecRefs:
                     if synVecRef.sec_name == sec_name:
-                        if synVecRef.chan_type == chan_type:
+                        if synVecRef.chan_type == details:
                             found = True
                             break
                 if found:
-                    synVecRef.syn_vecs[var] = vec
+                    synVecRef.vecs[var] = vec
                     continue #Move to next record
                 else:
                     nrn_sec = eval('h.' + sec_name)
-                    syn_vecs = {}
-                    syn_vecs[var] = vec
-                    synVecRef = SynVecRef(chan_type, sec_name, syn_vecs)        
+                    vecs = {}
+                    vecs[var] = vec
+                    synVecRef = SynVecRef(details, sec_name, vecs)
                     
                 
                 synVecRefs.append(synVecRef)
