@@ -208,8 +208,8 @@ class Manager(object):
         a numpy array"""
         pickable_synVecRefs = []
         for synVecRef in self.synVecRefs:
-            for key, vec in synVecRef.syn_vecs.iteritems():
-                synVecRef.syn_vecs[key] = np.array(vec)
+            for key, vec in synVecRef.vecs.iteritems():
+                synVecRef.vecs[key] = np.array(vec)
                 
             pickable_synVecRefs.append(synVecRef)
         return pickable_synVecRefs
@@ -220,7 +220,7 @@ class Manager(object):
         :param synapse: The synapse to record.
         """
         synVecRef = SynVecRef(synapse.chan_type, synapse.section.name(), 
-                              synapse.syn_vecs)
+                              synapse.vecs)
         
         self.synVecRefs.append(synVecRef)
         print "adding syn chan: %s, len synvecREfs: %d" %(synapse.chan_type,
@@ -525,22 +525,22 @@ class VecRef(object):
 class SynVecRef(object):
     """Class to track all the synapse quantity of interest"""
     
-    def __init__(self, chan_type, section_name, syn_vecs):
+    def __init__(self, chan_type, section_name, vecs):
         """Create a synVecRef object which map the synapse position and name 
         and the recorded vectors in it.
         
         :param chan_type: The channel in the synapse
         :param sectiona_name: Name of the section where the synapse is
-        :param syn_vecs: Dictionary with the synapse vecs
+        :param vecs: Dictionary with the synapse vecs
         """
         self.chan_type = chan_type
 #        print "Creating synVec: syn type %s, synvec type %s" %(syn.chan_type,
 #                                                               self.chan_type)
-#        print "syn Vectors %s" %syn.syn_vecs
+#        print "syn Vectors %s" %syn.vecs
         self.sec_name = section_name
-        self.syn_vecs = syn_vecs
+        self.vecs = vecs
 
     def __str__(self):
         return "section: %s, chan_type: %s, \
-        vars recorded: %s" %(self.sec_name, self.chan_type, self.syn_vecs.keys())
+        vars recorded: %s" %(self.sec_name, self.chan_type, self.vecs.keys())
         

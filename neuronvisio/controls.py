@@ -248,7 +248,7 @@ class Controls():
                     x = self.manager.indipendent_variables[self.manager.SynVectors_Group_Label]
                     for synVecRef in self.manager.synVecRefs:
                         if synVecRef.sec_name == sectionName:
-                            vec = synVecRef.syn_vecs[var]
+                            vec = synVecRef.vecs[var]
                             chan_type = synVecRef.chan_type
                             key = sectionName + '_' + var + "_" + chan_type 
                             vecs_to_plot[key] = vec
@@ -325,7 +325,7 @@ class Controls():
                 sec_root_item.setText(0, sec_name)
                 target_item = sec_root_item
                 
-            for var,vec in synVecRef.syn_vecs.iteritems():
+            for var,vec in synVecRef.vecs.iteritems():
                 child_item = QtGui.QTreeWidgetItem(sec_root_item)
                 child_item.setText(0, var)
                 child_item.setText(1, synVecRef.chan_type)
