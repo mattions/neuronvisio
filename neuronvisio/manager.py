@@ -421,7 +421,6 @@ class Manager(object):
         
         vecRefs = []
 
-
         for vec, var, sec_name in session.query(Vectors.vec,
                                                 Vectors.var,
                                                 Vectors.sec_name):
