@@ -157,6 +157,17 @@ class Visio(object):
         info += "<b>Membrane Capacitance:</b> %f<br/>" % section.cm
         info += "<b>Axial Resistance :</b> %f<br/>" % section.Ra
         info += "<b>Number of Segments:</b> %f<br/>" % section.nseg
+        mechs = []
+        for seg in section:
+            for mech in seg:
+                mechs.append(mech.name())
+        mechs = set(mechs) # Excluding the repeating ones
+        mech_info = "<b>Mechanisms in the section</b><ul>"
+        for mech_name in mechs:
+            s = "<li> %s </li>" % mech_name
+            mech_info += s
+        mech_info += "</ul>"
+        info += mech_info
         return info
                 
             
