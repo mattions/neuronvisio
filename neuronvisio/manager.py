@@ -276,34 +276,6 @@ class Manager(object):
                 free = True
                 os.makedirs(dir)
         return dir
-
-    def _store_synvectors(self, session):
-        """Store the Vectors in the database"""
-        
-        records = []
-        
-        # Storing the time
-        t = np.array(self.t)
-        
-        # Saving time
-        record = Vectors(vec=t, var='t', sec_name=None)
-        records.append(record)
-        
-        pickable_synVecRefs = self.convert_syn_vec_refs()
-        
-        for syn_vec_ref in pickable_synVecRefs:
-            for var in syn_vec_ref.syn_vecs.keys():
-                vec = syn_vec_ref.syn_vecs[var]
-                sec_name = self._sanitized_sec(syn_vec_ref.sec_name)
-                record = SynVectors(var=var,
-                                    vec=vec,
-                                    sec_name=sec_name,
-                                    chan_type=syn_vec_ref.chan_type
-                                    )
-                records.append(record)
-        print 'Saving SynVecRef'
-        session.add_all(records)
-        session.flush()
         
     def _store_vectors(self, session):
         """Store the Vectors in the database"""
@@ -322,7 +294,7 @@ class Manager(object):
         for vec_ref in pickable_vec_refs:
             for var in vec_ref.vecs.keys():
                 vec = vec_ref.vecs[var]
-                sec_name_neuroMl_accepted = self._sanitized_sec(vec_ref.sec_name)
+                sec_name_neuroMl_accepted = self.sanitized_sec(vec_ref.sec_name)
                 record = Vectors(vec=vec, var=var,
                                  sec_name=sec_name_neuroMl_accepted)
                 records.append(record)
@@ -339,6 +311,8 @@ class Manager(object):
         t = np.array(self.t)
         
         # Saving time
+        record = Vectors(vec=t, var='t', sec_name=None)
+        records.append(record)
         
         pickable_synVecRefs = self.convert_syn_vec_refs()
         
@@ -356,7 +330,7 @@ class Manager(object):
         session.add_all(records)
         session.flush()
         
-    def _sanitized_sec(self, sec_name):
+    def sanitized_sec(self, sec_name):
         """Sanitize the neuroML """
         import re
         split = sec_name.split('.') # Getting rid of the Cell name
@@ -411,6 +385,7 @@ class Manager(object):
         self._store_vectors(session)
         self._store_synvectors(session)
         session.commit()
+        self.session = session
     
     def _load_vecRef(self, session):
         """Load the vecref in memory"""
@@ -522,6 +497,8 @@ class Manager(object):
 #        
 #        # Loading the SynVec
         self._load_synVec(session)
+        self.session = session
+            
         
             
 class VecRef(object):
