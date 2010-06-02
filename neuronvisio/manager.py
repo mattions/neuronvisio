@@ -49,6 +49,8 @@ class Manager(object):
 
     def __init__(self):
         
+        # USE A DICTIONARY!
+        self.groups = {}
         self.vecRefs = [] 
         self.synVecRefs = []
         self.indipendent_variables = {}
@@ -68,10 +70,12 @@ class Manager(object):
         :param sec: The section where to record
         :return: True if the vector is created successfully."""
         
-        if self.t is None: # Create the time vector if not already there
-            self.t = h.Vector()
-            self.t.record(h._ref_t)
-            self.indipendent_variables[self.Vectors_Group_Label] = self.t
+        # ADD TO THE DICTIONARY
+        
+#        if self.t is None: # Create the time vector if not already there
+#            self.t = h.Vector()
+#            self.t.record(h._ref_t)
+#            self.indipendent_variables[self.Vectors_Group_Label] = self.t
             
         success = False
         if hasattr(sec, var):
@@ -106,6 +110,14 @@ class Manager(object):
                     vecRef = VecRef(sec)
                     vecRef.vecs[var] = vec
                     self.vecRefs.append(vecRef)
+                    
+                    # Building the indipendent vector
+                    if not self.groups.has_key(vecRef.__class__):
+                        t = h.Vector()
+                        t.record(h._ref_t)
+                        self.groups[vecRef.__class__.__name__] = t
+                        self.groups['t'] = t # Adding a shortcut to the NEURON time
+            
                     success = True
         
         return success
@@ -225,6 +237,7 @@ class Manager(object):
         self.synVecRefs.append(synVecRef)
         print "adding syn chan: %s, len synvecREfs: %d" %(synapse.chan_type,
                                                           len (self.synVecRefs))
+        self.groups[synVecRef.__class__.__name__] = self.groups['t']
 
             
     def plotVecs(self, vecs_dic, x=None, legend=True, figure_num=None):
@@ -499,7 +512,6 @@ class Manager(object):
         self._load_synVec(session)
         self.session = session
             
-        
             
 class VecRef(object):
     """Basic class to associate one or more vectors with a section

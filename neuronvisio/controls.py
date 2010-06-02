@@ -17,11 +17,13 @@
 
 #@PydevCodeAnalysisIgnoren
 import os
+from manager import SynVecRef
 os.environ['ETS_TOOLKIT'] = 'qt4'
 import sys
 sys.path.append(os.path.dirname(__file__)) 
 
 from PyQt4 import QtGui, QtCore, uic
+from PyQt4.QtCore import Qt
 
 import matplotlib
 matplotlib.use('Qt4Agg')
@@ -218,52 +220,82 @@ class Controls():
         
         h.v_init = self.ui.vSpinBox.value()
     
+#    def plot_vector(self):
+#        
+#        items = self.ui.treeWidget.selectedItems()
+#        vecs_to_plot = {}
+#        var = ""
+#        x = None
+#        for item in items:
+#            if item.childCount() == 0: # Leaf, so it is the variable to plot
+#                
+#                sectionItem = item.parent()
+#                sectionName = sectionItem.text(0) #Column used
+#                var = item.text(0)
+#                
+#                sectionName = str(sectionName) # This will go with Py3
+#                var = str(var) #idem
+#                
+#                group = str(sectionItem.parent().text(0))
+#                if group == self.manager.Vectors_Group_Label:
+#                    x = self.manager.indipendent_variables[self.manager.Vectors_Group_Label]
+#                    for vecRef in self.manager.vecRefs: 
+#                        if vecRef.sec_name == sectionName:
+#                            # get the vec
+#                            vec = vecRef.vecs[var]
+#                            key = sectionName + "_" + var
+#                            vecs_to_plot[key] = vec
+#                            
+#                if group == self.manager.SynVectors_Group_Label:
+#                    x = self.manager.indipendent_variables[self.manager.SynVectors_Group_Label]
+#                    for synVecRef in self.manager.synVecRefs:
+#                        if synVecRef.sec_name == sectionName:
+#                            vec = synVecRef.vecs[var]
+#                            chan_type = synVecRef.chan_type
+#                            key = sectionName + '_' + var + "_" + chan_type 
+#                            vecs_to_plot[key] = vec
+#                
+#        
+#        # Plot legend if required
+#        legend_status = self.ui.legend.isChecked() #return True if toggled.
+#        
+#        # Retrieve the fig num
+#        fig_num = self.ui.fig_num_spinBox.value()
+#        
+#        self.manager.plotVecs(vecs_to_plot, x=x, legend=legend_status, 
+#                              figure_num=fig_num)
+        
     def plot_vector(self):
         
         items = self.ui.treeWidget.selectedItems()
-        vecs_to_plot = {}
-        var = ""
+        
         x = None
+        vecs_to_plot = {}
+        
         for item in items:
             if item.childCount() == 0: # Leaf, so it is the variable to plot
                 
                 sectionItem = item.parent()
-                sectionName = sectionItem.text(0) #Column used
-                var = item.text(0)
+                sectionName = str(sectionItem.text(0)) #Column used
+                var = str(item.text(0))
+                detail = str(item.text(1))
                 
-                sectionName = str(sectionName) # This will go with Py3
-                var = str(var) #idem
+                groupName = str(sectionItem.parent().text(0))
+                x = self.manager.groups[groupName]
+                key = ''
+                if detail is not None:
+                    key = sectionName + "_" + var + "_" + detail
+                else:
+                    key = sectionName + "_" + var
                 
-                group = str(sectionItem.parent().text(0))
-                if group == self.manager.Vectors_Group_Label:
-                    x = self.manager.indipendent_variables[self.manager.Vectors_Group_Label]
-                    for vecRef in self.manager.vecRefs: 
-                        if vecRef.sec_name == sectionName:
-                            # get the vec
-                            vec = vecRef.vecs[var]
-                            key = sectionName + "_" + var
-                            vecs_to_plot[key] = vec
-                            
-                if group == self.manager.SynVectors_Group_Label:
-                    x = self.manager.indipendent_variables[self.manager.SynVectors_Group_Label]
-                    for synVecRef in self.manager.synVecRefs:
-                        if synVecRef.sec_name == sectionName:
-                            vec = synVecRef.vecs[var]
-                            chan_type = synVecRef.chan_type
-                            key = sectionName + '_' + var + "_" + chan_type 
-                            vecs_to_plot[key] = vec
+                vecs_to_plot[key] = item.vec
                 
-        
         # Plot legend if required
         legend_status = self.ui.legend.isChecked() #return True if toggled.
-        
         # Retrieve the fig num
         fig_num = self.ui.fig_num_spinBox.value()
-        
         self.manager.plotVecs(vecs_to_plot, x=x, legend=legend_status, 
                               figure_num=fig_num)
-        
-        
     
     def create_vector(self):
         
@@ -290,50 +322,71 @@ class Controls():
                     msgBox.setIcon(QtGui.QMessageBox.Warning)
                     msgBox.exec_()
         self.update_tree_view()
-    
+
+    def get_unique_parent(self, name):
+        """Search the name in the treeview and return the qtElement.
+        Raise an exception if not unique"""
+        search = self.ui.treeWidget.findItems(name , 
+                                                Qt.MatchFixedString)
+        root_item = None
+        if len(search) == 0: # We create the group
+            root_item = QtGui.QTreeWidgetItem(self.ui.treeWidget)
+            root_item.setText(0, name)
+            
+        elif len(groupSearch) == 1:
+            root_item = search[0]
+            
+        else:
+            error = "ERROR - too many match: %d. Group Name not \
+            unique." %len(groupSearch)
+            raise NameError(error)
+        
+        return root_item
+                
+    def insert_item_treeview(self, groupName, section_name, vecs, 
+                             details = None):
+        """Insert a new item in the treewidget. 
+        Items are grouped by types. If a new type is provided a new group is added.
+        Items are then grouped by section.
+        In one section more than one variable is allowed.
+        Each variable can have a detail associated in a dictionary form """
+        group_root = self.get_unique_parent(groupName)
+        sec_root = self.get_unique_parent(section_name)
+        print sec_root
+        for var,vec in vecs.iteritems():
+            item = ItemRef(sec_root, vec)
+            print item 
+            print item.vec
+            print var
+            item.setText(0, var)
+            if details is not None:
+                if details.has_key(var):
+                    item.setText(1, details[var])
+            sec_root.addChild(item)
+            
+
     def insert_vectors_treeview(self):
         """Adding the vectors To the treeview"""
         # Add all the vectors
-        root_item = QtGui.QTreeWidgetItem(self.ui.treeWidget)
-        root_item.setText(0, self.manager.Vectors_Group_Label)
         for vecRef in self.manager.vecRefs:
-            sec_name = vecRef.sec_name
-            sec_root_item = QtGui.QTreeWidgetItem(root_item)
-            sec_root_item.setText(0, sec_name)
-            for var,vec in vecRef.vecs.iteritems():
-                item = QtGui.QTreeWidgetItem(sec_root_item)
-                item.setText(0, var)
-                sec_root_item.addChild(item)
+            self.insert_item_treeview(vecRef.__class__.__name__,
+                                      vecRef.sec_name, 
+                                      vecRef.vecs)
         
     def insert_synvectors_treeview(self):
         """Insert the synVectors"""
-        root_item = QtGui.QTreeWidgetItem(self.ui.treeWidget)
-        root_item.setText(0, self.manager.SynVectors_Group_Label)
-        # Order the synVecRef for section
         
         for synVecRef in self.manager.synVecRefs:
-            sec_name = synVecRef.sec_name
             
-            target_item = None 
-            children = root_item.childCount()
+            details = {}
+            for var, vec in SynVecRef.iteritems():
+                details[var] = synVecRef.chan_type
             
-            # Search for if the section is already inserted.
-            for child in range (children):
-                item = root_item.child(child)
-                if item.text(0) == sec_name:
-                    target_item = item
-                    break
             
-            if target_item is None: # Create the item if not present
-                sec_root_item = QtGui.QTreeWidgetItem(root_item)
-                sec_root_item.setText(0, sec_name)
-                target_item = sec_root_item
-                
-            for var,vec in synVecRef.vecs.iteritems():
-                child_item = QtGui.QTreeWidgetItem(sec_root_item)
-                child_item.setText(0, var)
-                child_item.setText(1, synVecRef.chan_type)
-                target_item.addChild(child_item)
+            self.insert_item_treeview(synVecRef.__class__.__name__, 
+                                      synVecRef.sec_name, 
+                                      synVecRef.vecs, 
+                                      details)
             
                         
     def update_tree_view(self):
@@ -419,6 +472,12 @@ class Controls():
         self.aboutUi.authors.setText(authors)    
         self.aboutUi.show()
             
+class ItemRef(QtGui.QTreeWidgetItem):
+    def __init__(self, sec_root, vec):
+        QtGui.QTreeWidgetItem.__init__(sec_root) # >1000 if custom.
+        self.vec = vec
+    
+    
         
 class Timeloop(QtCore.QThread):
     """Daemon thread to connect the console with the gui"""
