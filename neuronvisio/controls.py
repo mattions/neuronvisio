@@ -381,7 +381,7 @@ class Controls():
         for synVecRef in self.manager.synVecRefs:
             
             details = {}
-            for var, vec in SynVecRef.iteritems():
+            for var, vec in synVecRef.vecs.iteritems():
                 details[var] = synVecRef.chan_type
             
             
