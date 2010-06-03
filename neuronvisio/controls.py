@@ -323,14 +323,18 @@ class Controls():
                     msgBox.exec_()
         self.update_tree_view()
 
-    def get_unique_parent(self, name):
+    def get_unique_parent(self, name, parentItem = None):
         """Search the name in the treeview and return the qtElement.
         Raise an exception if not unique"""
         search = self.ui.treeWidget.findItems(name , 
                                                 Qt.MatchFixedString)
         root_item = None
         if len(search) == 0: # We create the group
-            root_item = QtGui.QTreeWidgetItem(self.ui.treeWidget)
+            root_item = None
+            if parentItem is None:
+                root_item = QtGui.QTreeWidgetItem(self.ui.treeWidget)
+            else:
+                root_item = QtGui.QTreeWidgetItem(parentItem)
             root_item.setText(0, name)
             
         elif len(search) == 1:
@@ -351,8 +355,8 @@ class Controls():
         In one section more than one variable is allowed.
         Each variable can have a detail associated in a dictionary form """
         group_root = self.get_unique_parent(groupName)
-        sec_root = self.get_unique_parent(section_name)
-        
+        sec_root = self.get_unique_parent(section_name, 
+                                          parentItem = group_root)
         for var,vec in vecs.iteritems():
             item = ItemRef(sec_root, vec)
             item.setText(0, var)
