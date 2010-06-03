@@ -333,12 +333,12 @@ class Controls():
             root_item = QtGui.QTreeWidgetItem(self.ui.treeWidget)
             root_item.setText(0, name)
             
-        elif len(groupSearch) == 1:
+        elif len(search) == 1:
             root_item = search[0]
             
         else:
             error = "ERROR - too many match: %d. Group Name not \
-            unique." %len(groupSearch)
+            unique." %len(search)
             raise NameError(error)
         
         return root_item
@@ -352,13 +352,11 @@ class Controls():
         Each variable can have a detail associated in a dictionary form """
         group_root = self.get_unique_parent(groupName)
         sec_root = self.get_unique_parent(section_name)
-        print sec_root
+        
         for var,vec in vecs.iteritems():
             item = ItemRef(sec_root, vec)
-            print item 
-            print item.vec
-            print var
             item.setText(0, var)
+            
             if details is not None:
                 if details.has_key(var):
                     item.setText(1, details[var])
@@ -474,7 +472,7 @@ class Controls():
             
 class ItemRef(QtGui.QTreeWidgetItem):
     def __init__(self, sec_root, vec):
-        QtGui.QTreeWidgetItem.__init__(sec_root) # >1000 if custom.
+        QtGui.QTreeWidgetItem.__init__(self, sec_root) # >1000 if custom.
         self.vec = vec
     
     
