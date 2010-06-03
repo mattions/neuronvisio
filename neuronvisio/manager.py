@@ -404,8 +404,8 @@ class Manager(object):
         """Load the vecref in memory"""
         
         for record in session.query(Vectors).filter(Vectors.var=='t'):
-            self.t = record.vec
-            self.indipendent_variables[self.Vectors_Group_Label] = self.t
+            t = record.vec
+            self.groups['t'] = t
         
         vecRefs = []
 
@@ -429,6 +429,9 @@ class Manager(object):
                     nrn_sec = eval('h.' + sec_name)
                     vecRef = VecRef(nrn_sec)
                     vecRef.vecs[var] = vec
+                
+                # Adding the VecRef to the group
+                self.groups[vecRef.__class__.__name__] = self.groups['t']
                 
                 vecRefs.append(vecRef)
                 
@@ -466,9 +469,9 @@ class Manager(object):
                     vecs = {}
                     vecs[var] = vec
                     synVecRef = SynVecRef(details, sec_name, vecs)
-                    
-                
+                                    
                 synVecRefs.append(synVecRef)
+                self.groups[synVecRef.__class__.__name__] = self.groups['t']
                     
             self.synVecRefs = synVecRefs
             
