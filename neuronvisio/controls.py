@@ -405,7 +405,7 @@ class Controls():
     
     def animation(self):
         
-        self.a_ui.timelineSlider.setRange(0, len (self.manager.t))
+        self.a_ui.timelineSlider.setRange(0, len (self.manager.groups['t']))
         self.draw_gradient()
         self.a_ui.show()
     
@@ -438,16 +438,14 @@ class Controls():
         # cast to int from str
         time_point_indx = self.a_ui.timelineSlider.value()
         
-        
-
         var = self.a_ui.varToShow.text()
         var = str(var) # This will go with Py3
 #        
 #        #Update the label on the scale
         
-        if len (self.manager.t) == time_point_indx:
+        if len (self.manager.groups['t']) == time_point_indx:
             time_point_indx = time_point_indx - 1 # Avoid to go out of scale
-        time = self.manager.t[time_point_indx]
+        time = self.manager.groups['t'][time_point_indx]
         self.a_ui.animationTime.setText(str(time))
         
         
