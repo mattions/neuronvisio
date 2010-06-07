@@ -5,6 +5,7 @@
 - Fixed some typos on the docs
 - Introduced new sqlite dataschema based on SQLAlchemy
 - Mechanisms shown on the info tab
+- Refactored code for extensibility
 
 0.4.4 - 1 Apr 2010
 ==================
