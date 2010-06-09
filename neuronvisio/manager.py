@@ -358,59 +358,71 @@ class Manager(object):
         
     
     def save_to_hdf(self, filename):
-        h5f = tables.openFile(filename, 'a')
+        h5f = tables.openFile(filename, 'w')
         
         # Saving geometry
         
         # Saving the vecRef
         self._save_geom(h5f)
-        self._save_baseRef(self.vecRefs)
-        self._save_baseRef(self.synVecRefs)
-        return h5f
+        self._save_baseRef(self.vecRefs, h5f)
+        self._save_baseRef(self.synVecRefs, h5f)
+        h5f.close()
         
-    def _save_baseRef(self, baseRefs):
+    def save_baseRef(self, baseRefs, h5f_holder):
         """Save the baseRef in the database"""
-        group_path = ''
-        baseRefName = ''
+        
+        target_group = ''
         for baseRef in baseRefs:
             baseRefName = baseRef.__class__.__name__
-            group_path = '/' + baseRefName
+            found = False
+            
+            for group in h5f_holder.walkGroups('/'):
+                if group._v_name == baseRefName:
+                    target_group = group
+                    found = True
+                    print "Group found. Exiting the cycle."
+                    break
+            
+            if not found:
+                # Creating the group    
+                target_group = h5f_holder.createGroup('/',  baseRefName)
+                
+                # Saving the time
+                key = target_group._v_name    
+                x_array = self.groups[key].to_python()
+                h5f_holder.createArray(target_group, 'x', x_array)
+            
             section_name = self.sanitized_sec(baseRef.sec_name)
-            detail = None
+            detail = ''
             if hasattr(baseRef, 'detail'):
                 detail = baseRef.detail
-            self.save_node(h5f, group_path, section_name, 
+            self.save_node(h5f_holder, target_group, section_name, 
                            baseRef.vecs, detail=detail)
-            
-        # Saving the time
-        ind_var = self.groups[baseRefName].to_python()
-        self.save_indipendent_var(group_path, ind_var)
-    
-    def save_indipendent_var(self, h5f_holder, group_path, x_array, title=''):
-        """Save the independent variable"""
-        h5f_holder.createArray(group_path, 'x', x_array, title=title)
-        
     
     def save_node(self, h5file_holder, group_path, section_name, variables, 
-                  detail=None):
+                  detail=''):
         """Save a node to the h5file.
         h5file_holder: The holder of the h5file
         group_path: Where in the hierarchy the leaf has to be saved
         section_name: The name of the section which the variables belong to
         variables: The dictionary of the variable
         """
+        found = False
+        target_group = None
         for group in h5file_holder.walkGroups(group_path):
             if group._v_name == section_name:
-                for var, vec in variables.iteritems():
-                    a = None
-                    # We insert the detail if any
-                    if detail:
-                        a = np.array([(vec.to_python, detail)])
-                    else:
-                        a = np.array([(vec.to_python)])
-                    
-                    h5file_holder.createArray(group, var, a)
-    
+                target_group = group
+                found = True
+                break
+        if not found:
+            target_group = h5file_holder.createGroup(group_path, 
+                                                     section_name)
+        
+        for var, vec in variables.iteritems():
+
+                h5file_holder.createArray(target_group, var, 
+                                          vec.to_python(),
+                                          title=detail)
         
     def store_in_db(self, filename):
         """Store the simulation results in a database"""
