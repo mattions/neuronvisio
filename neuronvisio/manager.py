@@ -22,18 +22,8 @@
 from neuron import h
 import numpy as np
 import os
-import cPickle
+import tables
 import datetime
-try:
-    from sqlalchemy import create_engine
-    from sqlalchemy.orm import sessionmaker
-    Session = sessionmaker(autoflush=False)
-
-except ImportError:
-    print "Sqlalchemy not installed. Please install it from \
-    http://www.sqlalchemy.org/"
-
-
 import matplotlib
 import matplotlib.pyplot as plt
 
@@ -46,21 +36,14 @@ class Manager(object):
     
     """
 
-
     def __init__(self):
         
-        # USE A DICTIONARY!
         self.groups = {}
         self.vecRefs = [] 
         self.synVecRefs = []
-        self.indipendent_variables = {}
-        self.Vectors_Group_Label = 'Vectors'
-        self.SynVectors_Group_Label = "SynVectors"
-        self.t = None # Var to track the time Vector
-        self.stims = []
+        
         # Load the std run for NEURON
         h.load_file("stdrun.hoc")
-
         
     def add_vecRef(self, var, sec):
         """Add the vecRef to the vec_res list. It takes care to create the vector 
@@ -69,13 +52,6 @@ class Manager(object):
         :param var: The variable to record
         :param sec: The section where to record
         :return: True if the vector is created successfully."""
-        
-        # ADD TO THE DICTIONARY
-        
-#        if self.t is None: # Create the time vector if not already there
-#            self.t = h.Vector()
-#            self.t.record(h._ref_t)
-#            self.indipendent_variables[self.Vectors_Group_Label] = self.t
             
         success = False
         if hasattr(sec, var):
@@ -249,13 +225,11 @@ class Manager(object):
         :param figure_num: in which figure we want to plot the line
         """
         
-        
         if figure_num is not None:
             plt.figure(figure_num)
         else:
             plt.figure()
             
-        
         ax  = plt.subplot(111) # One subplot where to draw everything
          
         for key, vec in vecs_dic.iteritems():
@@ -290,58 +264,58 @@ class Manager(object):
                 os.makedirs(dir)
         return dir
         
-    def _store_vectors(self, session):
-        """Store the Vectors in the database"""
-        
-        records = []
-        
-        # Storing the time
-        t = np.array(self.t)
-        
-        # Saving time
-        record = Vectors(vec=t, var='t', sec_name=None)
-        records.append(record)
-        
-        # Vec Ref
-        pickable_vec_refs = self.convert_vec_refs()
-        for vec_ref in pickable_vec_refs:
-            for var in vec_ref.vecs.keys():
-                vec = vec_ref.vecs[var]
-                sec_name_neuroMl_accepted = self.sanitized_sec(vec_ref.sec_name)
-                record = Vectors(vec=vec, var=var,
-                                 sec_name=sec_name_neuroMl_accepted)
-                records.append(record)
-
-        session.add_all(records)
-        session.flush()
-
-    def _store_synvectors(self, session):
-        """Store the SynVectors in the database"""
-        
-        records = []
-        
-        # Storing the time
-        t = np.array(self.t)
-        
-        # Saving time
-        record = Vectors(vec=t, var='t', sec_name=None)
-        records.append(record)
-        
-        pickable_synVecRefs = self.convert_syn_vec_refs()
-        
-        for syn_vec_ref in pickable_synVecRefs:
-            for var in syn_vec_ref.vecs.keys():
-                vec = syn_vec_ref.vecs[var]
-                sec_name = self._sanitized_sec(syn_vec_ref.sec_name)
-                record = SynVectors(var=var,
-                                    vec=vec,
-                                    sec_name=sec_name,
-                                    details=syn_vec_ref.chan_type
-                                    )
-                records.append(record)
-        print 'Saving SynVecRef'
-        session.add_all(records)
-        session.flush()
+#    def _store_vectors(self, session):
+#        """Store the Vectors in the database"""
+#        
+#        records = []
+#        
+#        # Storing the time
+#        t = np.array(self.t)
+#        
+#        # Saving time
+#        record = Vectors(vec=t, var='t', sec_name=None)
+#        records.append(record)
+#        
+#        # Vec Ref
+#        pickable_vec_refs = self.convert_vec_refs()
+#        for vec_ref in pickable_vec_refs:
+#            for var in vec_ref.vecs.keys():
+#                vec = vec_ref.vecs[var]
+#                sec_name_neuroMl_accepted = self.sanitized_sec(vec_ref.sec_name)
+#                record = Vectors(vec=vec, var=var,
+#                                 sec_name=sec_name_neuroMl_accepted)
+#                records.append(record)
+#
+#        session.add_all(records)
+#        session.flush()
+#
+#    def _store_synvectors(self, session):
+#        """Store the SynVectors in the database"""
+#        
+#        records = []
+#        
+#        # Storing the time
+#        t = np.array(self.t)
+#        
+#        # Saving time
+#        record = Vectors(vec=t, var='t', sec_name=None)
+#        records.append(record)
+#        
+#        pickable_synVecRefs = self.convert_syn_vec_refs()
+#        
+#        for syn_vec_ref in pickable_synVecRefs:
+#            for var in syn_vec_ref.vecs.keys():
+#                vec = syn_vec_ref.vecs[var]
+#                sec_name = self._sanitized_sec(syn_vec_ref.sec_name)
+#                record = SynVectors(var=var,
+#                                    vec=vec,
+#                                    sec_name=sec_name,
+#                                    details=syn_vec_ref.chan_type
+#                                    )
+#                records.append(record)
+#        print 'Saving SynVecRef'
+#        session.add_all(records)
+#        session.flush()
         
     def sanitized_sec(self, sec_name):
         """Sanitize the neuroML """
@@ -362,7 +336,7 @@ class Manager(object):
         #print "original: %s, sanitized: %s" %(sec_name, sec)
         return sec
         
-    def _store_geom(self, session):
+    def _save_geom(self, h5file_holder):
         """Store the NeuroML in the geometry table"""
         
         # writing the NeuroML model
@@ -377,13 +351,66 @@ class Manager(object):
         xml_data = ''
         with open(tmp_file, 'r') as f:
             xml_data = f.read()
-        
-        geom = Geometry(neuroml=xml_data)
-        session.add(geom)
-        session.flush()
-        
+        h5file_holder.createGroup('/', 'geometry')
+        h5file_holder.createArray('/geometry', "geom", [xml_data])
+              
         os.remove(tmp_file)
         
+    
+    def save_to_hdf(self, filename):
+        h5f = tables.openFile(filename, 'a')
+        
+        # Saving geometry
+        
+        # Saving the vecRef
+        self._save_geom(h5f)
+        self._save_baseRef(self.vecRefs)
+        self._save_baseRef(self.synVecRefs)
+        return h5f
+        
+    def _save_baseRef(self, baseRefs):
+        """Save the baseRef in the database"""
+        group_path = ''
+        baseRefName = ''
+        for baseRef in baseRefs:
+            baseRefName = baseRef.__class__.__name__
+            group_path = '/' + baseRefName
+            section_name = self.sanitized_sec(baseRef.sec_name)
+            detail = None
+            if hasattr(baseRef, 'detail'):
+                detail = baseRef.detail
+            self.save_node(h5f, group_path, section_name, 
+                           baseRef.vecs, detail=detail)
+            
+        # Saving the time
+        ind_var = self.groups[baseRefName].to_python()
+        self.save_indipendent_var(group_path, ind_var)
+    
+    def save_indipendent_var(self, h5f_holder, group_path, x_array, title=''):
+        """Save the independent variable"""
+        h5f_holder.createArray(group_path, 'x', x_array, title=title)
+        
+    
+    def save_node(self, h5file_holder, group_path, section_name, variables, 
+                  detail=None):
+        """Save a node to the h5file.
+        h5file_holder: The holder of the h5file
+        group_path: Where in the hierarchy the leaf has to be saved
+        section_name: The name of the section which the variables belong to
+        variables: The dictionary of the variable
+        """
+        for group in h5file_holder.walkGroups(group_path):
+            if group._v_name == section_name:
+                for var, vec in variables.iteritems():
+                    a = None
+                    # We insert the detail if any
+                    if detail:
+                        a = np.array([(vec.to_python, detail)])
+                    else:
+                        a = np.array([(vec.to_python)])
+                    
+                    h5file_holder.createArray(group, var, a)
+    
         
     def store_in_db(self, filename):
         """Store the simulation results in a database"""
@@ -549,7 +576,7 @@ class SynVecRef(object):
         :param sectiona_name: Name of the section where the synapse is
         :param vecs: Dictionary with the synapse vecs
         """
-        self.chan_type = chan_type
+        self.detail = chan_type
 #        print "Creating synVec: syn type %s, synvec type %s" %(syn.chan_type,
 #                                                               self.chan_type)
 #        print "syn Vectors %s" %syn.vecs
@@ -558,5 +585,5 @@ class SynVecRef(object):
 
     def __str__(self):
         return "section: %s, chan_type: %s, \
-        vars recorded: %s" %(self.sec_name, self.chan_type, self.vecs.keys())
+        vars recorded: %s" %(self.sec_name, self.detail, self.vecs.keys())
         
