@@ -27,7 +27,7 @@ import datetime
 import matplotlib
 import matplotlib.pyplot as plt
 
-
+import cPickle
 from db.tables import Base, Geometry, Vectors, SynVectors
 
 class Manager(object):
@@ -439,7 +439,7 @@ class Manager(object):
         session.commit()
         self.session = session
     
-    def _load_vecRef(self, session):
+    def _load_vecRef_db(self, session):
         """Load the vecref in memory"""
         
         for record in session.query(Vectors).filter(Vectors.var=='t'):
@@ -481,7 +481,7 @@ class Manager(object):
                     break
         self.vecRefs = vecRefs
     
-    def _load_synVec(self, session):
+    def _load_synVec_db(self, session):
         """Load the SynVec in memory if they exist"""
         
         
@@ -514,7 +514,7 @@ class Manager(object):
                     
             self.synVecRefs = synVecRefs
             
-    def _load_geom(self, session):
+    def _load_geom_db(self, session):
         """Select the NeuroML from the table, write it to a tmp file and then load into NEURON"""
         
         xml_data = ''
@@ -536,7 +536,33 @@ class Manager(object):
         
         os.remove(tmp_file)
         
+    def load_from_hvf(self, filename):
+        """Load all the results on the hvf in memory"""
+        self._load_geom(filename)
         
+    
+    def _load_geom(self, filename):
+        """Load the geometry in the file"""
+        
+        h5f = tables.openFile(filename)
+        geom = h5f.getNode('/geomtery/geom')
+        data = geom.read() # return the list. There is only the xml_data.
+        xml_data = data[0]  # get the string.
+        
+        tmp_file = 'temp.xml'
+        f = open(tmp_file, 'w')
+        f.write(xml_data)
+        f.close()
+        
+        import rdxml # This has to go ASAP they fix NEURON install
+        h.load_file('celbild.hoc')
+        cb = h.CellBuild(0)
+        cb.manage.neuroml(tmp_file)
+        cb.cexport(1)
+        
+        os.remove(tmp_file)
+    
+    
     def load_db(self, path_to_sqlite):
         """Loads the database in the Neuronvisio structure"""
         db_path = 'sqlite:////' + path_to_sqlite
@@ -545,13 +571,13 @@ class Manager(object):
         Base.metadata.create_all(engine)
         session = Session()
         # Loading the geometry
-        self._load_geom(session)
+        self._load_geom_db(session)
          
 #        # Loading the VecRef
-        self._load_vecRef(session)
+        self._load_vecRef_db(session)
 #        
 #        # Loading the SynVec
-        self._load_synVec(session)
+        self._load_synVec_db(session)
         self.session = session
             
             
