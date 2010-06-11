@@ -109,47 +109,47 @@ class Controls():
         
         ### Manager class 
         self.manager = manager.Manager()
-        self.path_to_sql = None                    
+        self.path_to_hdf = None                    
         self.ui.show()
         # Start the main event loop.
         app.exec_()
     
-    def load_db(self, path_to_sql=None):
-        """Load the slite db"""
-        if path_to_sql != None:
-            self.path_to_sql=os.path.abspath(path_to_sql)
+    def load_h5f(self, path_to_hdf=None):
+    
+        if path_to_hdf != None:
+            self.path_to_hdf=os.path.abspath(path_to_hdf)
         
         else:
             filename = QtGui.QFileDialog.getOpenFileName()
             if filename:
-                self.path_to_sql = str(filename)
+                self.path_to_hdf = str(filename)
         
-        if self.path_to_sql != None:
+        if self.path_to_hdf != None:
             
-            self.manager.load_db(self.path_to_sql)
+            self.manager.load_from_hvf(path_to_hdf)
             self.update_tree_view()
-            msg = "Loaded db: %s" % self.path_to_sql
+            msg = "Loaded db: %s" % self.path_to_hdf
             self.ui.statusbar.showMessage(msg, 3500)
             # Enablig the Animation button
             self.ui.animation_btn.setEnabled(True)
             # TODO: Disabling all the rest
+            
         
-        
-    def save_db(self):
-        if not self.path_to_sql:
+    def save_hdf(self):
+        if not self.path_to_hdf:
             filename = QtGui.QFileDialog.getSaveFileName()
-            self.path_to_sql = str(filename) # It will go with python 3
-            if self.path_to_sql != None:
-                self.manager.store_in_db(self.path_to_sql)
-                msg = "Saved Loaded db: %s" % self.path_to_sql
+            self.path_to_hdf = str(filename) # It will go with python 3
+            if self.path_to_hdf != None:
+                self.manager.store_in_db(self.path_to_hdf)
+                msg = "Saved hdf file: %s" % self.path_to_hdf
                 self.ui.statusbar.showMessage(msg, 3500)
         
-    def save_as_db(self):
+    def save_as_hdf(self):
 
         filename = QtGui.QFileDialog.getSaveFileName()
-        self.path_to_sql = str(filename)
-        self.manager.store_in_db(self.path_to_sql)
-        msg = "Saved Loaded db: %s" % self.path_to_sql
+        self.path_to_hdf = str(filename)
+        self.manager.store_in_db(self.path_to_hdf)
+        msg = "Saved hdf file: %s" % self.path_to_hdf
         self.ui.statusbar.showMessage(msg, 3500)
             
         

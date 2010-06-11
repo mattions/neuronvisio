@@ -41,7 +41,9 @@ class Manager(object):
         self.groups = {}
         self.vecRefs = [] 
         self.synVecRefs = []
-        
+        self.results_root = 'results'
+        self.geometry_root = 'geometry'
+        self.geometry_node_name = 'geom'        
         # Load the std run for NEURON
         h.load_file("stdrun.hoc")
         
@@ -351,9 +353,9 @@ class Manager(object):
         xml_data = ''
         with open(tmp_file, 'r') as f:
             xml_data = f.read()
-        h5file_holder.createGroup('/', 'geometry')
-        h5file_holder.createArray('/geometry', "geom", [xml_data])
-              
+        geom_group = h5file_holder.createGroup('/', self.geometry_root)
+        h5file_holder.createArray(geom_group, self.geometry_node_name, 
+                                  [xml_data])
         os.remove(tmp_file)
         
     
@@ -364,11 +366,12 @@ class Manager(object):
         
         # Saving the vecRef
         self._save_geom(h5f)
-        self._save_baseRef(self.vecRefs, h5f)
-        self._save_baseRef(self.synVecRefs, h5f)
+        res = h5f.createGroup('/', self.results_root)
+        self._save_baseRef(self.vecRefs, h5f, res)
+        self._save_baseRef(self.synVecRefs, h5f, res)
         h5f.close()
         
-    def save_baseRef(self, baseRefs, h5f_holder):
+    def _save_baseRef(self, baseRefs, h5f_holder, base_group):
         """Save the baseRef in the database"""
         
         target_group = ''
@@ -380,12 +383,12 @@ class Manager(object):
                 if group._v_name == baseRefName:
                     target_group = group
                     found = True
-                    print "Group found. Exiting the cycle."
                     break
             
             if not found:
                 # Creating the group    
-                target_group = h5f_holder.createGroup('/',  baseRefName)
+                target_group = h5f_holder.createGroup(base_group, 
+                                                      baseRefName)
                 
                 # Saving the time
                 key = target_group._v_name    
@@ -539,13 +542,15 @@ class Manager(object):
     def load_from_hvf(self, filename):
         """Load all the results on the hvf in memory"""
         self._load_geom(filename)
+        self._load_allRef(filename)
         
     
     def _load_geom(self, filename):
-        """Load the geometry in the file"""
+        """Load the geometry of the model"""
         
         h5f = tables.openFile(filename)
-        geom = h5f.getNode('/geomtery/geom')
+        node = "/%s/%s" %(self.geometry_root, self.geometry_node_name) 
+        geom = h5f.getNode(node)
         data = geom.read() # return the list. There is only the xml_data.
         xml_data = data[0]  # get the string.
         
@@ -554,7 +559,7 @@ class Manager(object):
         f.write(xml_data)
         f.close()
         
-        import rdxml # This has to go ASAP they fix NEURON install
+#        import rdxml # This has to go ASAP they fix NEURON install
         h.load_file('celbild.hoc')
         cb = h.CellBuild(0)
         cb.manage.neuroml(tmp_file)
@@ -562,6 +567,47 @@ class Manager(object):
         
         os.remove(tmp_file)
     
+    def _load_allRef(self, filename):
+        """Load the vecref in memory"""
+        
+         
+        h5f = tables.openFile(filename)
+        res_group_path = "/%s" %self.results_root
+        for group in h5f.iterNodes(where=res_group_path): # Get the type
+
+            # Indipendent var (time for ex)
+            x_node = h5f.getNode(group, name='x')
+            self.groups[group._v_name] = x_node        
+            
+            for group_child in h5f.iterNodes(group): # Get the section name
+                vecs = {}
+                baseRef = None
+                if group_child._v_name != 'x':
+    
+                    sec_name = group_child._v_name 
+                    if group._v_name == 'VecRef':
+                        self.groups['t'] = self.groups[group._v_name]
+                        # Create vecRef
+                        print sec_name
+                        nrn_sec = eval('h.' + sec_name)
+                        print nrn_sec
+                        baseRef = VecRef(nrn_sec)
+                        print "BaseRef created"
+                        self.vecRefs.append(baseRef)
+                    else:
+                        baseRef = eval(group._v_name())
+                        baseRef.sec_name = sec_name
+                        name = "%ss" %group._v_name 
+                        if hasattr(self, name):
+                            self.name.append(baseRef)
+                        else:
+                            self.name = [baseRef] 
+                            
+                    for node in h5f.walkNodes(group_child, classname='Array'):
+                        vecs = {node._v_name : node}
+                        baseRef.vecs = vecs
+                        baseRef.detail = node._v_title
+
     
     def load_db(self, path_to_sqlite):
         """Loads the database in the Neuronvisio structure"""
@@ -602,6 +648,20 @@ class VecRef(object):
     def __str__(self):
         return "section: %s, vars recorded: %s" %(self.sec_name, 
                                                   self.vecs.keys())
+
+class BaseRef(object):
+    """Base class to make the connection with the section"""
+    def __init__(self):
+        """Initialize the attribute for the vecRef with none"""
+        self.sec_name = ''
+        self.detail = ''
+        self.vecs = {}
+    
+    def __str__(self):
+        s = "section: %s, detail: %s, vars recorded: %s" %(self.sec_name, 
+                                                              self.detail, 
+                                                              self.vecs.keys())
+        return s
             
 class SynVecRef(object):
     """Class to track all the synapse quantity of interest"""
