@@ -422,7 +422,7 @@ class Manager(object):
                                                      section_name)
         
         for var, vec in variables.iteritems():
-
+            if len (vec) != 0 :
                 h5file_holder.createArray(target_group, var, 
                                           vec.to_python(),
                                           title=detail)
