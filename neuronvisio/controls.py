@@ -92,13 +92,13 @@ class Controls():
         
         self.ui.actionLoad.connect(self.ui.actionLoad, 
                                    QtCore.SIGNAL("triggered()"),
-                                   self.load_db)
+                                   self.load_hdf)
         self.ui.actionSave.connect(self.ui.actionSave,
                                    QtCore.SIGNAL("triggered()"),
-                                   self.save_db)
+                                   self.save_hdf)
         self.ui.actionSave_As.connect(self.ui.actionSave_As,
                                       QtCore.SIGNAL("triggered()"),
-                                      self.save_as_db)
+                                      self.save_as_hdf)
         
         ### Connection with the console
         widgetDic = {'dt' : self.ui.dtSpinBox, 'tstop' : self.ui.tstopSpinBox,
@@ -114,7 +114,7 @@ class Controls():
         # Start the main event loop.
         app.exec_()
     
-    def load_h5f(self, path_to_hdf=None):
+    def load_hdf(self, path_to_hdf=None):
     
         if path_to_hdf != None:
             self.path_to_hdf=os.path.abspath(path_to_hdf)
@@ -126,7 +126,7 @@ class Controls():
         
         if self.path_to_hdf != None:
             
-            self.manager.load_from_hvf(path_to_hdf)
+            self.manager.load_from_hdf(path_to_hdf)
             self.update_tree_view()
             msg = "Loaded db: %s" % self.path_to_hdf
             self.ui.statusbar.showMessage(msg, 3500)

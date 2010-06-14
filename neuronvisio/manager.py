@@ -236,7 +236,7 @@ class Manager(object):
          
         for key, vec in vecs_dic.iteritems():
             if x is None:
-                plt.plot(self.t, vec, label=key)
+                plt.plot(self.groups['t'], vec, label=key)
             else:
                 plt.plot(x, vec, label=key)
             if legend:
@@ -539,7 +539,7 @@ class Manager(object):
         
         os.remove(tmp_file)
         
-    def load_from_hvf(self, filename):
+    def load_from_hdf(self, filename):
         """Load all the results on the hvf in memory"""
         self._load_geom(filename)
         self._load_allRef(filename)
@@ -551,8 +551,7 @@ class Manager(object):
         h5f = tables.openFile(filename)
         node = "/%s/%s" %(self.geometry_root, self.geometry_node_name) 
         geom = h5f.getNode(node)
-        data = geom.read() # return the list. There is only the xml_data.
-        xml_data = data[0]  # get the string.
+        xml_data = geom[0]  # get the string.
         
         tmp_file = 'temp.xml'
         f = open(tmp_file, 'w')
@@ -592,10 +591,10 @@ class Manager(object):
                         nrn_sec = eval('h.' + sec_name)
                         print nrn_sec
                         baseRef = VecRef(nrn_sec)
-                        print "BaseRef created"
                         self.vecRefs.append(baseRef)
                     else:
-                        baseRef = eval(group._v_name())
+                        
+                        baseRef = eval(group._v_name)
                         baseRef.sec_name = sec_name
                         name = "%ss" %group._v_name 
                         if hasattr(self, name):
