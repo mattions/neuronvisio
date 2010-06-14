@@ -57,10 +57,12 @@ class Manager(object):
         :return: True if the vector is created successfully."""
             
         success = False
+        if not self.refs.has_key('VecRef'):
+            self.refs['VecRef'] = []
         if hasattr(sec, var):
             # Adding the vector only if does not exist
             alreadyPresent=False
-            for vecRef in self.refs['VecRefs']:
+            for vecRef in self.refs['VecRef']:
                 if vecRef.sec_name == sec.name():
                     if vecRef.vecs.has_key(var):
                         alreadyPresent = True
@@ -371,8 +373,8 @@ class Manager(object):
         # Saving the vecRef
         self._save_geom(h5f)
         res = h5f.createGroup('/', self.results_root)
-        self._save_baseRef(self.vecRefs, h5f, res)
-        self._save_baseRef(self.synVecRefs, h5f, res)
+        for group in self.refs:
+            self._save_baseRef(self.refs[group], h5f, res)
         h5f.close()
         
     def _save_baseRef(self, baseRefs, h5f_holder, base_group):
@@ -545,6 +547,7 @@ class Manager(object):
         
     def load_from_hdf(self, filename):
         """Load all the results on the hvf in memory"""
+        print "Loading: %s" %filename
         self._load_geom(filename)
         self._load_allRef(filename)
         
@@ -628,29 +631,6 @@ class Manager(object):
         self._load_synVec_db(session)
         self.session = session
             
-            
-class VecRef(object):
-    """Basic class to associate one or more vectors with a section
-    """
-    def __init__(self, sec):
-        """Create a vecRef object which map the section name and the 
-        recorded vectors.
-        
-        :param sec: The section which all the vectors belongs
-        
-        """
-        self.sec_name = sec.name()
-        self.sec = sec
-        self.pickable = False
-        #Dict with all the vecs
-        # Key: var Value: Hoc.Vector
-        self.vecs = {}
-        
-        
-    def __str__(self):
-        return "section: %s, vars recorded: %s" %(self.sec_name, 
-                                                  self.vecs.keys())
-
 class BaseRef(object):
     """Base class to make the connection with the section"""
     def __init__(self):
@@ -664,8 +644,31 @@ class BaseRef(object):
                                                               self.detail, 
                                                               self.vecs.keys())
         return s
+                
+class VecRef(BaseRef):
+    """Basic class to associate one or more vectors with a section
+    """
+    def __init__(self, sec):
+        """Create a vecRef object which map the section name and the 
+        recorded vectors.
+        
+        :param sec: The section which all the vectors belongs
+        
+        """
+        BaseRef.__init__(self)
+        self.sec_name = sec.name()
+        self.sec = sec
+        self.pickable = False
+        #Dict with all the vecs
+        # Key: var Value: Hoc.Vector
+        self.vecs = {}
+        
+        
+    def __str__(self):
+        return "section: %s, vars recorded: %s" %(self.sec_name, 
+                                                  self.vecs.keys())
             
-class SynVecRef(object):
+class SynVecRef(BaseRef):
     """Class to track all the synapse quantity of interest"""
     
     def __init__(self, chan_type=None, section_name=None, vecs=None):
@@ -676,6 +679,7 @@ class SynVecRef(object):
         :param sectiona_name: Name of the section where the synapse is
         :param vecs: Dictionary with the synapse vecs
         """
+        BaseRef.__init__(self)
         self.detail = chan_type
 #        print "Creating synVec: syn type %s, synvec type %s" %(syn.chan_type,
 #                                                               self.chan_type)

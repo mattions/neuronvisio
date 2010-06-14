@@ -126,7 +126,7 @@ class Controls():
         
         if self.path_to_hdf != None:
             
-            self.manager.load_from_hdf(path_to_hdf)
+            self.manager.load_from_hdf(self.path_to_hdf)
             self.update_tree_view()
             msg = "Loaded db: %s" % self.path_to_hdf
             self.ui.statusbar.showMessage(msg, 3500)
@@ -140,7 +140,7 @@ class Controls():
             filename = QtGui.QFileDialog.getSaveFileName()
             self.path_to_hdf = str(filename) # It will go with python 3
             if self.path_to_hdf != None:
-                self.manager.store_in_db(self.path_to_hdf)
+                self.manager.save_to_hdf(self.path_to_hdf)
                 msg = "Saved hdf file: %s" % self.path_to_hdf
                 self.ui.statusbar.showMessage(msg, 3500)
         
@@ -177,7 +177,7 @@ class Controls():
     def init(self):
         """Set the vm_init from the spin button and prepare the simulator"""
         
-        if len(self.manager.vecRefs) == 0:
+        if len(self.manager.refs['VecRef']) == 0:
             print "No vector Created. Create at least one vector to run the simulation"
             return False
         else:
@@ -460,7 +460,7 @@ class Controls():
                                             start_col, 
                                             end_value, 
                                             end_col, 
-                                            self.manager.vecRefs)
+                                            self.manager.refs['VecRef'])
     
     def about(self):
         
