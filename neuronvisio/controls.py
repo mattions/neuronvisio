@@ -282,11 +282,7 @@ class Controls():
                 
                 groupName = str(sectionItem.parent().text(0))
                 x = self.manager.groups[groupName]
-                key = ''
-                if detail is not None:
-                    key = sectionName + "_" + var + "_" + detail
-                else:
-                    key = sectionName + "_" + var
+                key = sectionName + "_" + var
                 
                 vecs_to_plot[key] = item.vec
                 
@@ -360,35 +356,40 @@ class Controls():
         for var,vec in vecs.iteritems():
             item = ItemRef(sec_root, vec)
             item.setText(0, var)
-            
-            if details is not None:
-                if details.has_key(var):
-                    item.setText(1, details[var])
+            item.setText(1, details)    
             sec_root.addChild(item)
             
 
-    def insert_vectors_treeview(self):
-        """Adding the vectors To the treeview"""
-        # Add all the vectors
-        for vecRef in self.manager.vecRefs:
-            self.insert_item_treeview(vecRef.__class__.__name__,
-                                      vecRef.sec_name, 
-                                      vecRef.vecs)
+#    def insert_vectors_treeview(self):
+#        """Adding the vectors To the treeview"""
+#        # Add all the vectors
+#        for vecRef in self.manager.vecRefs:
+#            self.insert_item_treeview(vecRef.__class__.__name__,
+#                                      vecRef.sec_name, 
+#                                      vecRef.vecs)
+    
+    def insert_refs_in_treeview(self):
+        for group, ref_list in self.manager.refs.iteritems():
+            for ref in ref_list:
+                self.insert_item_treeview(group, 
+                                          ref.sec_name, 
+                                          ref.vecs, 
+                                          ref.detail)
         
-    def insert_synvectors_treeview(self):
-        """Insert the synVectors"""
-        
-        for synVecRef in self.manager.synVecRefs:
-            
-            details = {}
-            for var, vec in synVecRef.vecs.iteritems():
-                details[var] = synVecRef.chan_type
-            
-            
-            self.insert_item_treeview(synVecRef.__class__.__name__, 
-                                      synVecRef.sec_name, 
-                                      synVecRef.vecs, 
-                                      details)
+#    def insert_synvectors_treeview(self):
+#        """Insert the synVectors"""
+#        
+#        for synVecRef in self.manager.synVecRefs:
+#            
+#            details = {}
+#            for var, vec in synVecRef.vecs.iteritems():
+#                details[var] = synVecRef.chan_type
+#            
+#            
+#            self.insert_item_treeview(synVecRef.__class__.__name__, 
+#                                      synVecRef.sec_name, 
+#                                      synVecRef.vecs, 
+#                                      details)
             
                         
     def update_tree_view(self):
@@ -396,11 +397,12 @@ class Controls():
         #Clear all the row
         self.ui.treeWidget.clear()
         
-        self.insert_vectors_treeview()
-        
-        if hasattr(self.manager, 'synVecRefs'):
-            if len(self.manager.synVecRefs) > 0:
-                self.insert_synvectors_treeview()
+        self.insert_refs_in_treeview()
+#        self.insert_vectors_treeview()
+#        
+#        if hasattr(self.manager, 'synVecRefs'):
+#            if len(self.manager.synVecRefs) > 0:
+#                self.insert_synvectors_treeview()
 
     
     def animation(self):

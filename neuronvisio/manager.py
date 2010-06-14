@@ -39,8 +39,9 @@ class Manager(object):
     def __init__(self):
         
         self.groups = {}
-        self.vecRefs = [] 
-        self.synVecRefs = []
+#        self.vecRefs = [] 
+#        self.synVecRefs = []
+        self.refs = {}
         self.results_root = 'results'
         self.geometry_root = 'geometry'
         self.geometry_node_name = 'geom'        
@@ -59,7 +60,7 @@ class Manager(object):
         if hasattr(sec, var):
             # Adding the vector only if does not exist
             alreadyPresent=False
-            for vecRef in self.vecRefs:
+            for vecRef in self.refs['VecRefs']:
                 if vecRef.sec_name == sec.name():
                     if vecRef.vecs.has_key(var):
                         alreadyPresent = True
@@ -87,7 +88,10 @@ class Manager(object):
                     # Adding to the list
                     vecRef = VecRef(sec)
                     vecRef.vecs[var] = vec
-                    self.vecRefs.append(vecRef)
+                    if self.refs.has_key(vecRef.__class__.__name__):
+                        self.refs[vecRef.__class__.__name__].append(vecRef)
+                    else:
+                        self.refs[vecRef.__class__.__name__] = [vecRef]
                     
                     # Building the indipendent vector
                     if not self.groups.has_key(vecRef.__class__):
@@ -177,32 +181,32 @@ class Manager(object):
             tree = self.__get_parent(parentSec, tree)
         return tree
     
-    def convert_vec_refs(self):
-        """Convert all the vecRefs into the pickable
-        substistitute the hocVectors with a numpy array
-        Set to None the ref for the section.
-        """
-        
-        pickable_vec_refs = []
-        for vecRef in self.vecRefs:
-            vecRef.pickable = True
-            vecRef.sec = None
-            for key, vec in vecRef.vecs.iteritems():
-                vecRef.vecs[key] = np.array(vec)
-            pickable_vec_refs.append(vecRef)
-        return pickable_vec_refs
-
-    
-    def convert_syn_vec_refs(self):
-        """Convert the synVecRef into pickable changing the hocVector with 
-        a numpy array"""
-        pickable_synVecRefs = []
-        for synVecRef in self.synVecRefs:
-            for key, vec in synVecRef.vecs.iteritems():
-                synVecRef.vecs[key] = np.array(vec)
-                
-            pickable_synVecRefs.append(synVecRef)
-        return pickable_synVecRefs
+#    def convert_vec_refs(self):
+#        """Convert all the vecRefs into the pickable
+#        substistitute the hocVectors with a numpy array
+#        Set to None the ref for the section.
+#        """
+#        
+#        pickable_vec_refs = []
+#        for vecRef in self.vecRefs:
+#            vecRef.pickable = True
+#            vecRef.sec = None
+#            for key, vec in vecRef.vecs.iteritems():
+#                vecRef.vecs[key] = np.array(vec)
+#            pickable_vec_refs.append(vecRef)
+#        return pickable_vec_refs
+#
+#    
+#    def convert_syn_vec_refs(self):
+#        """Convert the synVecRef into pickable changing the hocVector with 
+#        a numpy array"""
+#        pickable_synVecRefs = []
+#        for synVecRef in self.synVecRefs:
+#            for key, vec in synVecRef.vecs.iteritems():
+#                synVecRef.vecs[key] = np.array(vec)
+#                
+#            pickable_synVecRefs.append(synVecRef)
+#        return pickable_synVecRefs
     
     def add_synVecRef(self, synapse):
         """Add the synVecRef object to the list
@@ -212,7 +216,7 @@ class Manager(object):
         synVecRef = SynVecRef(synapse.chan_type, synapse.section.name(), 
                               synapse.vecs)
         
-        self.synVecRefs.append(synVecRef)
+        self.refs[synVecRef.__class__.__name__].append(synVecRef)
         print "adding syn chan: %s, len synvecREfs: %d" %(synapse.chan_type,
                                                           len (self.synVecRefs))
         self.groups[synVecRef.__class__.__name__] = self.groups['t']
@@ -577,36 +581,35 @@ class Manager(object):
             # Indipendent var (time for ex)
             x_node = h5f.getNode(group, name='x')
             self.groups[group._v_name] = x_node        
-            
             for group_child in h5f.iterNodes(group): # Get the section name
-                vecs = {}
-                baseRef = None
                 if group_child._v_name != 'x':
-    
-                    sec_name = group_child._v_name 
-                    if group._v_name == 'VecRef':
-                        self.groups['t'] = self.groups[group._v_name]
+                    vecs = {}
+                    genericRef = None
+                    group_ref = group._v_name 
+                    sec_name = group_child._v_name
+                     
+                    if group_ref == 'VecRef':
+                        self.groups['t'] = self.groups[group_ref]
                         # Create vecRef
-                        print sec_name
                         nrn_sec = eval('h.' + sec_name)
-                        print nrn_sec
-                        baseRef = VecRef(nrn_sec)
-                        self.vecRefs.append(baseRef)
+                        genericRef = VecRef(nrn_sec)
                     else:
+                        genericRef = globals()[group_ref]() # Creating the class from the path
+                        genericRef.sec_name = sec_name
+                    name = genericRef.__class__.__name__
+                    
+                    if self.refs.has_key(name):
+                        self.refs[name].append(genericRef)
+                    else:
+                        self.refs[name] = [genericRef]
+                    
+                    vecs ={}   
+                    for node in h5f.iterNodes(where= group_child, 
+                                              classname='Array'):
                         
-                        baseRef = eval(group._v_name)
-                        baseRef.sec_name = sec_name
-                        name = "%ss" %group._v_name 
-                        if hasattr(self, name):
-                            self.name.append(baseRef)
-                        else:
-                            self.name = [baseRef] 
-                            
-                    for node in h5f.walkNodes(group_child, classname='Array'):
-                        vecs = {node._v_name : node}
-                        baseRef.vecs = vecs
-                        baseRef.detail = node._v_title
-
+                        vecs[node._v_name] = node
+                        genericRef.vecs = vecs
+                        genericRef.detail = node._v_title
     
     def load_db(self, path_to_sqlite):
         """Loads the database in the Neuronvisio structure"""
@@ -665,7 +668,7 @@ class BaseRef(object):
 class SynVecRef(object):
     """Class to track all the synapse quantity of interest"""
     
-    def __init__(self, chan_type, section_name, vecs):
+    def __init__(self, chan_type=None, section_name=None, vecs=None):
         """Create a synVecRef object which map the synapse position and name 
         and the recorded vectors in it.
         
