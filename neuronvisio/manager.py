@@ -90,22 +90,32 @@ class Manager(object):
                     # Adding to the list
                     vecRef = VecRef(sec)
                     vecRef.vecs[var] = vec
-                    if self.refs.has_key(vecRef.__class__.__name__):
-                        self.refs[vecRef.__class__.__name__].append(vecRef)
-                    else:
-                        self.refs[vecRef.__class__.__name__] = [vecRef]
-                    
-                    # Building the indipendent vector
-                    if not self.groups.has_key(vecRef.__class__):
-                        t = h.Vector()
-                        t.record(h._ref_t)
-                        self.groups[vecRef.__class__.__name__] = t
-                        self.groups['t'] = t # Adding a shortcut to the NEURON time
+                    name = vecRef.__class__.__name__
+                    t = h.Vector()
+                    t.record(h._ref_t)
+                    self.add_ref(vecRef, t)
+                    self.groups['t'] = self.groups[name] # Adding a shortcut to the NEURON time
             
                     success = True
         
         return success
     
+    def add_ref(self, generic_ref, x):
+        """Add a generic ref to manager.refs dictionary. If a list of the ref of 
+        the same type is already present, the `genercref` will be added, otherwise the list
+        will be created.
+        `x` is the indipendent variable which should be used to when the genericref is 
+        plotted from the Neuronvisio UI. 
+        
+        `generic_ref` -- the ref to add to the manager.ref list
+        `x` -- indipendent varialbe use to plot the variable from the genericref"""
+        name = generic_ref.__class__.__name__
+        if self.refs.has_key(name):
+            self.refs[name].append(generic_ref)
+        else:
+            self.refs[name] = [generic_ref]
+            self.groups[name] = x
+            
     def get_vector(self, sec, var):
         """Return the vec that record the var in a given section
         
@@ -218,12 +228,8 @@ class Manager(object):
         synVecRef = SynVecRef(synapse.chan_type, synapse.section.name(), 
                               synapse.vecs)
         
-        name = synVecRef.__class__.__name__
-        if self.refs.has_key(name):
-            self.refs[name].append(synVecRef)
-        else:
-            self.refs[name] = [synVecRef]
-            self.groups[name] = self.groups['t']
+        self.add_ref(synVecRef, self.groups['t'])
+
 
             
     def plotVecs(self, vecs_dic, x=None, legend=True, figure_num=None):
