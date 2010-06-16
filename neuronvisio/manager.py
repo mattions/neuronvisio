@@ -122,7 +122,7 @@ class Manager(object):
         :param var: variable recorded by the vector.
         :return: the vector that record the variable var"""
         
-        for vecRef in self.vecRefs:
+        for vecRef in self.refs['VecRef']:
             if vecRef.sec_name == sec.name():
                 if vecRef.vecs.has_key(var):
                    return vecRef.vecs[var]
