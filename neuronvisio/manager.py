@@ -223,7 +223,7 @@ class Manager(object):
             self.refs[name].append(synVecRef)
         else:
             self.refs[name] = [synVecRef]
-        self.groups[synVecRef.__class__.__name__] = self.groups['t']
+            self.groups[name] = self.groups['t']
 
             
     def plotVecs(self, vecs_dic, x=None, legend=True, figure_num=None):
