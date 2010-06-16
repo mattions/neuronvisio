@@ -74,28 +74,27 @@ class Manager(object):
                             alreadyPresent = True
                             success = True
                  
-                if not alreadyPresent:
+            if not alreadyPresent:
                     
-                    # Creating the vector
-                    vec = h.Vector()
-                    varRef = '_ref_' + var
-                    try:
-                        vec.record(getattr(sec(0.5), varRef))
-                    except NameError:
-                        print "The variable %s is not present in the section %s" \
-                        % (varRef, sec.name())
-                        success = False
-                    else:                                
-                        # Adding to the list
-                        vecRef = VecRef(sec)
-                        vecRef.vecs[var] = vec
-                        name = vecRef.__class__.__name__
-                        t = h.Vector()
-                        t.record(h._ref_t)
-                        self.add_ref(vecRef, t)
-                        self.groups['t'] = self.groups[name] # Adding a shortcut to the NEURON time
-                
-                        success = True
+                # Creating the vector
+                vec = h.Vector()
+                varRef = '_ref_' + var
+                try:
+                    vec.record(getattr(sec(0.5), varRef))
+                except NameError:
+                    print "The variable %s is not present in the section %s" \
+                    % (varRef, sec.name())
+                    success = False
+                                                
+                # Adding to the list
+                vecRef = VecRef(sec)
+                vecRef.vecs[var] = vec
+                name = vecRef.__class__.__name__
+                t = h.Vector()
+                t.record(h._ref_t)
+                self.add_ref(vecRef, t)
+                self.groups['t'] = self.groups[name] # Adding a shortcut to the NEURON time
+                success = True
         
         return success
     
@@ -112,6 +111,7 @@ class Manager(object):
         if self.refs.has_key(name):
             self.refs[name].append(generic_ref)
         else:
+            print "Adding ref: %s" %name
             self.refs[name] = [generic_ref]
             self.groups[name] = x
             
