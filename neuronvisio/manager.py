@@ -57,46 +57,45 @@ class Manager(object):
         :return: True if the vector is created successfully."""
             
         success = False
-        if not self.refs.has_key('VecRef'):
-            self.refs['VecRef'] = []
         if hasattr(sec, var):
             # Adding the vector only if does not exist
             alreadyPresent=False
-            for vecRef in self.refs['VecRef']:
-                if vecRef.sec_name == sec.name():
-                    if vecRef.vecs.has_key(var):
-                        alreadyPresent = True
-                        break
-                    else: # Adding a variable to an existing vecRef
-                        vec = h.Vector()
-                        varRef = '_ref_' + var
+            if self.refs.has_key('VecRef'):
+                for vecRef in self.refs['VecRef']:
+                    if vecRef.sec_name == sec.name():
+                        if vecRef.vecs.has_key(var):
+                            alreadyPresent = True
+                            break
+                        else: # Adding a variable to an existing vecRef
+                            vec = h.Vector()
+                            varRef = '_ref_' + var
+                            vec.record(getattr(sec(0.5), varRef))
+                            vecRef.vecs[var] = vec
+                            alreadyPresent = True
+                            success = True
+                 
+                if not alreadyPresent:
+                    
+                    # Creating the vector
+                    vec = h.Vector()
+                    varRef = '_ref_' + var
+                    try:
                         vec.record(getattr(sec(0.5), varRef))
+                    except NameError:
+                        print "The variable %s is not present in the section %s" \
+                        % (varRef, sec.name())
+                        success = False
+                    else:                                
+                        # Adding to the list
+                        vecRef = VecRef(sec)
                         vecRef.vecs[var] = vec
-                        alreadyPresent = True
-                        success = True
-             
-            if not alreadyPresent:
+                        name = vecRef.__class__.__name__
+                        t = h.Vector()
+                        t.record(h._ref_t)
+                        self.add_ref(vecRef, t)
+                        self.groups['t'] = self.groups[name] # Adding a shortcut to the NEURON time
                 
-                # Creating the vector
-                vec = h.Vector()
-                varRef = '_ref_' + var
-                try:
-                    vec.record(getattr(sec(0.5), varRef))
-                except NameError:
-                    print "The variable %s is not present in the section %s" \
-                    % (varRef, sec.name())
-                    success = False
-                else:                                
-                    # Adding to the list
-                    vecRef = VecRef(sec)
-                    vecRef.vecs[var] = vec
-                    name = vecRef.__class__.__name__
-                    t = h.Vector()
-                    t.record(h._ref_t)
-                    self.add_ref(vecRef, t)
-                    self.groups['t'] = self.groups[name] # Adding a shortcut to the NEURON time
-            
-                    success = True
+                        success = True
         
         return success
     
