@@ -688,9 +688,6 @@ class SynVecRef(BaseRef):
         """
         BaseRef.__init__(self)
         self.detail = chan_type
-#        print "Creating synVec: syn type %s, synvec type %s" %(syn.chan_type,
-#                                                               self.chan_type)
-#        print "syn Vectors %s" %syn.vecs
         self.sec_name = section_name
         self.vecs = vecs
 
