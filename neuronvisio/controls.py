@@ -371,7 +371,7 @@ class Controls():
     def insert_refs_in_treeview(self):
         for group, ref_list in self.manager.refs.iteritems():
             for ref in ref_list:
-                self.insert_item_treeview(group, 
+                self.insert_item_treeview(group._v_name, 
                                           ref.sec_name, 
                                           ref.vecs, 
                                           ref.detail)
