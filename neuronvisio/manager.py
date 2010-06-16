@@ -108,6 +108,7 @@ class Manager(object):
         `generic_ref` -- the ref to add to the manager.ref list
         `x` -- indipendent varialbe use to plot the variable from the genericref"""
         name = generic_ref.__class__.__name__
+        generic_ref.group_id = name
         if self.refs.has_key(name):
             self.refs[name].append(generic_ref)
         else:
@@ -610,9 +611,10 @@ class Manager(object):
                         nrn_sec = eval('h.' + sec_name)
                         genericRef = VecRef(nrn_sec)
                     else:
-                        genericRef = globals()[group_ref]() # Creating the class from the path
+                        genericRef = BaseRef() # Creating a genericRef
                         genericRef.sec_name = sec_name
-                    name = genericRef.__class__.__name__
+                        genericRef.group_id = group
+                        name = genericRef.group_id
                     
                     if self.refs.has_key(name):
                         self.refs[name].append(genericRef)
@@ -651,6 +653,7 @@ class BaseRef(object):
         self.sec_name = ''
         self.detail = ''
         self.vecs = {}
+        self.group_id = ''
     
     def __str__(self):
         s = "section: %s, detail: %s, vars recorded: %s" %(self.sec_name, 
