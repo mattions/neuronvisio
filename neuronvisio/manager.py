@@ -218,7 +218,11 @@ class Manager(object):
         synVecRef = SynVecRef(synapse.chan_type, synapse.section.name(), 
                               synapse.vecs)
         
-        self.refs[synVecRef.__class__.__name__].append(synVecRef)
+        name = synVecRef.__class__.__name__
+        if self.refs.has_key(name):
+            self.refs[name].append(synVecRef)
+        else:
+            self.refs[name] = [synVecRef]
         print "adding syn chan: %s, len synvecREfs: %d" %(synapse.chan_type,
                                                           len (self.synVecRefs))
         self.groups[synVecRef.__class__.__name__] = self.groups['t']
