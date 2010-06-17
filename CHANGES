@@ -3,9 +3,10 @@
 
 - Closed #16
 - Fixed some typos on the docs
-- Introduced new sqlite dataschema based on SQLAlchemy
-- Mechanisms shown on the info tab
+- Mechanisms are shown on the info tab
 - Refactored code for extensibility
+- Storage moved to a hdf file.
+- Extensibility to other kind of variables, not only vectors
 
 0.4.4 - 1 Apr 2010
 ==================
