@@ -162,35 +162,33 @@ This is a quick example how to save the simulation in neuronvisio::
     manager.add_all_vecRef('v')
     
     # file where to save the results
-    filename = 'storage.sqlite'
+    filename = 'storage.h5'
     # Saving the vectors
-    manager.store_in_db(filename)
+    manager.save_to_hdf(filename)
     
 If you run a lot of simulations you want maybe to run the same script but without rewriting 
 the same results. Manager has a nice method to help you called create_new_dir::
     
     saving_dir = manager.create_new_dir() # Create a new dir per Simulation, ordered by Day.
-    db_name = 'storage.sqlite'
-    filename = os.path.join(saving_dir, db_name)
+    hdf_name = 'storage.h5'
+    filename = os.path.join(saving_dir, hdf_name)
     # Saving the vectors
-    manager.store_in_db(filename)
+    manager.save_to_hdf(filename)
 
 Loading a previous simulation
 -----------------------------
 
-To load the simulation results you need to reload the same kind of geometry.
-A Classic approach will be::
+To load the results of a simulation you can start neuronvisio giving the path_to_the_hdf_file::
+
+    $nrnvisio path/to/storage.h5
     
-    from neuronvisio.controls import Controls
-    
-    # reload your model here
-    
-    controls = Controls()
-    
-    # Now you can use the gui, or do it by console.
-    # Using the gui, click on the Load button.
-    
-    # Loading the db by code
-    
-    controls.load_db(path_to_sql_db) # Loading the db
+or you can just start neuronvisio and use the Load button::
+
+    $nrnvisio
+
+Saving your variables in storage.h5 and use Neuronvisio to plot them 
+====================================================================
+
+TODO..
+
     
