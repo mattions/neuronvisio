@@ -610,16 +610,17 @@ class Manager(object):
                         # Create vecRef
                         nrn_sec = eval('h.' + sec_name)
                         genericRef = VecRef(nrn_sec)
+                        
                     else:
                         genericRef = BaseRef() # Creating a genericRef
                         genericRef.sec_name = sec_name
-                        genericRef.group_id = group
-                        name = genericRef.group_id
+                        
+                    genericRef.group_id = group_ref
                     
-                    if self.refs.has_key(name):
-                        self.refs[name].append(genericRef)
+                    if self.refs.has_key(group_ref):
+                        self.refs[group_ref].append(genericRef)
                     else:
-                        self.refs[name] = [genericRef]
+                        self.refs[group_ref] = [genericRef]
                     
                     vecs ={}   
                     for node in h5f.iterNodes(where= group_child, 
