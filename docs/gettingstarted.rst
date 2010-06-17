@@ -135,9 +135,12 @@ and the section info will be displayed in the Sec Info Tab.
 Loading And Saving the simulation results
 =========================================
 
-Neuronvisio can store simulation's results in a sqlite3 database. This is very handy 
+Neuronvisio stores simulation's results using the hdf_ standard, using PyTables_  This is very handy 
 when you simulation takes a long time to run and you want to inspect again the results, 
 without re-run it.
+
+.. _hdf: http://www.hdfgroup.org/
+.. _PyTables: http://www.pytables.org
 
 More over, if you use the manager object to create the vectors, you can access any simulation's
 results and explore them with Neuronvisio even of you ran it on a cluster or remote computers. 

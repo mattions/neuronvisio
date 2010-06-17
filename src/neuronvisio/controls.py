@@ -132,7 +132,10 @@ class Controls():
             self.ui.statusbar.showMessage(msg, 3500)
             # Enablig the Animation button
             self.ui.animation_btn.setEnabled(True)
-            # TODO: Disabling all the rest
+            # Disabling all the rest
+            self.ui.init_btn.setEnabled(False)
+            self.ui.run_btn.setEnabled(False)
+            self.ui.create_vector.setEnabled(False)
             
         
     def save_hdf(self):
