@@ -253,7 +253,7 @@ class Manager(object):
                 plt.plot(self.groups['t'], vec, label=key)
             elif len(x) != len(vec):
                 plt.plot(vec, label=key)
-                print "Printed vector %s vs it own length." %key
+                print "x and y mismatched. Is the %s wrapped in the right baseref? Plotted vs it's it own length anyway." %key
             else:
                 plt.plot(x, vec, label=key)
             if legend:
