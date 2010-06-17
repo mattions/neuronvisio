@@ -26,7 +26,14 @@ from PyQt4 import QtGui, QtCore, uic
 from PyQt4.QtCore import Qt
 
 import matplotlib
-matplotlib.use('Qt4Agg')
+if matplotlib.backends.backend is None: 
+    matplotlib.use('Qt4Agg')
+elif matplotlib.backends.backend != 'Qt4Agg':
+    print "You must use the Qt4 backend to be able to use  Neuronvisio."
+    print "Check your backend in ~/.matplotlib/matplotlibrc and set it to Qt4Agg"
+    sys.exit(1) 
+
+    
 matplotlib.interactive(True)
 
 from neuron import h
@@ -96,9 +103,6 @@ class Controls():
         self.ui.actionSave.connect(self.ui.actionSave,
                                    QtCore.SIGNAL("triggered()"),
                                    self.save_hdf)
-        self.ui.actionSave_As.connect(self.ui.actionSave_As,
-                                      QtCore.SIGNAL("triggered()"),
-                                      self.save_as_hdf)
         
         ### Connection with the console
         widgetDic = {'dt' : self.ui.dtSpinBox, 'tstop' : self.ui.tstopSpinBox,
@@ -146,17 +150,6 @@ class Controls():
                 self.manager.save_to_hdf(self.path_to_hdf)
                 msg = "Saved hdf file: %s" % self.path_to_hdf
                 self.ui.statusbar.showMessage(msg, 3500)
-        
-    def save_as_hdf(self):
-
-        filename = QtGui.QFileDialog.getSaveFileName()
-        self.path_to_hdf = str(filename)
-        self.manager.store_in_db(self.path_to_hdf)
-        msg = "Saved hdf file: %s" % self.path_to_hdf
-        self.ui.statusbar.showMessage(msg, 3500)
-            
-        
-
         
     def launch_visio(self):
         msg = "Plotting..."

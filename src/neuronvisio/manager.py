@@ -109,7 +109,6 @@ class Manager(object):
         if self.refs.has_key(name):
             self.refs[name].append(generic_ref)
         else:
-            print "Adding ref: %s" %name
             self.refs[name] = [generic_ref]
             self.groups[name] = x
             
