@@ -27,9 +27,6 @@ import datetime
 import matplotlib
 import matplotlib.pyplot as plt
 
-import cPickle
-from db.tables import Base, Geometry, Vectors, SynVectors
-
 class Manager(object):
     """The Manager class is used to manage all the vecRef, to create them 
     and retrieve the information
@@ -193,33 +190,6 @@ class Manager(object):
             tree = self.__get_parent(parentSec, tree)
         return tree
     
-#    def convert_vec_refs(self):
-#        """Convert all the vecRefs into the pickable
-#        substistitute the hocVectors with a numpy array
-#        Set to None the ref for the section.
-#        """
-#        
-#        pickable_vec_refs = []
-#        for vecRef in self.vecRefs:
-#            vecRef.pickable = True
-#            vecRef.sec = None
-#            for key, vec in vecRef.vecs.iteritems():
-#                vecRef.vecs[key] = np.array(vec)
-#            pickable_vec_refs.append(vecRef)
-#        return pickable_vec_refs
-#
-#    
-#    def convert_syn_vec_refs(self):
-#        """Convert the synVecRef into pickable changing the hocVector with 
-#        a numpy array"""
-#        pickable_synVecRefs = []
-#        for synVecRef in self.synVecRefs:
-#            for key, vec in synVecRef.vecs.iteritems():
-#                synVecRef.vecs[key] = np.array(vec)
-#                
-#            pickable_synVecRefs.append(synVecRef)
-#        return pickable_synVecRefs
-    
     def add_synVecRef(self, synapse):
         """Add the synVecRef object to the list
         
@@ -282,59 +252,6 @@ class Manager(object):
                 free = True
                 os.makedirs(dir)
         return dir
-        
-#    def _store_vectors(self, session):
-#        """Store the Vectors in the database"""
-#        
-#        records = []
-#        
-#        # Storing the time
-#        t = np.array(self.t)
-#        
-#        # Saving time
-#        record = Vectors(vec=t, var='t', sec_name=None)
-#        records.append(record)
-#        
-#        # Vec Ref
-#        pickable_vec_refs = self.convert_vec_refs()
-#        for vec_ref in pickable_vec_refs:
-#            for var in vec_ref.vecs.keys():
-#                vec = vec_ref.vecs[var]
-#                sec_name_neuroMl_accepted = self.sanitized_sec(vec_ref.sec_name)
-#                record = Vectors(vec=vec, var=var,
-#                                 sec_name=sec_name_neuroMl_accepted)
-#                records.append(record)
-#
-#        session.add_all(records)
-#        session.flush()
-#
-#    def _store_synvectors(self, session):
-#        """Store the SynVectors in the database"""
-#        
-#        records = []
-#        
-#        # Storing the time
-#        t = np.array(self.t)
-#        
-#        # Saving time
-#        record = Vectors(vec=t, var='t', sec_name=None)
-#        records.append(record)
-#        
-#        pickable_synVecRefs = self.convert_syn_vec_refs()
-#        
-#        for syn_vec_ref in pickable_synVecRefs:
-#            for var in syn_vec_ref.vecs.keys():
-#                vec = syn_vec_ref.vecs[var]
-#                sec_name = self._sanitized_sec(syn_vec_ref.sec_name)
-#                record = SynVectors(var=var,
-#                                    vec=vec,
-#                                    sec_name=sec_name,
-#                                    details=syn_vec_ref.chan_type
-#                                    )
-#                records.append(record)
-#        print 'Saving SynVecRef'
-#        session.add_all(records)
-#        session.flush()
         
     def sanitized_sec(self, sec_name):
         """Sanitize the neuroML """
@@ -450,118 +367,6 @@ class Manager(object):
                                           vec,
                                           title=detail)
         
-    def store_in_db(self, filename):
-        """Store the simulation results in a database"""
-        db_path = 'sqlite:////' + os.path.abspath(filename)
-        
-        engine = create_engine(db_path, echo=False)
-        Session.configure(bind=engine)
-        Base.metadata.create_all(engine)
-        session = Session()
-        
-        self._store_geom(session)
-        self._store_vectors(session)
-        self._store_synvectors(session)
-        session.commit()
-        self.session = session
-    
-    def _load_vecRef_db(self, session):
-        """Load the vecref in memory"""
-        
-        for record in session.query(Vectors).filter(Vectors.var=='t'):
-            t = record.vec
-            self.groups['t'] = t
-        
-        vecRefs = []
-
-        for vec, var, sec_name in session.query(Vectors.vec,
-                                                Vectors.var,
-                                                Vectors.sec_name):
-            
-            if sec_name != None:
-                found = False
-                # Check if the vecREf exists.
-                # If it does we add the variable vec to the vecs dict
-                # otherwise we create a new one.
-                for vecRef in vecRefs:
-                    if vecRef.sec_name == sec_name:
-                        found = True
-                        break
-                if found:
-                    vecRef.vecs[var] = vec
-                    continue #Move to next record
-                else:
-                    nrn_sec = eval('h.' + sec_name)
-                    vecRef = VecRef(nrn_sec)
-                    vecRef.vecs[var] = vec
-                
-                # Adding the VecRef to the group
-                self.groups[vecRef.__class__.__name__] = self.groups['t']
-                
-                vecRefs.append(vecRef)
-                
-        for sec in h.allsec():
-            for vecRef in vecRefs:
-                if sec.name() == vecRef.sec_name:
-                    vecRef.sec = sec
-                    break
-        self.vecRefs = vecRefs
-    
-    def _load_synVec_db(self, session):
-        """Load the SynVec in memory if they exist"""
-        
-        
-        self.indipendent_variables[self.SynVectors_Group_Label] = self.t
-        
-        synVecRefs = []
-        
-        for vec, var, sec_name, details in session.query(SynVectors.vec,
-                                                  SynVectors.var,
-                                                  SynVectors.sec_name,
-                                                  SynVectors.details):
-            found = False
-            if sec_name != None:
-                for synVecRef in synVecRefs:
-                    if synVecRef.sec_name == sec_name:
-                        if synVecRef.chan_type == details:
-                            found = True
-                            break
-                if found:
-                    synVecRef.vecs[var] = vec
-                    continue #Move to next record
-                else:
-                    nrn_sec = eval('h.' + sec_name)
-                    vecs = {}
-                    vecs[var] = vec
-                    synVecRef = SynVecRef(details, sec_name, vecs)
-                                    
-                synVecRefs.append(synVecRef)
-                self.groups[synVecRef.__class__.__name__] = self.groups['t']
-                    
-            self.synVecRefs = synVecRefs
-            
-    def _load_geom_db(self, session):
-        """Select the NeuroML from the table, write it to a tmp file and then load into NEURON"""
-        
-        xml_data = ''
-        for neuroml, in session.query(Geometry.neuroml):
-            xml_data = str(neuroml)
-        
-        
-        print type(xml_data)
-        tmp_file = 'temp.xml'
-        f = open(tmp_file, 'w')
-        f.write(xml_data)
-        f.close()
-        
-        import rdxml # This has to go ASAP they fix NEURON install
-        h.load_file('celbild.hoc')
-        cb = h.CellBuild(0)
-        cb.manage.neuroml(tmp_file)
-        cb.cexport(1)
-        
-        os.remove(tmp_file)
-        
     def load_from_hdf(self, filename):
         """Load all the results on the hvf in memory"""
         print "Loading: %s" %filename
@@ -632,23 +437,6 @@ class Manager(object):
                         vecs[node._v_name] = node
                         genericRef.vecs = vecs
                         genericRef.detail = node._v_title
-    
-    def load_db(self, path_to_sqlite):
-        """Loads the database in the Neuronvisio structure"""
-        db_path = 'sqlite:////' + path_to_sqlite
-        engine = create_engine(db_path, echo=False)
-        Session.configure(bind=engine)
-        Base.metadata.create_all(engine)
-        session = Session()
-        # Loading the geometry
-        self._load_geom_db(session)
-         
-#        # Loading the VecRef
-        self._load_vecRef_db(session)
-#        
-#        # Loading the SynVec
-        self._load_synVec_db(session)
-        self.session = session
             
 class BaseRef(object):
     """Base class to make the connection with the section"""

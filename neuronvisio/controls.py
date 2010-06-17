@@ -219,51 +219,6 @@ class Controls():
     def v_changed(self):
         
         h.v_init = self.ui.vSpinBox.value()
-    
-#    def plot_vector(self):
-#        
-#        items = self.ui.treeWidget.selectedItems()
-#        vecs_to_plot = {}
-#        var = ""
-#        x = None
-#        for item in items:
-#            if item.childCount() == 0: # Leaf, so it is the variable to plot
-#                
-#                sectionItem = item.parent()
-#                sectionName = sectionItem.text(0) #Column used
-#                var = item.text(0)
-#                
-#                sectionName = str(sectionName) # This will go with Py3
-#                var = str(var) #idem
-#                
-#                group = str(sectionItem.parent().text(0))
-#                if group == self.manager.Vectors_Group_Label:
-#                    x = self.manager.indipendent_variables[self.manager.Vectors_Group_Label]
-#                    for vecRef in self.manager.vecRefs: 
-#                        if vecRef.sec_name == sectionName:
-#                            # get the vec
-#                            vec = vecRef.vecs[var]
-#                            key = sectionName + "_" + var
-#                            vecs_to_plot[key] = vec
-#                            
-#                if group == self.manager.SynVectors_Group_Label:
-#                    x = self.manager.indipendent_variables[self.manager.SynVectors_Group_Label]
-#                    for synVecRef in self.manager.synVecRefs:
-#                        if synVecRef.sec_name == sectionName:
-#                            vec = synVecRef.vecs[var]
-#                            chan_type = synVecRef.chan_type
-#                            key = sectionName + '_' + var + "_" + chan_type 
-#                            vecs_to_plot[key] = vec
-#                
-#        
-#        # Plot legend if required
-#        legend_status = self.ui.legend.isChecked() #return True if toggled.
-#        
-#        # Retrieve the fig num
-#        fig_num = self.ui.fig_num_spinBox.value()
-#        
-#        self.manager.plotVecs(vecs_to_plot, x=x, legend=legend_status, 
-#                              figure_num=fig_num)
         
     def plot_vector(self):
         
@@ -359,14 +314,6 @@ class Controls():
             item.setText(1, details)    
             sec_root.addChild(item)
             
-
-#    def insert_vectors_treeview(self):
-#        """Adding the vectors To the treeview"""
-#        # Add all the vectors
-#        for vecRef in self.manager.vecRefs:
-#            self.insert_item_treeview(vecRef.__class__.__name__,
-#                                      vecRef.sec_name, 
-#                                      vecRef.vecs)
     
     def insert_refs_in_treeview(self):
         for group, ref_list in self.manager.refs.iteritems():
@@ -375,21 +322,6 @@ class Controls():
                                           ref.sec_name, 
                                           ref.vecs, 
                                           ref.detail)
-        
-#    def insert_synvectors_treeview(self):
-#        """Insert the synVectors"""
-#        
-#        for synVecRef in self.manager.synVecRefs:
-#            
-#            details = {}
-#            for var, vec in synVecRef.vecs.iteritems():
-#                details[var] = synVecRef.chan_type
-#            
-#            
-#            self.insert_item_treeview(synVecRef.__class__.__name__, 
-#                                      synVecRef.sec_name, 
-#                                      synVecRef.vecs, 
-#                                      details)
             
                         
     def update_tree_view(self):
@@ -398,11 +330,6 @@ class Controls():
         self.ui.treeWidget.clear()
         
         self.insert_refs_in_treeview()
-#        self.insert_vectors_treeview()
-#        
-#        if hasattr(self.manager, 'synVecRefs'):
-#            if len(self.manager.synVecRefs) > 0:
-#                self.insert_synvectors_treeview()
 
     
     def animation(self):
