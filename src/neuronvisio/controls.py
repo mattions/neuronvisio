@@ -31,7 +31,7 @@ if matplotlib.backends.backend is None:
 elif matplotlib.backends.backend != 'Qt4Agg':
     print "You must use the Qt4 backend to be able to use  Neuronvisio."
     print "Check your backend in ~/.matplotlib/matplotlibrc and set it to Qt4Agg"
-    sys.exit(1) 
+     
 
     
 matplotlib.interactive(True)
