@@ -45,6 +45,8 @@ setup(
     version=version,
     description='NeuronVisio is a Graphical User Interface for NEURON simulator enviroment',
     long_description=open('README.rst', 'r').read(),
+    package_dir={'neuronvisio': 'src'},
+    scripts= ['src/nrnvisio'],
     classifiers=classifiers,
     keywords='neuron, gui, pylab, 3D, visualization',
     author='Michele Mattioni',
