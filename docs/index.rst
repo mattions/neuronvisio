@@ -66,6 +66,7 @@ Site Map
     self
     install
     gettingstarted
+    storage
     screenshots
     reference
     changes

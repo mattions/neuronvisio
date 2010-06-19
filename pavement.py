@@ -3,6 +3,8 @@ from paver.easy import *
 from paver.setuputils import setup
 #from setuptools import setup
 from setuptools import find_packages
+import sys
+sys.path.append('./src')
 import neuronvisio
 
 try:
@@ -88,7 +90,7 @@ options(
     )
 
 options.setup.package_data=paver.setuputils.find_package_data(
-    'neuronvisio', package='neuronvisio', only_in_packages=False)
+    'src', package='neuronvisio', only_in_packages=False)
 
 if ALL_TASKS_LOADED:
     @task
