@@ -4,6 +4,7 @@
 *.pyc
 .project
 .pydevproject
+*.egg-info
 
 # Bkp
 *~
