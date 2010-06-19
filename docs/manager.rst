@@ -10,6 +10,12 @@
 .. autoclass:: Manager
    :members:
 
+:class:`BaseRef`
+----------------
+
+.. autoclass:: BaseRef
+    :members:
+
 :class:`VecRef`
 ---------------
 

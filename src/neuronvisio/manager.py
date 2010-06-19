@@ -436,11 +436,15 @@ class Manager(object):
                         vecs[node._v_name] = node
                         genericRef.vecs = vecs
                         genericRef.detail = node._v_title
+
+
             
 class BaseRef(object):
-    """Base class to make the connection with the section"""
+    """Base Ref class. Subclass it to create your own ref."""
+    
     def __init__(self):
-        """Initialize the attribute for the vecRef with none"""
+        """Initialize the attribute for the baseRef with empty string none"""
+        
         self.sec_name = ''
         self.detail = ''
         self.vecs = {}
@@ -453,15 +457,15 @@ class BaseRef(object):
         return s
                 
 class VecRef(BaseRef):
-    """Basic class to associate one or more vectors with a section
+    """Specialized class for HocVectors class to associate one or more vectors with a section
     """
     def __init__(self, sec):
         """Create a vecRef object which map the section name and the 
         recorded vectors.
         
-        :param sec: The section which all the vectors belongs
-        
+        :param sec: The section which all the vectors belong
         """
+        
         BaseRef.__init__(self)
         self.sec_name = sec.name()
         self.sec = sec
@@ -483,7 +487,7 @@ class SynVecRef(BaseRef):
         and the recorded vectors in it.
         
         :param chan_type: The channel in the synapse
-        :param sectiona_name: Name of the section where the synapse is
+        :param section_name: Name of the section where the synapse is
         :param vecs: Dictionary with the synapse vecs
         """
         BaseRef.__init__(self)
