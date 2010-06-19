@@ -16,9 +16,9 @@ without re-run it.
 The file has a structure shown in the following images
 
 .. image:: images/hdf_neuronvisio_0.5_structure.png
-    :scale: 60
-The GenericRef is the data structure used by Neuronvisio. The `VecRef` is the specialized one, which extend the 
-`BaseRef`.
+    :scale: 40
+The Refs is the data structure used by Neuronvisio. The `VecRef` is the specialized one. It is possible to add more 
+Ref subclassing the :class:`manager.BaseRef`.
 
 Using the manager object to store the results of your simulation
 ----------------------------------------------------------------
@@ -50,11 +50,11 @@ Loading a previous simulation
 
 To load the results of a simulation you can start neuronvisio giving the path_to_the_hdf_file::
 
-    $nrnvisio path/to/storage.h5
+    $ nrnvisio path/to/storage.h5
     
 or you can just start neuronvisio and use the Load button::
 
-    $nrnvisio
+    $ nrnvisio
 
 Saving your variables in storage.h5 and use Neuronvisio to plot them 
 ====================================================================
@@ -98,18 +98,18 @@ All together is::
 
     class MyRef(BaseRef):
     
-    def __init__(self, sec_name=None, vecs=None, detail=None):
-        
-        BaseRef.__init__(self)
-        self.sec_name = sec_name
-        self.vecs = vecs
-        self.detail = detail
+        def __init__(self, sec_name=None, vecs=None, detail=None):
+            
+            BaseRef.__init__(self)
+            self.sec_name = sec_name
+            self.vecs = vecs
+            self.detail = detail
+    
     
     myRef = MyRef(sec_name=sec_name, 
               vecs=vecs,
               detail=detail)
-        
-    manager.add_ref(timeseriesRef, x)
+    manager.add_ref(myRef, x)
                   
 Then you just need to save the file normally::
     

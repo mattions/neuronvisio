@@ -130,6 +130,6 @@ Select a section (Just click over it, near the beginning or the end of the cylin
 and the section info will be displayed in the Sec Info Tab.
 
 .. image:: images/Neuronvisio_sec_info.png
-    :scale: 85
+    :scale: 100
 
     

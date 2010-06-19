@@ -16,7 +16,7 @@ Features
 - Creation of vectors to record any variables present in the section
 - Pylab integration to plot directly the result of the simulation
 - Exploration of the timecourse of any variable among time using a color coded scale
-- Saving the results simulation for later
+- Saving the results simulation for later analysis
 
 
 
