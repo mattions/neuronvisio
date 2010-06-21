@@ -17,6 +17,7 @@ The file has a structure shown in the following images
 
 .. image:: images/hdf_neuronvisio_0.5_structure.png
     :scale: 40
+    
 The Refs is the data structure used by Neuronvisio. The `VecRef` is the specialized one. It is possible to add more 
 Ref subclassing the :class:`manager.BaseRef`.
 
