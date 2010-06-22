@@ -123,7 +123,7 @@ class Visio(object):
         
         # Connecting the picker.
         fig = self.mayavi.visualization.scene.mlab.gcf()
-        fig.on_mouse_pick(self.picker_callback)
+        fig.on_mouse_pick(self.picker_callback, type='cell')
         
     def picker_callback(self, picker):
         """ Picker callback: this get called when on pick events. 
