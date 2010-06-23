@@ -112,7 +112,7 @@ If you want to run the latest code you can clone the git repo and run the softwa
 
 then you need to add the directory (the absolute path) to your PYTHONPATH (in bash)::
     
-    export PYTHONPATH=$PYTHONPATH:/path-to-neuronvisio
+    export PYTHONPATH=$PYTHONPATH:/path-to-neuronvisio-dir/src
     
 Legacy releases
 ===============
