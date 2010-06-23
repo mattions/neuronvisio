@@ -26,7 +26,7 @@ version = neuronvisio.__version__
 
 classifiers = [
     # Get more strings from http://www.python.org/pypi?%3Aaction=list_classifiers
-    "Development Status :: 5 - Production/Stable",
+    "Development Status :: 4 - Beta",
     "Programming Language :: Python",
     "Topic :: Scientific/Engineering :: Visualization"
 
