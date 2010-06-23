@@ -126,8 +126,8 @@ If you want to insert the legend just select the `legend box`
 Investigate the section parameters
 ==================================
 
-Select a section (Just click over it, near the beginning or the end of the cylinder) 
-and the section info will be displayed in the Sec Info Tab.
+Select a section (Just click over it) and the section info 
+will be displayed in the Sec Info Tab.
 
 .. image:: images/Neuronvisio_sec_info.png
     :scale: 100
