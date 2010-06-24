@@ -283,6 +283,15 @@ class Visio(object):
         col = [0, 0, 0]
         for i, primary in enumerate(col):
             col[i] = (end_col[i] - start_col[i]) * offset + start_col[i] 
+            if col[i] < 0:
+                s = "Color out of range: start %s, end: %s, var: %s, \
+                start_col: %s, end_col: %s, col:%s" %(start_value, 
+                                                      end_value,
+                                                      var_value,
+                                                      start_col,
+                                                      end_col,
+                                                      col[i])
+                col[i] = 0
                                                                            
         #print "start %s, end %s Calculated color %s" % (start_col, end_col, col)
         return QtGui.QColor(col[0],col[1],col[2])
