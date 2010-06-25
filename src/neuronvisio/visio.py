@@ -291,8 +291,16 @@ class Visio(object):
                                                       start_col,
                                                       end_col,
                                                       col[i])
-                col[i] = 0
-                                                                           
+                msg = "Current value out of bounderies. Value: %s, Min: %s,\
+                Max: %s." %(var_value, start_value, end_value)
+                
+                print msg
+                if var_value < start_value:
+                    col[i] = start_col[i]
+                    print "Setting the color to the starting color."
+                elif var_value > end_value:
+                    col[i] = end_col[i]
+                    print "Setting the color to the ending color."                                                       
         #print "start %s, end %s Calculated color %s" % (start_col, end_col, col)
         return QtGui.QColor(col[0],col[1],col[2])
     
