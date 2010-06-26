@@ -15,7 +15,6 @@
 # $ nrnivmodl 
 
 # Importing the NeuronVisio
-# Importing the NeuronVisio
 from neuronvisio.controls import Controls
 controls = Controls()
 
