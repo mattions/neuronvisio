@@ -45,12 +45,15 @@ class Manager(object):
         # Load the std run for NEURON
         h.load_file("stdrun.hoc")
         
-    def add_vecRef(self, var, sec):
+    def add_vecRef(self, var, sec, time_interval_recording=None):
         """Add the vecRef to the vec_res list. It takes care to create the vector 
         and record the given variable.
         
         :param var: The variable to record
         :param sec: The section where to record
+        :param resolution: If None, use the dt of Neuron. Specify which interval 
+        to use to record the vectors. Note the same resolution shoul apply to the 
+        time vectors.
         :return: True if the vector is created successfully."""
             
         success = False
@@ -77,7 +80,11 @@ class Manager(object):
                 vec = h.Vector()
                 varRef = '_ref_' + var
                 try:
-                    vec.record(getattr(sec(0.5), varRef))
+                    if time_interval_recording is None:
+                        vec.record(getattr(sec(0.5), varRef))
+                    else:
+                        vec.record(getattr(sec(0.5), varRef), 
+                                   time_interval_recording)
                 except NameError:
                     print "The variable %s is not present in the section %s" \
                     % (varRef, sec.name())
@@ -88,11 +95,13 @@ class Manager(object):
                 vecRef.vecs[var] = vec
                 name = vecRef.__class__.__name__
                 t = h.Vector()
-                t.record(h._ref_t)
+                if time_interval_recording is None:
+                    t.record(h._ref_t)
+                else:
+                    t.record(h._ref_t, time_interval_recording)
                 self.add_ref(vecRef, t)
                 self.groups['t'] = self.groups[name] # Adding a shortcut to the NEURON time
                 success = True
-        
         return success
     
     def add_ref(self, generic_ref, x):
@@ -150,7 +159,7 @@ class Manager(object):
             vecs[sec.name()] = (vec)
         return vecs
             
-    def add_all_vecRef(self, var):
+    def add_all_vecRef(self, var, time_interval_recording=None):
         """Create the vector for all the section present in the model 
         with the given variable
         :param var: The variable to record"""
@@ -158,13 +167,14 @@ class Manager(object):
         done = False
         responses = []
         for sec in h.allsec():
-            response = self.add_vecRef(var, sec)
+            if time_interval_recording == None:
+                response = self.add_vecRef(var, sec)
+            else: 
+                response = self.add_vecRef(var, sec, time_interval_recording)
             responses.append(response)
-        # If all the responses are False it means we already
-        # created all the vecs and we are done    
-        if any(responses) == False: #all False we're done
-            done = True
-        return done
+        if all(responses) != True:
+            print "Warning: Some vectors could not be added."
+            
     
     def get_tree(self, sec):
         """Return the minimal tree of section 
