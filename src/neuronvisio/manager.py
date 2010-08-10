@@ -69,7 +69,11 @@ class Manager(object):
                         else: # Adding a variable to an existing vecRef
                             vec = h.Vector()
                             varRef = '_ref_' + var
-                            vec.record(getattr(sec(0.5), varRef))
+                            if time_interval_recording is None:
+                                vec.record(getattr(sec(0.5), varRef))
+                            else:
+                                vec.record(getattr(sec(0.5), varRef), 
+                                time_interval_recording)
                             vecRef.vecs[var] = vec
                             alreadyPresent = True
                             success = True
