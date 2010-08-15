@@ -221,7 +221,11 @@ class Controls():
         items = self.ui.treeWidget.selectedItems()
         
         x = None
-        vecs_to_plot = {}
+        
+        # Plot legend if required
+        legend_status = self.ui.legend.isChecked() #return True if toggled.
+        # Retrieve the fig num
+        fig_num = self.ui.fig_num_spinBox.value()
         
         for item in items:
             if item.childCount() == 0: # Leaf, so it is the variable to plot
@@ -234,14 +238,8 @@ class Controls():
                 groupName = str(sectionItem.parent().text(0))
                 x = self.manager.groups[groupName]
                 key = sectionName + "_" + var
-                
-                vecs_to_plot[key] = item.vec
-                
-        # Plot legend if required
-        legend_status = self.ui.legend.isChecked() #return True if toggled.
-        # Retrieve the fig num
-        fig_num = self.ui.fig_num_spinBox.value()
-        self.manager.plotVecs(vecs_to_plot, x=x, legend=legend_status, 
+                vecs_to_plot = { key : item.vec}
+                self.manager.plotVecs(vecs_to_plot, x=x, legend=legend_status, 
                               figure_num=fig_num)
     
     def create_vector(self):
