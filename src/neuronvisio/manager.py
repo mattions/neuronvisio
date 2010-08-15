@@ -117,8 +117,7 @@ class Manager(object):
         
         `generic_ref` -- the ref to add to the manager.ref list
         `x` -- indipendent varialbe use to plot the variable from the genericref"""
-        name = generic_ref.__class__.__name__
-        generic_ref.group_id = name
+        name = generic_ref.group_id
         if self.refs.has_key(name):
             self.refs[name].append(generic_ref)
         else:
@@ -323,7 +322,7 @@ class Manager(object):
         
         target_group = ''
         for baseRef in baseRefs:
-            baseRefName = baseRef.__class__.__name__
+            baseRefName = baseRef.group_id
             found = False
             
             for group in h5f_holder.walkGroups('/'):
@@ -462,7 +461,7 @@ class BaseRef(object):
         self.sec_name = ''
         self.detail = ''
         self.vecs = {}
-        self.group_id = ''
+        self.group_id = self.__class__.__name__
     
     def __str__(self):
         s = "section: %s, detail: %s, vars recorded: %s" %(self.sec_name, 
