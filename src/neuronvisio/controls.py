@@ -224,6 +224,8 @@ class Controls():
         
         # Plot legend if required
         legend_status = self.ui.legend.isChecked() #return True if toggled.
+        
+        points_status = self.ui.points.isChecked()
         # Retrieve the fig num
         fig_num = self.ui.fig_num_spinBox.value()
         
@@ -240,7 +242,7 @@ class Controls():
                 key = sectionName + "_" + var
                 vecs_to_plot = { key : item.vec}
                 self.manager.plotVecs(vecs_to_plot, x=x, legend=legend_status, 
-                              figure_num=fig_num)
+                              figure_num=fig_num, points=points_status)
     
     def create_vector(self):
         

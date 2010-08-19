@@ -214,7 +214,7 @@ class Manager(object):
 
 
             
-    def plotVecs(self, vecs_dic, x=None, legend=True, figure_num=None):
+    def plotVecs(self, vecs_dic, x=None, legend=True, figure_num=None, points=False):
         """Plot the vectors with plt
         
         :param vecs_dic: dictionary with section name as k and the vec obj as value
@@ -231,15 +231,27 @@ class Manager(object):
         ax  = plt.subplot(111) # One subplot where to draw everything
          
         for key, vec in vecs_dic.iteritems():
-            if x is None:
-                plt.plot(self.groups['t'], vec, label=key)
-            elif len(x) != len(vec):
-                plt.plot(vec, label=key)
-                print "x and y mismatched. Is the %s wrapped in the right baseref? Plotted vs it's it own length anyway." %key
+            if points:
+                if x is None:
+                    plt.plot(self.groups['t'], vec, 'bo', label=key)
+                elif len(x) != len(vec):
+                    plt.plot(vec, 'bo', label=key)
+                    print "x and y mismatched. Is the %s wrapped in the right baseref?\ Plotted vs it's it own length anyway." %key
+                else:
+                    plt.plot(x, vec, 'bo', label=key)
             else:
-                plt.plot(x, vec, label=key)
-            if legend:
-                plt.legend(loc=0)
+                if x is None:
+                    plt.plot(self.groups['t'], vec, label=key)
+                elif len(x) != len(vec):
+                    plt.plot(vec, label=key)
+                    s = "x and y mismatched. Is the %s wrapped in the right baseref?\
+                     Plotted vs it's it own length anyway." %key
+                    print s 
+                else:
+                    plt.plot(x, vec, label=key)
+                
+                if legend:
+                    plt.legend(loc=0)
 
     def create_new_dir(self, prefix="./", root="Sims"):
         """
