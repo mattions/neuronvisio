@@ -233,12 +233,12 @@ class Manager(object):
         for key, vec in vecs_dic.iteritems():
             if points:
                 if x is None:
-                    plt.plot(self.groups['t'], vec, 'bo', label=key)
+                    plt.plot(self.groups['t'], vec, 'o', label=key)
                 elif len(x) != len(vec):
-                    plt.plot(vec, 'bo', label=key)
+                    plt.plot(vec, 'o', label=key)
                     print "x and y mismatched. Is the %s wrapped in the right baseref?\ Plotted vs it's it own length anyway." %key
                 else:
-                    plt.plot(x, vec, 'bo', label=key)
+                    plt.plot(x, vec, 'o', label=key)
             else:
                 if x is None:
                     plt.plot(self.groups['t'], vec, label=key)
@@ -250,8 +250,8 @@ class Manager(object):
                 else:
                     plt.plot(x, vec, label=key)
                 
-                if legend:
-                    plt.legend(loc=0)
+            if legend:
+                plt.legend(loc=0)
 
     def create_new_dir(self, prefix="./", root="Sims"):
         """
