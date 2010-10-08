@@ -173,7 +173,7 @@ class Controls():
     def init(self):
         """Set the vm_init from the spin button and prepare the simulator"""
         
-        if len(self.manager.refs['VecRef']) == 0:
+        if not self.manager.refs.has_key('VecRef') :
             print "No vector Created. Create at least one vector to run the simulation"
             return False
         else:
