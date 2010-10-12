@@ -60,7 +60,10 @@ or you can just start neuronvisio and use the Load button::
 Saving your variables in storage.h5 and use Neuronvisio to plot them 
 ====================================================================
 
-To be able to save your own variable you need to subclass the BaseRef and then add the to the manager.
+The `BaseRef` can be used to store computational results which are not in NEURON
+vectors format. Every BaseRef object is cointaned in a group, which is specified 
+by the `group_id` attribute. The group_id is than used by Neuronvisio to pair the
+saved vectors with the time vectors which is required to plot.
 
 To subclass the BaseRef just create a class::
 
@@ -71,6 +74,7 @@ To subclass the BaseRef just create a class::
         def __init__(self, sec_name=None, vecs=None, detail=None):
             
             BaseRef.__init__(self)
+            self.group_id = 'MyGroup'
             self.sec_name = sec_name
             self.vecs = vecs
             self.detail = detail
@@ -82,16 +86,20 @@ Then you can create it::
                   vecs=vecs,
                   detail=detail)
         
-sec_name should be the name of the section, vecs is a dictionary with the variable name as key and a 
-python_list as value. A numpy array or an HocVector is also accepted.
+`sec_name` should be the name of the section where the variable is been recorded, 
+vecs is a dictionary with the variable name as key and the python_list with the 
+computed value. A numpy array or an HocVector is also accepted.
 
-After that you can add to the manager using the `manager.add_ref` which takes two arg:
+After that you can add to the manager using the `manager.add_ref` which takes two 
+arguments:
 
     - the myRef object
     - the x variable.
     
-The x variable is the independent one which will be used to plot the from the Neuronvisio graphical interface. If you don't have
-a time to supply, but you want to use the one from NEURON directly, you can use the `manager.groups['t']` which will return an array::
+The x variable is the independent one, usually the time, which will be used to plot the from the 
+Neuronvisio graphical interface. If don't need to supply your own time vector, because is the 
+same of the main NEURON one, you can use the `manager.groups['t']` which will return the 
+NEURON time array::
  
     manager.add_ref(timeseriesRef, x)
 
@@ -112,7 +120,7 @@ All together is::
               detail=detail)
     manager.add_ref(myRef, x)
                   
-Then you just need to save the file normally::
+Then you just need to save the file where is more convenient for you::
     
     filename = 'storage.h5'
     # Saving the vectors
