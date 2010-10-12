@@ -22,15 +22,11 @@ from neuron import h
 
 
 # topology
-h('create soma')
-h('create apical')
-h('create basilar')
-h('create axon')
 
-soma = h.soma
-apical = h.apical
-basilar = h.basilar
-axon = h.axon
+soma = h.Section(name='soma')
+apical = h.Section(name='apical')
+basilar = h.Section(name='basilar')
+axon = h.Section(name='axon')
 
 apical.connect(soma, 1, 0)
 basilar.connect(soma , 0, 0)

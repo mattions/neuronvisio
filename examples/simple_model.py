@@ -7,13 +7,10 @@ controls = Controls()
 from neuron import h
 
 # simple model
-h('create soma')
-h('create dend1')
-h('create dend2')
 
-soma = h.soma
-dend1 = h.dend1
-dend2 = h.dend2
+soma = h.Section(name='soma')
+dend1 = h.Section(name='dend1')
+dend2 = h.Section(name='dend2')
 
 soma.diam = 10
 dend1.diam = 3
