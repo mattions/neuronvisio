@@ -51,10 +51,11 @@ class Manager(object):
         
         :param var: The variable to record
         :param sec: The section where to record
-        :param resolution: If None, use the dt of Neuron. Specify which interval 
-        to use to record the vectors. Note the same resolution shoul apply to the 
-        time vectors.
-        :return: True if the vector is created successfully."""
+        :param time_interval_recording: If None, use the dt of Neuron. \
+        Specify which interval to use to record the vectors. \
+        Note the same resolution should apply to the time vectors.
+        :return: True if the vector is created successfully.
+        """
             
         success = False
         if hasattr(sec, var):
