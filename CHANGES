@@ -1,10 +1,10 @@
-0.5.0+ - Dev
-============
+0.5.1 - 23 Nov 2010
+===================
 
-- Fixed the picking of the cylinder. Possibile to select a cylinder 
+- Fixed the picking of the cylinder. Possible to select a cylinder 
   clicking anywhere.
 - Possibility to plot points instead of a lines
-- BaseREf class are discriminated throught the group id and not any more on
+- BaseREf class are discriminated through the group id and not any more on
   class base.
 
 
