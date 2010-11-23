@@ -61,7 +61,7 @@ Saving your variables in storage.h5 and use Neuronvisio to plot them
 ====================================================================
 
 The `BaseRef` can be used to store computational results which are not in NEURON
-vectors format. Every BaseRef object is cointaned in a group, which is specified 
+vectors format. Every BaseRef object is contained in a group, which is specified 
 by the `group_id` attribute. The group_id is than used by Neuronvisio to pair the
 saved vectors with the time vectors which is required to plot.
 
