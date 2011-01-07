@@ -27,8 +27,10 @@ __version__ = '0.5.1'
 import os
 # this add the commit of to the software version when run from a git repo
 try:
+    print ("Saving git commit")
     import git
-    root = os.path.dirname(__path__[0]) # Getting the root of the module
+    src_root = os.path.dirname(__path__[0]) # Getting the root of the module
+    root = src_root + "/../../" # Going back where the actual .git is
     if git.repo.is_git_dir(os.path.join(root, ".git")):
         r = git.Repo(root)
         git_commit = r.head.commit.sha
@@ -36,4 +38,3 @@ try:
     raise ImportError
 except ImportError:
     pass
-
