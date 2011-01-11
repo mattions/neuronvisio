@@ -30,9 +30,9 @@ try:
     import git
     src_root = os.path.dirname(__path__[0]) # Getting the root of the module
     root = os.path.join(src_root, '../')
-    if git.repo.is_git_dir(os.path.join(root, ".git")):
+    if git.repo.fun.is_git_dir(os.path.join(root, ".git")):
         r = git.Repo(root)
-        git_commit = r.head.commit.sha
+        git_commit = r.head.commit.hexsha
         __version__ = __version__ + ' : ' + git_commit
     raise ImportError
 except ImportError:
