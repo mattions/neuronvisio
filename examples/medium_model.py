@@ -14,8 +14,10 @@ from itertools import chain
 
 # Importing NeuronVisio
 # Importing the NeuronVisio
-from neuronvisio.controls import Controls
-controls = Controls()
+#from neuronvisio.controls import Controls
+#controls = Controls()
+
+
 
 # Importing the hoc interpreter
 from neuron import h
@@ -80,10 +82,17 @@ syn.e = 0
 
 # Automatic run for testing.
 
+from neuronvisio.manager import Manager
+manager = Manager()
+manager.add_all_vecRef('v') # Adding vector for the variable v
+
 h.tstop = 5.00
 filename = 'test_result.h5'
 while h.t < h.tstop:
     h.fadvance()
 
+# file where to save the results
+filename = 'storage.h5'
+# Saving the vectors
+manager.save_to_hdf(filename)
 
-controls.manager.save_to_hdf(filename)
