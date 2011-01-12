@@ -86,7 +86,7 @@ from neuronvisio.manager import Manager
 manager = Manager()
 manager.add_all_vecRef('v') # Adding vector for the variable v
 
-h.tstop = 5.00
+h.tstop = 500.0
 
 h.finitialize()
 while h.t < h.tstop:
