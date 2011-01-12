@@ -353,7 +353,7 @@ class Manager(object):
                 key = target_group._v_name
                 x_array = None
                 if hasattr(self.groups[key], 'to_python'):    
-                    x_array = self.groups[key].to_python()
+                    x_array = np.array(self.groups[key])
                 else: 
                     x_array = self.groups[key]
                 h5f_holder.createArray(target_group, 'x', x_array)
