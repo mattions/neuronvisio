@@ -77,3 +77,13 @@ syn = h.AlphaSynapse(0.5, sec=soma)
 syn.onset = 0.5
 syn.gmax = 0.05
 syn.e = 0
+
+# Automatic run for testing.
+
+h.tstop = 5.00
+filename = 'test_result.h5'
+while h.t < h.tstop:
+    h.fadvance()
+
+
+controls.manager.save_to_hdf(filename)
