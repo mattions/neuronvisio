@@ -87,7 +87,8 @@ manager = Manager()
 manager.add_all_vecRef('v') # Adding vector for the variable v
 
 h.tstop = 5.00
-filename = 'test_result.h5'
+
+h.finitialize()
 while h.t < h.tstop:
     h.fadvance()
 
