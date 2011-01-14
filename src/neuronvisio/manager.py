@@ -353,7 +353,7 @@ class Manager(object):
                 key = target_group._v_name
                 x_array = None
                 if hasattr(self.groups[key], 'to_python'):    
-                    x_array = list(self.groups[key])
+                    x_array = np.array(self.groups[key])
                 else: 
                     x_array = self.groups[key]
                     
@@ -367,7 +367,7 @@ class Manager(object):
                            baseRef.vecs, detail=detail)
     
     def save_node(self, h5file_holder, group_path, section_name, variables, 
-                  detail=''):
+                  detail='', tmp_array=None):
         """Save a node to the h5file.
         h5file_holder: The holder of the h5file
         group_path: Where in the hierarchy the leaf has to be saved
@@ -388,7 +388,7 @@ class Manager(object):
         for var, vec in variables.iteritems():
             if len (vec) != 0 :
                 if hasattr(vec, 'to_python'): 
-                    vec = vec.to_python()
+                    vec = np.array(vec)
                 h5file_holder.createArray(target_group, var, 
                                           vec,
                                           title=detail)
