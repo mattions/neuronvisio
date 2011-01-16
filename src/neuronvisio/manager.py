@@ -388,7 +388,10 @@ class Manager(object):
         for var, vec in variables.iteritems():
             if len (vec) != 0 :
                 if hasattr(vec, 'to_python'): # Vector to numpy Array
-                    vec = vec.to_python(tmp_array) # Swap in place
+                    if len(tmp_array) == len(vec):
+                        vec = vec.to_python(tmp_array) # Swap in place
+                    else:
+                        vec =  vec.to_python() # Creating a list
                 h5file_holder.createArray(target_group, var, 
                                           vec,
                                           title=detail)
