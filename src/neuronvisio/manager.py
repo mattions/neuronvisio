@@ -125,17 +125,20 @@ class Manager(object):
             self.refs[name] = [generic_ref]
             self.groups[name] = x
             
-    def get_vector(self, sec, var):
+    def get_vector(self, sec, var, group='VecRef'):
         """Return the vec that record the var in a given section
         
-        :param sec: Section of interest
+        :param sec: Section of interest or the name of the section
         :param var: variable recorded by the vector.
         :return: the vector that record the variable var"""
         
-        for vecRef in self.refs['VecRef']:
-            if vecRef.sec_name == sec.name():
-                if vecRef.vecs.has_key(var):
-                   return vecRef.vecs[var]
+        name = sec
+        if hasattr(sec, 'name'):
+            name = sec.name()
+        for ref in self.refs[group]:
+                if ref.sec_name == name:
+                    if ref.vecs.has_key(var):
+                       return ref.vecs[var]
     
     def sum_vector(self, vec1, vec2):
         """Sums two vectors with the same length. The vector are 
