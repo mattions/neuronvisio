@@ -26,7 +26,7 @@ Offline Documentation
 ---------------------
 
 To create offline documentation similar to the one online you will need 
-`sphinx http://sphinx.pocoo.org/` installed.
+sphinx http://sphinx.pocoo.org/ installed.
 
 Move in the doc directory::
     
