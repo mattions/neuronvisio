@@ -1,8 +1,10 @@
-0.5.1+ -- Development
+0.5.2 -- 26 Jan 2011
 =====================
 
 - Updated the version recall to GitPython 0.3.1 (used only if present!)
 - HocVector into NumpyArray for saving with swap in place, to reduce overhead
+- Restructured the package for an easier installation
+- Added the possibility to build documentation offline
 
 
 0.5.1 - 23 Nov 2010
