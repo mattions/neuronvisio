@@ -25,16 +25,14 @@ sys.path.append(os.path.dirname(__file__))
 from PyQt4 import QtGui, QtCore, uic
 from PyQt4.QtCore import Qt
 
-import matplotlib
-if matplotlib.backends.backend is None: 
-    matplotlib.use('Qt4Agg')
-elif matplotlib.backends.backend != 'Qt4Agg':
+import matplotlib as mpl
+if mpl.backends.backend is None: 
+    mpl.use('Qt4Agg')
+elif mpl.backends.backend != 'Qt4Agg':
     print "You must use the Qt4 backend to be able to use  Neuronvisio."
     print "Check your backend in ~/.matplotlib/matplotlibrc and set it to Qt4Agg"
-     
 
-    
-matplotlib.interactive(True)
+mpl.interactive(True)
 
 from neuron import h
 h.load_file("stdrun.hoc")

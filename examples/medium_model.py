@@ -12,19 +12,14 @@ DOI 10.3389/neuro.11/001.2009
 
 from itertools import chain
 
-# Importing NeuronVisio
-# Importing the NeuronVisio
-#from neuronvisio.controls import Controls
-#controls = Controls()
-
-
+# Importing Neuronvisio
+from neuronvisio.controls import Controls
+controls = Controls()
 
 # Importing the hoc interpreter
 from neuron import h
 
-
 # topology
-
 soma = h.Section(name='soma')
 apical = h.Section(name='apical')
 basilar = h.Section(name='basilar')
@@ -34,8 +29,7 @@ apical.connect(soma, 1, 0)
 basilar.connect(soma , 0, 0)
 axon.connect(soma, 0, 0)
 
-# geometry
-                
+# geometry      
 soma.L = 30    
 soma.nseg = 1 
 soma.diam = 30
@@ -54,7 +48,6 @@ axon.nseg = 37
 axon.diam = 1                        
                                      
 # biophysics
-
 for sec in h.allsec(): 
      sec.Ra = 100      
      sec.cm = 1         
@@ -79,21 +72,3 @@ syn = h.AlphaSynapse(0.5, sec=soma)
 syn.onset = 0.5
 syn.gmax = 0.05
 syn.e = 0
-
-# Automatic run for testing.
-
-from neuronvisio.manager import Manager
-manager = Manager()
-manager.add_all_vecRef('v') # Adding vector for the variable v
-
-h.tstop = 500.0
-
-h.finitialize()
-while h.t < h.tstop:
-    h.fadvance()
-
-# file where to save the results
-filename = 'storage.h5'
-# Saving the vectors
-manager.save_to_hdf(filename)
-

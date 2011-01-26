@@ -1,3 +1,10 @@
+0.5.1+ -- Development
+=====================
+
+- Updated the version recall to GitPython 0.3.1 (used only if present!)
+- HocVector into NumpyArray for saving with swap in place, to reduce overhead
+
+
 0.5.1 - 23 Nov 2010
 ===================
 
