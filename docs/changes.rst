@@ -2,4 +2,4 @@
 Changes in Neuronvisio
 **********************
 
-.. include:: ../CHANGES
+.. include:: ../CHANGES.rst
