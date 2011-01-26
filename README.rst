@@ -21,3 +21,21 @@ coded scale
 
 
 More info are available on the homepage: http://mattions.github.com/neuronvisio/
+
+Offline Documentation
+---------------------
+
+To create offline documentation similar to the one online you will need 
+`sphinx http://sphinx.pocoo.org/` installed.
+
+Move in the doc directory::
+    
+    cd doc
+    
+and then launch::
+
+    sphinx-build . html
+
+In the html directory you will have the online doc. 
+
+

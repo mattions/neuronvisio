@@ -47,7 +47,9 @@ setup(
     version=version,
     description='NeuronVisio is a Graphical User Interface for NEURON simulator enviroment',
     long_description=open('README.rst', 'r').read(),
-    package_dir={'neuronvisio': 'src'},
+    packages = ['neuronvisio'],
+    package_dir={'neuronvisio': 'src/neuronvisio'},
+    package_data=paver.setuputils.find_package_data(package="neuronvisio"),
     scripts= ['src/nrnvisio'],
     classifiers=classifiers,
     keywords='neuron, gui, pylab, 3D, visualization',
@@ -55,7 +57,6 @@ setup(
     author_email='mattioni@ebi.ac.uk',
     url='http://mattions.github.com/neuronvisio/',
     license='GPLv3',
-    packages = find_packages(exclude=['bootstrap', 'pavement',]),
     include_package_data=True,
     zip_safe=False,
     install_requires=install_requires,
@@ -89,8 +90,8 @@ options(
         ),
     )
 
-options.setup.package_data=paver.setuputils.find_package_data(
-    'src', package='neuronvisio', only_in_packages=False)
+#options.setup.package_data=paver.setuputils.find_package_data(
+#    'src', package='neuronvisio', only_in_packages=False)
 
 if ALL_TASKS_LOADED:
     @task
