@@ -47,9 +47,11 @@ class Controls():
     """Main class Neuronvisio"""
     def __init__(self):
         app = QtGui.QApplication.instance()
+        self.ui_dir = 'ui'
         # Loading the UI
-        self.ui = uic.loadUi(os.path.join(os.path.dirname(__file__),
-                                                "neuronvisio.ui"))
+        self.ui = uic.loadUi(os.path.join(os.path.dirname(__file__), 
+                                          self.ui_dir,
+                                          "neuronvisio.ui"))
         
         # Connecting
         self.ui.Plot3D.connect(self.ui.Plot3D, 
@@ -82,7 +84,8 @@ class Controls():
                                       QtCore.SIGNAL('clicked()'),
                                       self.animation)
         self.a_ui = uic.loadUi(os.path.join(os.path.dirname(__file__),
-                                                "animation.ui"))
+                                            self.ui_dir,
+                                            "animation.ui"))
         self.a_ui.view.connect(self.a_ui.view, QtCore.SIGNAL('changed()'),
                                self.draw_gradient)
         self.a_ui.starting_color_btn.connect(self.a_ui.starting_color_btn,
@@ -386,7 +389,8 @@ class Controls():
     def about(self):
         
         self.aboutUi = uic.loadUi(os.path.join(os.path.dirname(__file__),
-                                                "qtAbout.ui"))
+                                               self.ui_dir,
+                                               "qtAbout.ui"))
         import neuronvisio
         name = '<font size=24><b>Neuronvisio %s<b><font>' %neuronvisio.__version__
         authors = '%s' %neuronvisio.__authors__
