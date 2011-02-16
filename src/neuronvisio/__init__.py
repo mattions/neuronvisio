@@ -21,7 +21,7 @@
 #"""
 
 __authors__ = 'Michele Mattioni <mattioni@ebi.ac.uk>'
-__version__ = '0.5.2'
+__version__ = '0.5.2+dev'
 
 
 import os
