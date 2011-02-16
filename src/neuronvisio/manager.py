@@ -204,6 +204,7 @@ class Manager(object):
             parentSec = parentSeg.sec
             tree.append(parentSec)
             tree = self.__get_parent(parentSec, tree)
+        h.pop_section()
         return tree
     
     def add_synVecRef(self, synapse):
@@ -471,7 +472,28 @@ class Manager(object):
                         genericRef.vecs = vecs
                         genericRef.detail = node._v_title
 
-
+    def get_distance_dic(self, sections, base_sec):
+        """Return a dictionary with section names as keys and 
+        distance from base_sec to specified point as value in microns
+        
+        param:
+         secs: list of section which distance need to be calculated
+         base_sec: section from where the distance should be measured from."""
+         
+        distance_sec = {}
+        for sec in sections:
+            tree = self.get_tree(sec)
+            distance = self._get_distance_in_tree(tree)
+            distance -= base_sec.L
+            distance_sec[sec.name()] = distance
+        return distance_sec
+    
+    def _get_distance_in_tree(self, tree):
+        """Calculate the distance in the tree adding the length of all the sections """
+        dist = 0
+        for sec in tree:
+            dist += sec.L
+        return dist
             
 class BaseRef(object):
     """Base Ref class. Subclass it to create your own ref."""
