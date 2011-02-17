@@ -472,7 +472,7 @@ class Manager(object):
                         genericRef.vecs = vecs
                         genericRef.detail = node._v_title
 
-    def get_distance_dic(self, sections, base_sec):
+    def get_distance(self, sections, base_sec):
         """Return a dictionary with section names as keys and 
         distance from base_sec to specified point as value in microns
         
@@ -494,6 +494,55 @@ class Manager(object):
         for sec in tree:
             dist += sec.L
         return dist
+    
+    def create_3d_grid(self, distance_dic, time, variable_dic):
+        """Create the 3 grid (X,Y,Z) uses to plot wireframe or surface 3D 
+        
+        :param: distance_dic - dictionary with sections' names as key and 
+        distance as a value
+        :param: time - Time array
+        :param: variable_dic - dictionary with sections' names as key and 
+        array as value
+        
+        :rtype: tuple (X,Y,Z) numpy array"""
+        # create a grid
+        X_time, Y_distance = np.meshgrid(time, distance_dic.values())
+        Z_variable = X_time*0
+        xn, yn = X_time.shape 
+        sec_names = distance_dic.keys()
+        # xk iter on distance
+        for xk in range(xn):
+            # yk on time. It's the reverse of the grid.
+            for yk in range(yn):
+                var_array = variable_dic[sec_names[xk]]
+                Z_variable[xk, yk] =  var_array[yk]
+                
+        return (X_time, Y_distance, Z_variable)
+    
+    def plot3D(self, sections, base_sec, var):
+        """Wrap up module to plot in three Dimensions the voltage the distance and the time 
+        :param: sections - list of section to consider
+        :param: base_sec - section used as a starting pooint for the distance
+        :param: var - variable to plot """
+        
+        # I know it's not suggested to import here, but this is pretty new 
+        # module for matplotlib and this method is 
+        # hardely executed.
+        
+        from mpl_toolkits.mplot3d import Axes3D
+        from matplotlib import cm
+        
+        dist = self.get_distance(sections, base_sec)
+        vecs = self.get_vectors(section_list, var)
+        X, Y, Z = self.create_3d_grid(dist, self.groups['t'], vecs)
+        fig = plt.figure()
+        ax = fig.gca(projection='3d')
+        surf = ax.plot_surface(X, Y, Z,  rstride=10, cstride=10, cmap=cm.jet,
+                               linewidth=0, antialiased=False)
+        fig.colorbar(surf, shrink=0.5, aspect=5)
+        plt.show()
+
+
             
 class BaseRef(object):
     """Base Ref class. Subclass it to create your own ref."""
