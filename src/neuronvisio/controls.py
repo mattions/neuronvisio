@@ -107,7 +107,9 @@ class Controls():
         
         ### Connection with the console
         widgetDic = {'dt' : self.ui.dtSpinBox, 'tstop' : self.ui.tstopSpinBox,
-                      'v_init' : self.ui.vSpinBox, 'time_label' : self.ui.time_label}
+                      'v_init' : self.ui.vSpinBox, 
+                      'time_label' : self.ui.time_label,
+                      'animation_btn': self.ui.animation_btn}
         self.timeLoop = Timeloop(widgetDic)
         self.timeLoop.start()
         
@@ -424,6 +426,8 @@ class Timeloop(QtCore.QThread):
                 self.widgetDic['tstop'].setValue(h.tstop)
             if h.v_init != self.widgetDic['v_init'].value():
                 self.widgetDic['v_init'].setValue(h.v_init)
+            if h.t != 0:
+                self.widgetDic['animation_btn'].setEnabled(True)
 #            if h.t != float (self.widgetDic['time_label'].text()):
 #                self.widgetDic['time_label'].setText(str(h.t))
             

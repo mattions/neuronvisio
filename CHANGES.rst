@@ -1,7 +1,9 @@
 0.5.2+ -- Development
 =====================
 
-
+- Added the function to plot a 3D plot to the manager (manager.plot3D)
+- Animation can will be enbled if any simulation is ran, either from the gui 
+or the code.
 
 0.5.2 -- 26 Jan 2011
 =====================
