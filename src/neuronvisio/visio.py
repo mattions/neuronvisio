@@ -136,7 +136,9 @@ class Visio(object):
         # Needed to update the value of a cyl bound to a section
         self.sec2cyl = {}
         
-                
+
+        self.default_cyl_color = default_cyl_color
+        self.selected_cyl_color = selected_cyl_color                
         self.selected_cyl = None # Used for storing the cyl when picked
         self.sec_info_label = sec_info_label # Info for the selected sec
         
@@ -162,33 +164,29 @@ class Visio(object):
         figure = self.mayavi.visualization.scene.mlab.gcf()
         self.outline = None
         self.picker = figure.on_mouse_pick(self.picker_callback, type='cell')
-
-    def select_cylinder(self, cyl):
-        
-        y0 = cyl.center[1] - cyl.height/2. - 0.1
-        x0 = cyl.center[0] - cyl.radius
-        z0 = cyl.center[2] - cyl.radius
-        y1 = cyl.center[1] + cyl.height/2. + 0.1
-        x1 = cyl.center[0] + cyl.radius
-        z1 = cyl.center[2] + cyl.radius
-        self.outline.bounds = (x0, x1, y0, y1, z0, z1)
-        self.outline.visible = True
     
 
     def picker_callback(self, picker):
         """ Picker callback: this get called when on pick events.
         """
-        if not self.outline: 
-            self.outline = mlab.outline(line_width=1, color=(1.0, 1.0, 1.0))
-            self.outline.outline_mode = 'cornered'
-        self.outline.visible = False
+        # Outline
+#        if not self.outline: 
+#            self.outline = mlab.outline(line_width=1, color=(1.0, 1.0, 1.0))
+#            self.outline.outline_mode = 'cornered'
+#        self.outline.visible = False
+        
+        # Deselect
+        if self.selected_cyl is not None: 
+            self.selected_cyl.actor.property.color = self.update_color(self.default_cyl_color)
+            self.selected_cyl = None
+            
         surfs = self.cyl2sec.keys() 
         for surf in surfs:
             tube = surf.parent.parent
             dataset = tube.outputs[0]
             points = dataset.points.to_array()
             x,y,z = points.T
-            x_b = [x.min(), xmax()]
+            x_b = [x.min(), x.max()]
             y_b = [y.min(), y.max()]
             z_b = [z.min(), z.max()]
             
@@ -196,9 +194,11 @@ class Visio(object):
                 if bisect_left(y_b, self.picker.pick_position[1]) == 1:
                     if bisect_left(z_b, self.picker.pick_position[2]) == 1:
                         self.selected_cyl = surf
-                        self.update_color(surf.actor.property, color)
+                        surf.actor.property.color = self.update_color(self.selected_cyl_color)
                         info = self.get_sec_info(self.cyl2sec[self.selected_cyl])
                         self.sec_info_label.setText(info)
+#                        self.outline.bounds = (x_b[0], x_b[1], y_b[0], y_b[1], z_b[0], z_b[1])
+#                        self.outline.visible = True
                         break
 
         
@@ -277,7 +277,8 @@ class Visio(object):
             tube = surf.parent.parent
             tube.filter.capping = True
             # Store the section. later.
-            #self.cyl2sec
+            self.cyl2sec[surf] = sec
+            self.sec2cyl[sec] = surf 
             #self.generate_section_points(sec)
     
         # Here the combined source
@@ -349,9 +350,9 @@ class Visio(object):
 #            self.sec2cyl[sec.name()] = cylinder #Name for Hoc compability
 #            self.cyl2sec[cylinder] = sec
     
-    def update_color(self, cyl, color):
+    def update_color(self, color):
         
-        cyl.color = (color.red()/255., color.green()/255., color.blue()/255.)
+        return (color.red()/255., color.green()/255., color.blue()/255.)
     
     def update_selected_sec(self, color):
         """Update the color of the select section"""
