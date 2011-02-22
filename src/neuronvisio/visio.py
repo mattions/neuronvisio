@@ -266,44 +266,48 @@ class Visio(object):
         # Disable the render. Faster drawing.
         self.mayavi.visualization.scene.disable_render = True
         
-
         
-        for sec in h.allsec():
-            x,y,z = self.retrieve_coordinate(sec)
+        # Build dictonary
+#        for i,sec in enumerate(h.allsec()):
+#            self.sec2id[sec.name] =  i
+
+        x,y,z,d = [], [], [], []
+        connections = []
+        for i, sec in enumerate(h.allsec()):
+            x_sec, y_sec, z_sec, d_sec = self.retrieve_coordinate(sec)
             print "plotting sec: %s. len x: %s, len y: %s, len z: %s" % (sec.name(), len(x), len(y), len(z))
             
+            x.extend(x_sec)
+            y.extend(y_sec)
+            z.extend(z_sec)
+            d.extend(d_sec)
             
-            surf = mlab.plot3d(x,y,z, tube_radius=sec.diam/2.)
+#            sec.push()
+#            secRef = h.SectionRef()
+#            if secRef.has_parent():
+#                parent_seg = secRef.parent()
+#                parent_sec = parent_seg.sec
+#                connections.append(self.sec2id[sec.name()], self.sec2id['parent_sec.name()']) 
+            
+            
+            surf = mlab.plot3d(x_sec,y_sec,z_sec, tube_radius=d_sec[0]/2.)
             tube = surf.parent.parent
             tube.filter.capping = True
+                
             # Store the section. later.
-            self.cyl2sec[surf] = sec
+            sec_coords = (x_sec.min(), x_sec.max(), y_sec.min(), y_sec.max(), z_sec.min(), z_sec.max())
+            self.cyl2sec[surf] = sec 
             self.sec2cyl[sec] = surf 
             #self.generate_section_points(sec)
-    
-        # Here the combined source
-#        cylinders = self.cyl2sec.keys()
-#        combined_source = tvtk.AppendPolyData(input=cylinders[0].output)
-#        for cylinder in cylinders:
-#            combined_source.add_input(cylinder.output)
-#        combination = combined_source.output 
-#        self.combination = combination # 
-#        
-#        self.draw_surface()
-        # ReEnable the rendering
-        self.mayavi.visualization.scene.disable_render = False
-    
-    
-    def draw_surface(self, scalar_array=None, points_for_cyl=24):
-        
-        if scalar_array:
-            surf = mlab.pipeline.surface(self.combination, vmin=scalar.min(),
-                                         vmax=scalar.max())
-            self.combination.point_data.scalars = np.repeat(voltage, points_for_cyl) # 24 points per cylinder
-        else:
-            surf = mlab.pipeline.surface(self.combination)
             
 
+     
+#        surf = mlab.plot3d(x,y,z, scalar, tube_radius=sec.diam/2.)
+#        tube = surf.parent.parent
+#        tube.filter.capping = True
+#       self.draw_surface()
+        # ReEnable the rendering
+        self.mayavi.visualization.scene.disable_render = False
 
     
 #    def generate_section_points(self, sec):
@@ -445,13 +449,14 @@ class Visio(object):
         """Retrieve the coordinates of the section avoiding duplicates"""
         coords = {}
         sec.push()
-        x, y, z = [],[],[]
+        x, y, z, d = [],[],[],[]
 
         for i in range(int(h.n3d())):
             present = False
             x_i = h.x3d(i)
             y_i = h.y3d(i)
             z_i = h.z3d(i)
+            d_i = h.diam3d(i)
             # Avoiding duplicates
             if x_i in x:
                 ind = len(x) - 1 - x[::-1].index(x_i) # Getting the index of last value
@@ -463,11 +468,12 @@ class Visio(object):
                 x.append(x_i)
                 y.append(y_i)
                 z.append(z_i)
+                d.append(d_i)
 #            else:
 #                print "sec: %s skiping index: %s" %(sec.name(), i)
         h.pop_section()
         
-        return (x,y,z)
+        return (np.array(x),np.array(y),np.array(z),np.array(d))
         
     def _rgb(self, qcolor):
         return (qcolor.red(), qcolor.green(), qcolor.blue())
