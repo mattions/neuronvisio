@@ -32,7 +32,12 @@ from enthought.traits.ui.api import View, Item
 from enthought.mayavi.core.ui.api import MayaviScene, MlabSceneModel, \
         SceneEditor
 
+import numpy as np
+from enthought.mayavi import mlab
+from enthought.tvtk.api import tvtk
 from enthought.tvtk.tools import visual
+
+from bisect import bisect_left
 
 from neuron import h
 
@@ -82,6 +87,42 @@ class MayaviQWidget(QtGui.QWidget):
         self.ui.setParent(self)
 
 
+class CylSelector(object):
+    def __init__(self):
+        self.outline = mlab.outline(line_width=1, color=(1.0, 1.0, 1.0))
+        self.outline.outline_mode = 'cornered'
+        self.outline.visible = False
+        self.picker = None 
+
+    def select_cylinder(self, cyl):
+        
+        y0 = cyl.center[1] - cyl.height/2. - 0.1
+        x0 = cyl.center[0] - cyl.radius
+        z0 = cyl.center[2] - cyl.radius
+        y1 = cyl.center[1] + cyl.height/2. + 0.1
+        x1 = cyl.center[0] + cyl.radius
+        z1 = cyl.center[2] + cyl.radius
+        self.outline.bounds = (x0, x1, y0, y1, z0, z1)
+        self.outline.visible = True
+    
+
+    def picker_callback(self, picker):
+        """ Picker callback: this get called when on pick events.
+        """
+        self.outline.visible = False
+        for cyl in cylinders:
+            x_b = [cyl.center[0] - cyl.radius, cyl.center[0] + cyl.radius]
+            z_b = [cyl.center[2] - cyl.radius, cyl.center[2] + cyl.radius]
+            y_b = [cyl.center[1] - cyl.height/2., cyl.center[1] + cyl.height/2.]
+            if bisect_left(x_b, self.picker.pick_position[0]) == 1:
+                if bisect_left(y_b, self.picker.pick_position[1]) == 1:
+                    if bisect_left(z_b, self.picker.pick_position[2]) == 1:
+                        self.select_cylinder(cyl)
+                        info = self.get_sec_info(self.cyl2sec[self.selected_cyl])
+                        self.sec_info_label.setText(info)
+                        break
+
+
 
 
 class Visio(object):
@@ -95,12 +136,8 @@ class Visio(object):
         # Needed to update the value of a cyl bound to a section
         self.sec2cyl = {}
         
-        
-        self.vecRefs = []
-        
+                
         self.selected_cyl = None # Used for storing the cyl when picked
-        self.default_cyl_color = default_cyl_color
-        self.selected_cyl_color = selected_cyl_color
         self.sec_info_label = sec_info_label # Info for the selected sec
         
         container = QtGui.QWidget()
@@ -111,7 +148,7 @@ class Visio(object):
         layout.addWidget(self.mayavi)
                 
         # Tell visual to use this as the viewer.
-        visual.set_viewer(self.mayavi.visualization.scene)
+        #visual.set_viewer(self.mayavi.visualization.scene)
         
         # binding to hide event.
         container.connect(container, QtCore.SIGNAL('closeEvent()'), 
@@ -122,30 +159,65 @@ class Visio(object):
         self.container = container
         
         # Connecting the picker.
-        fig = self.mayavi.visualization.scene.mlab.gcf()
-        fig.on_mouse_pick(self.picker_callback, type='cell')
+        figure = self.mayavi.visualization.scene.mlab.gcf()
+        self.outline = None
+        self.picker = figure.on_mouse_pick(self.picker_callback, type='cell')
+
+    def select_cylinder(self, cyl):
         
+        y0 = cyl.center[1] - cyl.height/2. - 0.1
+        x0 = cyl.center[0] - cyl.radius
+        z0 = cyl.center[2] - cyl.radius
+        y1 = cyl.center[1] + cyl.height/2. + 0.1
+        x1 = cyl.center[0] + cyl.radius
+        z1 = cyl.center[2] + cyl.radius
+        self.outline.bounds = (x0, x1, y0, y1, z0, z1)
+        self.outline.visible = True
+    
+
     def picker_callback(self, picker):
-        """ Picker callback: this get called when on pick events. 
+        """ Picker callback: this get called when on pick events.
         """
-        picked = picker.actor
+        if not self.outline: 
+            self.outline = mlab.outline(line_width=1, color=(1.0, 1.0, 1.0))
+            self.outline.outline_mode = 'cornered'
+        self.outline.visible = False
+        cylinders = self.cyl2sec.keys() 
+        for cyl in cylinders:
+            x_b = [cyl.center[0] - cyl.radius, cyl.center[0] + cyl.radius]
+            z_b = [cyl.center[2] - cyl.radius, cyl.center[2] + cyl.radius]
+            y_b = [cyl.center[1] - cyl.height/2., cyl.center[1] + cyl.height/2.]
+            if bisect_left(x_b, self.picker.pick_position[0]) == 1:
+                if bisect_left(y_b, self.picker.pick_position[1]) == 1:
+                    if bisect_left(z_b, self.picker.pick_position[2]) == 1:
+                        self.select_cylinder(cyl)
+                        self.selected_cyl = cyl
+                        info = self.get_sec_info(self.cyl2sec[self.selected_cyl])
+                        self.sec_info_label.setText(info)
+                        break
+
         
-        #deselect
-        if self.selected_cyl is not None:
-            self.update_color(self.selected_cyl, self.default_cyl_color)
-            self.selected_cyl = None
-            
-        for cyl in self.cyl2sec.keys():
-            if picked == cyl.actor:
-                sec = self.cyl2sec[cyl]
-                self.selected_cyl = cyl
-                self.update_color(cyl, self.selected_cyl_color)
-                break
-        if self.selected_cyl is not None:
-            info = self.get_sec_info(self.cyl2sec[self.selected_cyl])
-            self.sec_info_label.setText(info)
-        else:
-            self.sec_info_label.setText("No section is selected.")
+#    def picker_callback(self, picker):
+#        """ Picker callback: this get called when on pick events. 
+#        """
+#        picked = picker.actor
+#        
+#        #deselect
+#        if self.selected_cyl is not None:
+#            self.update_color(self.selected_cyl, self.default_cyl_color)
+#            self.selected_cyl = None
+#            
+#        for cyl in self.cyl2sec.keys():
+#            if picked == cyl.actor:
+#                sec = self.cyl2sec[cyl]
+#                self.selected_cyl = cyl
+#                self.update_color(cyl, self.selected_cyl_color)
+#                break
+#        if self.selected_cyl is not None:
+#            info = self.get_sec_info(self.cyl2sec[self.selected_cyl])
+#            self.sec_info_label.setText(info)
+#        else:
+#            self.sec_info_label.setText("No section is selected.")
         
         
     def get_sec_info(self, section):
@@ -186,49 +258,94 @@ class Visio(object):
         h.define_shape()
         num_sections = 0
 
-        
         # Disable the render. Faster drawing.
-         
         self.mayavi.visualization.scene.disable_render = True
-        for sec in h.allsec():
-            if self.selected_cyl is not None:
-                self.update_color(self.selected_cyl, self.selected_cyl_color)
-#                if sec.name() == selected_sec.name():
-#                    self.draw_section(sec, selected_color)
-            else:
-                self.draw_section(sec, self.default_cyl_color)
         
+
+        
+        for sec in h.allsec():
+            coords = self.retrieve_coordinate(sec)
+            x = []
+            y = [] 
+            z = []
+            x.append(coords['x0'])
+            x.append(coords['x1'])
+            y.append(coords['y0'])
+            y.append(coords['y1'])
+            z.append(coords['z0'])
+            z.append(coords['z1'])
+            mlab.plot3d(x,y,z, tube_radius=sec.diam/2.)
+            # Store the section. later.
+            #self.cyl2sec
+            #self.generate_section_points(sec)
+    
+        # Here the combined source
+#        cylinders = self.cyl2sec.keys()
+#        combined_source = tvtk.AppendPolyData(input=cylinders[0].output)
+#        for cylinder in cylinders:
+#            combined_source.add_input(cylinder.output)
+#        combination = combined_source.output 
+#        self.combination = combination # 
+#        
+#        self.draw_surface()
         # ReEnable the rendering
         self.mayavi.visualization.scene.disable_render = False
     
-    def draw_section(self, sec, color):
-        """Draw the section with the optional color 
-        and add it to the dictionary cyl2sec
+    def draw_surface(self, scalar_array=None, points_for_cyl=24):
         
-        :param sec: Section to draw
-        :param color: tuple for the color in RGB value. i.e.: (0,0,1) blue"""
-        
-        # If we already draw the model we don't have to get the coords anymore.
-        cyl = None     
-        # We need to retrieve only if it's not draw
-        
-
-        if sec.name() not in self.sec2cyl.keys():
-            
-            coords = self.retrieve_coordinate(sec)
-            x_ax = coords['x1'] -coords['x0']
-            y_ax = coords['y1'] -coords['y0']
-            z_ax = coords['z1'] -coords['z0']
-             
-            cyl = visual.Cylinder(pos=(coords['x0'],coords['y0'],coords['z0']), 
-                      axis=(x_ax,y_ax,z_ax), radius=sec.diam/2., length=sec.L)
-            
-            self.sec2cyl[sec.name()] = cyl #Name for Hoc compability
-            self.cyl2sec[cyl] = sec    
+        if scalar_array:
+            surf = mlab.pipeline.surface(self.combination, vmin=scalar.min(),
+                                         vmax=scalar.max())
+            self.combination.point_data.scalars = np.repeat(voltage, points_for_cyl) # 24 points per cylinder
         else:
-            cyl = self.sec2cyl[sec.name()]
+            surf = mlab.pipeline.surface(self.combination)
             
-        self.update_color(cyl, color)
+
+
+    
+#    def generate_section_points(self, sec):
+#        """Draw the section with the optional color 
+#        and add it to the dictionary cyl2sec
+#        
+#        :param sec: Section to draw
+#        :param color: tuple for the color in RGB value. i.e.: (0,0,1) blue"""
+#        
+#        # If we already draw the model we don't have to get the coords anymore.
+#        cyl = None     
+#        # We need to retrieve only if it's not draw
+#        
+#
+#        if sec.name() not in self.sec2cyl.keys():
+#            
+#            coords = self.retrieve_coordinate(sec)
+#            x = (coords['x1'] -coords['x0'])/2.
+#            y = (coords['y1'] -coords['y0'])/2.
+#            z = (coords['z1'] -coords['z0'])/2.
+#            x_ax = coords['x1'] -coords['x0']
+#            y_ax = coords['y1'] -coords['y0']
+#            z_ax = coords['z1'] -coords['z0']
+#            
+#            pos = np.array([coords['x0'], coords['y0'], coords['z0']])
+#            print "Section: %s, coords: %s" %(sec.name(), coords)
+#            print "Axis: %s, %s, %s" %(x_ax, y_ax, z_ax)
+#            height = sec.L
+#            radius = sec.diam/2.
+#            cylinder = tvtk.CylinderSource(center=(0, 0, 0),
+#                                radius=radius,
+#                                height=height,
+#                                )
+#            cylinder.update()
+#            
+#            ps = cylinder.output
+#            points = ps.points.to_array()
+#            l = len(points)
+#            for i in range(0, l, 1):
+#                points[i][1] = points[i][1] + height/2.0
+#            points = visual.axis_changed(np.array([0.0,1.0,0.0]), np.array([x_ax, y_ax, z_ax]), 
+#                                        pos , points)
+#            points = visual.translate(np.array([0.0, 0.0, 0.0]), pos, points)
+#            self.sec2cyl[sec.name()] = cylinder #Name for Hoc compability
+#            self.cyl2sec[cylinder] = sec
     
     def update_color(self, cyl, color):
         
