@@ -182,16 +182,21 @@ class Visio(object):
             self.outline = mlab.outline(line_width=1, color=(1.0, 1.0, 1.0))
             self.outline.outline_mode = 'cornered'
         self.outline.visible = False
-        cylinders = self.cyl2sec.keys() 
-        for cyl in cylinders:
-            x_b = [cyl.center[0] - cyl.radius, cyl.center[0] + cyl.radius]
-            z_b = [cyl.center[2] - cyl.radius, cyl.center[2] + cyl.radius]
-            y_b = [cyl.center[1] - cyl.height/2., cyl.center[1] + cyl.height/2.]
+        surfs = self.cyl2sec.keys() 
+        for surf in surfs:
+            tube = surf.parent.parent
+            dataset = tube.outputs[0]
+            points = dataset.points.to_array()
+            x,y,z = points.T
+            x_b = [x.min(), xmax()]
+            y_b = [y.min(), y.max()]
+            z_b = [z.min(), z.max()]
+            
             if bisect_left(x_b, self.picker.pick_position[0]) == 1:
                 if bisect_left(y_b, self.picker.pick_position[1]) == 1:
                     if bisect_left(z_b, self.picker.pick_position[2]) == 1:
-                        self.select_cylinder(cyl)
-                        self.selected_cyl = cyl
+                        self.selected_cyl = surf
+                        self.update_color(surf.actor.property, color)
                         info = self.get_sec_info(self.cyl2sec[self.selected_cyl])
                         self.sec_info_label.setText(info)
                         break
@@ -264,17 +269,13 @@ class Visio(object):
 
         
         for sec in h.allsec():
-            coords = self.retrieve_coordinate(sec)
-            x = []
-            y = [] 
-            z = []
-            x.append(coords['x0'])
-            x.append(coords['x1'])
-            y.append(coords['y0'])
-            y.append(coords['y1'])
-            z.append(coords['z0'])
-            z.append(coords['z1'])
-            mlab.plot3d(x,y,z, tube_radius=sec.diam/2.)
+            x,y,z = self.retrieve_coordinate(sec)
+            print "plotting sec: %s. len x: %s, len y: %s, len z: %s" % (sec.name(), len(x), len(y), len(z))
+            
+            
+            surf = mlab.plot3d(x,y,z, tube_radius=sec.diam/2.)
+            tube = surf.parent.parent
+            tube.filter.capping = True
             # Store the section. later.
             #self.cyl2sec
             #self.generate_section_points(sec)
@@ -290,6 +291,7 @@ class Visio(object):
 #        self.draw_surface()
         # ReEnable the rendering
         self.mayavi.visualization.scene.disable_render = False
+    
     
     def draw_surface(self, scalar_array=None, points_for_cyl=24):
         
@@ -439,17 +441,32 @@ class Visio(object):
                 self.draw_section(vecRef.sec, color=color)
         
     def retrieve_coordinate(self, sec):
-        """Retrieve the coordinates of the section"""
+        """Retrieve the coordinates of the section avoiding duplicates"""
         coords = {}
         sec.push()
-        coords['x0'] = h.x3d((h.n3d()- h.n3d()))
-        coords['x1'] = h.x3d((h.n3d()- 1))
-        coords['y0'] = h.y3d((h.n3d()- h.n3d()))
-        coords['y1'] = h.y3d((h.n3d()- 1))
-        coords['z0'] = h.z3d((h.n3d()- h.n3d()))
-        coords['z1'] = h.z3d((h.n3d()- 1))
+        x, y, z = [],[],[]
+
+        for i in range(int(h.n3d())):
+            present = False
+            x_i = h.x3d(i)
+            y_i = h.y3d(i)
+            z_i = h.z3d(i)
+            # Avoiding duplicates
+            if x_i in x:
+                ind = len(x) - 1 - x[::-1].index(x_i) # Getting the index of last value
+                if y_i == y[ind]:
+                    if z_i == z[ind]:
+                        present = True
+                    
+            if not present:
+                x.append(x_i)
+                y.append(y_i)
+                z.append(z_i)
+#            else:
+#                print "sec: %s skiping index: %s" %(sec.name(), i)
         h.pop_section()
-        return coords
-    
+        
+        return (x,y,z)
+        
     def _rgb(self, qcolor):
         return (qcolor.red(), qcolor.green(), qcolor.blue())
