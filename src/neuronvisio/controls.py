@@ -159,7 +159,7 @@ class Controls():
         self.ui.statusbar.showMessage(msg, 3500)
         if not hasattr(self, 'visio'):
             self.visio = Visio(self.ui.def_col_btn.color, self.ui.sel_col_btn.color,
-                               self.ui.sec_info_label)
+                               self.ui.sec_info_label, self.manager)
             self.visio.draw_model()
             self.ui.def_col_btn.connect(self.ui.def_col_btn,
                                         QtCore.SIGNAL("colorChanged(QColor)"),
