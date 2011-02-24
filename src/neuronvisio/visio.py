@@ -87,47 +87,11 @@ class MayaviQWidget(QtGui.QWidget):
         self.ui.setParent(self)
 
 
-class CylSelector(object):
-    def __init__(self):
-        self.outline = mlab.outline(line_width=1, color=(1.0, 1.0, 1.0))
-        self.outline.outline_mode = 'cornered'
-        self.outline.visible = False
-        self.picker = None 
-
-    def select_cylinder(self, cyl):
-        
-        y0 = cyl.center[1] - cyl.height/2. - 0.1
-        x0 = cyl.center[0] - cyl.radius
-        z0 = cyl.center[2] - cyl.radius
-        y1 = cyl.center[1] + cyl.height/2. + 0.1
-        x1 = cyl.center[0] + cyl.radius
-        z1 = cyl.center[2] + cyl.radius
-        self.outline.bounds = (x0, x1, y0, y1, z0, z1)
-        self.outline.visible = True
-    
-
-    def picker_callback(self, picker):
-        """ Picker callback: this get called when on pick events.
-        """
-        self.outline.visible = False
-        for cyl in cylinders:
-            x_b = [cyl.center[0] - cyl.radius, cyl.center[0] + cyl.radius]
-            z_b = [cyl.center[2] - cyl.radius, cyl.center[2] + cyl.radius]
-            y_b = [cyl.center[1] - cyl.height/2., cyl.center[1] + cyl.height/2.]
-            if bisect_left(x_b, self.picker.pick_position[0]) == 1:
-                if bisect_left(y_b, self.picker.pick_position[1]) == 1:
-                    if bisect_left(z_b, self.picker.pick_position[2]) == 1:
-                        self.select_cylinder(cyl)
-                        info = self.get_sec_info(self.cyl2sec[self.selected_cyl])
-                        self.sec_info_label.setText(info)
-                        break
-
-
-
 
 class Visio(object):
     
-    def __init__(self, default_cyl_color, selected_cyl_color, sec_info_label):       
+    def __init__(self, default_cyl_color, selected_cyl_color, sec_info_label,
+                 manager):       
         
         # Needed when user pick the cylinder from visio and 
         # we need to get the section
@@ -144,6 +108,7 @@ class Visio(object):
         self.selected_cyl_color = selected_cyl_color                
         self.selected_cyl = None # Used for storing the cyl when picked
         self.sec_info_label = sec_info_label # Info for the selected sec
+        self.manager = manager
         
         container = QtGui.QWidget()
         container.setWindowTitle("Neuronvisio 3D")
@@ -173,36 +138,50 @@ class Visio(object):
         """ Picker callback: this get called when on pick events.
         """
         # Outline
-#        if not self.outline: 
-#            self.outline = mlab.outline(line_width=1, color=(1.0, 1.0, 1.0))
-#            self.outline.outline_mode = 'cornered'
-#        self.outline.visible = False
+        if not self.outline: 
+            self.outline = mlab.outline(line_width=1, color=(1.0, 1.0, 1.0))
+            self.outline.outline_mode = 'cornered'
+        self.outline.visible = False
         
         # Deselect
-        if self.selected_cyl is not None: 
-            self.selected_cyl.actor.property.color = self.update_color(self.default_cyl_color)
-            self.selected_cyl = None
-            
-        surfs = self.cyl2sec.keys() 
-        for surf in surfs:
-            tube = surf.parent.parent
-            dataset = tube.outputs[0]
-            points = dataset.points.to_array()
-            x,y,z = points.T
-            x_b = [x.min(), x.max()]
-            y_b = [y.min(), y.max()]
-            z_b = [z.min(), z.max()]
-            
+#        if self.selected_cyl is not None: 
+#            self.selected_cyl.actor.property.color = self.update_color(self.default_cyl_color)
+#            self.selected_cyl = None
+        print picker.pick_position
+        
+        bounds = self.cyl2sec.keys()
+        for bound in bounds:
+            x_b, y_b, z_b = bound[0], bound[1], bound[2]
             if bisect_left(x_b, self.picker.pick_position[0]) == 1:
-                if bisect_left(y_b, self.picker.pick_position[1]) == 1:
-                    if bisect_left(z_b, self.picker.pick_position[2]) == 1:
-                        self.selected_cyl = surf
-                        surf.actor.property.color = self.update_color(self.selected_cyl_color)
-                        info = self.get_sec_info(self.cyl2sec[self.selected_cyl])
-                        self.sec_info_label.setText(info)
-#                        self.outline.bounds = (x_b[0], x_b[1], y_b[0], y_b[1], z_b[0], z_b[1])
-#                        self.outline.visible = True
-                        break
+              if bisect_left(y_b, self.picker.pick_position[1]) == 1:
+                  if bisect_left(z_b, self.picker.pick_position[2]) == 1:
+                      print "Selected Section: %s" %self.cyl2sec[bound].name()
+                      self.selected_cyl = bound
+                      info = self.get_sec_info(self.cyl2sec[self.selected_cyl])
+                      self.sec_info_label.setText(info)
+                      self.outline.bounds = (x_b[0], x_b[1], y_b[0],
+                                             y_b[1], z_b[0], z_b[1])
+                      self.outline.visible = True
+                   
+#        for surf in surfs:
+#            tube = surf.parent.parent
+#            dataset = tube.outputs[0]
+#            points = dataset.points.to_array()
+#            x,y,z = points.T
+#            x_b = [x.min(), x.max()]
+#            y_b = [y.min(), y.max()]
+#            z_b = [z.min(), z.max()]
+#            
+#            if bisect_left(x_b, self.picker.pick_position[0]) == 1:
+#                if bisect_left(y_b, self.picker.pick_position[1]) == 1:
+#                    if bisect_left(z_b, self.picker.pick_position[2]) == 1:
+#                        self.selected_cyl = surf
+#                        surf.actor.property.color = self.update_color(self.selected_cyl_color)
+#                        info = self.get_sec_info(self.cyl2sec[self.selected_cyl])
+#                        self.sec_info_label.setText(info)
+##                        self.outline.bounds = (x_b[0], x_b[1], y_b[0], y_b[1], z_b[0], z_b[1])
+##                        self.outline.visible = True
+#                        break
 
         
 #    def picker_callback(self, picker):
@@ -269,22 +248,20 @@ class Visio(object):
         # Disable the render. Faster drawing.
         self.mayavi.visualization.scene.disable_render = True
         
-        
-#        # Build dictonary
-#        for sec in enumerate(h.allsec()):
-#            for i, seg in enumerate(sec):
-#                self.seg2id[seg] =  sec.name + "_" + str(i)
 
         x,y,z,d = [], [], [], []
-        var_data = []
+        voltage = []
         connections = []
         for sec in h.allsec():
             x_sec, y_sec, z_sec, d_sec = self.retrieve_coordinate(sec)
             self.sec2coords[sec.name()] = [x_sec, y_sec, z_sec]
             # Store the section. later.
-            sec_coords_bound = (x_sec.min(), x_sec.max(), 
-                                y_sec.min(), y_sec.max(), 
-                                z_sec.min(), z_sec.max())
+            radius = sec.diam/2.
+            sec_coords_bound = ((x_sec.min(), x_sec.max()), 
+                                (y_sec.min() - radius, 
+                                 y_sec.max() + radius), 
+                                (z_sec.min() - radius, 
+                                 z_sec.max() + radius))
             self.cyl2sec[sec_coords_bound] = sec 
             self.sec2cyl[sec] = sec_coords_bound
             
@@ -298,8 +275,8 @@ class Visio(object):
                 
                 if len(x) > 1 and i > 0:
                     connections.append([indx_geom_seg, indx_geom_seg-1])
+            
                     
-                
         self.edges  = connections
         self.x = x
         self.y = y
@@ -307,42 +284,38 @@ class Visio(object):
         
         # Mayavi pipeline        
         d = np.array(d) # Transforming for easy division
-        var_data = np.array(var_data)
-        self.draw_mayavi(x, y, z, d, var_data, self.edges)
-
-#    def build_connections(self, x, y, z, d, x_target, y_target, z_target, d_target):
-#        common_points = []
-#        for k,xt in enumerate(x_target):
-#            for i,xi in enumerate(x):
-#                if x[i] == x_target[k]:
-#                    if y[i] == y_target[k]:
-#                        if z[i] == z_target[k]:
-#                            common_points.append([x[i], y[i], z[i], k])
-#                            # We have to 
-#                        else:
-#                            x.append(xt)
-#                            y.append(yt)
-#                            z.append(zt)
-#                            d.append(d_target[k])
-#                            
-#                            if len(x) > 2:
-#                                self.connections.append([x.index(xt), 
-#                                                        x.index(xt)-1])
-#                            k = (xt,yt,zt)
-#                            if not self.seg2id.has_key(k):
-#                                self.seg2id[k] = len(x)
-#        return (x,y,z,d)
         
+        # Making room for the voltage
+        self.manager.add_all_vecRef('v')
+        voltage = self.get_var_data('v', time_point=0)
+        self.draw_mayavi(x, y, z, d, voltage, self.edges)
+        
+    def get_var_data(self, var, time_point=0):
+        var_scalar = []
+        for sec in h.allsec():
+            for vecRef in self.manager.refs['VecRef']:
+                if vecRef.sec == sec.name():
+                    if vecRef.vecs.has_key(var):
+                        vec = vecRef.vecs[var]
+                        var_value = None
+                        if len(vec) == 0: # Not initialized
+                            var_value = 0
+                        else:
+                            var_value = vec[time_point]
+                        sec.push()
+                        var_scalar.append(np.repeat(var_value, h.n3d() -1))
+                        h.pop_section()
+        return var_scalar
 
-    def draw_mayavi(self, x, y, z, d, var_data, edges):
+    def draw_mayavi(self, x, y, z, d, voltage, edges):
         
         points = mlab.pipeline.scalar_scatter(x, y, z, d/2.0)
         dataset = points.mlab_source.dataset
         dataset.point_data.get_array(0).name = 'diameter'
         dataset.lines = np.vstack(edges)
 
-        array_id = dataset.point_data.add_array(var_data.T.ravel())
-        dataset.point_data.get_array(array_id).name = 'var_data'
+        array_id = dataset.point_data.add_array(voltage)
+        dataset.point_data.get_array(array_id).name = 'voltage'
         dataset.point_data.update()
 
         # The tube
@@ -353,83 +326,12 @@ class Visio(object):
 #        tube.filter.use_default_normal = False
         tube.filter.vary_radius = 'vary_radius_by_absolute_scalar'
         
-        src2 = mlab.pipeline.set_active_attribute(tube, point_scalars='var_data')
-        lines = mlab.pipeline.surface(src2)
+        src2 = mlab.pipeline.set_active_attribute(tube, point_scalars='voltage')
+        self.surf = mlab.pipeline.surface(src2)
         
         # ReEnable the rendering
         self.mayavi.visualization.scene.disable_render = False
 
-
-    def map_connections(self, sec):
-        child_id, parent_id = None, None
-        sec.push()
-        secRef = h.SectionRef()
-        if secRef.has_parent():
-            parent_seg = secRef.parent()
-            parent_sec = parent_seg.sec
-            
-            child_id = self.retrieve_coordinate(sec)
-            parent_id = self.retrieve_coordinate(parent_sec)
-        else:
-            h.pop_section()
-        return (child_id, parent_id)
-
-
-#    def retrieve_geom_seg(self, sec):
-#        x, y, z = [], [], []
-#        
-#        sec.push()
-#        for i in range(int(h.n3d())):
-#            x = h.x3d(i)
-#            y = h.y3d(i)
-#            z = h.z3d(i)
-#        h.pop_section()
-#        return (x,y,z)
-
-#    def generate_section_points(self, sec):
-#        """Draw the section with the optional color 
-#        and add it to the dictionary cyl2sec
-#        
-#        :param sec: Section to draw
-#        :param color: tuple for the color in RGB value. i.e.: (0,0,1) blue"""
-#        
-#        # If we already draw the model we don't have to get the coords anymore.
-#        cyl = None     
-#        # We need to retrieve only if it's not draw
-#        
-#
-#        if sec.name() not in self.sec2cyl.keys():
-#            
-#            coords = self.retrieve_coordinate(sec)
-#            x = (coords['x1'] -coords['x0'])/2.
-#            y = (coords['y1'] -coords['y0'])/2.
-#            z = (coords['z1'] -coords['z0'])/2.
-#            x_ax = coords['x1'] -coords['x0']
-#            y_ax = coords['y1'] -coords['y0']
-#            z_ax = coords['z1'] -coords['z0']
-#            
-#            pos = np.array([coords['x0'], coords['y0'], coords['z0']])
-#            print "Section: %s, coords: %s" %(sec.name(), coords)
-#            print "Axis: %s, %s, %s" %(x_ax, y_ax, z_ax)
-#            height = sec.L
-#            radius = sec.diam/2.
-#            cylinder = tvtk.CylinderSource(center=(0, 0, 0),
-#                                radius=radius,
-#                                height=height,
-#                                )
-#            cylinder.update()
-#            
-#            ps = cylinder.output
-#            points = ps.points.to_array()
-#            l = len(points)
-#            for i in range(0, l, 1):
-#                points[i][1] = points[i][1] + height/2.0
-#            points = visual.axis_changed(np.array([0.0,1.0,0.0]), np.array([x_ax, y_ax, z_ax]), 
-#                                        pos , points)
-#            points = visual.translate(np.array([0.0, 0.0, 0.0]), pos, points)
-#            self.sec2cyl[sec.name()] = cylinder #Name for Hoc compability
-#            self.cyl2sec[cylinder] = sec
-    
     def update_color(self, color):
         
         return (color.red()/255., color.green()/255., color.blue()/255.)
@@ -551,15 +453,6 @@ class Visio(object):
         h.pop_section()
         return (np.array(x),np.array(y),np.array(z),np.array(d))
     
-    def find_same_3d_points(self, x, y, z, x_target, y_target, z_target):
-        common_points = []
-        for i,xi in enumerate(x):
-            for k,xt in enumerate(x_target):
-                if x[i] == x_target[k]:
-                    if y[i] == y_target[k]:
-                        if z[i] == z_target[k]:
-                            common_points.append([x[i], y[i], z[i], k])
-        return common_points
         
     def _rgb(self, qcolor):
         return (qcolor.red(), qcolor.green(), qcolor.blue())
