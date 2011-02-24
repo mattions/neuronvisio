@@ -136,6 +136,9 @@ class Visio(object):
         # Needed to update the value of a cyl bound to a section
         self.sec2cyl = {}
         
+        self.seg2id = {}
+        self.sec2coords = {}
+        self.connections = []
 
         self.default_cyl_color = default_cyl_color
         self.selected_cyl_color = selected_cyl_color                
@@ -267,49 +270,122 @@ class Visio(object):
         self.mayavi.visualization.scene.disable_render = True
         
         
-        # Build dictonary
-#        for i,sec in enumerate(h.allsec()):
-#            self.sec2id[sec.name] =  i
+#        # Build dictonary
+#        for sec in enumerate(h.allsec()):
+#            for i, seg in enumerate(sec):
+#                self.seg2id[seg] =  sec.name + "_" + str(i)
 
         x,y,z,d = [], [], [], []
+        var_data = []
         connections = []
-        for i, sec in enumerate(h.allsec()):
+        for sec in h.allsec():
             x_sec, y_sec, z_sec, d_sec = self.retrieve_coordinate(sec)
-            print "plotting sec: %s. len x: %s, len y: %s, len z: %s" % (sec.name(), len(x), len(y), len(z))
-            
-            x.extend(x_sec)
-            y.extend(y_sec)
-            z.extend(z_sec)
-            d.extend(d_sec)
-            
-#            sec.push()
-#            secRef = h.SectionRef()
-#            if secRef.has_parent():
-#                parent_seg = secRef.parent()
-#                parent_sec = parent_seg.sec
-#                connections.append(self.sec2id[sec.name()], self.sec2id['parent_sec.name()']) 
-            
-            
-            surf = mlab.plot3d(x_sec,y_sec,z_sec, tube_radius=d_sec[0]/2.)
-            tube = surf.parent.parent
-            tube.filter.capping = True
-                
+            self.sec2coords[sec.name()] = [x_sec, y_sec, z_sec]
             # Store the section. later.
-            sec_coords = (x_sec.min(), x_sec.max(), y_sec.min(), y_sec.max(), z_sec.min(), z_sec.max())
-            self.cyl2sec[surf] = sec 
-            self.sec2cyl[sec] = surf 
-            #self.generate_section_points(sec)
+            sec_coords_bound = (x_sec.min(), x_sec.max(), 
+                                y_sec.min(), y_sec.max(), 
+                                z_sec.min(), z_sec.max())
+            self.cyl2sec[sec_coords_bound] = sec 
+            self.sec2cyl[sec] = sec_coords_bound
             
+            
+            for i,xi in enumerate(x_sec):
+                x.append(x_sec[i])
+                y.append(y_sec[i])
+                z.append(z_sec[i])
+                d.append(d_sec[i])
+                indx_geom_seg = len(x) -1
+                
+                if len(x) > 1 and i > 0:
+                    connections.append([indx_geom_seg, indx_geom_seg-1])
+                    
+                
+        self.edges  = connections
+        self.x = x
+        self.y = y
+        self.z = z
+        
+        # Mayavi pipeline        
+        d = np.array(d) # Transforming for easy division
+        var_data = np.array(var_data)
+        self.draw_mayavi(x, y, z, d, var_data, self.edges)
 
-     
-#        surf = mlab.plot3d(x,y,z, scalar, tube_radius=sec.diam/2.)
-#        tube = surf.parent.parent
-#        tube.filter.capping = True
-#       self.draw_surface()
+#    def build_connections(self, x, y, z, d, x_target, y_target, z_target, d_target):
+#        common_points = []
+#        for k,xt in enumerate(x_target):
+#            for i,xi in enumerate(x):
+#                if x[i] == x_target[k]:
+#                    if y[i] == y_target[k]:
+#                        if z[i] == z_target[k]:
+#                            common_points.append([x[i], y[i], z[i], k])
+#                            # We have to 
+#                        else:
+#                            x.append(xt)
+#                            y.append(yt)
+#                            z.append(zt)
+#                            d.append(d_target[k])
+#                            
+#                            if len(x) > 2:
+#                                self.connections.append([x.index(xt), 
+#                                                        x.index(xt)-1])
+#                            k = (xt,yt,zt)
+#                            if not self.seg2id.has_key(k):
+#                                self.seg2id[k] = len(x)
+#        return (x,y,z,d)
+        
+
+    def draw_mayavi(self, x, y, z, d, var_data, edges):
+        
+        points = mlab.pipeline.scalar_scatter(x, y, z, d/2.0)
+        dataset = points.mlab_source.dataset
+        dataset.point_data.get_array(0).name = 'diameter'
+        dataset.lines = np.vstack(edges)
+
+        array_id = dataset.point_data.add_array(var_data.T.ravel())
+        dataset.point_data.get_array(array_id).name = 'var_data'
+        dataset.point_data.update()
+
+        # The tube
+        src = mlab.pipeline.set_active_attribute(points, point_scalars='diameter')
+        stripper = mlab.pipeline.stripper(src)
+        tube = mlab.pipeline.tube(stripper, tube_sides = 6, tube_radius = 1)
+        tube.filter.capping = True
+#        tube.filter.use_default_normal = False
+        tube.filter.vary_radius = 'vary_radius_by_absolute_scalar'
+        
+        src2 = mlab.pipeline.set_active_attribute(tube, point_scalars='var_data')
+        lines = mlab.pipeline.surface(src2)
+        
         # ReEnable the rendering
         self.mayavi.visualization.scene.disable_render = False
 
-    
+
+    def map_connections(self, sec):
+        child_id, parent_id = None, None
+        sec.push()
+        secRef = h.SectionRef()
+        if secRef.has_parent():
+            parent_seg = secRef.parent()
+            parent_sec = parent_seg.sec
+            
+            child_id = self.retrieve_coordinate(sec)
+            parent_id = self.retrieve_coordinate(parent_sec)
+        else:
+            h.pop_section()
+        return (child_id, parent_id)
+
+
+#    def retrieve_geom_seg(self, sec):
+#        x, y, z = [], [], []
+#        
+#        sec.push()
+#        for i in range(int(h.n3d())):
+#            x = h.x3d(i)
+#            y = h.y3d(i)
+#            z = h.z3d(i)
+#        h.pop_section()
+#        return (x,y,z)
+
 #    def generate_section_points(self, sec):
 #        """Draw the section with the optional color 
 #        and add it to the dictionary cyl2sec
@@ -447,17 +523,19 @@ class Visio(object):
         
     def retrieve_coordinate(self, sec):
         """Retrieve the coordinates of the section avoiding duplicates"""
-        coords = {}
+        
         sec.push()
         x, y, z, d = [],[],[],[]
 
+        tot_points = 0
+        connect_next = False
         for i in range(int(h.n3d())):
             present = False
             x_i = h.x3d(i)
             y_i = h.y3d(i)
             z_i = h.z3d(i)
             d_i = h.diam3d(i)
-            # Avoiding duplicates
+            # Avoiding duplicates in the sec
             if x_i in x:
                 ind = len(x) - 1 - x[::-1].index(x_i) # Getting the index of last value
                 if y_i == y[ind]:
@@ -465,15 +543,23 @@ class Visio(object):
                         present = True
                     
             if not present:
+                k =(x_i, y_i, z_i)
                 x.append(x_i)
                 y.append(y_i)
                 z.append(z_i)
-                d.append(d_i)
-#            else:
-#                print "sec: %s skiping index: %s" %(sec.name(), i)
+                d.append(d_i)                
         h.pop_section()
-        
         return (np.array(x),np.array(y),np.array(z),np.array(d))
+    
+    def find_same_3d_points(self, x, y, z, x_target, y_target, z_target):
+        common_points = []
+        for i,xi in enumerate(x):
+            for k,xt in enumerate(x_target):
+                if x[i] == x_target[k]:
+                    if y[i] == y_target[k]:
+                        if z[i] == z_target[k]:
+                            common_points.append([x[i], y[i], z[i], k])
+        return common_points
         
     def _rgb(self, qcolor):
         return (qcolor.red(), qcolor.green(), qcolor.blue())
