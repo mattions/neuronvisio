@@ -34,8 +34,9 @@ from enthought.mayavi.core.ui.api import MayaviScene, MlabSceneModel, \
 
 import numpy as np
 from enthought.mayavi import mlab
-from enthought.tvtk.api import tvtk
-from enthought.tvtk.tools import visual
+#mlab.options.backend = 'envisage'
+
+
 
 from bisect import bisect_left
 
@@ -114,6 +115,7 @@ class Visio(object):
         container.setWindowTitle("Neuronvisio 3D")
         
         self.mayavi = MayaviQWidget(container)
+        self.mayavi.scene.name = 'Neuronvisio 3D scene'
         layout = QtGui.QVBoxLayout(container)
         layout.addWidget(self.mayavi)
                 
@@ -285,16 +287,13 @@ class Visio(object):
         # Mayavi pipeline        
         d = np.array(d) # Transforming for easy division
         
-        # Making room for the voltage
-        self.manager.add_all_vecRef('v')
-        voltage = self.get_var_data('v', time_point=0)
-        self.draw_mayavi(x, y, z, d, voltage, self.edges)
+        self.draw_mayavi(x, y, z, d, self.edges)
         
     def get_var_data(self, var, time_point=0):
         var_scalar = []
         for sec in h.allsec():
             for vecRef in self.manager.refs['VecRef']:
-                if vecRef.sec == sec.name():
+                if vecRef.sec == sec:
                     if vecRef.vecs.has_key(var):
                         vec = vecRef.vecs[var]
                         var_value = None
@@ -303,20 +302,19 @@ class Visio(object):
                         else:
                             var_value = vec[time_point]
                         sec.push()
-                        var_scalar.append(np.repeat(var_value, h.n3d() -1))
+                        var_scalar.append(np.repeat(var_value, h.n3d()))
                         h.pop_section()
-        return var_scalar
+        
+        return np.array(var_scalar)
 
-    def draw_mayavi(self, x, y, z, d, voltage, edges):
+    def draw_mayavi(self, x, y, z, d, edges):
+        "Draw the surface the first time"
         
         points = mlab.pipeline.scalar_scatter(x, y, z, d/2.0)
         dataset = points.mlab_source.dataset
         dataset.point_data.get_array(0).name = 'diameter'
         dataset.lines = np.vstack(edges)
-
-        array_id = dataset.point_data.add_array(voltage)
-        dataset.point_data.get_array(array_id).name = 'voltage'
-        dataset.point_data.update()
+        self.dataset = dataset
 
         # The tube
         src = mlab.pipeline.set_active_attribute(points, point_scalars='diameter')
@@ -325,12 +323,28 @@ class Visio(object):
         tube.filter.capping = True
 #        tube.filter.use_default_normal = False
         tube.filter.vary_radius = 'vary_radius_by_absolute_scalar'
+        self.tube = tube
         
-        src2 = mlab.pipeline.set_active_attribute(tube, point_scalars='voltage')
-        self.surf = mlab.pipeline.surface(src2)
+
+        # Setting the voltage
+        # Making room for the voltage
+        self.manager.add_all_vecRef('v')
+        voltage = self.get_var_data('v', time_point=0)
+        self.draw_surface(dataset, voltage, 'voltage')
         
         # ReEnable the rendering
         self.mayavi.visualization.scene.disable_render = False
+
+        
+    def draw_surface(self, scalar, scalar_name):
+        
+        self.tube.children[0:1] = [] # Removing the old ones 
+        
+        array_id = self.dataset.point_data.add_array(scalar.ravel())
+        dataset.point_data.get_array(array_id).name = scalar_name
+        dataset.point_data.update()
+        src2 = mlab.pipeline.set_active_attribute(self.tube, point_scalars='voltage')
+        self.surf = mlab.pipeline.surface(src2)
 
     def update_color(self, color):
         
@@ -410,18 +424,19 @@ class Visio(object):
                                  start_col, end_value, end_col, vecRefs):
         """Show an animation of all the section that have 
         the recorded variable among time"""
-        
-        for vecRef in vecRefs:
-            if vecRef.vecs.has_key(var):
-                vec = vecRef.vecs[var]
-                var_value = vec[time_point]
-                
-                ## Use it to retrieve the value from the gradient with the index
-                color = self.calculate_gradient(var_value, start_value, 
-                                                start_col, end_value, 
-                                                end_col)
-                
-                self.draw_section(vecRef.sec, color=color)
+        scalar = self.get_var_data(var, time_point)
+        self.draw_surface(scalar, var)
+#        for vecRef in vecRefs:
+#            if vecRef.vecs.has_key(var):
+#                vec = vecRef.vecs[var]
+#                var_value = vec[time_point]
+#                
+#                ## Use it to retrieve the value from the gradient with the index
+#                color = self.calculate_gradient(var_value, start_value, 
+#                                                start_col, end_value, 
+#                                                end_col)
+#                
+#                self.draw_section(vecRef.sec, color=color)
         
     def retrieve_coordinate(self, sec):
         """Retrieve the coordinates of the section avoiding duplicates"""
