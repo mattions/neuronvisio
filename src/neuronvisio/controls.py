@@ -19,6 +19,11 @@
 import os
 from manager import SynVecRef
 os.environ['ETS_TOOLKIT'] = 'qt4'
+# For mayavi compability
+#import sip
+#sip.setapi('QString', 2)
+
+
 import sys
 sys.path.append(os.path.dirname(__file__)) 
 
