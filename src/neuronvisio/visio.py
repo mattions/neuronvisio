@@ -313,7 +313,6 @@ class Visio(object):
         dataset = points.mlab_source.dataset
         dataset.point_data.get_array(0).name = 'diameter'
         dataset.lines = np.vstack(edges)
-        self.dataset = dataset
 
         # The tube
         src = mlab.pipeline.set_active_attribute(points, point_scalars='diameter')
@@ -327,9 +326,14 @@ class Visio(object):
 
         # Setting the voltage
         # Making room for the voltage
-        self.manager.add_all_vecRef('v')
-        voltage = self.get_var_data('v', time_point=0)
-        self.draw_surface(dataset, voltage, 'voltage')
+        v = []
+        for sec in h.allsec():
+            sec.push()
+            v.extend(np.repeat(0.0, h.n3d()))
+            h.pop_section()
+        
+        v = np.array(v)
+        self.draw_surface(v, 'v')
         
         # ReEnable the rendering
         self.mayavi.visualization.scene.disable_render = False
@@ -337,13 +341,31 @@ class Visio(object):
         
     def draw_surface(self, scalar, scalar_name):
         
-        self.tube.children[0:1] = [] # Removing the old ones 
+        self.tube.children= [] # Removing the old ones 
         
-        array_id = self.dataset.point_data.add_array(scalar.ravel())
+        dataset = self.tube.outputs[0]
+        
+        # Removing the scalar array if present
+        
+        if dataset.point_data.get_array(scalar_name):
+            dataset.point_data.remove_array(scalar_name)
+            dataset.point_data.update()
+            print "array %s removed" %scalar_name
+        
+        # Extending the vector to the right lenght:
+        d = dataset.point_data.get_array('diameter')
+        scalar = scalar.flatten() # Collapsing in 1-D
+        print "Scalar lenght %s" %len(scalar)
+        repeat = len(d) / len(scalar)
+        scalar = np.repeat(scalar, repeat)
+        array_id = dataset.point_data.add_array(scalar)
         dataset.point_data.get_array(array_id).name = scalar_name
         dataset.point_data.update()
-        src2 = mlab.pipeline.set_active_attribute(self.tube, point_scalars='voltage')
+
+        
+        src2 = mlab.pipeline.set_active_attribute(self.tube, point_scalars=scalar_name)
         self.surf = mlab.pipeline.surface(src2)
+        
 
     def update_color(self, color):
         
@@ -419,12 +441,19 @@ class Visio(object):
         #print "start %s, end %s Calculated color %s" % (start_col, end_col, col)
         return QtGui.QColor(col[0],col[1],col[2])
     
-    def show_variable_timecourse(self, var, time_point, start_value, 
-                                 start_col, end_value, end_col, vecRefs):
+    def show_variable_timecourse(self, var, time_point, start_value, end_value):
         """Show an animation of all the section that have 
         the recorded variable among time"""
+        
         scalar = self.get_var_data(var, time_point)
         self.draw_surface(scalar, var)
+        module_manager = self.surf.parent
+        module_manager.scalar_lut_manager.data_range = np.array([start_value, 
+                                                                 end_value])
+        mlab.scalarbar(self.surf, orientation='vertical')
+        
+        print "time point %s" %time_point
+        print "var: %s" %scalar
 #        for vecRef in vecRefs:
 #            if vecRef.vecs.has_key(var):
 #                vec = vecRef.vecs[var]
