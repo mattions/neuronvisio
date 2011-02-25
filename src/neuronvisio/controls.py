@@ -19,9 +19,6 @@
 import os
 from manager import SynVecRef
 os.environ['ETS_TOOLKIT'] = 'qt4'
-# For mayavi compability
-#import sip
-#sip.setapi('QString', 2)
 
 
 import sys
@@ -387,11 +384,8 @@ class Controls():
 
         start_col = self.a_ui.starting_color_btn.color
         end_col = self.a_ui.ending_color_btn.color
-        self.visio.show_variable_timecourse(var, time_point_indx, start_value, 
-                                            start_col, 
-                                            end_value, 
-                                            end_col, 
-                                            self.manager.refs['VecRef'])
+        self.visio.show_variable_timecourse(var, time_point_indx, 
+                                            start_value, end_value)
     
     def about(self):
         
