@@ -115,7 +115,6 @@ class Visio(object):
         container.setWindowTitle("Neuronvisio 3D")
         
         self.mayavi = MayaviQWidget(container)
-        self.mayavi.scene.name = 'Neuronvisio 3D scene'
         layout = QtGui.QVBoxLayout(container)
         layout.addWidget(self.mayavi)
                 
