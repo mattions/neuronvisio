@@ -133,6 +133,9 @@ class Visio(object):
         figure = self.mayavi.visualization.scene.mlab.gcf()
         self.outline = None
         self.picker = figure.on_mouse_pick(self.picker_callback, type='cell')
+        
+        # ScalarBar
+        self.colorbar = None
     
 
     def picker_callback(self, picker):
@@ -289,6 +292,11 @@ class Visio(object):
         self.draw_mayavi(x, y, z, d, self.edges)
         
     def get_var_data(self, var, time_point=0):
+        """Retrieve the value of the `var` for the `time_point`.
+        Prameters:
+        var - variable to retrieve
+        time_point - point in the simulation"""
+        
         var_scalar = []
         for sec in h.allsec():
             for vecRef in self.manager.refs['VecRef']:
@@ -301,7 +309,7 @@ class Visio(object):
                         else:
                             var_value = vec[time_point]
                         sec.push()
-                        var_scalar.append(np.repeat(var_value, h.n3d()))
+                        var_scalar.extend(np.repeat(var_value, h.n3d()))
                         h.pop_section()
         
         return np.array(var_scalar)
@@ -313,6 +321,7 @@ class Visio(object):
         dataset = points.mlab_source.dataset
         dataset.point_data.get_array(0).name = 'diameter'
         dataset.lines = np.vstack(edges)
+        dataset.point_data.update()
 
         # The tube
         src = mlab.pipeline.set_active_attribute(points, point_scalars='diameter')
@@ -344,14 +353,7 @@ class Visio(object):
         self.tube.children= [] # Removing the old ones 
         
         dataset = self.tube.outputs[0]
-        
-        # Removing the scalar array if present
-        
-        if dataset.point_data.get_array(scalar_name):
-            dataset.point_data.remove_array(scalar_name)
-            dataset.point_data.update()
-            print "array %s removed" %scalar_name
-        
+               
         # Extending the vector to the right lenght:
         d = dataset.point_data.get_array('diameter')
         scalar = scalar.flatten() # Collapsing in 1-D
@@ -361,9 +363,8 @@ class Visio(object):
         array_id = dataset.point_data.add_array(scalar)
         dataset.point_data.get_array(array_id).name = scalar_name
         dataset.point_data.update()
-
-        
-        src2 = mlab.pipeline.set_active_attribute(self.tube, point_scalars=scalar_name)
+        src2 = mlab.pipeline.set_active_attribute(self.tube, 
+                                                  point_scalars=scalar_name)
         self.surf = mlab.pipeline.surface(src2)
         
 
@@ -445,15 +446,34 @@ class Visio(object):
         """Show an animation of all the section that have 
         the recorded variable among time"""
         
-        scalar = self.get_var_data(var, time_point)
-        self.draw_surface(scalar, var)
-        module_manager = self.surf.parent
-        module_manager.scalar_lut_manager.data_range = np.array([start_value, 
-                                                                 end_value])
-        mlab.scalarbar(self.surf, orientation='vertical')
+        # Getting the new scalar
+        new_scalar = self.get_var_data(var, time_point)
         
-        print "time point %s" %time_point
-        print "var: %s" %scalar
+        # Swapping the old with the new
+        dataset = self.tube.outputs[0]
+        
+        d = dataset.point_data.get_array('diameter')
+        if len(d) != len(new_scalar):
+            print "ERROR! MISMATCH on the Vector Lenght."
+            print "If you assign the new vectors it will not work"
+            print "Diameter lenght: %s New Scalar lenght: %s var: %s" %(len(d),
+                                                                        len(new_scalar),
+                                                                        var)
+        
+        array_id = dataset.point_data.add_array(new_scalar)
+        dataset.point_data.get_array(array_id).name = var
+        dataset.point_data.update()
+        
+        # Updating the dataset
+        ms = self.surf.mlab_source
+        ms.m_data.update()
+        
+#        module_manager = self.surf.parent
+#        module_manager.scalar_lut_manager.data_range = np.array([start_value, 
+#                                                                 end_value])
+        if not self.colorbar:
+            self.colorbar = mlab.colorbar(orientation='vertical')
+            #self.text 
 #        for vecRef in vecRefs:
 #            if vecRef.vecs.has_key(var):
 #                vec = vecRef.vecs[var]
