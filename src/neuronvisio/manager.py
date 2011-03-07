@@ -533,7 +533,7 @@ class Manager(object):
         from matplotlib import cm
         
         dist = self.get_distance(sections, base_sec)
-        vecs = self.get_vectors(section_list, var)
+        vecs = self.get_vectors(sections, var)
         X, Y, Z = self.create_3d_grid(dist, self.groups['t'], vecs)
         fig = plt.figure()
         ax = fig.gca(projection='3d')
