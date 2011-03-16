@@ -396,7 +396,7 @@ class Manager(object):
                         vec = vec.to_python(tmp_array) # Swap in place
                     else:
                         vec =  vec.to_python() # Creating a list
-                print "Saving vec: %s of section: %s" %(var, section_name)
+                #print "Saving vec: %s of section: %s" %(var, section_name)
                 h5file_holder.createArray(target_group, var, 
                                           vec,
                                           title=detail)
