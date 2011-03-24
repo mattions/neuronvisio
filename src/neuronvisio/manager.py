@@ -99,15 +99,22 @@ class Manager(object):
                 vecRef = VecRef(sec)
                 vecRef.vecs[var] = vec
                 name = vecRef.__class__.__name__
-                t = h.Vector()
-                if time_interval_recording is None:
-                    t.record(h._ref_t)
-                else:
-                    t.record(h._ref_t, time_interval_recording)
-                self.add_ref(vecRef, t)
-                self.groups['t'] = self.groups[name] # Adding a shortcut to the NEURON time
+                
+                self.create_t_ref(time_interval_recording)
+                self.add_ref(vecRef, self.groups['t'])
                 success = True
         return success
+    
+    def create_t_ref(self, time_interval_recording):
+        """Create t ref vector if not present"""
+        if not self.group.has_key('t'):
+            t = h.Vector()
+            if time_interval_recording is None:
+                t.record(h._ref_t)
+            else:
+                t.record(h._ref_t, time_interval_recording)
+        
+        self.groups['t'] = self.groups[name] # Adding a shortcut to the NEURON time
     
     def add_ref(self, generic_ref, x):
         """Add a generic ref to manager.refs dictionary. If a list of the ref of 
@@ -207,14 +214,14 @@ class Manager(object):
         h.pop_section()
         return tree
     
-    def add_synVecRef(self, synapse):
+    def add_synVecRef(self, synapse, time_interval_recording):
         """Add the synVecRef object to the list
         
         :param synapse: The synapse to record.
         """
         synVecRef = SynVecRef(synapse.chan_type, synapse.section.name(), 
                               synapse.vecs)
-        
+        self.create_t_ref(time_interval_recording)
         self.add_ref(synVecRef, self.groups['t'])
 
 
