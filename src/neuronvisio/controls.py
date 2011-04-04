@@ -244,7 +244,7 @@ class Controls():
                 x = self.manager.groups[groupName]
                 key = sectionName + "_" + var
                 vecs_to_plot = { key : item.vec}
-                self.manager.plotVecs(vecs_to_plot, x=x, legend=legend_status, 
+                self.manager.plot_vecs(vecs_to_plot, x=x, legend=legend_status, 
                               figure_num=fig_num, points=points_status)
     
     def create_vector(self):

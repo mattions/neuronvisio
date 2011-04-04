@@ -139,6 +139,9 @@ class Manager(object):
                 if ref.sec_name == name:
                     if ref.vecs.has_key(var):
                        return ref.vecs[var]
+    def get_time(self):
+        """Return the vector time associated with the voltage"""
+        return runner.manager.groups['t']
     
     def sum_vector(self, vec1, vec2):
         """Sums two vectors with the same length. The vector are 
@@ -219,7 +222,7 @@ class Manager(object):
 
 
             
-    def plotVecs(self, vecs_dic, x=None, legend=True, figure_num=None, points=False):
+    def plot_vecs(self, vecs_dic, x=None, legend=True, figure_num=None, points=False):
         """Plot the vectors with plt
         
         :param vecs_dic: dictionary with section name as k and the vec obj as value
