@@ -70,15 +70,9 @@ class Manager(object):
                             alreadyPresent = True
                             break
                         else: # Adding a variable to an existing vecRef
-                            vec = h.Vector()
-                            varRef = '_ref_' + var
-                            if time_interval_recording is None:
-                                vec.record(point_process, 
-                                           getattr(sec(0.5), varRef))
-                            else:
-                                vec.record(point_process,
-                                           getattr(sec(0.5), varRef), 
-                                           time_interval_recording)
+                            vec = self.create_record_vector(sec, 
+                                                            var, 
+                                                            time_interval_recording)
                             vecRef.vecs[var] = vec
                             alreadyPresent = True
                             success = True
@@ -86,18 +80,9 @@ class Manager(object):
             if not alreadyPresent:
                     
                 # Creating the vector
-                vec = h.Vector()
-                varRef = '_ref_' + var
-                try:
-                    if time_interval_recording is None:
-                        vec.record(getattr(sec(0.5), varRef))
-                    else:
-                        vec.record(getattr(sec(0.5), varRef), 
-                                   time_interval_recording)
-                except NameError:
-                    print "The variable %s is not present in the section %s" \
-                    % (varRef, sec.name())
-                    success = False
+                vec = self.create_record_vector(sec, 
+                                                var, 
+                                                time_interval_recording)
                                                 
                 # Adding to the list
                 vecRef = VecRef(sec)
@@ -112,6 +97,68 @@ class Manager(object):
                 self.groups['t'] = self.groups[name] # Adding a shortcut to the NEURON time
                 success = True
         return success
+    
+    def find_point_process(self, sec):
+        """Find a point_process in a section if any.
+        
+        Params:
+            sec - Section to search
+            
+        Return:
+            point_process or None if not present.
+        """
+        mt = h.MechanismType(1)
+        total_mech = int(mt.count())
+        sec.push()
+        pp = None
+        for i in range(total_mech):
+            pp_type = mt.select(i)
+            pp = mt.pp_begin()
+            if pp is not None:
+                break
+            
+        h.pop_section()
+        return pp
+
+    def create_record_vector(self, sec, var, time_interval_recording):
+        """Create the vector which will record the variable
+        Will pass the first pointprocess to make sure the recording 
+        are thread safe."""
+        
+        # Getting the first pp if any
+        
+        point_process = self.find_point_process(sec)
+            
+        vec = h.Vector()
+        varRef = '_ref_' + var
+        
+        
+        try:
+            if time_interval_recording:
+                if point_process:
+                    vec.record(point_process, 
+                               getattr(sec(0.5), varRef), 
+                               time_interval_recording)
+                    print "Sec: %s has pp: %s" %(sec.name(), point_process)
+                else:
+                    vec.record(getattr(sec(0.5), varRef), 
+                               time_interval_recording)
+                    print "Sec: %s has not pp" %(sec.name())
+            else:
+                if point_process:
+                    vec.record(point_process, 
+                               getattr(sec(0.5), varRef))
+                else:
+                    vec.record(getattr(sec(0.5), varRef))
+                
+            
+        except NameError:
+            print "The variable %s is not present in the section %s" \
+            % (varRef, sec.name())
+        
+        h.pop_section()
+        return vec
+    
     
     def add_ref(self, generic_ref, x):
         """Add a generic ref to manager.refs dictionary. If a list of the ref of 
