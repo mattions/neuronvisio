@@ -46,8 +46,7 @@ class Manager(object):
         h.load_file("stdrun.hoc")
         
     def add_vecRef(self, var, sec, 
-                   time_interval_recording=None, 
-                   point_process=None):
+                   time_interval_recording=None):
         """Add the vecRef to the vec_res list. It takes care to create the vector 
         and record the given variable.
         
@@ -88,15 +87,57 @@ class Manager(object):
                 vecRef = VecRef(sec)
                 vecRef.vecs[var] = vec
                 name = vecRef.__class__.__name__
-                t = h.Vector()
-                if time_interval_recording is None:
-                    t.record(h._ref_t)
-                else:
-                    t.record(h._ref_t, time_interval_recording)
+                if self.groups.has_key('t'):
+                    t = self.groups['t']
+                else: 
+                    t = self.create_time_vecto(time_interval_recording)
                 self.add_ref(vecRef, t)
-                self.groups['t'] = self.groups[name] # Adding a shortcut to the NEURON time
                 success = True
         return success
+    
+    def add_all_vecRef(self, var, 
+                       time_interval_recording=None):
+        """Create the vector for all the section present in the model 
+        with the given variable
+        :param var: The variable to record"""
+        
+        done = False
+        responses = []
+        for sec in h.allsec():
+            response = self.add_vecRef(var, 
+                                       sec, 
+                                       time_interval_recording)
+            responses.append(response)
+        if all(responses) != True:
+            print "Warning: Some vectors could not be added."
+    
+    def add_ref(self, generic_ref, x):
+        """Add a generic ref to manager.refs dictionary. If a list of the ref of 
+        the same type is already present, the `genercref` will be added, otherwise the list
+        will be created.
+        `x` is the indipendent variable which should be used to when the genericref is 
+        plotted from the Neuronvisio UI. 
+        
+        `generic_ref` -- the ref to add to the manager.ref list
+        `x` -- indipendent varialbe use to plot the variable from the genericref"""
+        name = generic_ref.group_id
+        if self.refs.has_key(name):
+            self.refs[name].append(generic_ref)
+        else:
+            self.refs[name] = [generic_ref]
+            self.groups[name] = x
+            
+    def add_synVecRef(self, synapse):
+        """Add the synVecRef object to the list
+        
+        :param synapse: The synapse to record.
+        """
+        synVecRef = SynVecRef(synapse.chan_type, synapse.section.name(), 
+                              synapse.vecs)
+            
+        self.add_ref(synVecRef, self.groups['t'])
+    
+    
     
     def find_point_process(self, sec):
         """Find a point_process in a section if any.
@@ -159,22 +200,26 @@ class Manager(object):
         h.pop_section()
         return vec
     
-    
-    def add_ref(self, generic_ref, x):
-        """Add a generic ref to manager.refs dictionary. If a list of the ref of 
-        the same type is already present, the `genercref` will be added, otherwise the list
-        will be created.
-        `x` is the indipendent variable which should be used to when the genericref is 
-        plotted from the Neuronvisio UI. 
-        
-        `generic_ref` -- the ref to add to the manager.ref list
-        `x` -- indipendent varialbe use to plot the variable from the genericref"""
-        name = generic_ref.group_id
-        if self.refs.has_key(name):
-            self.refs[name].append(generic_ref)
+    def create_time_record(self, time_interval_recording=None, point_process=None):
+        """Create the vector to record time. If not time_interval specified the 
+        NEURON default is used."""
+        t = h.Vector()
+        if time_interval_recording:
+            if point_process: 
+                t.record(point_process, 
+                         h._ref_t, time_interval_recording)
+            else:
+                t.record(h._ref_t, time_interval_recording)
         else:
-            self.refs[name] = [generic_ref]
-            self.groups[name] = x
+            if point_process: 
+                t.record(point_process, 
+                         h._ref_t)
+            else:
+                t.record(h._ref_t)
+        self.groups['t'] = t
+        return t
+    
+
             
     def get_vector(self, sec, var, group='VecRef'):
         """Return the vec that record the var in a given section
@@ -220,24 +265,6 @@ class Manager(object):
             vecs[sec.name()] = (vec)
         return vecs
             
-    def add_all_vecRef(self, var, 
-                       time_interval_recording=None, 
-                       point_process=None):
-        """Create the vector for all the section present in the model 
-        with the given variable
-        :param var: The variable to record"""
-        
-        done = False
-        responses = []
-        for sec in h.allsec():
-            response = self.add_vecRef(var, 
-                                       sec, 
-                                       time_interval_recording,
-                                       point_process)
-            responses.append(response)
-        if all(responses) != True:
-            print "Warning: Some vectors could not be added."
-            
     
     def get_tree(self, sec):
         """Return the minimal tree of section 
@@ -262,19 +289,7 @@ class Manager(object):
             tree = self.__get_parent(parentSec, tree)
         h.pop_section()
         return tree
-    
-    def add_synVecRef(self, synapse):
-        """Add the synVecRef object to the list
-        
-        :param synapse: The synapse to record.
-        """
-        synVecRef = SynVecRef(synapse.chan_type, synapse.section.name(), 
-                              synapse.vecs)
-        
-        self.add_ref(synVecRef, self.groups['t'])
-
-
-            
+                
     def plot_vecs(self, vecs_dic, x=None, legend=True, figure_num=None, points=False):
         """Plot the vectors with plt
         
