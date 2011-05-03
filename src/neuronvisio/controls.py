@@ -119,7 +119,7 @@ class Controls():
         self.path_to_hdf = None                    
         self.ui.show()
         # Start the main event loop.
-        app.exec_()
+        #app.exec_()
     
     def load_hdf(self, path_to_hdf=None):
     
