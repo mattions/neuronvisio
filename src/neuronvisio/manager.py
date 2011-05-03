@@ -90,7 +90,7 @@ class Manager(object):
                 if self.groups.has_key('t'):
                     t = self.groups['t']
                 else: 
-                    t = self.create_time_vecto(time_interval_recording)
+                    t = self.create_time_record(time_interval_recording)
                 self.add_ref(vecRef, t)
                 success = True
         return success
