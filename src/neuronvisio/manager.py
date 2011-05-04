@@ -46,7 +46,12 @@ class Manager(object):
         h.load_file("stdrun.hoc")
         
     def add_vecRef(self, var, sec, 
+<<<<<<< HEAD
                    time_interval_recording=None):
+=======
+                   time_interval_recording=None, 
+                   point_process=None):
+>>>>>>> 93b75eac3b09d83415d3a4c2b35650f82b533b00
         """Add the vecRef to the vec_res list. It takes care to create the vector 
         and record the given variable.
         
@@ -69,9 +74,21 @@ class Manager(object):
                             alreadyPresent = True
                             break
                         else: # Adding a variable to an existing vecRef
+<<<<<<< HEAD
                             vec = self.create_record_vector(sec, 
                                                             var, 
                                                             time_interval_recording)
+=======
+                            vec = h.Vector()
+                            varRef = '_ref_' + var
+                            if time_interval_recording is None:
+                                vec.record(point_process, 
+                                           getattr(sec(0.5), varRef))
+                            else:
+                                vec.record(point_process,
+                                           getattr(sec(0.5), varRef), 
+                                           time_interval_recording)
+>>>>>>> 93b75eac3b09d83415d3a4c2b35650f82b533b00
                             vecRef.vecs[var] = vec
                             alreadyPresent = True
                             success = True
@@ -265,6 +282,27 @@ class Manager(object):
             vecs[sec.name()] = (vec)
         return vecs
             
+<<<<<<< HEAD
+=======
+    def add_all_vecRef(self, var, 
+                       time_interval_recording=None, 
+                       point_process=None):
+        """Create the vector for all the section present in the model 
+        with the given variable
+        :param var: The variable to record"""
+        
+        done = False
+        responses = []
+        for sec in h.allsec():
+            response = self.add_vecRef(var, 
+                                       sec, 
+                                       time_interval_recording,
+                                       point_process)
+            responses.append(response)
+        if all(responses) != True:
+            print "Warning: Some vectors could not be added."
+            
+>>>>>>> 93b75eac3b09d83415d3a4c2b35650f82b533b00
     
     def get_tree(self, sec):
         """Return the minimal tree of section 
