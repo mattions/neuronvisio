@@ -10,10 +10,20 @@ class Animator(object):
         self.scalar_active_attribute = None
 
     def add_scalar_array(self, dataset, tube, scalar_data, scalar_data_name):
+        """
+        Add a new scalar to the figure and a lines pipeline colored with 
+        that scalar.
+        
+        The old scalar and lines are removed if present. Maybe we should try
+        to directly change the color of the lines, without redraw all of them,
+        but it doesn't work so far.
+        """
         
         # Remove the array if exist
         dataset.point_data.remove_array(scalar_data_name)
         dataset.point_data.update()
+        # remove the old lines.
+        tube.children[0:1] = [] 
         
         # Adding the new scalar
         array_id = dataset.point_data.add_array(scalar_data.T.ravel())
@@ -23,7 +33,7 @@ class Animator(object):
         src2 = mlab.pipeline.set_active_attribute(tube, 
                                                   point_scalars=scalar_data_name)
         self.scalar_active_attribute = src2
-        lines = mlab.pipeline.surface(src2)
+        lines = mlab.pipeline.surface(src2, colormap='blue-red')
         mlab.scalarbar(lines, title=scalar_data_name)
         #return lines
     
@@ -32,7 +42,7 @@ class Animator(object):
 
         
     
-    def change_scalar_array(self, dataset, scalar_data, scalar_data_name):
+    def change_scalar_array(self, dataset, tube, scalar_data, scalar_data_name):
 
         dataset.point_data.remove_array(scalar_data_name)
         dataset.point_data.update()
@@ -41,9 +51,9 @@ class Animator(object):
         array_id = dataset.point_data.add_array(scalar_data.T.ravel())
         dataset.point_data.get_array(array_id).name = scalar_data_name
         dataset.point_data.update()
-        mlab.draw()
+        #mlab.draw()
         #self.scalar_active_attribute.point_scalars_name = scalar_data_name
-    
+        #dataset.point_data.update()
 
     
     # The tube    
@@ -69,6 +79,7 @@ if __name__ == '__main__':
     my_scalar_name = 'my_scalar_data'
     scalar_data = np.array([0.1,0.3,0.5])
     
+    
     points = mlab.pipeline.scalar_scatter(x, y, z, d/2.0, 
                                           scalars=scalar_data)
     
@@ -83,7 +94,7 @@ if __name__ == '__main__':
     
     # uncomment the to change the array.
     # the array change, however no difference in the figure.
-    # animator.change_scalar_array(dataset, array([1,3,5]), my_scalar_name)
+    # animator.change_scalar_array(dataset, tube, array([1,3,5]), my_scalar_name)
     
     
     
