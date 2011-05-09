@@ -1,9 +1,14 @@
-0.5.2+ -- Development
+0.6.0 -- 9 May 2011
 =====================
 
 - Added the function to plot a 3D plot to the manager (manager.plot3D)
-- Animation can will be enbled if any simulation is ran, either from the gui 
-or the code.
+- Animation can will be enabled if any simulation is ran, either from the gui 
+  or the code.
+- Completely rewrote the visualization method. Now completely integrates in the mayavi pipelines, 
+  therefore axes and other modules/filters can be added at will
+- Now it's faster. A lot faster
+- All the segments are plotted, not only the section. This is extremely helpful with geometrical reconstruct 
+  neurons and networks.
 
 0.5.2 -- 26 Jan 2011
 =====================
