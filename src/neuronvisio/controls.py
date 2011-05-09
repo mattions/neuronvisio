@@ -88,14 +88,6 @@ class Controls():
         self.a_ui = uic.loadUi(os.path.join(os.path.dirname(__file__),
                                             self.ui_dir,
                                             "animation.ui"))
-        self.a_ui.view.connect(self.a_ui.view, QtCore.SIGNAL('changed()'),
-                               self.draw_gradient)
-        self.a_ui.starting_color_btn.connect(self.a_ui.starting_color_btn,
-                                        QtCore.SIGNAL("colorChanged(QColor)"),
-                                        self.draw_gradient)
-        self.a_ui.ending_color_btn.connect(self.a_ui.ending_color_btn,
-                                QtCore.SIGNAL("colorChanged(QColor)"),
-                                self.draw_gradient)
         self.a_ui.timelineSlider.connect(self.a_ui.timelineSlider,
                                          QtCore.SIGNAL("valueChanged(int)"),
                                          self.on_timeline_value_changed)
@@ -335,32 +327,10 @@ class Controls():
     
     def animation(self):
         
-        self.a_ui.timelineSlider.setRange(0, len (self.manager.groups['t']))
-        self.draw_gradient()
+        self.a_ui.timelineSlider.setRange(0, 
+                                          len (self.manager.groups['t']))
         self.a_ui.show()
     
-    def draw_gradient(self):
-        
-        x = self.a_ui.view.x()
-        y = self.a_ui.view.y()
-        h = self.a_ui.view.height()
-        w = self.a_ui.view.width()
-        
-        gradient = QtGui.QLinearGradient(x, y/2, x+w, y/2)
-        gradient.setColorAt(0.0, self.a_ui.starting_color_btn.color)
-        gradient.setColorAt(1.0, self.a_ui.ending_color_btn.color)
-        brush = QtGui.QBrush(gradient)
-        scene = QtGui.QGraphicsScene()
-        scene.setSceneRect(x,y,w,h)    
-        
-        # Rect fills all the graphicview
-        rect = QtGui.QGraphicsRectItem(x, y, w, h) 
-        rect.setBrush(brush)
-        scene.addItem(rect)
-        
-        #scene.addText("Hello")
-        self.a_ui.view.setScene(scene)
-        self.a_ui.view.show()
         
     def on_timeline_value_changed(self):
         """Draw the animation according to the value of the timeline"""
@@ -382,8 +352,6 @@ class Controls():
         start_value = float(self.a_ui.startValue.text())
         end_value = float(self.a_ui.endValue.text())
 
-        start_col = self.a_ui.starting_color_btn.color
-        end_col = self.a_ui.ending_color_btn.color
         self.visio.show_variable_timecourse(var, time_point_indx, 
                                             start_value, end_value)
     

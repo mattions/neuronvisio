@@ -189,28 +189,6 @@ class Visio(object):
 #                        break
 
         
-#    def picker_callback(self, picker):
-#        """ Picker callback: this get called when on pick events. 
-#        """
-#        picked = picker.actor
-#        
-#        #deselect
-#        if self.selected_cyl is not None:
-#            self.update_color(self.selected_cyl, self.default_cyl_color)
-#            self.selected_cyl = None
-#            
-#        for cyl in self.cyl2sec.keys():
-#            if picked == cyl.actor:
-#                sec = self.cyl2sec[cyl]
-#                self.selected_cyl = cyl
-#                self.update_color(cyl, self.selected_cyl_color)
-#                break
-#        if self.selected_cyl is not None:
-#            info = self.get_sec_info(self.cyl2sec[self.selected_cyl])
-#            self.sec_info_label.setText(info)
-#        else:
-#            self.sec_info_label.setText("No section is selected.")
-        
         
     def get_sec_info(self, section):
         """Get the info of the given section"""
@@ -394,59 +372,6 @@ class Visio(object):
             self.update_color(self.selected_cyl, self.selected_cyl_color)
         self.default_cyl_col = color
         
-        
-    def calc_offset(self, start_v, end_v, v):
-        """Calculate the offset for the gradient 
-        according to the input variable"""
-        
-        range = abs(start_v - end_v)
-        delta = abs(start_v - v)
-        # range : delta = 1 : offset
-        offset = delta/range
-        return offset
-    
-    def calculate_gradient(self, var_value, start_value, start_col, 
-                           end_value, end_col):
-        """Calculate the color in a gradient given the start and the end
-        
-        params:
-        var_value - The value read from the vector
-        start_value - the initial value for the var
-        end_value - the final value for the var
-        start_col - the starting color for the linear gradient
-        end_col - the final color for the linear gradient"""
-        
-        
-        offset = self.calc_offset(start_value, end_value, var_value)
- 
-#        print "Start_value: %f, var_value: %f, end_value: %f, offset \
-#        %f" %(start_value, var_value, end_value, offset)
-        
-        start_col = self._rgb(start_col)
-        end_col = self._rgb(end_col)
-        col = [0, 0, 0]
-        for i, primary in enumerate(col):
-            col[i] = (end_col[i] - start_col[i]) * offset + start_col[i] 
-            if col[i] < 0:
-                s = "Color out of range: start %s, end: %s, var: %s, \
-                start_col: %s, end_col: %s, col:%s" %(start_value, 
-                                                      end_value,
-                                                      var_value,
-                                                      start_col,
-                                                      end_col,
-                                                      col[i])
-                msg = "Current value out of bounderies. Value: %s, Min: %s,\
-                Max: %s." %(var_value, start_value, end_value)
-                
-                print msg
-                if var_value < start_value:
-                    col[i] = start_col[i]
-                    print "Setting the color to the starting color."
-                elif var_value > end_value:
-                    col[i] = end_col[i]
-                    print "Setting the color to the ending color."                                                       
-        #print "start %s, end %s Calculated color %s" % (start_col, end_col, col)
-        return QtGui.QColor(col[0],col[1],col[2])
     
     def show_variable_timecourse(self, var, time_point, 
                                  start_value, end_value):
