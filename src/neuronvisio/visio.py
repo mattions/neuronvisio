@@ -172,7 +172,7 @@ class Visio(object):
         """
         new_scalar = []
         for sec in h.allsec():
-            if sec.name == selected_sec.name():
+            if sec.name() == selected_sec.name():
                 new_scalar.extend(np.repeat(1, 
                                             self.n3dpoints_per_sec[selected_sec.name()]))
             else:
