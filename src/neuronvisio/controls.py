@@ -82,9 +82,6 @@ class Controls():
         self.ui.animation_btn.connect(self.ui.animation_btn,
                                       QtCore.SIGNAL('clicked()'),
                                       self.animation)
-#        self.ui = uic.loadUi(os.path.join(os.path.dirname(__file__),
-#                                            self.ui_dir,
-#                                            "animation.ui"))
         self.ui.timelineSlider.connect(self.ui.timelineSlider,
                                          QtCore.SIGNAL("valueChanged(int)"),
                                          self.on_timeline_value_changed)
