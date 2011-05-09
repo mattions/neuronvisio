@@ -60,12 +60,9 @@ class Controls():
                                      QtCore.SIGNAL('clicked()'), self.launch_visio)
         self.ui.plot_vector_btn.connect(self.ui.plot_vector_btn,
                                          QtCore.SIGNAL('clicked()'), self.plot_vector)
-        
-        self.ui.def_col_btn.setColor(QtGui.QColor(255.,255.,255.))
-        self.ui.sel_col_btn.setColor(QtGui.QColor(0.,0.,255.))
-        self.ui.init_btn.connect(self.ui.init_btn, 
+        self.ui.init_btn.connect(self.ui.init_btn,
                                  QtCore.SIGNAL('clicked()'), self.init)
-        self.ui.run_btn.connect(self.ui.run_btn, 
+        self.ui.run_btn.connect(self.ui.run_btn,
                                 QtCore.SIGNAL('clicked()'), self.run)
         self.ui.dtSpinBox.connect(self.ui.dtSpinBox, 
                                   QtCore.SIGNAL('valueChanged(double)'), 
@@ -85,10 +82,10 @@ class Controls():
         self.ui.animation_btn.connect(self.ui.animation_btn,
                                       QtCore.SIGNAL('clicked()'),
                                       self.animation)
-        self.a_ui = uic.loadUi(os.path.join(os.path.dirname(__file__),
-                                            self.ui_dir,
-                                            "animation.ui"))
-        self.a_ui.timelineSlider.connect(self.a_ui.timelineSlider,
+#        self.ui = uic.loadUi(os.path.join(os.path.dirname(__file__),
+#                                            self.ui_dir,
+#                                            "animation.ui"))
+        self.ui.timelineSlider.connect(self.ui.timelineSlider,
                                          QtCore.SIGNAL("valueChanged(int)"),
                                          self.on_timeline_value_changed)
         
@@ -152,8 +149,7 @@ class Controls():
         msg = "Plotting..."
         self.ui.statusbar.showMessage(msg, 3500)
         if not hasattr(self, 'visio'):
-            self.visio = Visio(self.ui.def_col_btn.color, self.ui.sel_col_btn.color,
-                               self.ui.sec_info_label, self.manager)
+            self.visio = Visio(self.ui.sec_info_label, self.manager)
             self.visio.draw_model()
             
             self.ui.selected_section.setEnabled(True)
@@ -322,18 +318,19 @@ class Controls():
     
     def animation(self):
         
-        self.a_ui.timelineSlider.setRange(0, 
+        self.ui.timelineSlider.setRange(0, 
                                           len (self.manager.groups['t']))
-        self.a_ui.show()
+        self.ui.timelineSlider.setEnabled(True)
+        self.ui.show()
     
         
     def on_timeline_value_changed(self):
         """Draw the animation according to the value of the timeline"""
         
         # cast to int from str
-        time_point_indx = self.a_ui.timelineSlider.value()
+        time_point_indx = self.ui.timelineSlider.value()
         
-        var = self.a_ui.varToShow.text()
+        var = self.ui.varToShow.text()
         var = str(var) # This will go with Py3
 #        
 #        #Update the label on the scale
@@ -341,11 +338,11 @@ class Controls():
         if len (self.manager.groups['t']) == time_point_indx:
             time_point_indx = time_point_indx - 1 # Avoid to go out of scale
         time = self.manager.groups['t'][time_point_indx]
-        self.a_ui.animationTime.setText(str(time))
+        self.ui.animationTime.setText(str(time))
         
         
-        start_value = float(self.a_ui.startValue.text())
-        end_value = float(self.a_ui.endValue.text())
+        start_value = float(self.ui.startValue.text())
+        end_value = float(self.ui.endValue.text())
 
         self.visio.show_variable_timecourse(var, time_point_indx, 
                                             start_value, end_value)

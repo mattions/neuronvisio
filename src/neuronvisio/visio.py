@@ -91,8 +91,7 @@ class MayaviQWidget(QtGui.QWidget):
 
 class Visio(object):
     
-    def __init__(self, default_cyl_color, selected_cyl_color, sec_info_label,
-                 manager):       
+    def __init__(self, sec_info_label, manager):       
         
         # Needed when user pick the cylinder from visio and 
         # we need to get the section
@@ -105,9 +104,7 @@ class Visio(object):
         self.sec2coords = {}
         self.connections = []
         self.n3dpoints_per_sec = {}
-
-        self.default_cyl_color = default_cyl_color
-        self.selected_cyl_color = selected_cyl_color                
+           
         self.selected_cyl = None # Used for storing the cyl when picked
         self.sec_info_label = sec_info_label # Info for the selected sec
         self.manager = manager
@@ -162,7 +159,8 @@ class Visio(object):
                       new_scalar = self.get_selection_scalar(selected_sec)
                       
                               
-                      self.redraw_color(new_scalar, 'selection')
+                      self.redraw_color(new_scalar, 'v')
+                      
 
                    
 
@@ -173,11 +171,10 @@ class Visio(object):
         new_scalar = []
         for sec in h.allsec():
             if sec.name() == selected_sec.name():
-                new_scalar.extend(np.repeat(1, 
-                                            self.n3dpoints_per_sec[selected_sec.name()]))
+                sec_scalar = self.build_sec_scalar(sec, 1.)
             else:
-                new_scalar.extend(np.repeat(0, 
-                                            self.n3dpoints_per_sec[selected_sec.name()]))
+                sec_scalar = self.build_sec_scalar(sec, 0.)
+            new_scalar.extend(sec_scalar) 
 
         return np.array(new_scalar)
     
@@ -269,25 +266,33 @@ class Visio(object):
         
         var_scalar = []
         for sec in h.allsec():
-            for vecRef in self.manager.refs['VecRef']:
-                if vecRef.sec.name() == sec.name():
-                    if vecRef.vecs.has_key(var):
-                        vec = vecRef.vecs[var]
-                        var_value = None
-                        if len(vec) == 0: # Not initialized
-                            var_value = 0
-                        else:
+            var_value = 0
+            if self.manager.refs.has_key('VecRef'):
+                for vecRef in self.manager.refs['VecRef']:
+                    if vecRef.sec.name() == sec.name():
+                        if vecRef.vecs.has_key(var):
+                            vec = vecRef.vecs[var]
                             var_value = vec[time_point]
-                        sec.push()
-                        npoints = self.n3dpoints_per_sec[sec.name()]
-                        var_scalar.extend(np.repeat(var_value, npoints))
-                        h.pop_section()
+            sec_scalar = self.build_sec_scalar(sec, var_value)
+            var_scalar.extend(sec_scalar)
+                
+                    
+                        
         
         if len(var_scalar) == 0:
             print "Var scalar 0 length. Var: %s point_time: %s" %(var, 
                                                                   time_point)
         return np.array(var_scalar)
 
+    def build_sec_scalar(self, sec, var_value):
+        
+        sec.push()
+        npoints = self.n3dpoints_per_sec[sec.name()]
+        sec_scalar = np.repeat(var_value, npoints)
+        h.pop_section()
+        return sec_scalar
+
+        
     def draw_mayavi(self, x, y, z, d, edges):
         "Draw the surface the first time"
         
@@ -327,17 +332,10 @@ class Visio(object):
         
         self.tube.children= [] # Removing the old ones 
         
-        dataset = self.tube.outputs[0]
-               
-        # Extending the vector to the right lenght:
-        d = dataset.point_data.get_array('diameter')
-        scalar = scalar.flatten() # Collapsing in 1-D
-        
-        repeat = len(d) / len(scalar)
-        scalar = np.repeat(scalar, repeat)
-        array_id = dataset.point_data.add_array(scalar)
-        dataset.point_data.get_array(array_id).name = scalar_name
-        dataset.point_data.update()
+        scalar = self.get_var_data('v', 0)
+        array_id = self.dataset.point_data.add_array(scalar)
+        self.dataset.point_data.get_array(array_id).name = scalar_name
+        self.dataset.point_data.update()
         src2 = mlab.pipeline.set_active_attribute(self.tube, 
                                                   point_scalars=scalar_name)
         self.surf = mlab.pipeline.surface(src2)
@@ -395,6 +393,8 @@ class Visio(object):
         """Redraw the tubes with the new scalar.
         new_scalar -- the scalar used to color the tubes
         var - the name of the variable used"""
+        #self.tube.children= [] # Removing the old ones
+        
         array_id = self.dataset.point_data.add_array(new_scalar)
         self.dataset.point_data.get_array(array_id).name = var
         self.dataset.point_data.update()
