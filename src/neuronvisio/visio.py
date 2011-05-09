@@ -135,8 +135,9 @@ class Visio(object):
         self.outline = None
         self.picker = figure.on_mouse_pick(self.picker_callback, type='cell')
         
-        # ScalarBar
+        # ScalarBar and time_point
         self.colorbar = None
+        self.text = None
     
 
     def picker_callback(self, picker):
@@ -341,7 +342,7 @@ class Visio(object):
         # Extending the vector to the right lenght:
         d = dataset.point_data.get_array('diameter')
         scalar = scalar.flatten() # Collapsing in 1-D
-        print "Scalar lenght %s" %len(scalar)
+        
         repeat = len(d) / len(scalar)
         scalar = np.repeat(scalar, repeat)
         array_id = dataset.point_data.add_array(scalar)
@@ -405,8 +406,10 @@ class Visio(object):
 #                                                                 end_value])
         if not self.colorbar:
             self.colorbar = mlab.colorbar(orientation='vertical')
+            self.text = mlab.text(0.05,0.05, str(time_point), width=0.05)
         
         self.colorbar.data_range = [start_value, end_value]
+        self.text.text = str(self.manager.groups['t'][time_point])
             #self.text 
 #        for vecRef in vecRefs:
 #            if vecRef.vecs.has_key(var):
