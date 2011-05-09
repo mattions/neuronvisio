@@ -322,6 +322,7 @@ class Visio(object):
         dataset.point_data.get_array(0).name = 'diameter'
         dataset.lines = np.vstack(edges)
         dataset.point_data.update()
+        self.dataset = dataset
 
         # The tube
         src = mlab.pipeline.set_active_attribute(points, point_scalars='diameter')
@@ -450,9 +451,9 @@ class Visio(object):
         new_scalar = self.get_var_data(var, time_point)
         
         # Swapping the old with the new
-        dataset = self.tube.outputs[0]
+        #dataset = self.tube.outputs[0]
         
-        d = dataset.point_data.get_array('diameter')
+        d = self.dataset.point_data.get_array('diameter')
         if len(d) != len(new_scalar):
             print "ERROR! MISMATCH on the Vector Lenght."
             print "If you assign the new vectors it will not work"
@@ -460,9 +461,9 @@ class Visio(object):
                                                                         len(new_scalar),
                                                                         var)
         
-        array_id = dataset.point_data.add_array(new_scalar)
-        dataset.point_data.get_array(array_id).name = var
-        dataset.point_data.update()
+        array_id = self.dataset.point_data.add_array(new_scalar)
+        self.dataset.point_data.get_array(array_id).name = var
+        self.dataset.point_data.update()
         
         # Updating the dataset
         ms = self.surf.mlab_source
