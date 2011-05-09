@@ -443,7 +443,8 @@ class Visio(object):
         #print "start %s, end %s Calculated color %s" % (start_col, end_col, col)
         return QtGui.QColor(col[0],col[1],col[2])
     
-    def show_variable_timecourse(self, var, time_point, start_value, end_value):
+    def show_variable_timecourse(self, var, time_point, 
+                                 start_value, end_value):
         """Show an animation of all the section that have 
         the recorded variable among time"""
         
@@ -474,6 +475,8 @@ class Visio(object):
 #                                                                 end_value])
         if not self.colorbar:
             self.colorbar = mlab.colorbar(orientation='vertical')
+        
+        self.colorbar.data_range = [start_value, end_value]
             #self.text 
 #        for vecRef in vecRefs:
 #            if vecRef.vecs.has_key(var):
