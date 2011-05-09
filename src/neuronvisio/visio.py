@@ -104,6 +104,7 @@ class Visio(object):
         self.seg2id = {}
         self.sec2coords = {}
         self.connections = []
+        self.n3dpoints_per_sec = {}
 
         self.default_cyl_color = default_cyl_color
         self.selected_cyl_color = selected_cyl_color                
@@ -300,7 +301,7 @@ class Visio(object):
         var_scalar = []
         for sec in h.allsec():
             for vecRef in self.manager.refs['VecRef']:
-                if vecRef.sec == sec:
+                if vecRef.sec.name() == sec.name():
                     if vecRef.vecs.has_key(var):
                         vec = vecRef.vecs[var]
                         var_value = None
@@ -309,9 +310,13 @@ class Visio(object):
                         else:
                             var_value = vec[time_point]
                         sec.push()
-                        var_scalar.extend(np.repeat(var_value, h.n3d()))
+                        npoints = self.n3dpoints_per_sec[sec.name()]
+                        var_scalar.extend(np.repeat(var_value, npoints))
                         h.pop_section()
         
+        if len(var_scalar) == 0:
+            print "Var scalar 0 length. Var: %s point_time: %s" %(var, 
+                                                                  time_point)
         return np.array(var_scalar)
 
     def draw_mayavi(self, x, y, z, d, edges):
@@ -456,9 +461,9 @@ class Visio(object):
         
         d = self.dataset.point_data.get_array('diameter')
         if len(d) != len(new_scalar):
-            print "ERROR! MISMATCH on the Vector Lenght."
+            print "ERROR! MISMATCH on the Vector Length."
             print "If you assign the new vectors it will not work"
-            print "Diameter lenght: %s New Scalar lenght: %s var: %s" %(len(d),
+            print "Diameter length: %s New Scalar length: %s var: %s" %(len(d),
                                                                         len(new_scalar),
                                                                         var)
         
@@ -518,6 +523,8 @@ class Visio(object):
                 z.append(z_i)
                 d.append(d_i)                
         h.pop_section()
+        #adding num 3d points per section
+        self.n3dpoints_per_sec[sec.name()] = len(d)
         return (np.array(x),np.array(y),np.array(z),np.array(d))
     
         
