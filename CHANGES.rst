@@ -1,5 +1,5 @@
 0.6.0 -- 10 May 2011
-=====================
+====================
 
 - Added the function to plot a 3D plot to the manager (manager.plot3D)
 - Animation can will be enabled if any simulation is ran, either from the gui 
@@ -12,7 +12,7 @@
 - Updated the docs and the screenshots.
 
 0.5.2 -- 26 Jan 2011
-=====================
+====================
 
 - Updated the version recall to GitPython 0.3.1 (used only if present!)
 - HocVector into NumpyArray for saving with swap in place, to reduce overhead
