@@ -340,14 +340,6 @@ class Visio(object):
                                                   point_scalars=scalar_name)
         self.surf = mlab.pipeline.surface(src2, colormap='Blues')
         
-
-    def update_color(self, color):
-        
-        return (color.red()/255., color.green()/255., color.blue()/255.)
-    
-
-#        self.default_cyl_col = color
-        
     
     def show_variable_timecourse(self, var, time_point, 
                                  start_value, end_value):
