@@ -144,15 +144,7 @@ class Visio(object):
         """ Picker callback: this get called when on pick events.
         """
         # Outline
-        if not self.outline: 
-            self.outline = mlab.outline(line_width=1, color=(1.0, 1.0, 1.0))
-            self.outline.outline_mode = 'cornered'
-        self.outline.visible = False
         
-        # Deselect
-#        if self.selected_cyl is not None: 
-#            self.selected_cyl.actor.property.color = self.update_color(self.default_cyl_color)
-#            self.selected_cyl = None
         print picker.pick_position
         
         bounds = self.cyl2sec.keys()
@@ -161,36 +153,34 @@ class Visio(object):
             if bisect_left(x_b, self.picker.pick_position[0]) == 1:
               if bisect_left(y_b, self.picker.pick_position[1]) == 1:
                   if bisect_left(z_b, self.picker.pick_position[2]) == 1:
-                      print "Selected Section: %s" %self.cyl2sec[bound].name()
+                      selected_sec = self.cyl2sec[bound]
+                      print "Selected Section: %s" %selected_sec.name()
                       self.selected_cyl = bound
-                      info = self.get_sec_info(self.cyl2sec[self.selected_cyl])
+                      
+                      info = self.get_sec_info(selected_sec)
                       self.sec_info_label.setText(info)
-                      self.outline.bounds = (x_b[0], x_b[1], y_b[0],
-                                             y_b[1], z_b[0], z_b[1])
-                      self.outline.visible = True
-                   
-#        for surf in surfs:
-#            tube = surf.parent.parent
-#            dataset = tube.outputs[0]
-#            points = dataset.points.to_array()
-#            x,y,z = points.T
-#            x_b = [x.min(), x.max()]
-#            y_b = [y.min(), y.max()]
-#            z_b = [z.min(), z.max()]
-#            
-#            if bisect_left(x_b, self.picker.pick_position[0]) == 1:
-#                if bisect_left(y_b, self.picker.pick_position[1]) == 1:
-#                    if bisect_left(z_b, self.picker.pick_position[2]) == 1:
-#                        self.selected_cyl = surf
-#                        surf.actor.property.color = self.update_color(self.selected_cyl_color)
-#                        info = self.get_sec_info(self.cyl2sec[self.selected_cyl])
-#                        self.sec_info_label.setText(info)
-##                        self.outline.bounds = (x_b[0], x_b[1], y_b[0], y_b[1], z_b[0], z_b[1])
-##                        self.outline.visible = True
-#                        break
+                      new_scalar = self.get_selection_scalar(selected_sec)
+                      
+                              
+                      self.redraw_color(new_scalar, 'selection')
 
-        
-        
+                   
+
+    def get_selection_scalar(self, selected_sec):
+        """ Return a scalar array with zero everywhere but one 
+        for the selected section
+        """
+        new_scalar = []
+        for sec in h.allsec():
+            if sec.name == selected_sec.name():
+                new_scalar.extend(np.repeat(1, 
+                                            self.n3dpoints_per_sec[selected_sec.name()]))
+            else:
+                new_scalar.extend(np.repeat(0, 
+                                            self.n3dpoints_per_sec[selected_sec.name()]))
+
+        return np.array(new_scalar)
+    
     def get_sec_info(self, section):
         """Get the info of the given section"""
         
@@ -357,21 +347,21 @@ class Visio(object):
         
         return (color.red()/255., color.green()/255., color.blue()/255.)
     
-    def update_selected_sec(self, color):
-        """Update the color of the select section"""
-        if self.selected_cyl is not None:
-            self.update_color(self.selected_cyl, color)
-            self.selected_cyl_color = color
+#    def update_selected_sec(self, color):
+#        """Update the color of the select section"""
+#        if self.selected_cyl is not None:
+#            self.update_color(self.selected_cyl, color)
+#            self.selected_cyl_color = color
     
-    def update_def_sec(self, color):
-        """Update the default color of all cyls"""
-        cyls = self.cyl2sec.keys()
-        for cyl in cyls:
-            self.update_color(cyl, color)
-        
-        if self.selected_cyl:
-            self.update_color(self.selected_cyl, self.selected_cyl_color)
-        self.default_cyl_col = color
+#    def update_def_sec(self, color):
+#        """Update the default color of all cyls"""
+#        cyls = self.cyl2sec.keys()
+#        for cyl in cyls:
+#            self.update_color(cyl, color)
+#        
+#        if self.selected_cyl:
+#            self.update_color(self.selected_cyl, self.selected_cyl_color)
+#        self.default_cyl_col = color
         
     
     def show_variable_timecourse(self, var, time_point, 
@@ -382,9 +372,6 @@ class Visio(object):
         # Getting the new scalar
         new_scalar = self.get_var_data(var, time_point)
         
-        # Swapping the old with the new
-        #dataset = self.tube.outputs[0]
-        
         d = self.dataset.point_data.get_array('diameter')
         if len(d) != len(new_scalar):
             print "ERROR! MISMATCH on the Vector Length."
@@ -393,6 +380,21 @@ class Visio(object):
                                                                         len(new_scalar),
                                                                         var)
         
+        self.redraw_color(new_scalar, var)
+        
+
+        if not self.colorbar:
+            self.colorbar = mlab.colorbar(orientation='vertical')
+            self.text = mlab.text(0.05,0.05, str(time_point), width=0.05)
+        
+        self.colorbar.data_range = [start_value, end_value]
+        self.text.text = str(self.manager.groups['t'][time_point])
+
+    
+    def redraw_color(self, new_scalar, var):
+        """Redraw the tubes with the new scalar.
+        new_scalar -- the scalar used to color the tubes
+        var - the name of the variable used"""
         array_id = self.dataset.point_data.add_array(new_scalar)
         self.dataset.point_data.get_array(array_id).name = var
         self.dataset.point_data.update()
@@ -400,29 +402,8 @@ class Visio(object):
         # Updating the dataset
         ms = self.surf.mlab_source
         ms.m_data.update()
-        
-#        module_manager = self.surf.parent
-#        module_manager.scalar_lut_manager.data_range = np.array([start_value, 
-#                                                                 end_value])
-        if not self.colorbar:
-            self.colorbar = mlab.colorbar(orientation='vertical')
-            self.text = mlab.text(0.05,0.05, str(time_point), width=0.05)
-        
-        self.colorbar.data_range = [start_value, end_value]
-        self.text.text = str(self.manager.groups['t'][time_point])
-            #self.text 
-#        for vecRef in vecRefs:
-#            if vecRef.vecs.has_key(var):
-#                vec = vecRef.vecs[var]
-#                var_value = vec[time_point]
-#                
-#                ## Use it to retrieve the value from the gradient with the index
-#                color = self.calculate_gradient(var_value, start_value, 
-#                                                start_col, end_value, 
-#                                                end_col)
-#                
-#                self.draw_section(vecRef.sec, color=color)
-        
+    
+            
     def retrieve_coordinate(self, sec):
         """Retrieve the coordinates of the section avoiding duplicates"""
         

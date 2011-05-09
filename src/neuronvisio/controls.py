@@ -158,9 +158,6 @@ class Controls():
             self.ui.def_col_btn.connect(self.ui.def_col_btn,
                                         QtCore.SIGNAL("colorChanged(QColor)"),
                                         self.visio.update_def_sec)
-            self.ui.sel_col_btn.connect(self.ui.sel_col_btn,
-                                        QtCore.SIGNAL("colorChanged(QColor)"),
-                                        self.visio.update_selected_sec)
             self.ui.selected_section.setEnabled(True)
         else:
             #Raise the visio window
