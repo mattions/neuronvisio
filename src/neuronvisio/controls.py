@@ -79,9 +79,6 @@ class Controls():
         self.ui.actionAbout.connect(self.ui.actionAbout,
                                       QtCore.SIGNAL('triggered()'), 
                                       self.about)
-        self.ui.animation_btn.connect(self.ui.animation_btn,
-                                      QtCore.SIGNAL('clicked()'),
-                                      self.animation)
         self.ui.timelineSlider.connect(self.ui.timelineSlider,
                                          QtCore.SIGNAL("valueChanged(int)"),
                                          self.on_timeline_value_changed)
@@ -94,10 +91,11 @@ class Controls():
                                    self.save_hdf)
         
         ### Connection with the console
-        widgetDic = {'dt' : self.ui.dtSpinBox, 'tstop' : self.ui.tstopSpinBox,
-                      'v_init' : self.ui.vSpinBox, 
-                      'time_label' : self.ui.time_label,
-                      'animation_btn': self.ui.animation_btn}
+        widgetDic = {'dt' : self.ui.dtSpinBox, 
+                     'tstop' : self.ui.tstopSpinBox,
+                     'v_init' : self.ui.vSpinBox, 
+                     'time_label' : self.ui.time_label
+                    }
         self.timeLoop = Timeloop(widgetDic)
         self.timeLoop.start()
         
@@ -186,7 +184,7 @@ class Controls():
                 
                 self.ui.time_label.setText("<b>" + str(h.t) + "</b>")
             # Enabling the animation
-            self.ui.animation_btn.setEnabled(True)
+            self.animation()
                     
     def tstop_changed(self):
         
@@ -382,10 +380,6 @@ class Timeloop(QtCore.QThread):
                 self.widgetDic['tstop'].setValue(h.tstop)
             if h.v_init != self.widgetDic['v_init'].value():
                 self.widgetDic['v_init'].setValue(h.v_init)
-            if h.t != 0:
-                self.widgetDic['animation_btn'].setEnabled(True)
-#            if h.t != float (self.widgetDic['time_label'].text()):
-#                self.widgetDic['time_label'].setText(str(h.t))
             
                 
             

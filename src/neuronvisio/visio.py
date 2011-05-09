@@ -338,7 +338,7 @@ class Visio(object):
         self.dataset.point_data.update()
         src2 = mlab.pipeline.set_active_attribute(self.tube, 
                                                   point_scalars=scalar_name)
-        self.surf = mlab.pipeline.surface(src2)
+        self.surf = mlab.pipeline.surface(src2, colormap='Blues')
         
 
     def update_color(self, color):
