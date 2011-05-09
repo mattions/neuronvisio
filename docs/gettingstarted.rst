@@ -64,7 +64,7 @@ Visualization
 
 To visualize you model after you loaded you have to click the Plot3d button.
 
-.. image:: images/Neuronvisio_Controls.png
+.. image:: images/Neuronvisio_Controls_Init_and_Run.png
     
 
 The 3D window will open showing your model:
@@ -98,7 +98,7 @@ To plot the simulation's results you first have to create a Vector
 For example if you are interested in the voltage you have to insert `v` 
 in the 'Variable to record` and click `Create Vector`. 
 
-.. image:: images/Neuronvisio_Controls_selecting_variable.png
+.. image:: images/Neuronvisio_Controls_Init_and_Run.png
 
 Run the simulation
 ------------------

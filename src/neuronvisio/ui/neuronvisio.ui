@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>579</width>
-    <height>438</height>
+    <height>462</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -198,33 +198,30 @@
              <bool>false</bool>
             </property>
             <layout class="QGridLayout" name="gridLayout_2">
-             <item row="0" column="0">
-              <widget class="QPushButton" name="Plot3D">
-               <property name="text">
-                <string>Plot3D</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="1" colspan="2">
-              <widget class="QPushButton" name="animation_btn">
-               <property name="enabled">
-                <bool>false</bool>
-               </property>
-               <property name="text">
-                <string>Animation</string>
-               </property>
-               <property name="checkable">
-                <bool>false</bool>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="0" colspan="3">
+             <item row="1" column="0" colspan="2">
               <layout class="QVBoxLayout" name="verticalLayout_4">
                <property name="spacing">
                 <number>6</number>
                </property>
                <item>
                 <layout class="QFormLayout" name="formLayout">
+                 <property name="fieldGrowthPolicy">
+                  <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+                 </property>
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="variableToShowLabel">
+                   <property name="text">
+                    <string>Variable to show</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="QLineEdit" name="varToShow">
+                   <property name="text">
+                    <string>v</string>
+                   </property>
+                  </widget>
+                 </item>
                  <item row="1" column="0">
                   <widget class="QLabel" name="label_8">
                    <property name="text">
@@ -250,20 +247,6 @@
                   <widget class="QLineEdit" name="endValue">
                    <property name="text">
                     <string>40</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="0" column="0">
-                  <widget class="QLabel" name="variableToShowLabel">
-                   <property name="text">
-                    <string>Variable to show</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="0" column="1">
-                  <widget class="QLineEdit" name="varToShow">
-                   <property name="text">
-                    <string>v</string>
                    </property>
                   </widget>
                  </item>
@@ -310,6 +293,13 @@
                 </layout>
                </item>
               </layout>
+             </item>
+             <item row="0" column="0">
+              <widget class="QPushButton" name="Plot3D">
+               <property name="text">
+                <string>Plot3D</string>
+               </property>
+              </widget>
              </item>
             </layout>
            </widget>
@@ -520,22 +510,6 @@
     <hint type="destinationlabel">
      <x>287</x>
      <y>193</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>animation_btn</sender>
-   <signal>clicked()</signal>
-   <receiver>Plot3D</receiver>
-   <slot>click()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>548</x>
-     <y>224</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>413</x>
-     <y>227</y>
     </hint>
    </hints>
   </connection>

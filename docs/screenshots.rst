@@ -17,7 +17,7 @@ you the time of the NEURON_ simulator.
 You can change the `tstop`, the `dt` and the initial voltage from the GUI or 
 the console.
 
-.. image:: images/Neuronvisio_Controls.png
+.. image:: images/Neuronvisio_Controls_Init_and_Run.png
 
 3-Dimensions with a simple model
 ================================
@@ -26,9 +26,17 @@ Rendering of a simple model with 3 section.
 
 .. image:: images/Simple_model.png
 
-The colors can be changed by the user.
+The neurons is rendered using the Mayavi pipeline, where is possibile to choose
+from different colormap and additional filters.
+Using the `GnBu` colormap with the Axes.
 
-.. image:: images/nrnvisio-user-color.png
+.. image:: images/nrnvisio-mayavi-color.png
+	:scale: 70
+
+Using the `red-blue` colormap with the Axes.
+
+.. image:: images/nrnvisio-mayavi-color2.png
+	:scale: 70
 
 3-Dimensions with a complex model
 =================================
