@@ -124,7 +124,7 @@ class Controls():
             msg = "Loaded db: %s" % self.path_to_hdf
             self.ui.statusbar.showMessage(msg, 3500)
             # Enablig the Animation button
-            self.ui.animation_btn.setEnabled(True)
+            self.animation()
             # Disabling all the rest
             self.ui.init_btn.setEnabled(False)
             self.ui.run_btn.setEnabled(False)
