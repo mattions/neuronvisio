@@ -1,3 +1,8 @@
+0.6.0+ -- Dev Version
+=====================
+
+- Animation ported to the new infrastructure.
+
 0.6.0 -- 10 May 2011
 ====================
 
