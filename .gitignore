@@ -17,6 +17,8 @@ deb_dist
 docs/_build/doctrees
 # Latex source for the manual
 docs/_build/pdf
+# Avoiding to add the doc. Submodule are just too crazy.
+docs/_build
 
 #eclipse coding
 .settings
