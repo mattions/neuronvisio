@@ -2,6 +2,7 @@
 =====================
 
 - Animation ported to the new infrastructure.
+- Updated the requerimets with setuptools (needed for paver)
 
 0.6.0 -- 10 May 2011
 ====================

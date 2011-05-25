@@ -5,9 +5,14 @@ Neuronvisio
 What is it
 ==========
 
-NeuronVisio is a Graphical User Interface for `NEURON simulator enviroment 
-<http://www.neuron.yale.edu/neuron/>`_. 
-NeuronVisio connect with NEURON using the new python NEURON interface.
+Neuronvisio is a Graphical User Interface for `NEURON simulator enviroment 
+<http://www.neuron.yale.edu/neuron/>`_ with 3D capabilities. Neuronvisio 
+makes easy to select and investigate sections' properties and it offers 
+easy integration with matplotlib for plotting the results. 
+
+The geometry can be saved using NeuroML and the computational results in 
+a customised and extensible HDF5 format; the results can then be reload in the software
+and analysed in a later stage, without re-running the simulation.
 
 Features
 ========
