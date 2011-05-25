@@ -14,6 +14,7 @@ To install NeuronVisio you need to satisfy the following dependencies
 - mayavi2: http://code.enthought.com/projects/mayavi/ 3.3.1 (or better)
 - matplotlib: http://matplotlib.sourceforge.net/
 - setuptools: http://pypi.python.org/pypi/setuptools
+- pytables: http://www.pytables.org/
 
 
 and of course NEURON_. compiled with python support
@@ -25,7 +26,8 @@ Ubuntu and friends
 
 On Ubuntu you can easily install all the requirements using apt-get with::
 
-    sudo apt-get install python-qt4 ipython python-matplotlib python-setuptools
+    sudo apt-get install python-qt4 ipython python-matplotlib \
+    python-setuptools python-tables  
 
 If you are running a different flavour of GNU/Linux, like Fedora for example, just install 
 the requirements with your package manager, then go to the `Package Install`_.
@@ -48,6 +50,12 @@ If you want to use another method for installation look at the `Mayavi doc`_
 On Ubuntu you will need to install manually these two modules: `python-vtk python-configobj`::
 
     sudo apt-get install python-vtk python-configobj
+    
+
+Make sure the TraitsBackendQt (http://pypi.python.org/pypi/TraitsBackendQt) 
+has been installed as well. To install it run::
+
+	pip install TraitsBackendQt
 
 Mac OS X
 ========
