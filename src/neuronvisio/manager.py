@@ -16,7 +16,7 @@
 # * along with NeuronVisio.  If not, see <http://www.gnu.org/licenses/>.
 
 """:synopsis: Manage the map between vectors and sections
- 
+
 """
 
 from neuron import h
@@ -28,9 +28,9 @@ import matplotlib
 import matplotlib.pyplot as plt
 
 class Manager(object):
-    """The Manager class is used to manage all the vecRef, to create them 
-    and retrieve the information
-    
+    """The Manager class can be used as a library and imported on cluster 
+    simulation. Refer to the online doc for how to save in HDF5 and how to 
+    create New Generic Ref.
     """
 
     def __init__(self):
