@@ -296,6 +296,9 @@ class Visio(object):
     def draw_mayavi(self, x, y, z, d, edges):
         "Draw the surface the first time"
         
+        # rendering disabled
+        self.mayavi.visualization.scene.disable_render = True
+        
         points = mlab.pipeline.scalar_scatter(x, y, z, d/2.0)
         dataset = points.mlab_source.dataset
         dataset.point_data.get_array(0).name = 'diameter'
@@ -346,6 +349,7 @@ class Visio(object):
         """Show an animation of all the section that have 
         the recorded variable among time"""
         
+        
         # Getting the new scalar
         new_scalar = self.get_var_data(var, time_point)
         
@@ -356,6 +360,8 @@ class Visio(object):
             print "Diameter length: %s New Scalar length: %s var: %s" %(len(d),
                                                                         len(new_scalar),
                                                                         var)
+        # ReEnable the rendering
+        self.mayavi.visualization.scene.disable_render = True
         
         self.redraw_color(new_scalar, var)
         
@@ -366,6 +372,8 @@ class Visio(object):
         
         self.colorbar.data_range = [start_value, end_value]
         self.text.text = str(self.manager.groups['t'][time_point])
+        
+        self.mayavi.visualization.scene.disable_render = False
 
     
     def redraw_color(self, new_scalar, var):
