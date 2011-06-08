@@ -27,6 +27,8 @@ sys.path.append(os.path.dirname(__file__))
 from PyQt4 import QtGui, QtCore, uic
 from PyQt4.QtCore import Qt
 
+import numpy as np
+
 import matplotlib as mpl
 if mpl.backends.backend is None: 
     mpl.use('Qt4Agg')
@@ -82,7 +84,9 @@ class Controls():
         self.ui.timelineSlider.connect(self.ui.timelineSlider,
                                          QtCore.SIGNAL("valueChanged(int)"),
                                          self.on_timeline_value_changed)
-        
+        self.ui.animationTime.connect(self.ui.animationTime,
+                                      QtCore.SIGNAL('returnPressed()'),
+                                      self.on_animation_time_return_pressed)
         self.ui.actionLoad.connect(self.ui.actionLoad, 
                                    QtCore.SIGNAL("triggered()"),
                                    self.load_hdf)
@@ -318,12 +322,28 @@ class Controls():
         self.ui.timelineSlider.setEnabled(True)
         self.ui.show()
     
-        
+    
+    
+    def on_animation_time_return_pressed(self):
+        "Getting the value from the text"
+        time = self.ui.animationTime.text()
+        time = int (time)
+        time_list = self.manager.groups['t'].to_python()
+        time_list = np.around(time_list, 3)
+        time_list = time_list.tolist()
+        time_point_indx = time_list.index(time)
+        if time_point_indx:
+            self.sync_visio_3d(time_point_indx)
+        else:
+            print "Value not present in the array."
+    
     def on_timeline_value_changed(self):
         """Draw the animation according to the value of the timeline"""
         
-        # cast to int from str
         time_point_indx = self.ui.timelineSlider.value()
+        self.sync_visio_3d(time_point_indx)    
+    
+    def sync_visio_3d(self, time_point_indx):
         
         var = self.ui.varToShow.text()
         var = str(var) # This will go with Py3

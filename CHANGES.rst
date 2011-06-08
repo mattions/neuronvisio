@@ -3,6 +3,7 @@
 
 - Animation ported to the new infrastructure.
 - Updated the requerimets with setuptools (needed for paver)
+- On the animation timeline is now possible to insert a time directly.
 
 0.6.0 -- 10 May 2011
 ====================
