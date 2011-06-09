@@ -1,8 +1,8 @@
-0.6.0+ -- Dev Version
-=====================
+0.6.1 -- 9 Jun 2011
+===================
 
 - Animation ported to the new infrastructure.
-- Updated the requerimets with setuptools (needed for paver)
+- Updated the requirements with setuptools (needed for paver)
 - Animation timeline accept an arbitrary time and display it on the 
   visio window.
 
