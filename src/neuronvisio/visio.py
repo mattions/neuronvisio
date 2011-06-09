@@ -134,7 +134,7 @@ class Visio(object):
         
         # ScalarBar and time_point
         self.colorbar = None
-        self.text = None
+        self.timelabel = None
     
 
     def picker_callback(self, picker):
@@ -341,7 +341,7 @@ class Visio(object):
         self.dataset.point_data.update()
         src2 = mlab.pipeline.set_active_attribute(self.tube, 
                                                   point_scalars=scalar_name)
-        self.surf = mlab.pipeline.surface(src2, colormap='Blues')
+        self.surf = mlab.pipeline.surface(src2, colormap='blue-red')
         
     
     def show_variable_timecourse(self, var, time_point, 
@@ -368,10 +368,14 @@ class Visio(object):
 
         if not self.colorbar:
             self.colorbar = mlab.colorbar(orientation='vertical')
-            self.text = mlab.text(0.05,0.05, str(time_point), width=0.05)
+            self.timelabel = mlab.text(0.05, 
+                                       0.05, 
+                                       str(time_point), 
+                                       width=0.05
+                                       )
         
         self.colorbar.data_range = [start_value, end_value]
-        self.text.text = str(self.manager.groups['t'][time_point])
+        self.timelabel.text = str(self.manager.groups['t'][time_point])
         
         self.mayavi.visualization.scene.disable_render = False
 

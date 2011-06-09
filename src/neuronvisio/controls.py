@@ -155,6 +155,8 @@ class Controls():
         else:
             #Raise the visio window
             self.visio.container.show()
+        # Enabling the animation
+        self.animation()
         
     
     def init(self):
@@ -187,8 +189,7 @@ class Controls():
                 h.fadvance()
                 
                 self.ui.time_label.setText("<b>" + str(h.t) + "</b>")
-            # Enabling the animation
-            self.animation()
+
                     
     def tstop_changed(self):
         

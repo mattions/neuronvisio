@@ -3,7 +3,8 @@
 
 - Animation ported to the new infrastructure.
 - Updated the requerimets with setuptools (needed for paver)
-- On the animation timeline is now possible to insert a time directly.
+- Animation timeline accept an arbitrary time and display it on the 
+  visio window.
 
 0.6.0 -- 10 May 2011
 ====================
