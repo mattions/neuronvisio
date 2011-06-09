@@ -48,17 +48,22 @@ Rendering of a more complex model, a pyramidal neuron.
 
 
 Animation and pylab graphs
-================================
+==========================
 
-It is possible to follow the timecourse of a variable in the whole neuron or networks using
-the bottom slider, after the simulation has been ran, or reloaded. 
+It is possible to follow the timecourse of a variable in the whole neuron or 
+networks using the bottom slider, after the simulation has been ran, 
+or reloaded. If a particular point in time is of interest, insert in the 
+animation Time line textfield and hit return.
+ 
 The pylab graphs are integrated and can be easily generated with a click. 
-For example here we shows hhow the voltage change in a simple model and in a pyramidal one.
+For example here we shows hhow the voltage change in a simple model and in 
+a pyramidal one.
 
 Simple model
 ------------
 
-A simple 3 sections model showing the different value of the voltage in the cell.
+A simple 3 sections model showing the different value of the voltage in the 
+cell.
 
 .. image:: images/voltage_variation_among_time.png
     :scale: 70
@@ -66,7 +71,8 @@ A simple 3 sections model showing the different value of the voltage in the cell
 Pyramidal neuron
 ----------------
 
-The propagation of the voltage among the neuron. The stimul was given in the soma.
+The propagation of the voltage among the neuron. The stimul was given in the 
+soma.
 
 .. image:: images/pyramidal_3D_change_voltage.png
     :scale: 70
@@ -74,8 +80,9 @@ The propagation of the voltage among the neuron. The stimul was given in the som
 Pylab integration
 -----------------
 
-It is possible to use the standard pylab tool and to plot the timecourses in the current figure, 
-or create a new one just selecting another output figure number.
+It is possible to use the standard pylab tool and to plot the timecourses in 
+the current figure, or create a new one just selecting another output figure 
+number.
 
 .. image:: images/pylab_integration.png
     :scale: 70
