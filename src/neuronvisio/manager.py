@@ -15,9 +15,7 @@
 # * You should have received a copy of the GNU General Public License
 # * along with NeuronVisio.  If not, see <http://www.gnu.org/licenses/>.
 
-""":synopsis: Manage the map between vectors and sections
-
-"""
+""":synopsis: Manage the map between vectors and sections"""
 
 from neuron import h
 import numpy as np
@@ -53,10 +51,12 @@ class Manager(object):
         
         :param var: The variable to record
         :param sec: The section where to record
-        :param time_interval_recording: If None, use the dt of Neuron. \
-        Specify which interval to use to record the vectors. \
-        Note the same resolution should apply to the time vectors.
+        :param time_interval_recording: If None, use the dt of Neuron. 
+                    Specify which interval to use to record the vectors. 
+                    Note the same resolution should apply to the time 
+                    vectors.
         :return: True if the vector is created successfully.
+        
         """
             
         success = False
