@@ -278,7 +278,11 @@
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLineEdit" name="animationTime"/>
+                  <widget class="QLineEdit" name="animationTime">
+                   <property name="text">
+                    <string>0.0</string>
+                   </property>
+                  </widget>
                  </item>
                 </layout>
                </item>

@@ -328,14 +328,15 @@ class Controls():
     def on_animation_time_return_pressed(self):
         "Getting the value from the text"
         time = self.ui.animationTime.text()
-        time = int (time)
-        time_list = self.manager.groups['t'].to_python()
-        time_list = np.around(time_list, 3)
-        time_list = time_list.tolist()
-        time_point_indx = time_list.index(time)
-        if time_point_indx:
+        try:
+            time = int (time)
+            time_list = self.manager.groups['t'].to_python()
+            time_list = np.around(time_list, 3)
+            time_list = time_list.tolist()
+            time_point_indx = time_list.index(time)
             self.sync_visio_3d(time_point_indx)
-        else:
+            self.ui.timelineSlider.setValue(time_point_indx)
+        except:
             print "Value not present in the array."
     
     def on_timeline_value_changed(self):
