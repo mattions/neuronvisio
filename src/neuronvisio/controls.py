@@ -330,10 +330,19 @@ class Controls():
         time = self.ui.animationTime.text()
         try:
             time = int (time)
-            time_list = self.manager.groups['t'].to_python()
-            time_list = np.around(time_list, 3)
-            time_list = time_list.tolist()
-            time_point_indx = time_list.index(time)
+            time_list = self.manager.groups['t']
+            time_point_indx = 0
+            # If it's a vector on the just ran sim.
+            if hasattr(time_list, 'to_python'):
+                time_list = time_list.to_python()
+                time_list = np.around(time_list, 3)
+                
+                time_point_indx = np.where(time_list==time)[0]
+            # If it's a numpy array saved on the disk
+            else:
+                rounded = time_list.read().round(3)
+                time_point_indx = np.where(rounded==time)[0]
+                        
             self.sync_visio_3d(time_point_indx)
             self.ui.timelineSlider.setValue(time_point_indx)
         except:

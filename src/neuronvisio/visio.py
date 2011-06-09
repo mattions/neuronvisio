@@ -375,7 +375,8 @@ class Visio(object):
                                        )
         
         self.colorbar.data_range = [start_value, end_value]
-        self.timelabel.text = str(self.manager.groups['t'][time_point])
+        time = self.manager.groups['t'][time_point]
+        self.timelabel.text = str(round(time, 3))
         
         self.mayavi.visualization.scene.disable_render = False
 
