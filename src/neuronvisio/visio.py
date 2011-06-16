@@ -175,14 +175,16 @@ class Visio(object):
                       
 
     
-    def update_sections_info(self, list_of_sections):
+    def update_sections_info(self, sections):
         """Updating the info tab for the given section"""
-        if hasattr(selected_sec, 'name'):
-            selected_secs_name = selected_sec.name()
-            info = self.get_sec_info(selected_sec)
+        # Check if it's only one and retrieve info
+        if hasattr(sections, 'name'):
+            selected_secs_name = sections.name()
+            info = self.get_sec_info(sections)
             self.sec_info_label.setText(info)
+        # Print the list on the tab.
         else: 
-            info = "Selected sections: %s" %list_of_sections
+            info = "Selected sections: %s" %sections
             self.sec_info_label.setText(info)
     
     def get_selection_scalar(self, selected_secs):
