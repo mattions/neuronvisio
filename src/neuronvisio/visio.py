@@ -191,9 +191,7 @@ class Visio(object):
         """ Return a scalar array with zero everywhere but one 
         for the selected sections
         
-        Params
-        ------
-        selected_secs = list with the names of the selected sections 
+        :param: selected_secs - list with the names of the selected sections 
         
         """
         

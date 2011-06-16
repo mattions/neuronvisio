@@ -334,9 +334,8 @@ class Controls():
         """Select an arbitrary number of sections from the 
         command line.
         
-        Params
-        ------
-        list_of_section : the list of sections to select. Each section should
+        
+        :param: list_of_section - the list of sections to select. Each section should
                           be given by the name (sec.name() from Neuron point 
                           of view. 
         """
