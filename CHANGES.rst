@@ -1,3 +1,12 @@
+0.6.2 -- 16 Jun 2011
+====================
+
+- New API to select sections directly from the commandline 
+  (`controls.select_sections()`)
+- Animation Timeliner set up only if simulation has ran or be 
+  reloaded.
+
+
 0.6.1 -- 9 Jun 2011
 ===================
 
