@@ -152,25 +152,53 @@ class Visio(object):
                   if bisect_left(z_b, self.picker.pick_position[2]) == 1:
                       selected_sec = self.cyl2sec[bound]
                       print "Selected Section: %s" %selected_sec.name()
-                      self.selected_cyl = bound
+                      
+                      self.update_sections_info(selected_sec)
                       
                       info = self.get_sec_info(selected_sec)
                       self.sec_info_label.setText(info)
-                      new_scalar = self.get_selection_scalar(selected_sec)
-                      
+                      # Creating the list with selected secs.
+                      # Only one passing the name
+                      selected_secs_name = []
+                      # only one sec selected.
+                      if hasattr(selected_sec, 'name'):
+                          selected_secs_name = selected_sec.name()
+                      # More than one.
+                      # This happens when we can't select only one 
+                      # sec with the box approach...
+                      else:
+                          for sec in selected_sec:
+                              selected_secs_name.append(sec.name())
+                      new_scalar = self.get_selection_scalar(selected_secs_name)
                               
                       self.redraw_color(new_scalar, 'v')
                       
 
-                   
-
-    def get_selection_scalar(self, selected_sec):
+    
+    def update_sections_info(self, list_of_sections):
+        """Updating the info tab for the given section"""
+        if hasattr(selected_sec, 'name'):
+            selected_secs_name = selected_sec.name()
+            info = self.get_sec_info(selected_sec)
+            self.sec_info_label.setText(info)
+        else: 
+            info = "Selected sections: %s" %list_of_sections
+            self.sec_info_label.setText(info)
+    
+    def get_selection_scalar(self, selected_secs):
         """ Return a scalar array with zero everywhere but one 
-        for the selected section
+        for the selected sections
+        
+        Params
+        ------
+        selected_secs = list with the names of the selected sections 
+        
         """
+        
         new_scalar = []
         for sec in h.allsec():
-            if sec.name() == selected_sec.name():
+            if sec.name() in selected_secs:
+            
                 sec_scalar = self.build_sec_scalar(sec, 1.)
             else:
                 sec_scalar = self.build_sec_scalar(sec, 0.)

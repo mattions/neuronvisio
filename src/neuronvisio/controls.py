@@ -156,7 +156,12 @@ class Controls():
             #Raise the visio window
             self.visio.container.show()
         # Enabling the animation
-        self.animation()
+        try:
+            self.animation()
+        except KeyError:
+            # No simulation run an nothing loaded.
+            # just pass
+            pass
         
     
     def init(self):
@@ -324,6 +329,20 @@ class Controls():
         self.ui.show()
     
     
+    
+    def select_sections(self, list_of_sections):
+        """Select an arbitrary number of sections from the 
+        command line.
+        
+        Params
+        ------
+        list_of_section : the list of sections to select. Each section should
+                          be given by the name (sec.name() from Neuron point 
+                          of view. 
+        """
+        selection_scalar = self.visio.get_selection_scalar(list_of_sections)
+        self.visio.redraw_color(selection_scalar, 'v')
+        self.visio.update_sections_info(list_of_sections)
     
     def on_animation_time_return_pressed(self):
         "Getting the value from the text"
