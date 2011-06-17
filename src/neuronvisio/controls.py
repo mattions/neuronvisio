@@ -331,7 +331,7 @@ class Controls():
     
     
     
-    def select_sections(self, list_of_sections, sections_subset=[]):
+    def select_sections(self, list_of_sections):
         """Select an arbitrary number of sections from the 
         command line.
         
@@ -341,8 +341,7 @@ class Controls():
                           of view. 
         """
         if self.visio is not None:
-            selection_scalar = self.visio.get_selection_scalar(list_of_sections,
-                                                               sections_subset)
+            selection_scalar = self.visio.get_selection_scalar(list_of_sections)
             self.visio.redraw_color(selection_scalar, 'v')
             self.visio.update_sections_info(list_of_sections)
         else:
