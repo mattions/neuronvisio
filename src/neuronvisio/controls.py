@@ -106,7 +106,8 @@ class Controls():
         
         ### Manager class 
         self.manager = manager.Manager()
-        self.path_to_hdf = None                    
+        self.path_to_hdf = None
+        self.visio = None  
         self.ui.show()
         # Start the main event loop.
         #app.exec_()
@@ -147,7 +148,7 @@ class Controls():
     def launch_visio(self):
         msg = "Plotting..."
         self.ui.statusbar.showMessage(msg, 3500)
-        if not hasattr(self, 'visio'):
+        if self.visio == None:
             self.visio = Visio(self.ui.sec_info_label, self.manager)
             self.visio.draw_model()
             
@@ -330,7 +331,7 @@ class Controls():
     
     
     
-    def select_sections(self, list_of_sections):
+    def select_sections(self, list_of_sections, sections_subset=[]):
         """Select an arbitrary number of sections from the 
         command line.
         
@@ -339,9 +340,13 @@ class Controls():
                           be given by the name (sec.name() from Neuron point 
                           of view. 
         """
-        selection_scalar = self.visio.get_selection_scalar(list_of_sections)
-        self.visio.redraw_color(selection_scalar, 'v')
-        self.visio.update_sections_info(list_of_sections)
+        if self.visio is not None:
+            selection_scalar = self.visio.get_selection_scalar(list_of_sections,
+                                                               sections_subset)
+            self.visio.redraw_color(selection_scalar, 'v')
+            self.visio.update_sections_info(list_of_sections)
+        else:
+            print "You have to launch the 3D Visio window first!"
     
     def on_animation_time_return_pressed(self):
         "Getting the value from the text"
