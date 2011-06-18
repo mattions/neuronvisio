@@ -1,4 +1,4 @@
-NeuronVisio is a GTK2 user interface for NEURON simulator enviroment
+Neuronvisio is a user interface for NEURON simulator environment
 
 Copyright (c) 2009, Michele Mattioni
 All rights reserved.
