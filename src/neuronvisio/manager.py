@@ -621,7 +621,8 @@ class Manager(object):
         surf = ax.plot_surface(X, Y, Z,  rstride=10, cstride=10, cmap=cm.jet,
                                linewidth=0, antialiased=False)
         fig.colorbar(surf, shrink=0.5, aspect=5)
-        plt.show()
+        return fig
+        #plt.show()
 
 
             

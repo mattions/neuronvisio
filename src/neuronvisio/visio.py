@@ -198,7 +198,6 @@ class Visio(object):
         new_scalar = []
         for sec in h.allsec():
             if sec.name() in selected_secs:
-            
                 sec_scalar = self.build_sec_scalar(sec, 1.)
             else:
                 sec_scalar = self.build_sec_scalar(sec, 0.)
