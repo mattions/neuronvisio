@@ -1,3 +1,9 @@
+0.6.2dev+
+=========
+
+- Added a new tab to have a ModelDb explorer inside Neuronvisio 
+
+
 0.6.2 -- 16 Jun 2011
 ====================
 
