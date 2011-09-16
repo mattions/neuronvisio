@@ -93,6 +93,13 @@ class Controls():
         self.ui.actionSave.connect(self.ui.actionSave,
                                    QtCore.SIGNAL("triggered()"),
                                    self.save_hdf)
+        self.ui.tabWidget.connect(self.ui.tabWidget, 
+                                  QtCore.SIGNAL('currentChanged(int)'),
+                                  self.populate_treeview_model)
+        self.ui.tree_models.connect(self.ui.tree_models, 
+                                    QtCore.SIGNAL('itemSelectionChanged ()'),
+                                    self.select_model_treeview)
+        
         
         ### Connection with the console
         widgetDic = {'dt' : self.ui.dtSpinBox, 
@@ -107,10 +114,46 @@ class Controls():
         ### Manager class 
         self.manager = manager.Manager()
         self.path_to_hdf = None
-        self.visio = None  
+        self.visio = None
+        self.tab_model_already_populated = False  
         self.ui.show()
         # Start the main event loop.
         #app.exec_()
+        
+        # Some faked data for the dictionary
+        # The dictionary should come from the scraper, 
+        # now creating a faked dictionary
+        self.models = {'Chapman et al. 1983' : 'README model1', 
+                  'Migliore, Sherped 2002' : 'README model2', 
+                  'Kanold, Manis 2001' : 'README model3',}
+    
+    
+    def populate_treeview_model(self, index):
+        """populate the tree view and the scroll_area when the tab is 
+        activated"""
+        if not self.tab_model_already_populated and index == 3 :
+        
+            # Populating the treeview with the dictionary
+            for model in self.models.keys():
+                model_item = QtGui.QTreeWidgetItem(self.ui.tree_models, 'Models')
+                model_item.setText(0, model)
+
+            
+            self.ui.readme_plainTextEdit.clear()
+            self.ui.readme_plainTextEdit.setPlainText("No model selected.")
+            self.tab_model_already_populated = True #we populated only once.
+        
+    def select_model_treeview(self):
+        """Synch the README on the plainTextArea with the selected model 
+        on the treeview."""
+        items = self.ui.tree_models.selectedItems()
+        
+        if items: # if any selection
+            selected_item = items[0] #first element
+            model_key = str(selected_item.text(0))
+            readme = self.models[model_key]
+            self.ui.readme_plainTextEdit.clear()
+            self.ui.readme_plainTextEdit.setPlainText(readme)
     
     def load_hdf(self, path_to_hdf=None):
     
