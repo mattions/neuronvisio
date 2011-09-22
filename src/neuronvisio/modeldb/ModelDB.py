@@ -6,6 +6,8 @@ import os
 import xml.etree.ElementTree
 import urllib
 import zipfile
+import logging 
+
 
 # TODO: those are general functionality, move to better place
 def to_text(t):
@@ -27,10 +29,10 @@ def StartFile(filename):
         # Implementation for Linux
         subprocess.Popen(['xdg-open', filename])
 
-class Model:
+class Model(object):
     # Fields
     _model = None
-    _log = None
+    
 
     # Constants
     _modelProperties = [('model_type', 0), ('model_concepts', 0),
@@ -40,9 +42,8 @@ class Model:
                         ('simulation_environment', 0)]
 
     # Initialization
-    def __init__(self, model, log):
+    def __init__(self, model):
         self._model = model
-        self._log = log
 
     # Public data accessors
     def getProperties(self):
@@ -76,10 +77,10 @@ class Model:
     def browse(self):
         if self.existsLocally():
             modelName = self.getName()
-            self._log("Openning '" + self.get_dir()+"'.")
+            logging.info("Openning '" + self.get_dir()+"'.")
             StartFile(self.get_dir())
         else:
-            self._log("Model does not exists locally")
+            logging.info("Model does not exists locally")
         
     def downloadModel(self):
         modelId = self.getId()
@@ -88,20 +89,20 @@ class Model:
         zipFile = 'Models/'+modelId+'.zip'
         modelDir = self.get_dir()
         if os.path.isdir(modelDir):
-            self._log("Model '" + self.getName() + "' already exists locally")
+            logging.info("Model '" + self.getName() + "' already exists locally")
             return            
         if os.path.isfile(zipFile)==False:
             if type(self._model['zip_url'])==types.NoneType:
-                self._log("No zip URL found for '" + self.getName() + "'")
+                logging.info("No zip URL found for '" + self.getName() + "'")
                 return
             else:
-                self._log("Downloading model for '" + self.getName() + "'")
+                logging.info("Downloading model for '" + self.getName() + "'")
                 self.download_file(self._model['zip_url'][0], zipFile)
-                self._log("Download complete.")
+                logging.info("Download complete.")
                 # TODO: open model data in tab
                 # TODO: recolor, self.tree.SetItemColor(item, wx.Colour(100,10,255))
         else:
-            self._log("Model for '" + self.getName() + "' already downloaded")
+            logging.info("Model for '" + self.getName() + "' already downloaded")
         self.extract_model(zipFile, modelDir)
 
     # Private implementation methods
@@ -112,28 +113,28 @@ class Model:
         
     # Download model file from the network
     def download_file(self, url, filename):
-        self._log("Creating " + filename)
+        logging.info("Creating " + filename)
         try:
             s = urllib.urlopen(url)
             f = open(filename, "wb")
             f.write(s.read())
             f.close()
         except Exception as e:
-            self._log("Error downloading file: "+e.message)
+            logging.info("Error downloading file: "+e.message)
             return
-        self._log("Done.")
+        logging.info("Done.")
 
     # Extract model zip file
     # ModelDB zip files contain trailing garbage which should be removed
     # See 'ZIP end of central directory record' in http://en.wikipedia.org/wiki/ZIP_%28file_format%29
     def extract_model(self, zipFile, modelDir):
-        self._log("Extracting '" + zipFile + "' into " + modelDir)
+        logging.info("Extracting '" + zipFile + "' into " + modelDir)
         try:
             f = open(zipFile, 'r+b')
             data = f.read()
             pos = data.find('\x50\x4b\x05\x06') # End of central directory signature
             if (pos > 0):
-                self._log("Trancating file at location " + str(pos + 22)+ ".")
+                logging.info("Trancating file at location " + str(pos + 22)+ ".")
                 f.seek(pos + 22)                # size of 'ZIP end of central directory record'
                 f.truncate()
                 f.close()
@@ -154,9 +155,9 @@ class Model:
                 for d in dirs:
                     os.rename('Models/' + d, modelDir + d)
         except Exception as e:
-            self._log("Error extracting file: "+str(e.message))
+            logging.info("Error extracting file: "+str(e.message))
             return
-        self._log("Done.")
+        logging.info("Done.")
 
     # Access the internal dictionary
     def get_dictionary(self):
@@ -171,11 +172,11 @@ class Models():
     _modelTree = {}
 
     # public methods
-    def __init__(self, log):
+    def __init__(self):
         self._short_name_re = re.compile("^\s*(.*)\((.*)\)")
-        self._modelList = self.generate_models_list('ModelDB.xml')
+        path = os.path.split(os.path.abspath(__file__))[0] # base absolute dir 
+        self._modelList = self.generate_models_list(os.path.join(path, 'ModelDB.xml'))
         self._modelTree = self.generate_models_tree(self._modelList)        
-        self._log = log
         
     def getModelNames(self):
         return self._modelTree.keys()
@@ -184,7 +185,7 @@ class Models():
         return self._modelTree.has_key(modelName)
 
     def getModel(self, modelName):
-        return Model(self._modelTree[modelName], self._log)
+        return Model(self._modelTree[modelName])
 
     def getField(self, model, field):
         return to_text(self._modelTree[model][field])
