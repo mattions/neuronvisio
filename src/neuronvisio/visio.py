@@ -23,9 +23,10 @@ Contain all the 3D operations.
 
 import os
 os.environ['ETS_TOOLKIT'] = 'qt4'
+import logging
+logger = logging.getLogger(__name__)
 
 from PyQt4 import QtGui, QtCore, uic
-
 from enthought.traits.api import HasTraits, Instance, on_trait_change, \
     Int, Dict
 from enthought.traits.ui.api import View, Item
@@ -142,7 +143,7 @@ class Visio(object):
         """
         # Outline
         
-        print picker.pick_position
+        logger.debug( picker.pick_position)
         
         bounds = self.cyl2sec.keys()
         for bound in bounds:
@@ -151,7 +152,7 @@ class Visio(object):
               if bisect_left(y_b, self.picker.pick_position[1]) == 1:
                   if bisect_left(z_b, self.picker.pick_position[2]) == 1:
                       selected_sec = self.cyl2sec[bound]
-                      print "Selected Section: %s" %selected_sec.name()
+                      logger.info("Selected Section: %s" %selected_sec.name())
                       
                       self.update_sections_info(selected_sec)
                       
@@ -307,8 +308,8 @@ class Visio(object):
                         
         
         if len(var_scalar) == 0:
-            print "Var scalar 0 length. Var: %s point_time: %s" %(var, 
-                                                                  time_point)
+            logger.debug( "Var scalar 0 length. Var: %s point_time: %s" %(var, 
+                                                                  time_point))
         return np.array(var_scalar)
 
     def build_sec_scalar(self, sec, var_value):
@@ -382,11 +383,12 @@ class Visio(object):
         
         d = self.dataset.point_data.get_array('diameter')
         if len(d) != len(new_scalar):
-            print "ERROR! MISMATCH on the Vector Length."
-            print "If you assign the new vectors it will not work"
-            print "Diameter length: %s New Scalar length: %s var: %s" %(len(d),
-                                                                        len(new_scalar),
-                                                                        var)
+            message = "ERROR! MISMATCH on the Vector Length. \
+            If you assign the new vectors it will not work \
+            Diameter length: %s New Scalar length: %s var: %s" %(len(d),
+                                                                 len(new_scalar),
+                                                                 var)
+            logger.error(message)
         # ReEnable the rendering
         self.mayavi.visualization.scene.disable_render = True
         
