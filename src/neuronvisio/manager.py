@@ -24,6 +24,9 @@ import tables
 import datetime
 import matplotlib
 import matplotlib.pyplot as plt
+import logging
+logger = logging.getLogger(__name__)
+
 
 class Manager(object):
     """The Manager class can be used as a library and imported on cluster 
@@ -118,7 +121,7 @@ class Manager(object):
                                        point_process)
             responses.append(response)
         if all(responses) != True:
-            print "Warning: Some vectors could not be added."
+            logger.warning( "Warning: Some vectors could not be added.")
     
     
     def add_ref(self, generic_ref, x):
@@ -190,11 +193,11 @@ class Manager(object):
                     vec.record(point_process, 
                                getattr(sec(0.5), varRef), 
                                time_interval_recording)
-                    print "Sec: %s has pp: %s" %(sec.name(), point_process)
+                    logging.info( "Sec: %s has pp: %s" %(sec.name(), point_process))
                 else:
                     vec.record(getattr(sec(0.5), varRef), 
                                time_interval_recording)
-                    print "Sec: %s has not pp" %(sec.name())
+                    logging.info( "Sec: %s has not pp" %(sec.name()))
             else:
                 if point_process:
                     vec.record(point_process, 
@@ -204,8 +207,8 @@ class Manager(object):
                 
             
         except NameError:
-            print "The variable %s is not present in the section %s" \
-            % (varRef, sec.name())
+            logging.error( "The variable %s is not present in the section %s" \
+            % (varRef, sec.name()))
         
         h.pop_section()
         return vec
@@ -322,7 +325,8 @@ class Manager(object):
                     plt.plot(self.groups['t'], vec, 'o', label=key)
                 elif len(x) != len(vec):
                     plt.plot(vec, 'o', label=key)
-                    print "x and y mismatched. Is the %s wrapped in the right baseref?\ Plotted vs it's it own length anyway." %key
+                    logging.warning("x and y mismatched. Is the %s wrapped in the right baseref? \
+                    Plotted vs it's it own length anyway." %key)
                 else:
                     plt.plot(x, vec, 'o', label=key)
             else:
@@ -332,7 +336,7 @@ class Manager(object):
                     plt.plot(vec, label=key)
                     s = "x and y mismatched. Is the %s wrapped in the right baseref?\
                      Plotted vs it's it own length anyway." %key
-                    print s 
+                    logger.info(s)
                 else:
                     plt.plot(x, vec, label=key)
                 
@@ -379,7 +383,6 @@ class Manager(object):
                 
             else:
                 sec = name
-        #print "original: %s, sanitized: %s" %(sec_name, sec)
         return sec
         
     def _save_geom(self, h5file_holder):
@@ -477,14 +480,13 @@ class Manager(object):
                         vec = vec.to_python(tmp_array) # Swap in place
                     else:
                         vec =  vec.to_python() # Creating a list
-                #print "Saving vec: %s of section: %s" %(var, section_name)
                 h5file_holder.createArray(target_group, var, 
                                           vec,
                                           title=detail)
         
     def load_from_hdf(self, filename):
         """Load all the results on the hvf in memory"""
-        print "Loading: %s" %filename
+        logger.info( "Loading: %s" %filename)
         self._load_geom(filename)
         self._load_allRef(filename)
         
