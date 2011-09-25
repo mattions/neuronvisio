@@ -2,6 +2,9 @@
 =========
 
 - Added a new tab to have a ModelDb explorer inside Neuronvisio 
+- Integrate the ability to download and extract a NEURON model from ModelDb
+- Ability to load the model directly from Neuronvisio
+- Used the logging python system through the package 
 
 
 0.6.2 -- 16 Jun 2011
