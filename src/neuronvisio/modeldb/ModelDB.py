@@ -8,6 +8,8 @@ import urllib
 import zipfile
 import logging 
 
+logger = logging.getLogger(__name__)
+
 
 # TODO: those are general functionality, move to better place
 def to_text(t):
@@ -91,10 +93,10 @@ class Model(object):
     def browse(self):
         if self.exists_locally():
             modelName = self.get_name()
-            logging.info("Opening '" + self._get_dir()+"'.")
+            logger.info("Opening '" + self._get_dir()+"'.")
             start_file(self._get_dir())
         else:
-            logging.info("Model does not exists locally")
+            logger.info("Model does not exists locally")
         
     def download_model(self):
         modelId = self.get_id()
@@ -102,21 +104,18 @@ class Model(object):
             os.mkdir('Models')        
         zipFile = 'Models/'+modelId+'.zip'
         modelDir = self._get_dir()
-        if os.path.isdir(modelDir):
-            logging.info("Model '" + self.get_name() + "' already exists locally")
-            return            
-        if os.path.isfile(zipFile)==False:
+        if not os.path.isdir(modelDir):
             if type(self._model['zip_url'])==types.NoneType:
-                logging.info("No zip URL found for '" + self.get_name() + "'")
+                logger.info("No zip URL found for '" + self.get_name() + "'")
                 return
             else:
-                logging.info("Downloading model for '" + self.get_name() + "'")
+                logger.info("Downloading model for '" + self.get_name() + "'")
                 self._download_file(self._model['zip_url'][0], zipFile)
-                logging.info("Download complete.")
+                logger.info("Download complete.")
                 # TODO: open model data in tab
                 # TODO: recolor, self.tree.SetItemColor(item, wx.Colour(100,10,255))
         else:
-            logging.info("Model for '" + self.get_name() + "' already downloaded")
+            logger.info("Model for '" + self.get_name() + "' already downloaded")
         self._extract_model(zipFile, modelDir)
         return modelDir
 
@@ -132,28 +131,28 @@ class Model(object):
         
     # Download model file from the network
     def _download_file(self, url, filename):
-        logging.info("Creating " + filename)
+        logger.info("Creating " + filename)
         try:
             s = urllib.urlopen(url)
             f = open(filename, "wb")
             f.write(s.read())
             f.close()
         except Exception as e:
-            logging.info("Error downloading file: "+e.message)
+            logger.info("Error downloading file: "+e.message)
             return
-        logging.info("Done.")
+        logger.info("Done.")
 
     # Extract model zip file
     # ModelDB zip files contain trailing garbage which should be removed
     # See 'ZIP end of central directory record' in http://en.wikipedia.org/wiki/ZIP_%28file_format%29
     def _extract_model(self, zipFile, modelDir):
-        logging.info("Extracting '" + zipFile + "' into " + modelDir)
+        logger.info("Extracting '" + zipFile + "' into " + modelDir)
         try:
             f = open(zipFile, 'r+b')
             data = f.read()
             pos = data.find('\x50\x4b\x05\x06') # End of central directory signature
             if (pos > 0):
-                logging.info("Trancating file at location " + str(pos + 22)+ ".")
+                logger.info("Trancating file at location " + str(pos + 22)+ ".")
                 f.seek(pos + 22)                # size of 'ZIP end of central directory record'
                 f.truncate()
                 f.close()
@@ -174,9 +173,8 @@ class Model(object):
                 for d in dirs:
                     os.rename('Models/' + d, modelDir + d)
         except Exception as e:
-            logging.info("Error extracting file: "+str(e.message))
-            return
-        logging.info("Done.")
+            logger.info("Error extracting file: "+str(e.message))
+        logger.info("Done.")
 
 #---------------------------------------------------------------------------
 class Models():

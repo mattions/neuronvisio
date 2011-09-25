@@ -466,7 +466,7 @@
              </spacer>
             </item>
             <item>
-             <widget class="QPushButton" name="loadModel">
+             <widget class="QPushButton" name="load_model_btn">
               <property name="text">
                <string>Load Model</string>
               </property>

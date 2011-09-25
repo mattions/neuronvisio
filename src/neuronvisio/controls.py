@@ -17,9 +17,13 @@
 
 #@PydevCodeAnalysisIgnoren
 import os
+from subprocess import call
 from manager import SynVecRef
 os.environ['ETS_TOOLKIT'] = 'qt4'
-
+import logging
+FORMAT = '%(levelname)s %(name)s %(lineno)s   %(message)s'
+logging.basicConfig(level=logging.INFO, format=FORMAT)
+logger = logging.getLogger(__name__)
 
 import sys
 sys.path.append(os.path.dirname(__file__)) 
@@ -33,9 +37,9 @@ import matplotlib as mpl
 if mpl.backends.backend is None: 
     mpl.use('Qt4Agg')
 elif mpl.backends.backend != 'Qt4Agg':
-    print "You must use the Qt4 backend to be able to use  Neuronvisio."
-    print "Check your backend in ~/.matplotlib/matplotlibrc and set it to Qt4Agg"
-
+    message = "You must use the Qt4 backend to be able to use  Neuronvisio. \
+    Check your backend in ~/.matplotlib/matplotlibrc and set it to Qt4Agg"
+    logger.warning(message)
 mpl.interactive(True)
 
 from neuron import h
@@ -102,6 +106,9 @@ class Controls():
         self.ui.tree_models.connect(self.ui.tree_models, 
                                     QtCore.SIGNAL('itemSelectionChanged ()'),
                                     self.select_model_treeview)
+        self.ui.load_model_btn.connect(self.ui.load_model_btn, 
+                                    QtCore.SIGNAL('clicked()'),
+                                    self.load_selected_model)
         
         
         ### Connection with the console
@@ -156,20 +163,62 @@ class Controls():
     def select_model_treeview(self):
         """Synch the README on the plainTextArea with the selected model 
         on the treeview."""
+        mod = self._retrieve_selected_model()
+        if mod:
+            readme = mod.get_readme()
+            self.ui.textEdit.clear()
+            self.ui.textEdit.insertHtml(readme)
+       
+    def _retrieve_selected_model(self):
+        "Return the model selected in the "
         items = self.ui.tree_models.selectedItems()
-        
-        if items: # if any selection
+    
+        if items:
             selected_item = items[0] #first element
             model_id = str(selected_item.text(3))
             models_name = self.models.get_model_names()
             for name in models_name:
                 mod = self.models.get_model(name)
                 if model_id == mod.get_id():
-                    readme = mod.get_readme()
-                    self.ui.textEdit.clear()
-                    self.ui.textEdit.insertHtml(readme)
-                    return
+                    return mod
+        else:
+            logging.info('No model selected!')
+            return None
+       
+    def load_selected_model(self):
+        "Load the model selected in the treeview."
+        
+        mod = self._retrieve_selected_model()
+        if mod:
+            model_path = mod.download_model()
+            self.run_extracted_model(model_path)
             
+
+    def run_extracted_model(self, model_dir):
+    
+        if os.path.exists(os.path.join (model_dir, 'mosinit.hoc')):
+            old_dir = os.getcwd()
+            os.chdir(model_dir)
+            #TODO: We should check if the file is already compiled, 
+            # and call the right executable according to the system.
+            call(['nrnivmodl'])
+            os.chdir(old_dir)
+            import neuron
+            neuron.load_mechanisms(os.path.abspath(model_dir))
+            from neuron import h
+            from neuron import gui # to not freeze neuron gui
+            
+            logger.info("Loading model in %s" %model_dir)
+            h.load_file(os.path.join(model_dir, 'mosinit.hoc'))
+            
+            
+        else: 
+            response = """We didn't find any mosinit.hoc . Unfortunately we can't 
+            automatically run the model. Check the README, maybe there is an 
+            hint."""
+            logging.warning(response)
+            path_info = "You can find the extracted model in %s" %model_dir
+            logging.info(path_info)
     
     def load_hdf(self, path_to_hdf=None):
     
@@ -228,7 +277,7 @@ class Controls():
         """Set the vm_init from the spin button and prepare the simulator"""
         
         if not self.manager.refs.has_key('VecRef') :
-            print "No vector Created. Create at least one vector to run the simulation"
+            logger.info("No vector Created. Create at least one vector to run the simulation")
             return False
         else:
             v_init = self.ui.vSpinBox.value()
@@ -404,7 +453,7 @@ class Controls():
             self.visio.redraw_color(selection_scalar, 'v')
             self.visio.update_sections_info(list_of_sections)
         else:
-            print "You have to launch the 3D Visio window first!"
+            logger.warning("You have to launch the 3D Visio window first!")
     
     def on_animation_time_return_pressed(self):
         "Getting the value from the text"
@@ -427,7 +476,7 @@ class Controls():
             self.sync_visio_3d(time_point_indx)
             self.ui.timelineSlider.setValue(time_point_indx)
         except:
-            print "Value not present in the array."
+            logger.warning("Value not present in the array.")
     
     def on_timeline_value_changed(self):
         """Draw the animation according to the value of the timeline"""
