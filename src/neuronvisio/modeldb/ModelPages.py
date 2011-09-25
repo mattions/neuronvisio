@@ -24,34 +24,34 @@ def generate_table(format, properties, cols):
     return result
 
 class ModelPages:        
-    def DefaultReadmeTab(self):
-        return self.create_readme_tab(self._mainReadme)
+    def default_readme_tab(self):
+        return self._create_readme_tab(self._main_readme)
 
-    def CreateReadmeTab(self, model):
-        if (type(model.getReadme()) == types.NoneType):
-            readme = self._mainReadme
+    def create_readme_tab(self, model):
+        if (type(model.get_readme()) == types.NoneType):
+            readme = self._main_readme
         else:
-            readme = model.getReadme()
-        return self.create_readme_tab(readme)
+            readme = model.get_readme()
+        return self._create_readme_tab(readme)
 
-    def DefaultOverviewTab(self):
-        return self._mainOverview
+    def default_overview_tab(self):
+        return self._main_overview
     
-    def CreateOverviewTab(self, model):
+    def create_overview_tab(self, model):
         html = "<html>"
         html = html +HTML_BODY
         html = html + "<h1>Model Information</h1>"
-        html = html + "<p>" + generate_table(self._modelPageHeader, model.get_dictionary(), 3) + "</p>"
+        html = html + "<p>" + generate_table(self._model_page_header, model.get_dictionary(), 3) + "</p>"
         html = html + "<h1>Model Properties</h1>"
         html = html + "<p>" + HTML_TABLE
-        for k,s in model.getProperties():
+        for k,s in model.get_properties():
             html = html + "<tr><td>" + k + "</td><td>" + s + "</td></tr>"
         html = html + "</table></p>"
         html = html + "</body>"
         html = html + "</html>"
         return html
 
-    def create_readme_tab(self, readme):
+    def _create_readme_tab(self, readme):
         html = "<html>"
         html = html +HTML_BODY
         html = html + "<p>" + HTML_TABLE
@@ -61,17 +61,14 @@ class ModelPages:
         html = html + "</html>"
         return html
 
-    _modelPageHeader="""%(short_name)s|<b>%(title)s</b>
+    _model_page_header="""%(short_name)s|<b>%(title)s</b>
     <b>Description</b>: %(description)s
     <b>Reference</b>: %(reference)s
     <a href='%(url)s'>ModelDB Page</a>|<a href='%(citations)s'>Citations Query</a>|Model #%(model_id)s"""
-    _mainReadme = """<td>
+    _main_readme = """<td>
     <p> This tab will contain model README file. </p>
     </td>"""
-    _noReadme = """<td>
-    <p> Error!<br/> README not found</p>
-    </td>"""
-    _mainOverview = "<html>" + HTML_BODY + HTML_TABLE + "<tr><td>"\
+    _main_overview = "<html>" + HTML_BODY + HTML_TABLE + "<tr><td>"\
     """<h2>NeuroCircuit 0.1</h2>
 
     <p> Welcome.

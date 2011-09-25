@@ -20,7 +20,7 @@ def to_text(t):
 
 # Implementation taken from SO
 # http://stackoverflow.com/questions/2878712/make-os-open-directory-in-python
-def StartFile(filename):
+def start_file(filename):
     try:
         # Implementation for Windows
         f=filename.replace('/', '\\')
@@ -33,9 +33,12 @@ class Model(object):
     # Fields
     _model = None
     
+<<<<<<< HEAD
 
+=======
+>>>>>>> ce07356bf44ca07008559cb9e92fa310fc7b672e
     # Constants
-    _modelProperties = [('model_type', 0), ('model_concepts', 0),
+    _MODEL_PROPERTIES = [('model_type', 0), ('model_concepts', 0),
                         ('transmitters', 0),('genes', 0), ('receptors', 0), ('brain_regions', 0),
                         ('channels', 0), ('cell_types', 0), ('gap_junctions', 0), 
                         ('implementers', 0),
@@ -46,8 +49,8 @@ class Model(object):
         self._model = model
 
     # Public data accessors
-    def getProperties(self):
-        for (k, s) in self._modelProperties:
+    def get_properties(self):
+        for (k, s) in self._MODEL_PROPERTIES:
             t=to_text(self._model[k])
             t=t.strip()
             if len(t) == 0: # Show only non-empty properties
@@ -56,63 +59,83 @@ class Model(object):
             k=k.title()
             yield (k, t)
             
-    def getName(self):
-        return self._model['short_name']
+    def get_name(self):
+        return to_text(self._model['short_name'])
 
-    def getTitle(self):
-        return self._model['title']
+    def get_title(self):
+        return to_text(self._model['title'])
 
-    def getId(self):
-        return self._model['model_id'].strip()
+    def get_description(self):
+        return to_text(self._model['description'])
 
-    def getReadme(self):
+    def get_reference(self):
+        return to_text(self._model['reference'])
+
+    def get_url(self):
+        return to_text(self._model['url'])
+
+    def get_id(self):
+        return to_text(self._model['model_id'])
+
+    def get_authors(self):
+        return to_text(self._model['short_authors'])
+
+    def get_year(self):
+        return to_text(self._model['year'])
+
+    def get_readme(self):
         if self._model.has_key('readme') == False:
             return None
         return self._model['readme'][0]
 
     # Public operations and manipulations
-    def existsLocally(self):
-        return os.path.isdir(self.get_dir())
+    def exists_locally(self):
+        return os.path.isdir(self._get_dir())
 
     def browse(self):
-        if self.existsLocally():
-            modelName = self.getName()
-            logging.info("Openning '" + self.get_dir()+"'.")
-            StartFile(self.get_dir())
+        if self.exists_locally():
+            modelName = self.get_name()
+            logging.info("Opening '" + self._get_dir()+"'.")
+            start_file(self._get_dir())
         else:
             logging.info("Model does not exists locally")
         
-    def downloadModel(self):
-        modelId = self.getId()
+    def download_model(self):
+        modelId = self.get_id()
         if os.path.isdir('Models')==False:
             os.mkdir('Models')        
         zipFile = 'Models/'+modelId+'.zip'
-        modelDir = self.get_dir()
+        modelDir = self._get_dir()
         if os.path.isdir(modelDir):
-            logging.info("Model '" + self.getName() + "' already exists locally")
+            logging.info("Model '" + self.get_name() + "' already exists locally")
             return            
         if os.path.isfile(zipFile)==False:
             if type(self._model['zip_url'])==types.NoneType:
-                logging.info("No zip URL found for '" + self.getName() + "'")
+                logging.info("No zip URL found for '" + self.get_name() + "'")
                 return
             else:
-                logging.info("Downloading model for '" + self.getName() + "'")
-                self.download_file(self._model['zip_url'][0], zipFile)
+                logging.info("Downloading model for '" + self.get_name() + "'")
+                self._download_file(self._model['zip_url'][0], zipFile)
                 logging.info("Download complete.")
                 # TODO: open model data in tab
                 # TODO: recolor, self.tree.SetItemColor(item, wx.Colour(100,10,255))
         else:
-            logging.info("Model for '" + self.getName() + "' already downloaded")
-        self.extract_model(zipFile, modelDir)
+            logging.info("Model for '" + self.get_name() + "' already downloaded")
+        self._extract_model(zipFile, modelDir)
+        return modelDir
+
+    # Access the internal dictionary
+    def get_dictionary(self):
+        return self._model
 
     # Private implementation methods
-    def get_dir(self):
-        modelId = self.getId()
+    def _get_dir(self):
+        modelId = self.get_id()
         dirName = 'Models/'+modelId+'/'
         return dirName
         
     # Download model file from the network
-    def download_file(self, url, filename):
+    def _download_file(self, url, filename):
         logging.info("Creating " + filename)
         try:
             s = urllib.urlopen(url)
@@ -127,7 +150,7 @@ class Model(object):
     # Extract model zip file
     # ModelDB zip files contain trailing garbage which should be removed
     # See 'ZIP end of central directory record' in http://en.wikipedia.org/wiki/ZIP_%28file_format%29
-    def extract_model(self, zipFile, modelDir):
+    def _extract_model(self, zipFile, modelDir):
         logging.info("Extracting '" + zipFile + "' into " + modelDir)
         try:
             f = open(zipFile, 'r+b')
@@ -159,43 +182,39 @@ class Model(object):
             return
         logging.info("Done.")
 
-    # Access the internal dictionary
-    def get_dictionary(self):
-        return self._model
-
 #---------------------------------------------------------------------------
 class Models():
     # Fields
     _log = None
-    _short_name_re = None   
+    _name_re = None   
     _modelList = []
     _modelTree = {}
 
     # public methods
     def __init__(self):
-        self._short_name_re = re.compile("^\s*(.*)\((.*)\)")
+        self._name_re = re.compile("^\s*(.*)\(((.*)(\d{4}).*)\)")
         path = os.path.split(os.path.abspath(__file__))[0] # base absolute dir 
-        self._modelList = self.generate_models_list(os.path.join(path, 'ModelDB.xml'))
-        self._modelTree = self.generate_models_tree(self._modelList)        
+        self._modelList = self._generate_models_list(os.path.join(path, 'ModelDB.xml'))
+        self._modelTree = self._generate_models_tree(self._modelList)        
         
-    def getModelNames(self):
+    def get_model_names(self):
         return self._modelTree.keys()
 
-    def hasModel(self, modelName):
+    def has_model(self, modelName):
         return self._modelTree.has_key(modelName)
 
-    def getModel(self, modelName):
+    def get_model(self, modelName):
         return Model(self._modelTree[modelName])
 
-    def getField(self, model, field):
+    def get_field(self, model, field):
         return to_text(self._modelTree[model][field])
     
     """ Returns whether a model contains the search keyword or not. """
-    def Search(self, name, keyword):
+    def search(self, name, keyword):
         return self._modelTree[name]['searchable'].find(keyword.lower()) >= 0
        
     # private methods
-    def generate_models_list(self, data):
+    def _generate_models_list(self, data):
         models=xml.etree.ElementTree.XML(open(data).read())
         list=[]
         for m in models:
@@ -208,7 +227,7 @@ class Models():
             list.append(d)
         return list
 
-    def generate_models_tree(self, list):
+    def _generate_models_tree(self, list):
         tree={}
         for m in list:
             search=''
@@ -216,21 +235,23 @@ class Models():
                 search = search + "|" + to_text(m[s])
             m['searchable']=search.lower()
             name=m['name']
-            [t, s]=self.get_title_short_name(name)
+            [t, s, a, y]=self._get_title_authors_year_short_name(name)
             m['short_name']=s
             m['title']=t
+            m['short_authors']=a
+            m['year']=y
             c=to_text(m['citations']).strip()
             if len(c)>0:
-                m['citations']=self._modeldb_base_url + c
+                m['citations']=self._MODELDB_BASE_URL + c
             tree[s]=m
         return tree
 
-    def get_title_short_name(self, name):
-        m=self._short_name_re.match(name)
+    def _get_title_authors_year_short_name(self, name):
+        m=self._name_re.match(name)
         if m:
             return m.groups()
         else:
             raise Exception("no match in " + name)
 
     # Constants
-    _modeldb_base_url = 'http://senselab.med.yale.edu/modeldb/'
+    _MODELDB_BASE_URL = 'http://senselab.med.yale.edu/modeldb/'
