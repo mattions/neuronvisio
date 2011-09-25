@@ -47,6 +47,9 @@ from visio import Visio
 import manager
 import res # icons
 
+# ModelDb
+from modeldb.ModelDB import Models
+
 class Controls():
     """Main class Neuronvisio"""
     def __init__(self):
@@ -123,24 +126,31 @@ class Controls():
         # Some faked data for the dictionary
         # The dictionary should come from the scraper, 
         # now creating a faked dictionary
-        self.models = {'Chapman et al. 1983' : 'README model1', 
-                  'Migliore, Sherped 2002' : 'README model2', 
-                  'Kanold, Manis 2001' : 'README model3',}
+        self.models = None
     
     
     def populate_treeview_model(self, index):
         """populate the tree view and the scroll_area when the tab is 
         activated"""
         if not self.tab_model_already_populated and index == 3 :
-        
-            # Populating the treeview with the dictionary
-            for model in self.models.keys():
-                model_item = QtGui.QTreeWidgetItem(self.ui.tree_models, 'Models')
-                model_item.setText(0, model)
-
             
-            self.ui.readme_plainTextEdit.clear()
-            self.ui.readme_plainTextEdit.setPlainText("No model selected.")
+            self.models =  Models()
+            # Populating the treeview with the dictionary
+            for model_name in self.models.get_model_names():
+                model = self.models.get_model(model_name)
+                model_item = QtGui.QTreeWidgetItem(self.ui.tree_models, 'Models')
+                model_item.setText(0, model.get_authors())
+                model_item.setText(1, model.get_title())
+                model_item.setText(2, model.get_year())
+                model_item.setText(3, model.get_id())
+                
+            #Resizing the column.
+            #self.ui.tree_models.resizeColumnToContents(0)
+            self.ui.tree_models.resizeColumnToContents(1)
+            self.ui.tree_models.resizeColumnToContents(2)
+            self.ui.tree_models.resizeColumnToContents(3)
+            self.ui.textEdit.clear()
+            self.ui.textEdit.insertPlainText("No model selected.")
             self.tab_model_already_populated = True #we populated only once.
         
     def select_model_treeview(self):
@@ -150,10 +160,16 @@ class Controls():
         
         if items: # if any selection
             selected_item = items[0] #first element
-            model_key = str(selected_item.text(0))
-            readme = self.models[model_key]
-            self.ui.readme_plainTextEdit.clear()
-            self.ui.readme_plainTextEdit.setPlainText(readme)
+            model_id = str(selected_item.text(3))
+            models_name = self.models.get_model_names()
+            for name in models_name:
+                mod = self.models.get_model(name)
+                if model_id == mod.get_id():
+                    readme = mod.get_readme()
+                    self.ui.textEdit.clear()
+                    self.ui.textEdit.insertHtml(readme)
+                    return
+            
     
     def load_hdf(self, path_to_hdf=None):
     

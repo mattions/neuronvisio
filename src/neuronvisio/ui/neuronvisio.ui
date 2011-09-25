@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>579</width>
-    <height>462</height>
+    <width>585</width>
+    <height>595</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -24,7 +24,7 @@
        </sizepolicy>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -397,42 +397,84 @@
        <attribute name="title">
         <string>ModelDb Explorer</string>
        </attribute>
-       <layout class="QGridLayout" name="gridLayout_6">
-        <item row="0" column="0">
-         <layout class="QGridLayout" name="gridLayout_5">
-          <item row="0" column="0">
-           <widget class="QTreeWidget" name="tree_models">
-            <property name="midLineWidth">
-             <number>0</number>
+       <layout class="QVBoxLayout" name="verticalLayout_6">
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_5">
+          <item>
+           <widget class="QSplitter" name="splitter">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
             </property>
-            <property name="verticalScrollBarPolicy">
-             <enum>Qt::ScrollBarAlwaysOn</enum>
-            </property>
-            <column>
-             <property name="text">
-              <string>models</string>
+            <widget class="QTreeWidget" name="tree_models">
+             <property name="midLineWidth">
+              <number>0</number>
              </property>
-            </column>
+             <property name="verticalScrollBarPolicy">
+              <enum>Qt::ScrollBarAlwaysOn</enum>
+             </property>
+             <property name="sortingEnabled">
+              <bool>true</bool>
+             </property>
+             <property name="animated">
+              <bool>false</bool>
+             </property>
+             <property name="wordWrap">
+              <bool>true</bool>
+             </property>
+             <property name="columnCount">
+              <number>4</number>
+             </property>
+             <column>
+              <property name="text">
+               <string>Authors</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Title</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Year</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Id</string>
+              </property>
+             </column>
+            </widget>
            </widget>
           </item>
-          <item row="0" column="1">
-           <widget class="QPlainTextEdit" name="readme_plainTextEdit">
-            <property name="undoRedoEnabled">
-             <bool>false</bool>
-            </property>
-            <property name="textInteractionFlags">
-             <set>Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
-            </property>
-           </widget>
+          <item>
+           <widget class="QTextEdit" name="textEdit"/>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_5">
+            <item>
+             <spacer name="horizontalSpacer_2">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>138</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QPushButton" name="loadModel">
+              <property name="text">
+               <string>Load Model</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
          </layout>
-        </item>
-        <item row="2" column="0">
-         <widget class="QPushButton" name="loadModel">
-          <property name="text">
-           <string>Load Model</string>
-          </property>
-         </widget>
         </item>
        </layout>
       </widget>
@@ -446,7 +488,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>579</width>
+     <width>585</width>
      <height>25</height>
     </rect>
    </property>

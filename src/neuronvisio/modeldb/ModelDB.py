@@ -33,10 +33,6 @@ class Model(object):
     # Fields
     _model = None
     
-<<<<<<< HEAD
-
-=======
->>>>>>> ce07356bf44ca07008559cb9e92fa310fc7b672e
     # Constants
     _MODEL_PROPERTIES = [('model_type', 0), ('model_concepts', 0),
                         ('transmitters', 0),('genes', 0), ('receptors', 0), ('brain_regions', 0),
