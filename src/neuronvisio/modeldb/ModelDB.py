@@ -10,8 +10,9 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+HTML_BODY="<body bgcolor='#999999' text='#FFFFFF'>"
+HTML_TABLE="<table bgcolor='#94A5BD' width='100%%' cellspacing='0' cellpadding='0' border='1'>"
 
-# TODO: those are general functionality, move to better place
 def to_text(t):
     if (type(t) == types.ListType):
         t=string.join(t, ',')
@@ -19,17 +20,6 @@ def to_text(t):
         t=''
     t=t.strip()
     return t
-
-# Implementation taken from SO
-# http://stackoverflow.com/questions/2878712/make-os-open-directory-in-python
-def start_file(filename):
-    try:
-        # Implementation for Windows
-        f=filename.replace('/', '\\')
-        os.startfile(f)
-    except:
-        # Implementation for Linux
-        subprocess.Popen(['xdg-open', filename])
 
 class Model(object):
     # Fields
@@ -41,7 +31,12 @@ class Model(object):
                         ('channels', 0), ('cell_types', 0), ('gap_junctions', 0), 
                         ('implementers', 0),
                         ('simulation_environment', 0)]
-
+    _MODEL_PAGE_LAYOUT = """%(short_name)s|<b>%(title)s</b>
+        <b>Description</b>: %(description)s
+        <b>Reference</b>: %(reference)s
+        <a href='%(url)s'>ModelDB Page</a>|<a href='%(citations)s'>Citations Query</a>|Model #%(model_id)s"""
+    _README_NOT_FOUND = "A readme file was not found for this model, try online at ModelDB"
+    
     # Initialization
     def __init__(self, model):
         self._model = model
@@ -81,11 +76,20 @@ class Model(object):
     def get_year(self):
         return to_text(self._model['year'])
 
-    def get_readme(self):
+    def get_readme_text(self):
         if self._model.has_key('readme') == False:
             return None
         return self._model['readme'][0]
 
+    def get_readme_html(self):
+        readme = self.get_readme_text()
+        if readme == None:
+            return self._create_readme_tab(self._README_NOT_FOUND)
+        return self._create_readme_tab(readme)
+
+    def get_overview(self):
+        return self._create_overview_tab()
+    
     # Public operations and manipulations
     def exists_locally(self):
         return os.path.isdir(self._get_dir())
@@ -94,7 +98,7 @@ class Model(object):
         if self.exists_locally():
             modelName = self.get_name()
             logger.info("Opening '" + self._get_dir()+"'.")
-            start_file(self._get_dir())
+            _start_file(self._get_dir())
         else:
             logger.info("Model does not exists locally")
         
@@ -118,10 +122,6 @@ class Model(object):
             logger.info("Model for '" + self.get_name() + "' already downloaded")
         self._extract_model(zipFile, modelDir)
         return modelDir
-
-    # Access the internal dictionary
-    def get_dictionary(self):
-        return self._model
 
     # Private implementation methods
     def _get_dir(self):
@@ -175,6 +175,60 @@ class Model(object):
         except Exception as e:
             logger.info("Error extracting file: "+str(e.message))
         logger.info("Done.")
+        
+    def _create_readme_tab(self, readme):
+        html = "<html>"
+        html = html +HTML_BODY
+        html = html + "<p>" + HTML_TABLE
+        html = html + "<tr>" + readme + "</tr>"
+        html = html + "</table></p>"
+        html = html + "</body>"
+        html = html + "</html>"
+        return html
+
+    def _create_overview_tab(self):
+        html = "<html>"
+        html = html +HTML_BODY
+        html = html + "<h1>Model Information</h1>"
+        html = html + "<p>" + self._generate_table(self._MODEL_PAGE_LAYOUT, 3) + "</p>"
+        html = html + "<h1>Model Properties</h1>"
+        html = html + "<p>" + HTML_TABLE
+        for k,s in self.get_properties():
+            html = html + "<tr><td>" + k + "</td><td>" + s + "</td></tr>"
+        html = html + "</table></p>"
+        html = html + "</body>"
+        html = html + "</html>"
+        return html
+
+    def _generate_table(self, format, cols):
+        properties = self._model
+        result=HTML_TABLE
+        lines=format.split('\n')
+        for l in lines:
+            a=''
+            i=0
+            cells=l.split('|')
+            v=cols-len(cells)+1
+            for c in cells:
+                i=i+1
+                if (i == len(cells)):
+                    a=a+'<td colspan="' + str(v) + '">'+c%properties+'</td>'
+                else:
+                    a=a+'<td>'+c%properties+'</td>'
+            result = result + '<tr>' + a + '</tr>'
+        result = result + "</table>"
+        return result
+
+    # Implementation taken from SO
+    # http://stackoverflow.com/questions/2878712/make-os-open-directory-in-python
+    def _start_file(filename):
+        try:
+            # Implementation for Windows
+            f=filename.replace('/', '\\')
+            os.startfile(f)
+        except:
+            # Implementation for Linux
+            subprocess.Popen(['xdg-open', filename])
 
 #---------------------------------------------------------------------------
 class Models():
