@@ -98,7 +98,7 @@ class Model(object):
         if self.exists_locally():
             modelName = self.get_name()
             logger.info("Opening '" + self._get_dir()+"'.")
-            _start_file(self._get_dir())
+            self._start_file(self._get_dir())
         else:
             logger.info("Model does not exists locally")
         
@@ -221,7 +221,7 @@ class Model(object):
 
     # Implementation taken from SO
     # http://stackoverflow.com/questions/2878712/make-os-open-directory-in-python
-    def _start_file(filename):
+    def _start_file(self, filename):
         try:
             # Implementation for Windows
             f=filename.replace('/', '\\')
