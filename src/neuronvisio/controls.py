@@ -199,9 +199,12 @@ class Controls():
         if os.path.exists(os.path.join (model_dir, 'mosinit.hoc')):
             old_dir = os.getcwd()
             os.chdir(model_dir)
-            #TODO: We should check if the file is already compiled, 
-            # and call the right executable according to the system.
-            call(['nrnivmodl'])
+            
+            # If windows
+            if os.name == 'nt':
+                call(['mknrndll'])
+            else: # Anything else.
+                call(['nrnivmodl'])
             os.chdir(old_dir)
             import neuron
             neuron.load_mechanisms(os.path.abspath(model_dir))
