@@ -22,3 +22,7 @@ docs/_build
 
 #eclipse coding
 .settings
+
+# Models download folder
+
+src/Models
