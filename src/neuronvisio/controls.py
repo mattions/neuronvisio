@@ -165,7 +165,7 @@ class Controls():
         on the treeview."""
         mod = self._retrieve_selected_model()
         if mod:
-            readme = mod.get_readme()
+            readme = mod.get_readme_html()
             self.ui.textEdit.clear()
             self.ui.textEdit.insertHtml(readme)
        
