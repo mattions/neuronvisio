@@ -461,7 +461,11 @@
              </attribute>
              <layout class="QVBoxLayout" name="verticalLayout_7">
               <item>
-               <widget class="QTextEdit" name="textEdit_readme"/>
+               <widget class="QTextBrowser" name="textBrowser_readme">
+                <property name="openExternalLinks">
+                 <bool>true</bool>
+                </property>
+               </widget>
               </item>
              </layout>
             </widget>
@@ -471,7 +475,11 @@
              </attribute>
              <layout class="QVBoxLayout" name="verticalLayout_8">
               <item>
-               <widget class="QTextEdit" name="textEdit_model_overview"/>
+               <widget class="QTextBrowser" name="textBrowser_model_overview">
+                <property name="openExternalLinks">
+                 <bool>true</bool>
+                </property>
+               </widget>
               </item>
              </layout>
             </widget>
