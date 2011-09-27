@@ -156,18 +156,20 @@ class Controls():
             self.ui.tree_models.resizeColumnToContents(1)
             self.ui.tree_models.resizeColumnToContents(2)
             self.ui.tree_models.resizeColumnToContents(3)
-            self.ui.textEdit.clear()
-            self.ui.textEdit.insertPlainText("No model selected.")
+            self.ui.textEdit_readme.clear()
+            self.ui.textEdit_readme.insertPlainText("No model selected.")
             self.tab_model_already_populated = True #we populated only once.
         
     def select_model_treeview(self):
-        """Synch the README on the plainTextArea with the selected model 
-        on the treeview."""
+        """Synch the README and the modelOverview with the selected model."""
         mod = self._retrieve_selected_model()
         if mod:
             readme = mod.get_readme_html()
-            self.ui.textEdit.clear()
-            self.ui.textEdit.insertHtml(readme)
+            overview = mod.get_overview()
+            self.ui.textEdit_readme.clear()
+            self.ui.textEdit_readme.insertHtml(readme)
+            self.ui.textEdit_model_overview.clear()
+            self.ui.textEdit_model_overview.insertHtml(overview)
        
     def _retrieve_selected_model(self):
         "Return the model selected in the "

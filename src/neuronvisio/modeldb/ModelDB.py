@@ -11,7 +11,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 HTML_BODY="<body bgcolor='#999999' text='#FFFFFF'>"
-HTML_TABLE="<table bgcolor='#94A5BD' width='100%%' cellspacing='0' cellpadding='0' border='1'>"
+HTML_TABLE="<table bgcolor='#FFFFFF' width='100%%' cellspacing='2' cellpadding='2' border='1'>"
 
 def to_text(t):
     if (type(t) == types.ListType):
@@ -194,7 +194,7 @@ class Model(object):
         html = html + "<h1>Model Properties</h1>"
         html = html + "<p>" + HTML_TABLE
         for k,s in self.get_properties():
-            html = html + "<tr><td>" + k + "</td><td>" + s + "</td></tr>"
+            html = html + "<tr><td><strong>" + k + "</strong></td><td>" + s + "</td></tr>"
         html = html + "</table></p>"
         html = html + "</body>"
         html = html + "</html>"
