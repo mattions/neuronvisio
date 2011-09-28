@@ -13,14 +13,6 @@ logger = logging.getLogger(__name__)
 HTML_BODY="<body bgcolor='#999999' text='#FFFFFF'>"
 HTML_TABLE="<table bgcolor='#FFFFFF' width='100%%' cellspacing='2' cellpadding='2' border='1'>"
 
-def to_text(t):
-    if (type(t) == types.ListType):
-        t=string.join(t, ',')
-    if (type(t) == types.NoneType):
-        t=''
-    t=t.strip()
-    return t
-
 class Model(object):
     # Fields
     _model = None
@@ -42,9 +34,10 @@ class Model(object):
         self._model = model
 
     # Public data accessors
+    # Get a mapping of non-empty model properties
     def get_properties(self):
         for (k, s) in self._MODEL_PROPERTIES:
-            t=to_text(self._model[k])
+            t=self._model[k]
             t=t.strip()
             if len(t) == 0: # Show only non-empty properties
                 continue
@@ -53,47 +46,52 @@ class Model(object):
             yield (k, t)
             
     def get_name(self):
-        return to_text(self._model['short_name'])
+        return self._model['short_name']
 
     def get_title(self):
-        return to_text(self._model['title'])
+        return self._model['title']
 
     def get_description(self):
-        return to_text(self._model['description'])
+        return self._model['description']
 
     def get_reference(self):
-        return to_text(self._model['reference'])
+        return self._model['reference']
 
     def get_url(self):
-        return to_text(self._model['url'])
+        return self._model['url']
 
     def get_id(self):
-        return to_text(self._model['model_id'])
+        return self._model['model_id']
 
     def get_authors(self):
-        return to_text(self._model['short_authors'])
+        return self._model['short_authors']
 
     def get_year(self):
-        return to_text(self._model['year'])
+        return self._model['year']
 
+    # Get the model readme in text
     def get_readme_text(self):
         if self._model.has_key('readme') == False:
             return None
-        return self._model['readme'][0]
+        return self._model['readme']
 
+    # Get the model readme in HTML
     def get_readme_html(self):
         readme = self.get_readme_text()
-        if readme == None:
+        if readme == "":
             return self._create_readme_tab(self._README_NOT_FOUND)
         return self._create_readme_tab(readme)
 
+    # Get the model overview
     def get_overview(self):
         return self._create_overview_tab()
     
     # Public operations and manipulations
+    # Check if model exists locally
     def exists_locally(self):
         return os.path.isdir(self._get_dir())
 
+    # Open model directory for browsing
     def browse(self):
         if self.exists_locally():
             modelName = self.get_name()
@@ -101,29 +99,34 @@ class Model(object):
             self._start_file(self._get_dir())
         else:
             logger.info("Model does not exists locally")
-        
+
+    # Download model file from network
     def download_model(self):
         modelId = self.get_id()
         if os.path.isdir('Models')==False:
             os.mkdir('Models')        
         zipFile = 'Models/'+modelId+'.zip'
         modelDir = self._get_dir()
-        if not os.path.isdir(modelDir):
-            if type(self._model['zip_url'])==types.NoneType:
+        if not os.path.isfile(zipFile):
+            if self._model['zip_url']=="":
                 logger.info("No zip URL found for '" + self.get_name() + "'")
                 return
             else:
                 logger.info("Downloading model for '" + self.get_name() + "'")
-                self._download_file(self._model['zip_url'][0], zipFile)
+                self._download_file(self._model['zip_url'], zipFile)
                 logger.info("Download complete.")
                 # TODO: open model data in tab
                 # TODO: recolor, self.tree.SetItemColor(item, wx.Colour(100,10,255))
         else:
             logger.info("Model for '" + self.get_name() + "' already downloaded")
-        self._extract_model(zipFile, modelDir)
+        if not os.path.isdir(modelDir):
+            self._extract_model(zipFile, modelDir)
+        else:
+            logger.info("Model for '" + self.get_name() + "' already extracted")
         return modelDir
 
     # Private implementation methods
+    # Get model directory
     def _get_dir(self):
         modelId = self.get_id()
         dirName = 'Models/'+modelId+'/'
@@ -175,7 +178,8 @@ class Model(object):
         except Exception as e:
             logger.info("Error extracting file: "+str(e.message))
         logger.info("Done.")
-        
+
+    # Create the HTML of the readme tab
     def _create_readme_tab(self, readme):
         html = "<html>"
         html = html +HTML_BODY
@@ -186,6 +190,7 @@ class Model(object):
         html = html + "</html>"
         return html
 
+    # Create the HTML of the overview tab
     def _create_overview_tab(self):
         html = "<html>"
         html = html +HTML_BODY
@@ -200,6 +205,7 @@ class Model(object):
         html = html + "</html>"
         return html
 
+    # Create an HTML table from the given table format
     def _generate_table(self, format, cols):
         properties = self._model
         result=HTML_TABLE
@@ -219,7 +225,7 @@ class Model(object):
         result = result + "</table>"
         return result
 
-    # Implementation taken from SO
+    # Open a directory for browsing its content (implementation taken from SO)
     # http://stackoverflow.com/questions/2878712/make-os-open-directory-in-python
     def _start_file(self, filename):
         try:
@@ -239,29 +245,35 @@ class Models():
     _modelTree = {}
 
     # public methods
+    # Initialize class, assuming the XML model DB is in the current directory
     def __init__(self):
         self._name_re = re.compile("^\s*(.*)\(((.*)(\d{4}).*)\)")
         path = os.path.split(os.path.abspath(__file__))[0] # base absolute dir 
         self._modelList = self._generate_models_list(os.path.join(path, 'ModelDB.xml'))
         self._modelTree = self._generate_models_tree(self._modelList)        
-        
+
+    # Get all model names
     def get_model_names(self):
         return self._modelTree.keys()
 
+    # Check if specific model exists
     def has_model(self, modelName):
         return self._modelTree.has_key(modelName)
 
+    # Get specific model
     def get_model(self, modelName):
         return Model(self._modelTree[modelName])
 
+    # Get the value of specific model field
     def get_field(self, model, field):
-        return to_text(self._modelTree[model][field])
+        return self._modelTree[model][field]
     
     """ Returns whether a model contains the search keyword or not. """
     def search(self, name, keyword):
         return self._modelTree[name]['searchable'].find(keyword.lower()) >= 0
        
     # private methods
+    # Generate the models list from the input XML
     def _generate_models_list(self, data):
         models=xml.etree.ElementTree.XML(open(data).read())
         list=[]
@@ -275,12 +287,13 @@ class Models():
             list.append(d)
         return list
 
+    # Generate the models tree, moving each item into canonical form
     def _generate_models_tree(self, list):
         tree={}
         for m in list:
             search=''
             for s in m.keys():
-                search = search + "|" + to_text(m[s])
+                search = search + "|" + self._to_text(m[s])
             m['searchable']=search.lower()
             name=m['name']
             [t, s, a, y]=self._get_title_authors_year_short_name(name)
@@ -288,18 +301,30 @@ class Models():
             m['title']=t
             m['short_authors']=a
             m['year']=y
-            c=to_text(m['citations']).strip()
+            c=self._to_text(m['citations'])
             if len(c)>0:
                 m['citations']=self._MODELDB_BASE_URL + c
+            for k in m.keys():
+                m[k]=self._to_text(m[k])
             tree[s]=m
         return tree
 
+    # Parse model short name into arguments
     def _get_title_authors_year_short_name(self, name):
         m=self._name_re.match(name)
         if m:
             return m.groups()
         else:
             raise Exception("no match in " + name)
+
+    # Handle string, none and list values and change them to be stripped string
+    def _to_text(self, t):
+        if (type(t) == types.ListType):
+            t=string.join(t, ',')
+        if (type(t) == types.NoneType):
+            t=''
+        t=t.strip()
+        return t
 
     # Constants
     _MODELDB_BASE_URL = 'http://senselab.med.yale.edu/modeldb/'
