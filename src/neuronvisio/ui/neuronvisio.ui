@@ -502,6 +502,9 @@
             </item>
             <item>
              <widget class="QPushButton" name="load_model_btn">
+              <property name="toolTip">
+               <string>Download, extract, compile and load the selected model.</string>
+              </property>
               <property name="text">
                <string>Load Model</string>
               </property>

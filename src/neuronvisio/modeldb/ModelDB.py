@@ -7,6 +7,7 @@ import xml.etree.ElementTree
 import urllib
 import zipfile
 import logging 
+import subprocess
 
 logger = logging.getLogger(__name__)
 

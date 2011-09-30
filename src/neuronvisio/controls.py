@@ -199,14 +199,16 @@ class Controls():
             model_path = mod.download_model()
             # tooltip
             cols = self.ui.tree_models.columnCount()
+            items = self.ui.tree_models.selectedItems()
+            model_item = items[0]
             for i in range (cols):
-                tooltip = model.get_tooltip()
+                tooltip = mod.get_tooltip()
                 model_item.setToolTip(i, tooltip)
-            self.run_extracted_model(model_path)
+            self.run_extracted_model(mod)
             
 
-    def run_extracted_model(self, model_dir):
-    
+    def run_extracted_model(self, mod):
+        model_dir = mod.get_dir()
         if os.path.exists(os.path.join (model_dir, 'mosinit.hoc')):
             old_dir = os.getcwd()
             os.chdir(model_dir)
@@ -232,6 +234,7 @@ class Controls():
             hint."""
             logging.warning(response)
             path_info = "You can find the extracted model in %s" %model_dir
+            mod.browse()
             logging.info(path_info)
     
     def load_hdf(self, path_to_hdf=None):
