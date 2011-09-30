@@ -130,12 +130,9 @@ class Controls():
         # Start the main event loop.
         #app.exec_()
         
-        # Some faked data for the dictionary
-        # The dictionary should come from the scraper, 
-        # now creating a faked dictionary
+        # Dictionary to old the models class for the ModelDb integration
         self.models = None
-    
-    
+        
     def populate_treeview_model(self, index):
         """populate the tree view and the scroll_area when the tab is 
         activated"""
@@ -150,6 +147,13 @@ class Controls():
                 model_item.setText(1, model.get_title())
                 model_item.setText(2, model.get_year())
                 model_item.setText(3, model.get_id())
+                
+                # tooltip
+                cols = self.ui.tree_models.columnCount()
+                for i in range (cols):
+                    tooltip = model.get_tooltip()
+                    model_item.setToolTip(i, tooltip)
+            
                 
             #Resizing the column.
             #self.ui.tree_models.resizeColumnToContents(0)
@@ -170,7 +174,6 @@ class Controls():
             self.ui.textBrowser_readme.insertHtml(readme)            
             self.ui.textBrowser_model_overview.clear()
             self.ui.textBrowser_model_overview.insertHtml(overview)
-            
        
     def _retrieve_selected_model(self):
         "Return the model selected in the "
@@ -194,6 +197,11 @@ class Controls():
         mod = self._retrieve_selected_model()
         if mod:
             model_path = mod.download_model()
+            # tooltip
+            cols = self.ui.tree_models.columnCount()
+            for i in range (cols):
+                tooltip = model.get_tooltip()
+                model_item.setToolTip(i, tooltip)
             self.run_extracted_model(model_path)
             
 

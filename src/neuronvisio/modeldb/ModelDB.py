@@ -89,14 +89,14 @@ class Model(object):
     # Public operations and manipulations
     # Check if model exists locally
     def exists_locally(self):
-        return os.path.isdir(self._get_dir())
+        return os.path.isdir(self.get_dir())
 
     # Open model directory for browsing
     def browse(self):
         if self.exists_locally():
             modelName = self.get_name()
-            logger.info("Opening '" + self._get_dir()+"'.")
-            self._start_file(self._get_dir())
+            logger.info("Opening '" + self.get_dir()+"'.")
+            self._start_file(self.get_dir())
         else:
             logger.info("Model does not exists locally")
 
@@ -106,7 +106,7 @@ class Model(object):
         if os.path.isdir('Models')==False:
             os.mkdir('Models')        
         zipFile = 'Models/'+modelId+'.zip'
-        modelDir = self._get_dir()
+        modelDir = self.get_dir()
         if not os.path.isfile(zipFile):
             if self._model['zip_url']=="":
                 logger.info("No zip URL found for '" + self.get_name() + "'")
@@ -125,13 +125,23 @@ class Model(object):
             logger.info("Model for '" + self.get_name() + "' already extracted")
         return modelDir
 
-    # Private implementation methods
     # Get model directory
-    def _get_dir(self):
+    def get_dir(self):
         modelId = self.get_id()
         dirName = 'Models/'+modelId+'/'
         return dirName
-        
+    
+    def get_tooltip(self):
+        "Return the tooltip for the model."
+        tooltip = ''
+        if self.exists_locally():
+            tooltip = 'Model %s downloaded in %s' %(self.get_id(), 
+                                                    self.get_dir())
+        else: 
+            tooltip = 'Model %s has not been downloaded' %self.get_id()
+        return tooltip
+
+    # Private implementation methods
     # Download model file from the network
     def _download_file(self, url, filename):
         logger.info("Creating " + filename)
