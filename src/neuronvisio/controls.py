@@ -145,6 +145,10 @@ class Controls():
         # Start the main event loop.
         #app.exec_()
         
+        self.AUTHORS = 1
+        self.YEAR = 0
+        self.TITLE = 2
+        self.ID = 3
         # Dictionary to old the models class for the ModelDb integration
         self.models = None
         
@@ -158,10 +162,10 @@ class Controls():
             for model_name in self.models.get_model_names():
                 model = self.models.get_model(model_name)
                 model_item = QtGui.QTreeWidgetItem(self.ui.tree_models, 'Models')
-                model_item.setText(0, model.get_authors())
-                model_item.setText(1, model.get_title())
-                model_item.setText(2, model.get_year())
-                model_item.setText(3, model.get_id())
+                model_item.setText(self.YEAR, model.get_year())
+                model_item.setText(self.AUTHORS, model.get_authors())
+                model_item.setText(self.TITLE, model.get_title())
+                model_item.setText(self.ID, model.get_id())
                 
                 # tooltip
                 cols = self.ui.tree_models.columnCount()
@@ -172,9 +176,9 @@ class Controls():
                 
             #Resizing the column.
             #self.ui.tree_models.resizeColumnToContents(0)
-            self.ui.tree_models.resizeColumnToContents(1)
-            self.ui.tree_models.resizeColumnToContents(2)
-            self.ui.tree_models.resizeColumnToContents(3)
+            self.ui.tree_models.resizeColumnToContents(self.YEAR)
+            self.ui.tree_models.resizeColumnToContents(self.TITLE)
+            self.ui.tree_models.resizeColumnToContents(self.ID)
             self.ui.textBrowser_readme.clear()
             self.ui.textBrowser_readme.insertPlainText("No model selected.")
             self.tab_model_already_populated = True #we populated only once.
@@ -196,7 +200,7 @@ class Controls():
     
         if items:
             selected_item = items[0] #first element
-            model_id = str(selected_item.text(3))
+            model_id = str(selected_item.text(self.ID))
             models_name = self.models.get_model_names()
             for name in models_name:
                 mod = self.models.get_model(name)
