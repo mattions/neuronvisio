@@ -16,6 +16,11 @@
 # * along with NeuronVisio.  If not, see <http://www.gnu.org/licenses/>.
 
 #@PydevCodeAnalysisIgnoren
+# Choosing the correct version of PyQt4 API (required for Python on Windows)
+import sip
+sip.setapi('QString', 2)
+sip.setapi('QVariant', 2)
+
 import os
 from subprocess import call
 from manager import SynVecRef
@@ -214,8 +219,10 @@ class Controls():
             os.chdir(model_dir)
             
             # If windows
-            if os.name == 'nt':
-                call(['mknrndll'])
+            if os.name == 'nt':                
+                if os.path.exists('nrnmech.dll')==False:
+                    logger.warning("Cannot create nrnmech.dll using mknrndll")
+                    #call(['mknrndll'])
             else: # Anything else.
                 call(['nrnivmodl'])
             os.chdir(old_dir)
