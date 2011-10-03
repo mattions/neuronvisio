@@ -129,7 +129,7 @@ class Model(object):
     # Get model directory
     def get_dir(self):
         modelId = self.get_id()
-        dirName = 'Models/'+modelId+'/'
+        dirName = 'Models/'+modelId
         return dirName
     
     def get_tooltip(self):
