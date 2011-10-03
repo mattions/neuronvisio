@@ -52,8 +52,8 @@ import matplotlib as mpl
 if mpl.backends.backend is None: 
     mpl.use('Qt4Agg')
 elif mpl.backends.backend != 'Qt4Agg':
-    message = "You must use the Qt4 backend to be able to use  Neuronvisio. \
-    Check your backend in ~/.matplotlib/matplotlibrc and set it to Qt4Agg"
+    message = """You must use the Qt4 backend to be able to use  Neuronvisio. 
+    Check your backend in ~/.matplotlib/matplotlibrc and set it to Qt4Agg"""
     logger.warning(message)
 mpl.interactive(True)
 
@@ -294,10 +294,20 @@ class Controls():
         msg = "Plotting..."
         self.ui.statusbar.showMessage(msg, 3500)
         if self.visio == None:
-            self.visio = Visio(self.ui.sec_info_label, self.manager)
-            self.visio.draw_model()
             
-            self.ui.selected_section.setEnabled(True)
+            # Checking there are sections in the model.
+            i = 0
+            for sec in h.allsec():
+                i += 1
+            
+            if i > 0:
+                self.visio = Visio(self.ui.sec_info_label, self.manager)
+                self.visio.draw_model()
+                self.ui.selected_section.setEnabled(True)
+            else:
+                msg = """No model found, no section created. You need 
+                to have at least one."""
+                logger.warning(msg)
         else:
             #Raise the visio window
             self.visio.container.show()
