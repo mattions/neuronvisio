@@ -165,7 +165,7 @@ class Controls():
                 model_item.setText(self.YEAR, model.get_year())
                 model_item.setText(self.AUTHORS, model.get_authors())
                 model_item.setText(self.TITLE, model.get_title())
-                model_item.setText(self.ID, model.get_id())
+                model_item.setData(self.ID, 0, model.get_id())
                 
                 # tooltip
                 cols = self.ui.tree_models.columnCount()
@@ -200,7 +200,7 @@ class Controls():
     
         if items:
             selected_item = items[0] #first element
-            model_id = str(selected_item.text(self.ID))
+            model_id = int(selected_item.text(self.ID))
             models_name = self.models.get_model_names()
             for name in models_name:
                 mod = self.models.get_model(name)
