@@ -231,20 +231,21 @@ class Controls():
         if os.path.exists(os.path.join (model_dir, 'mosinit.hoc')):
             old_dir = os.getcwd()
             os.chdir(model_dir)
+            logger.info("Path changed to %s" %(os.path.abspath(model_dir)))
             
             # If windows
             if os.name == 'nt':
                 call(['mknrndll'])
             else: # Anything else.
                 call(['nrnivmodl'])
-            os.chdir(old_dir)
+            #os.chdir(old_dir)
             import neuron
-            neuron.load_mechanisms(os.path.abspath(model_dir))
-            from neuron import h
+            neuron.load_mechanisms('./')
             from neuron import gui # to not freeze neuron gui
+            from neuron import h
             
             logger.info("Loading model in %s" %model_dir)
-            h.load_file(os.path.join(model_dir, 'mosinit.hoc'))
+            h.load_file('mosinit.hoc')
             
             
         else: 
