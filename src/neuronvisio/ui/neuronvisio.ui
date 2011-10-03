@@ -395,7 +395,7 @@
         <string>ModelDb explorer</string>
        </property>
        <attribute name="title">
-        <string>ModelDb Explorer</string>
+        <string>ModelDB Explorer</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_6">
         <item>
@@ -426,17 +426,17 @@
              </property>
              <column>
               <property name="text">
+               <string>Year</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
                <string>Authors</string>
               </property>
              </column>
              <column>
               <property name="text">
                <string>Title</string>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>Year</string>
               </property>
              </column>
              <column>

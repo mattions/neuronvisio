@@ -33,8 +33,23 @@ logger = logging.getLogger(__name__)
 import sys
 sys.path.append(os.path.dirname(__file__)) 
 
-from PyQt4 import QtGui, QtCore, uic
-from PyQt4.QtCore import Qt
+"""
+This is a check to make sure the sip and the Qstrings play nicely in Windows, 
+where the PySide is using the new Python API (Python 3)
+http://www.mail-archive.com/matplotlib-users@lists.sourceforge.net/msg19702.html
+http://stackoverflow.com/questions/1400858/how-to-create-qstring-in-pyqt4
+This could be easily removed when we move to Python 3
+"""
+if os.name == 'nt':
+    import sip
+    sip.setapi('QString', 2)
+    sip.setapi('QVariant', 2)
+    from PyQt4.QtCore import (Qt, SIGNAL, SLOT, QSize, QString,
+                              pyqtSignature, pyqtProperty)
+    from PyQt4.QtCore import *
+else: 
+    from PyQt4 import QtGui, QtCore, uic
+    from PyQt4.QtCore import Qt
 
 import numpy as np
 
@@ -42,8 +57,8 @@ import matplotlib as mpl
 if mpl.backends.backend is None: 
     mpl.use('Qt4Agg')
 elif mpl.backends.backend != 'Qt4Agg':
-    message = "You must use the Qt4 backend to be able to use  Neuronvisio. \
-    Check your backend in ~/.matplotlib/matplotlibrc and set it to Qt4Agg"
+    message = """You must use the Qt4 backend to be able to use  Neuronvisio. 
+    Check your backend in ~/.matplotlib/matplotlibrc and set it to Qt4Agg"""
     logger.warning(message)
 mpl.interactive(True)
 
@@ -135,6 +150,10 @@ class Controls():
         # Start the main event loop.
         #app.exec_()
         
+        self.AUTHORS = 1
+        self.YEAR = 0
+        self.TITLE = 2
+        self.ID = 3
         # Dictionary to old the models class for the ModelDb integration
         self.models = None
         
@@ -148,10 +167,10 @@ class Controls():
             for model_name in self.models.get_model_names():
                 model = self.models.get_model(model_name)
                 model_item = QtGui.QTreeWidgetItem(self.ui.tree_models, 'Models')
-                model_item.setText(0, model.get_authors())
-                model_item.setText(1, model.get_title())
-                model_item.setText(2, model.get_year())
-                model_item.setText(3, model.get_id())
+                model_item.setText(self.YEAR, model.get_year())
+                model_item.setText(self.AUTHORS, model.get_authors())
+                model_item.setText(self.TITLE, model.get_title())
+                model_item.setText(self.ID, model.get_id())
                 
                 # tooltip
                 cols = self.ui.tree_models.columnCount()
@@ -162,9 +181,9 @@ class Controls():
                 
             #Resizing the column.
             #self.ui.tree_models.resizeColumnToContents(0)
-            self.ui.tree_models.resizeColumnToContents(1)
-            self.ui.tree_models.resizeColumnToContents(2)
-            self.ui.tree_models.resizeColumnToContents(3)
+            self.ui.tree_models.resizeColumnToContents(self.YEAR)
+            self.ui.tree_models.resizeColumnToContents(self.TITLE)
+            self.ui.tree_models.resizeColumnToContents(self.ID)
             self.ui.textBrowser_readme.clear()
             self.ui.textBrowser_readme.insertPlainText("No model selected.")
             self.tab_model_already_populated = True #we populated only once.
@@ -186,7 +205,7 @@ class Controls():
     
         if items:
             selected_item = items[0] #first element
-            model_id = str(selected_item.text(3))
+            model_id = str(selected_item.text(self.ID))
             models_name = self.models.get_model_names()
             for name in models_name:
                 mod = self.models.get_model(name)
@@ -234,20 +253,21 @@ class Controls():
         if os.path.exists(os.path.join (model_dir, 'mosinit.hoc')):
             old_dir = os.getcwd()
             os.chdir(model_dir)
+            logger.info("Path changed to %s" %(os.path.abspath(model_dir)))
             
             # If windows
             if os.name == 'nt':                
                 self.windows_compile_mod_files(model_dir)
             else: # Anything else.
                 call(['nrnivmodl'])
-            os.chdir(old_dir)
+            #os.chdir(old_dir)
             import neuron
-            neuron.load_mechanisms(os.path.abspath(model_dir))
-            from neuron import h
+            neuron.load_mechanisms('./')
             from neuron import gui # to not freeze neuron gui
+            from neuron import h
             
             logger.info("Loading model in %s" %model_dir)
-            h.load_file(os.path.join(model_dir, 'mosinit.hoc'))
+            h.load_file('mosinit.hoc')
             
             
         else: 
@@ -296,10 +316,20 @@ class Controls():
         msg = "Plotting..."
         self.ui.statusbar.showMessage(msg, 3500)
         if self.visio == None:
-            self.visio = Visio(self.ui.sec_info_label, self.manager)
-            self.visio.draw_model()
             
-            self.ui.selected_section.setEnabled(True)
+            # Checking there are sections in the model.
+            i = 0
+            for sec in h.allsec():
+                i += 1
+            
+            if i > 0:
+                self.visio = Visio(self.ui.sec_info_label, self.manager)
+                self.visio.draw_model()
+                self.ui.selected_section.setEnabled(True)
+            else:
+                msg = """No model found, no section created. You need 
+                to have at least one."""
+                logger.warning(msg)
         else:
             #Raise the visio window
             self.visio.container.show()
