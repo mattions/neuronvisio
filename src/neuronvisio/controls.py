@@ -16,12 +16,21 @@
 # * along with NeuronVisio.  If not, see <http://www.gnu.org/licenses/>.
 
 #@PydevCodeAnalysisIgnoren
-# Choosing the correct version of PyQt4 API (required for Python on Windows)
-import sip
-sip.setapi('QString', 2)
-sip.setapi('QVariant', 2)
-
 import os
+"""
+This is a check to make sure the sip and the QStrings play nicely in Windows, 
+where the PySide is using the new Python API (Python 3)
+http://www.mail-archive.com/matplotlib-users@lists.sourceforge.net/msg19702.html
+http://stackoverflow.com/questions/1400858/how-to-create-qstring-in-pyqt4
+This could be easily removed when we move to Python 3
+"""
+if os.name == 'nt':
+    import sip
+    sip.setapi('QString', 2)
+    sip.setapi('QVariant', 2)
+    from PyQt4 import QtGui, QtCore, uic
+    from PyQt4.QtCore import *
+
 from subprocess import call
 from manager import SynVecRef
 os.environ['ETS_TOOLKIT'] = 'qt4'
@@ -33,21 +42,7 @@ logger = logging.getLogger(__name__)
 import sys
 sys.path.append(os.path.dirname(__file__)) 
 
-"""
-This is a check to make sure the sip and the Qstrings play nicely in Windows, 
-where the PySide is using the new Python API (Python 3)
-http://www.mail-archive.com/matplotlib-users@lists.sourceforge.net/msg19702.html
-http://stackoverflow.com/questions/1400858/how-to-create-qstring-in-pyqt4
-This could be easily removed when we move to Python 3
-"""
-if os.name == 'nt':
-    import sip
-    sip.setapi('QString', 2)
-    sip.setapi('QVariant', 2)
-    from PyQt4.QtCore import (Qt, SIGNAL, SLOT, QSize, QString,
-                              pyqtSignature, pyqtProperty)
-    from PyQt4.QtCore import *
-else: 
+if os.name != 'nt':
     from PyQt4 import QtGui, QtCore, uic
     from PyQt4.QtCore import Qt
 
@@ -245,8 +240,8 @@ class Controls():
 
         cmd=s1+"\\bin\\bash.exe"
         arg="cd "+model_dir+";/usr/bin/sh -c '" + s2 + "/lib/mknrndll.sh " + s2 + "'"
-        from subprocess import call
-        call([cmd, '-c', arg])
+        import subprocess
+        subprocess.Popen([cmd, '-c', arg], stdin=subprocess.PIPE).communicate(input="\r\n")
 
     def run_extracted_model(self, mod):
         model_dir = mod.get_dir()
