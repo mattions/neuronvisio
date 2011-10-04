@@ -246,25 +246,27 @@ class Controls():
     def run_extracted_model(self, mod):
         model_dir = mod.get_dir()
         if os.path.exists(os.path.join (model_dir, 'mosinit.hoc')):
-            old_dir = os.getcwd()
-            os.chdir(model_dir)
+            old_dir = os.path.abspath(os.getcwd())
             logger.info("Path changed to %s" %(os.path.abspath(model_dir)))
-            
-            # If windows
-            if os.name == 'nt':                
-                self.windows_compile_mod_files(model_dir)
-            else: # Anything else.
-                call(['nrnivmodl'])
-            #os.chdir(old_dir)
-            import neuron
-            neuron.load_mechanisms('./')
-            from neuron import gui # to not freeze neuron gui
-            from neuron import h
-            
-            logger.info("Loading model in %s" %model_dir)
-            h.load_file('mosinit.hoc')
-            
-            
+            os.chdir(model_dir)
+            try:
+                # If windows
+                if os.name == 'nt':                
+                    self.windows_compile_mod_files('.')
+                    from neuron import h
+                    h.nrn_load_dll('./nrnmech.dll')
+                else: # Anything else.
+                    call(['nrnivmodl'])
+                    import neuron            
+                    neuron.load_mechanisms('./')
+                from neuron import gui # to not freeze neuron gui
+                from neuron import h
+                logger.info("Loading model in %s" %model_dir)
+                h.load_file('mosinit.hoc')
+            except Exception as e:
+                logger.warning("Error running model: "+e.message)
+            logger.info("Path changed back to %s" %old_dir)
+            os.chdir(old_dir)
         else: 
             response = """We didn't find any mosinit.hoc . Unfortunately we can't 
             automatically run the model. Check the README, maybe there is an 
