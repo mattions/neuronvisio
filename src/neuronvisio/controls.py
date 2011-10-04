@@ -17,6 +17,20 @@
 
 #@PydevCodeAnalysisIgnoren
 import os
+"""
+This is a check to make sure the sip and the QStrings play nicely in Windows, 
+where the PySide is using the new Python API (Python 3)
+http://www.mail-archive.com/matplotlib-users@lists.sourceforge.net/msg19702.html
+http://stackoverflow.com/questions/1400858/how-to-create-qstring-in-pyqt4
+This could be easily removed when we move to Python 3
+"""
+if os.name == 'nt':
+    import sip
+    sip.setapi('QString', 2)
+    sip.setapi('QVariant', 2)
+    from PyQt4 import QtGui, QtCore, uic
+    from PyQt4.QtCore import *
+
 from subprocess import call
 from manager import SynVecRef
 os.environ['ETS_TOOLKIT'] = 'qt4'
@@ -28,21 +42,7 @@ logger = logging.getLogger(__name__)
 import sys
 sys.path.append(os.path.dirname(__file__)) 
 
-"""
-This is a check to make sure the sip and the Qstrings play nicely in Windows, 
-where the PySide is using the new Python API (Python 3)
-http://www.mail-archive.com/matplotlib-users@lists.sourceforge.net/msg19702.html
-http://stackoverflow.com/questions/1400858/how-to-create-qstring-in-pyqt4
-This could be easily removed when we move to Python 3
-"""
-if os.name == 'nt':
-    import sip
-    sip.setapi('QString', 2)
-    sip.setapi('QVariant', 2)
-    from PyQt4.QtCore import (Qt, SIGNAL, SLOT, QSize, QString,
-                              pyqtSignature, pyqtProperty)
-    from PyQt4.QtCore import *
-else: 
+if os.name != 'nt':
     from PyQt4 import QtGui, QtCore, uic
     from PyQt4.QtCore import Qt
 
@@ -224,7 +224,24 @@ class Controls():
                 tooltip = mod.get_tooltip()
                 model_item.setToolTip(i, tooltip)
             self.run_extracted_model(mod)
-            
+
+    # create the command line to compile mod files into nrnmech.dll and launch it. command line is
+    # <cygwin-dir>\bin\bash.exe -c "cd <model-dir>; /usr/bin/sh -c '<nrnhome>/lib/mknrndll.sh <nrnhome>'"
+    def windows_compile_mod_files(self, model_dir):
+        import _winreg
+        k1=_winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, "SOFTWARE\\Cygwin\\setup")
+        s1=_winreg.QueryValueEx(k1, 'rootdir')[0]
+        _winreg.CloseKey(k1)
+
+        k2=_winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, "SOFTWARE\\NEURON\\nrn72") 
+        s2=_winreg.QueryValueEx(k2, 'Install_Dir')[0]
+        s2=s2.replace('\\', '/')
+        _winreg.CloseKey(k2)
+
+        cmd=s1+"\\bin\\bash.exe"
+        arg="cd "+model_dir+";/usr/bin/sh -c '" + s2 + "/lib/mknrndll.sh " + s2 + "'"
+        import subprocess
+        subprocess.Popen([cmd, '-c', arg], stdin=subprocess.PIPE).communicate(input="\r\n")
 
     def run_extracted_model(self, mod):
         model_dir = mod.get_dir()
@@ -234,8 +251,8 @@ class Controls():
             logger.info("Path changed to %s" %(os.path.abspath(model_dir)))
             
             # If windows
-            if os.name == 'nt':
-                call(['mknrndll'])
+            if os.name == 'nt':                
+                self.windows_compile_mod_files(model_dir)
             else: # Anything else.
                 call(['nrnivmodl'])
             #os.chdir(old_dir)

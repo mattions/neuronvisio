@@ -205,13 +205,16 @@ class Model(object):
     def _create_overview_tab(self):
         html = "<html>"
         html = html +HTML_BODY
+        html = html + "<table border='0'><tr><td>"
         html = html + "<h1>Model Information</h1>"
         html = html + "<p>" + self._generate_table(self._MODEL_PAGE_LAYOUT, 3) + "</p>"
-        html = html + "<h1>Model Properties</h1>"
+        html = html + "</td><td>"
+        html = html + "<td><h1>Model Properties</h1>"
         html = html + "<p>" + HTML_TABLE
         for k,s in self.get_properties():
             html = html + "<tr><td><strong>" + k + "</strong></td><td>" + s + "</td></tr>"
         html = html + "</table></p>"
+        html = html + "</td></tr></table>"
         html = html + "</body>"
         html = html + "</html>"
         return html
