@@ -62,7 +62,7 @@ class Model(object):
         return self._model['url']
 
     def get_id(self):
-        return self._model['model_id']
+        return int(self._model['model_id'])
 
     def get_authors(self):
         return self._model['short_authors']
@@ -106,7 +106,8 @@ class Model(object):
         modelId = self.get_id()
         if os.path.isdir('Models')==False:
             os.mkdir('Models')        
-        zipFile = 'Models/'+modelId+'.zip'
+        model_zipped= ('%s.zip') %modelId
+        zipFile = os.path.join('Models', model_zipped)
         modelDir = self.get_dir()
         if not os.path.isfile(zipFile):
             if self._model['zip_url']=="":
@@ -129,7 +130,7 @@ class Model(object):
     # Get model directory
     def get_dir(self):
         modelId = self.get_id()
-        dirName = 'Models/'+modelId
+        dirName = os.path.join('Models', str(modelId))
         return dirName
     
     def get_tooltip(self):
