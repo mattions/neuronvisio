@@ -248,14 +248,14 @@ class Controls():
         if os.path.exists(os.path.join (model_dir, 'mosinit.hoc')):
             old_dir = os.getcwd()
             os.chdir(model_dir)
-            logger.info("Path changed to %s" %(os.path.abspath(model_dir)))
+            logger.info("Path changed to %s" %model_dir)
             
             # If windows
             if os.name == 'nt':                
                 self.windows_compile_mod_files(model_dir)
             else: # Anything else.
                 call(['nrnivmodl'])
-            #os.chdir(old_dir)
+            
             import neuron
             neuron.load_mechanisms('./')
             from neuron import gui # to not freeze neuron gui

@@ -106,7 +106,8 @@ class Model(object):
         modelId = self.get_id()
         if os.path.isdir('Models')==False:
             os.mkdir('Models')        
-        zipFile = os.path.join('Models', str(modelId), '.zip')
+        model_zipped= ('%s.zip') %modelId
+        zipFile = os.path.join('Models', model_zipped)
         modelDir = self.get_dir()
         if not os.path.isfile(zipFile):
             if self._model['zip_url']=="":
