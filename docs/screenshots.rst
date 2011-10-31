@@ -4,10 +4,14 @@
 Screenshots
 ***********
 
-Everybody loves screenshots so here we go.
+Everybody loves screenshots, so here we go. 
 
-Gtk GUI control
-===============
+*Notice: Some of the screenshots are missing the modelDB tabs, 'cause 
+the functionality was added at later stage. We decided to keep them,
+'cause they are stil informative to what you can do with Neuronvisio.* 
+
+GUI control
+=========
 
 This is the Controls window. You can create vectors and run simulations. The time shows 
 you the time of the NEURON_ simulator.
