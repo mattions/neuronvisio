@@ -16,6 +16,7 @@ class ModelDBUpdater:
 	_START_URLS = ["http://senselab.med.yale.edu/modeldb/ModelList.asp?id=1882"]
 	_DOWNLOAD_DELAY = 1
 	_ID_REGEX = re.compile("ShowModel\.asp\?model=(\d*)")
+	_NAME_REGEX = re.compile("^\s*(.*)\(((.*)(\d{4}).*)\)")
 	
 	# Private variables
 	_last_download_time = 0
@@ -37,7 +38,7 @@ class ModelDBUpdater:
 		for i in ids:
 			id = i.childNodes[0].toxml().strip()
 			self._existing_items[id] = True
-		logger.info("Got %d models..."%len(self._existing_items.keys()))
+		logger.info("Got %d models locally"%len(self._existing_items.keys()))
 
 	# Update models XML file from online content
 	def update(self):
@@ -98,18 +99,21 @@ class ModelDBUpdater:
 			list_data = self._get_url(u)
 			soup = BeautifulSoup(list_data)#, fromEncoding='utf-8')
 			for i in soup('tr'):
-				if i.td.a==None:
+				if i.td.a==None or i.td.a.string==None:
 					logger.warn("Ignoring empty item: %s"%i)
 				else:
 					m=self._ID_REGEX.match(i.td.a['href'])
-					if m:
+					n=self._NAME_REGEX.match(i.td.a.string)
+					if not m:
+						logger.warn("Ignoring bad model link: '%s'"%i.td.a['href'])
+					elif not n:
+						logger.warn("Ignoring bad model name: '%s'"%i.td.a.string)
+					else:
 						id = m.groups()[0]
 						url = self._BASE_URL + i.td.a['href']
 						name = i.td.a.string
 						map = {'url':url, 'name':name, 'id':id}
 						results[id] = map
-					else:
-						logger.warn("Ignosing bad model link: %s"%i.td.a['href'])
 		return results
 
 	# Write DOC back into XML file
@@ -146,14 +150,18 @@ class ModelDBUpdater:
 		# Model details
 		item['name'] = rows[0].th.string
 		if item['name'] == None:
-			logger.warn("Could not find mandatory field: name")
+			exit("Could not find mandatory field: name")
 		item['model_id'] = rows[1].th.contents[2]
 		if item['name'] == None:
-			logger.warn("Could not find mandatory field: name")
+			exit("Could not find mandatory field: name")
 		item['description'] = self._html_to_text(rows[2].td.contents)
 		if item['description'] == None:
-			logger.warn("Could not find mandatory field: description")
+			exit("Could not find mandatory field: description")
 		item['reference'] = self._html_to_text(rows[2].td.contents[3:])
+		if rows[2].td.em != None and rows[2].td.em.a != None:
+			item['article'] = rows[2].td.em.a['href']
+		if rows[2].td.small != None and rows[2].td.small.a != None:
+			item['pubmed'] = rows[2].td.small.a['href']
 		item['citations'] = rows[3].td.a['href']
 
 		# Model properties
@@ -167,7 +175,7 @@ class ModelDBUpdater:
 		item['transmitters'] = self._list_to_text(props[7].findAll('td', {}, False)[1]('a'))
 		item['simulation_environment'] = self._list_to_text(props[8].findAll('td', {}, False)[1]('a'))
 		if item['simulation_environment'] == None:
-			logger.warn("Could not find mandatory field: simulation_environment")
+			exit("Could not find mandatory field: simulation_environment")
 		item['model_concepts'] = self._list_to_text(props[9].findAll('td', {}, False)[1]('a'))
 		item['implementers'] = self._list_to_text(props[10].findAll('td', {}, False)[1]('a'))
 
@@ -176,11 +184,11 @@ class ModelDBUpdater:
 		zip_url=links[0]['href']
 		item['zip_url']=zip_url
 		if item['zip_url'] == None:
-			logger.warn("Could not find mandatory field: zip_url")
+			exit("Could not find mandatory field: zip_url")
 		readme = files[1].findAll('td', None, False)[1]
 		item['readme']=readme.renderContents().decode('utf-8')
 		if item['readme'] == None:
-			logger.warn("Could not find mandatory field: readme")
+			exit("Could not find mandatory field: readme")
 		return item
 
 	# Download data from URL with appropriate delays
