@@ -10,6 +10,10 @@ from BeautifulSoup import BeautifulSoup
 
 logger = logging.getLogger(__name__)
 
+# This class allows updating a ModelDB local store from the online site.
+# 
+# It also offer a stand-alone main() which update the ModelDB.xml file
+# from current directory.
 class ModelDBUpdater:
 	# Constants
 	_BASE_URL = 'http://senselab.med.yale.edu/modeldb/'
@@ -24,15 +28,18 @@ class ModelDBUpdater:
 	_existing_items = {}
 	_dom = None
 
-	# Initialize an updater for a file
+	# Initialize an updater for a file with local ModelDB content
 	def __init__(self, xml_file):
 		self._xml_file = xml_file
+		# Create the file if it does not exist
 		if os.path.isfile(xml_file)==False:
 			f=codecs.open(xml_file, "w", encoding='utf-8')
 			f.write('<?xml version="1.0" ?><items/>'.decode('utf-8'))
 			f.close()
+		# Read the file into dom
 		logger.info("Reading %s..."%xml_file)
 		self._dom = xml.dom.minidom.parse(xml_file)
+		# Create a list of available id-s
 		items=self._dom.childNodes[0]
 		ids=items.getElementsByTagName('model_id')
 		for i in ids:
@@ -42,16 +49,16 @@ class ModelDBUpdater:
 
 	# Update models XML file from online content
 	def update(self):
+		# Get online items and compare them to the local items
 		online = self.get_online_items()
 		logger.info("Got %d online items"%len(online))	
 		new_ones = self.get_new_items(online)
 		logger.info("Got %d new items"%len(new_ones))
+		# Add an item to the dom for each new item
 		for i in new_ones.keys():
 			u=new_ones[i]['url']
 			v=self.parse_item(u)
 			new_item = self._dom.createElement('item')
-			# "The most common shortcoming of BeautifulStoneSoup is that it  doesn't know about
-			# self-closing tags" so we need to add empty content in them
 			for k in v.keys():
 				name = self._dom.createElement(k)
 				if type(v[k]) == types.ListType:
@@ -60,6 +67,8 @@ class ModelDBUpdater:
 						value = self._dom.createElement('value')
 						value.appendChild(self._dom.createTextNode(self._get_text(val)))
 						name.appendChild(value)
+					# "The most common shortcoming of BeautifulStoneSoup is that it  doesn't know about
+					# self-closing tags" so we need to add empty content in them
 					if len(v[k])==0:
 						name.appendChild(self._dom.createTextNode(u""))
 				else:
@@ -68,19 +77,6 @@ class ModelDBUpdater:
 			self._dom.childNodes[0].appendChild(new_item)
 		self.update_xml()
 		return new_ones
-
-	def _get_text(self, node):
-		if type(node).__name__ == 'NavigableString':
-			return node.string
-		elif type(node).__name__ == 'NavigableUnicodeString':
-			return node.string
-		elif type(node) == types.StringType:
-			return unicode(node, 'utf-8')
-		elif type(node) == types.UnicodeType:
-			return node
-		elif node == None:
-			return u""
-		return node.renderContents()
 
 	# Compare existing items to online ones
 	def get_new_items(self, online_items):
@@ -97,11 +93,13 @@ class ModelDBUpdater:
 		results = {}
 		for u in self._START_URLS:
 			list_data = self._get_url(u)
-			soup = BeautifulSoup(list_data)#, fromEncoding='utf-8')
+			soup = BeautifulSoup(list_data)
 			for i in soup('tr'):
 				if i.td.a==None or i.td.a.string==None:
 					logger.warn("Ignoring empty item: %s"%i)
 				else:
+					# Filter only idems which have a valid id and name
+					# This prevents collecting place-holders for yet-to-be-published items
 					m=self._ID_REGEX.match(i.td.a['href'])
 					n=self._NAME_REGEX.match(i.td.a.string)
 					if not m:
@@ -120,15 +118,16 @@ class ModelDBUpdater:
 	def update_xml(self):
 	    f = codecs.open(self._xml_file, "w", encoding='utf-8')
 	    xml=self._dom.toxml(encoding="utf-8")
-	    soup = BeautifulSoup(xml)#, fromEncoding='utf-8')
+	    soup = BeautifulSoup(xml)
 	    f.write(soup.prettify().decode('utf-8')) 
 	    f.close()
-	
+
+	# Parse a ModelDB model page and extract an item dictionary	
 	def parse_item(self, url):
 		data=self._get_url(url)
 
 		# Extract main items from the page
-		soup = BeautifulSoup(data)#, fromEncoding='utf-8')
+		soup = BeautifulSoup(data)
 		table1 = soup.find('table', {'id': 'Table1'})
 		table2 = soup.find('table', {'id': 'Table2'})
 		table3 = soup.find('table', {'id': 'Table3'})
@@ -206,6 +205,7 @@ class ModelDBUpdater:
 		self._last_download_time = time.time()		
 		return data
 
+	# Extract text from a contents list, concatanating the text of the items into a single string
 	def _html_to_text(self, h):
 		t=u""
 		for i in h:
@@ -216,13 +216,30 @@ class ModelDBUpdater:
 			else:
 				logging.debug("No text extracted from %s"%str(i))
 		return t
-	
+
+	# Extract text from a list, returning a list of strings
 	def _list_to_text(self, l):
 		v=[]
 		for i in l:
 			v.append(self._html_to_text(i))
 		return v
+	
+	# Extract text from BeautifulStoneSoup node into a string
+	def _get_text(self, node):
+		if type(node).__name__ == 'NavigableString':
+			return node.string
+		elif type(node).__name__ == 'NavigableUnicodeString':
+			return node.string
+		elif type(node) == types.StringType:
+			return unicode(node, 'utf-8')
+		elif type(node) == types.UnicodeType:
+			return node
+		elif node == None:
+			# See the comment above about the shortcoming of BeautifulStoneSoup
+			return u""
+		return node.renderContents()
 
+# A stand-along main which updates ModelDB.xml in current directory
 def main():
 	# Setup logging to stdout
 	import sys
@@ -230,7 +247,8 @@ def main():
 	h.setLevel(logging.DEBUG)
 	logging.getLogger().addHandler(h)
 	logging.getLogger().setLevel(logging.INFO)
-	
+
+	# Update models	
 	updater = ModelDBUpdater('ModelDB.xml')
 	updater.update()
 	
