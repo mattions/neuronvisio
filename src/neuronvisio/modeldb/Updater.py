@@ -1,3 +1,4 @@
+#!/bin/env python
 import urllib2
 import time
 import logging
