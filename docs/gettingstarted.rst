@@ -132,8 +132,10 @@ will be displayed in the Sec Info Tab.
 .. image:: images/Neuronvisio_sec_info.png
     :scale: 100
     
-Loading a model from ModelDB
+ModelDB Integration
 =================
+Loading a model from ModelDB
+-----------------------
 
 ModelDB database is a lightly curated repository of computational models,
 published in litterature http://senselab.med.yale.edu/ModelDB/. While ModelDB 
@@ -157,5 +159,18 @@ and simulate the model.
 
 .. image:: image/neuronvisio_modelDB.png
 
+Updating information from ModelDB
+----------------------- 
+The content of the XML file which is included with each version of neuronvisio is usually 
+up-to-date with the content of ModelDB at the time of the release. Updating this file 
+from the online DB can be done by manually, if required, by running from any shell the script
+'src/neuronvisio/modeldb/Updater.py'. For example, on most systems you'll need to do:
 
+    # from neuronvisio install directory
+    cd src/neuronvisio/modeldb
+    Uploader.py
+
+It should be noted that the model extraction from ModelDB is slowed down to 1/sec in order
+to avoid loading the site. Also this process only update the file with models which do not 
+exist in the local XML file and does not currently refresh the content of existing ones.
     
