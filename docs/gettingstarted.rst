@@ -64,7 +64,7 @@ Visualization
 
 To visualize you model after you loaded you have to click the Plot3d button.
 
-.. image:: images/Neuronvisio_Controls_Init_and_Run.png
+.. image:: images/neuronvisio_main_control.png
     
 
 The 3D window will open showing your model:
@@ -98,7 +98,7 @@ To plot the simulation's results you first have to create a Vector
 For example if you are interested in the voltage you have to insert `v` 
 in the 'Variable to record` and click `Create Vector`. 
 
-.. image:: images/Neuronvisio_Controls_Init_and_Run.png
+.. image:: images/neuronvisio_main_control.png
 
 Run the simulation
 ------------------
@@ -106,7 +106,7 @@ Run the simulation
 The simulation can be run clicking on the `Init & Run` button. 
 It will run until the tstop.
 
-.. image:: images/Neuronvisio_Controls_Init_and_Run.png
+.. image:: images/neuronvisio_main_control.png
     
     
 Plotting the simulation
@@ -120,7 +120,7 @@ many as you want, then click `Plot`
 
 If you want to insert the legend just select the `legend box` 
 
-.. image:: images/plotting_variable.png
+.. image:: images/plotting_vector_results.png
     :scale: 70
 
 Investigate the section parameters
@@ -131,5 +131,31 @@ will be displayed in the Sec Info Tab.
 
 .. image:: images/Neuronvisio_sec_info.png
     :scale: 100
+    
+Loading a model from ModelDB
+=================
+
+ModelDB database is a lightly curated repository of computational models,
+published in litterature http://senselab.med.yale.edu/ModelDB/. While ModelDB 
+accepts models in a variety of format, a large subset is formed by models stored 
+in NEURON format. The ModelDB NEURON’s model are stored in an XML file, which comes with
+Neuronvisio source code. The file is parsed at run time and the content is loaded
+in a Qt tree widget, available in the ModelDB explorer tab, as shown in figure 2.
+It is possible to browse among all the available models per year of publication,
+authors, title and unique id number. The columns can be ordered alphabetically,
+and a simple search using the standard regular expression search and match is
+invocable using the Ctrl-F shortcut.
+
+If available, the README associated with the model is displayed, together
+with a custom model overview which summarizes the features of the model, enu-
+merating the type of channels used, the cell types, the brain region, etc.
+
+Any of the models exposed on the ModelDB explorer tab can be loaded in
+Neuronvisio using the Load button. The software will fetch, extract, compile and
+launch the model in the current session, giving the user the possibility to explore
+and simulate the model.
+
+.. image:: image/neuronvisio_modelDB.png
+
 
     
