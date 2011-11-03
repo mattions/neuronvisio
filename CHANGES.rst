@@ -1,5 +1,5 @@
-dev
-=========
+0.7.0 -- 3 Nov 2011
+===================
 
 - Added a new tab to have a ModelDb explorer inside Neuronvisio 
 - Integrate the ability to download and extract a NEURON model from ModelDb
