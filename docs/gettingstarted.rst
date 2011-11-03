@@ -133,9 +133,14 @@ will be displayed in the Sec Info Tab.
     :scale: 100
     
 ModelDB Integration
-=================
+===================
+
+This section describe how to load a model from ModelDb in Neuronvisio, and how
+to get the latest model from the modelDB, if they are not already present 
+in the ModelDB XML list.
+
 Loading a model from ModelDB
------------------------
+----------------------------
 
 ModelDB database is a lightly curated repository of computational models,
 published in litterature http://senselab.med.yale.edu/ModelDB/. While ModelDB 
@@ -157,10 +162,11 @@ Neuronvisio using the Load button. The software will fetch, extract, compile and
 launch the model in the current session, giving the user the possibility to explore
 and simulate the model.
 
-.. image:: image/neuronvisio_modelDB.png
+.. image:: images/neuronvisio_modelDB.png
 
 Updating information from ModelDB
------------------------ 
+---------------------------------
+
 The content of the XML file which is included with each version of neuronvisio is usually 
 up-to-date with the content of ModelDB at the time of the release. Updating this file 
 from the online DB can be done by manually, if required, by running from any shell the script
