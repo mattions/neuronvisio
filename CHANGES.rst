@@ -1,7 +1,12 @@
+0.7.2 -- 8 Nov 2011
+===================
+
+- Inserted modeldb in the pavement.
+
 0.7.1 -- 8 Nov 2011
 ===================
 
-- fixed the name of the exectuble on the setup file
+- fixed the name of the exectable on the setup file
 
 0.7.0 -- 3 Nov 2011
 ===================
