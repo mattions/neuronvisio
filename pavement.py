@@ -50,7 +50,7 @@ setup(
     packages = ['neuronvisio'],
     package_dir={'neuronvisio': 'src/neuronvisio'},
     package_data=paver.setuputils.find_package_data(package="neuronvisio"),
-    scripts= ['src/nrnvisio'],
+    scripts= ['src/nrnvisio.py'],
     classifiers=classifiers,
     keywords='neuron, gui, pylab, 3D, visualization',
     author='Michele Mattioni',
