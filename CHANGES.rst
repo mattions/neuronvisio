@@ -1,3 +1,8 @@
+0.7.2+ -- development  
+=====================
+
+- Inserted two new models on the ModelDb.xml. Fix #30.
+
 0.7.2 -- 8 Nov 2011
 ===================
 
