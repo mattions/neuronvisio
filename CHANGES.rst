@@ -1,6 +1,7 @@
 0.7.2+ -- development  
 =====================
 
+- Selected section is now stored and used if the vector are created only for one sec
 - Inserted two new models on the ModelDb.xml. Fix #30.
 
 0.7.2 -- 8 Nov 2011
