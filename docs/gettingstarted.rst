@@ -11,7 +11,18 @@ You need to use Neuronvisio from an ipython_ console started with the qt4 thread
 
 .. _ipython: http://ipython.scipy.org/
 
-To use the NeuronVisio module, after you have installed you should import with::
+In some cases, starting the ipython console with the q4thread does not set the console to
+interactive, therefore the plot from neuronvisio don't show up.
+
+We suggest to copy the `/etc/matplotlibrc` into `~/.matplotlib/matplotlibrc` and set the 
+backend to `Qt4Agg`
+
+	backend      : Qt4Agg
+
+So then you can run the console with the `-pylab` switch, which makes the console 
+interactive and import all the pylab methods (which are always handy). 
+
+When you have your ipython enviroment set, then you can use the NeuronVisio module::
 
     from neuronvisio.controls import Controls 
     controls = Controls()   # starting the GUI
