@@ -76,12 +76,20 @@ class Manager(object):
                             vec = h.Vector()
                             varRef = '_ref_' + var
                             if time_interval_recording is None:
-                                vec.record(point_process, 
-                                           getattr(sec(0.5), varRef))
+                                if point_process is not None:
+                                    vec.record(point_process, 
+                                               getattr(sec(0.5), varRef))
+                                else:
+                                    vec.record(getattr(sec(0.5), varRef))
                             else:
-                                vec.record(point_process,
-                                           getattr(sec(0.5), varRef), 
-                                           time_interval_recording)
+                                if point_process is not None:
+                                    vec.record(point_process,
+                                               getattr(sec(0.5), varRef), 
+                                               time_interval_recording)
+                                else:
+                                    vec.record(getattr(sec(0.5), varRef), 
+                                               time_interval_recording)
+                                    
                             vecRef.vecs[var] = vec
                             alreadyPresent = True
                             success = True
