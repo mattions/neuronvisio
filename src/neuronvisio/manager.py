@@ -258,7 +258,7 @@ class Manager(object):
                        return ref.vecs[var]
     def get_time(self):
         """Return the vector time associated with the voltage"""
-        return self.manager.groups['t']
+        return self.groups['t']
     
     def sum_vector(self, vec1, vec2):
         """Sums two vectors with the same length. The vector are 
