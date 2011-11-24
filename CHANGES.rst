@@ -1,9 +1,10 @@
-0.7.2+ -- development  
-=====================
+0.7.3 -- 24 Nov 2011  
+====================
 
 - Inserted how to configure ipython with the pylab and Q4Agg support in the doc
 - Selected section is now stored and used if the vector are created only for one sec
 - Inserted two new models on the ModelDb.xml. Fix #30.
+- Included the ModelDB.xml in the package
 
 0.7.2 -- 8 Nov 2011
 ===================
