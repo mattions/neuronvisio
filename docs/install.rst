@@ -51,11 +51,9 @@ On Ubuntu you will need to install manually these two modules: `python-vtk pytho
 
     sudo apt-get install python-vtk python-configobj
     
-
-Make sure the TraitsBackendQt (http://pypi.python.org/pypi/TraitsBackendQt) 
-has been installed as well. To install it run::
-
-	pip install TraitsBackendQt
+Mayavi <= 3.6.0 required TraitsBackendQt, which is not available anymore. 
+We suggest to update to Mayavi => 4.0.0, and the qt support is installed automatically with the 
+`traits`, `traitsui`, and `pyface` packages.
 
 Mac OS X
 ========

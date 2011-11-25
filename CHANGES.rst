@@ -3,7 +3,7 @@
 
 - Animation set true when simulation is launched.
 - Fixed a vectors handling if no values present.
-
+- Updated the doc for Mayavi 4.0.0
 
 0.7.3 -- 24 Nov 2011  
 ====================
