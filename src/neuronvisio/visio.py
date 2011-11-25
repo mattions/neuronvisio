@@ -301,7 +301,10 @@ class Visio(object):
                     if vecRef.sec.name() == sec.name():
                         if vecRef.vecs.has_key(var):
                             vec = vecRef.vecs[var]
-                            var_value = vec[time_point]
+                            try:
+                                var_value = vec[time_point]
+                            except IndexError:
+                                pass # vector exist, but not initialized.
             sec_scalar = self.build_sec_scalar(sec, var_value)
             var_scalar.extend(sec_scalar)
                 
