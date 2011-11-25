@@ -62,7 +62,7 @@ There is a `google group`_ to ask for help or send patches.
 
 .. _google group: http://groups.google.com/group/neuronvisio
 
-Site Map
+Contents
 ========
 
 .. toctree::
