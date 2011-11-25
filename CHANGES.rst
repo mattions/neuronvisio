@@ -1,3 +1,10 @@
+0.7.3+dev -- development
+========================
+
+- Animation set true when simulation is launched.
+
+
+
 0.7.3 -- 24 Nov 2011  
 ====================
 

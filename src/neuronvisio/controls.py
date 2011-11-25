@@ -369,6 +369,7 @@ class Controls():
                 h.fadvance()
                 
                 self.ui.time_label.setText("<b>" + str(h.t) + "</b>")
+        self.animation()
 
                     
     def tstop_changed(self):
