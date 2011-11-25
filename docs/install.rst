@@ -11,7 +11,7 @@ To install NeuronVisio you need to satisfy the following dependencies
 
 - PyQt4: http://www.riverbankcomputing.co.uk/software/pyqt/download
 - ipython: http://ipython.scipy.org/moin/
-- mayavi2: http://code.enthought.com/projects/mayavi/ 3.3.1 (or better)
+- mayavi2: http://code.enthought.com/projects/mayavi/ 4.0.0 (or better)
 - matplotlib: http://matplotlib.sourceforge.net/
 - setuptools: http://pypi.python.org/pypi/setuptools
 - pytables: http://www.pytables.org/
