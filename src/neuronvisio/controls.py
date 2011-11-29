@@ -24,12 +24,12 @@ http://www.mail-archive.com/matplotlib-users@lists.sourceforge.net/msg19702.html
 http://stackoverflow.com/questions/1400858/how-to-create-qstring-in-pyqt4
 This could be easily removed when we move to Python 3
 """
-if os.name == 'nt':
-    import sip
-    sip.setapi('QString', 2)
-    sip.setapi('QVariant', 2)
-    from PyQt4 import QtGui, QtCore, uic
-    from PyQt4.QtCore import *
+
+    
+from pyface.qt import QtGui, QtCore 
+
+from PyQt4 import uic
+from PyQt4.QtCore import *
 
 from subprocess import call
 from manager import SynVecRef
@@ -51,10 +51,6 @@ import numpy as np
 import matplotlib as mpl
 if mpl.backends.backend is None: 
     mpl.use('Qt4Agg')
-elif mpl.backends.backend != 'Qt4Agg':
-    message = """You must use the Qt4 backend to be able to use  Neuronvisio. 
-    Check your backend in ~/.matplotlib/matplotlibrc and set it to Qt4Agg"""
-    logger.warning(message)
 mpl.interactive(True)
 
 from neuron import h

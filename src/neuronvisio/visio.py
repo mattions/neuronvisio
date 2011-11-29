@@ -26,15 +26,17 @@ os.environ['ETS_TOOLKIT'] = 'qt4'
 import logging
 logger = logging.getLogger(__name__)
 
-from PyQt4 import QtGui, QtCore, uic
-from enthought.traits.api import HasTraits, Instance, on_trait_change, \
+from pyface.qt import QtGui, QtCore
+from PyQt4 import uic
+
+from traits.api import HasTraits, Instance, on_trait_change, \
     Int, Dict
-from enthought.traits.ui.api import View, Item
-from enthought.mayavi.core.ui.api import MayaviScene, MlabSceneModel, \
+from traitsui.api import View, Item
+from mayavi.core.ui.api import MayaviScene, MlabSceneModel, \
         SceneEditor
 
 import numpy as np
-from enthought.mayavi import mlab
+from mayavi import mlab
 #mlab.options.backend = 'envisage'
 
 
