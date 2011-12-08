@@ -63,7 +63,7 @@ import res # icons
 # ModelDb
 from modeldb.ModelDB import Models
 
-class Controls():
+class Controls(object):
     """Main class Neuronvisio"""
     def __init__(self):
         app = QtGui.QApplication.instance()
@@ -148,7 +148,263 @@ class Controls():
         self.ID = 3
         # Dictionary to old the models class for the ModelDb integration
         self.models = None
+    
+    def _retrieve_selected_model(self):
+        "Return the model selected in the "
+        items = self.ui.tree_models.selectedItems()
+    
+        if items:
+            selected_item = items[0] #first element
+            model_id = int(selected_item.text(self.ID))
+            models_name = self.models.get_model_names()
+            for name in models_name:
+                mod = self.models.get_model(name)
+                if model_id == mod.get_id():
+                    return mod
+        else:
+            logging.info('No model selected!')
+            return None
+    
+    def about(self):
         
+        self.aboutUi = uic.loadUi(os.path.join(os.path.dirname(__file__),
+                                               self.ui_dir,
+                                               "qtAbout.ui"))
+        import neuronvisio
+        name = '<font size=24><b>Neuronvisio %s<b><font>' %neuronvisio.__version__
+        authors = '%s' %neuronvisio.__authors__
+        
+        self.aboutUi.name.setText(name)
+        self.aboutUi.authors.setText(authors)    
+        self.aboutUi.show()
+     
+    def animation(self):
+        
+        self.ui.timelineSlider.setRange(0, 
+                                          len (self.manager.groups['t']))
+        self.ui.timelineSlider.setEnabled(True)
+        self.ui.show()
+    
+    def create_vector(self):
+        
+        var = self.ui.var.text()
+        if var.isEmpty():
+
+            msgBox = QtGui.QMessageBox()
+            msgBox.setText("No var specified.")
+            msgBox.setIcon(QtGui.QMessageBox.Warning)
+            msgBox.exec_()
+ 
+        else:
+            if self.ui.all_sections.isChecked():
+                allCreated = self.manager.add_all_vecRef(str(var))
+            elif self.ui.selected_section.isChecked():
+                if self.visio.selected_cyl is not None:
+                    sec = self.visio.cyl2sec[self.visio.selected_cyl]
+                    self.manager.add_vecRef(str(var), sec)
+                else:
+                    msgBox = QtGui.QMessageBox()
+                    msgBox.setText("<b>No vector has been created.</b>")
+                    msg = "You need to select the section where you want to create the vector"
+                    msgBox.setInformativeText(msg)
+                    msgBox.setIcon(QtGui.QMessageBox.Warning)
+                    msgBox.exec_()
+        self.update_tree_view()
+    
+    def dt_changed(self):
+        
+        h.dt = self.ui.dtSpinBox.value()
+    
+    def get_unique_parent(self, name, parentItem = None):
+        """Search the name in the treeview and return the qtElement.
+        Raise an exception if not unique"""
+        search = self.ui.treeWidget.findItems(name , 
+                                                Qt.MatchFixedString)
+        root_item = None
+        if len(search) == 0: # We create the group
+            root_item = None
+            if parentItem is None:
+                root_item = QtGui.QTreeWidgetItem(self.ui.treeWidget)
+            else:
+                root_item = QtGui.QTreeWidgetItem(parentItem)
+            root_item.setText(0, name)
+            
+        elif len(search) == 1:
+            root_item = search[0]
+            
+        else:
+            error = "ERROR - too many match: %d. Group Name not \
+            unique." %len(search)
+            raise NameError(error)
+        
+        return root_item
+    
+    def init(self):
+        """Set the vm_init from the spin button and prepare the simulator"""
+        
+        if not self.manager.refs.has_key('VecRef') :
+            logger.info("No vector Created. Create at least one vector to run the simulation")
+            return False
+        else:
+            v_init = self.ui.vSpinBox.value()
+            # Set the v_init
+            h.v_init = v_init
+            h.finitialize(v_init)
+            h.fcurrent()
+        
+            # Reset the time in the GUI
+            self.ui.time_label.setNum(h.t)
+            return True
+    
+    def insert_item_treeview(self, groupName, section_name, vecs, 
+                             details = None):
+        """Insert a new item in the treewidget. 
+        Items are grouped by types. If a new type is provided a new group is added.
+        Items are then grouped by section.
+        In one section more than one variable is allowed.
+        Each variable can have a detail associated in a dictionary form """
+        group_root = self.get_unique_parent(groupName)
+        sec_root = self.get_unique_parent(section_name, 
+                                          parentItem = group_root)
+        for var,vec in vecs.iteritems():
+            item = ItemRef(sec_root, vec)
+            item.setText(0, var)
+            item.setText(1, details)    
+            sec_root.addChild(item)
+            
+    
+    def insert_refs_in_treeview(self):
+        for group, ref_list in self.manager.refs.iteritems():
+            for ref in ref_list:
+                self.insert_item_treeview(group, 
+                                          ref.sec_name, 
+                                          ref.vecs, 
+                                          ref.detail)
+    
+    def launch_visio(self):
+        msg = "Plotting..."
+        self.ui.statusbar.showMessage(msg, 3500)
+        if self.visio == None:
+            
+            # Checking there are sections in the model.
+            i = 0
+            for sec in h.allsec():
+                i += 1
+            
+            if i > 0:
+                self.visio = Visio(self.ui.sec_info_label, self.manager)
+                self.visio.draw_model()
+                self.ui.selected_section.setEnabled(True)
+            else:
+                msg = """No model found, no section created. You need 
+                to have at least one."""
+                logger.warning(msg)
+        else:
+            #Raise the visio window
+            self.visio.container.show()
+        # Enabling the animation
+        try:
+            self.animation()
+        except KeyError:
+            # No simulation run an nothing loaded.
+            # just pass
+            pass
+    
+    def load_hdf(self, path_to_hdf=None):
+    
+        if path_to_hdf != None:
+            self.path_to_hdf=os.path.abspath(path_to_hdf)
+        
+        else:
+            filename = QtGui.QFileDialog.getOpenFileName()
+            if filename:
+                self.path_to_hdf = str(filename)
+        
+        if self.path_to_hdf != None:
+            
+            self.manager.load_from_hdf(self.path_to_hdf)
+            self.update_tree_view()
+            msg = "Loaded db: %s" % self.path_to_hdf
+            self.ui.statusbar.showMessage(msg, 3500)
+            # Enablig the Animation button
+            self.animation()
+            # Disabling all the rest
+            self.ui.init_btn.setEnabled(False)
+            self.ui.run_btn.setEnabled(False)
+            self.ui.create_vector.setEnabled(False)
+    
+    def load_selected_model(self):
+        "Load the model selected in the treeview."
+        
+        mod = self._retrieve_selected_model()
+        if mod:
+            model_path = mod.download_model()
+            # tooltip
+            cols = self.ui.tree_models.columnCount()
+            items = self.ui.tree_models.selectedItems()
+            model_item = items[0]
+            for i in range (cols):
+                tooltip = mod.get_tooltip()
+                model_item.setToolTip(i, tooltip)
+            self.run_extracted_model(mod)
+    
+    def on_animation_time_return_pressed(self):
+        "Getting the value from the text"
+        time = self.ui.animationTime.text()
+        try:
+            time = int (time)
+            time_list = self.manager.groups['t']
+            time_point_indx = 0
+            # If it's a vector on the just ran sim.
+            if hasattr(time_list, 'to_python'):
+                time_list = time_list.to_python()
+                time_list = np.around(time_list, 3)
+                
+                time_point_indx = np.where(time_list==time)[0]
+            # If it's a numpy array saved on the disk
+            else:
+                rounded = time_list.read().round(3)
+                time_point_indx = np.where(rounded==time)[0]
+                        
+            self.sync_visio_3d(time_point_indx)
+            self.ui.timelineSlider.setValue(time_point_indx)
+        except:
+            logger.warning("Value not present in the array.")
+    
+    def on_timeline_value_changed(self):
+        """Draw the animation according to the value of the timeline"""
+        
+        time_point_indx = self.ui.timelineSlider.value()
+        self.sync_visio_3d(time_point_indx)    
+    
+    def plot_vector(self):
+        
+        items = self.ui.treeWidget.selectedItems()
+        
+        x = None
+        
+        # Plot legend if required
+        legend_status = self.ui.legend.isChecked() #return True if toggled.
+        
+        points_status = self.ui.points.isChecked()
+        # Retrieve the fig num
+        fig_num = self.ui.fig_num_spinBox.value()
+        
+        for item in items:
+            if item.childCount() == 0: # Leaf, so it is the variable to plot
+                
+                sectionItem = item.parent()
+                sectionName = str(sectionItem.text(0)) #Column used
+                var = str(item.text(0))
+                detail = str(item.text(1))
+                
+                groupName = str(sectionItem.parent().text(0))
+                x = self.manager.groups[groupName]
+                key = sectionName + "_" + var
+                vecs_to_plot = { key : item.vec}
+                self.manager.plot_vecs(vecs_to_plot, x=x, legend=legend_status, 
+                              figure_num=fig_num, points=points_status)
+    
     def populate_treeview_model(self, index):
         """populate the tree view and the scroll_area when the tab is 
         activated"""
@@ -179,66 +435,20 @@ class Controls():
             self.ui.textBrowser_readme.clear()
             self.ui.textBrowser_readme.insertPlainText("No model selected.")
             self.tab_model_already_populated = True #we populated only once.
+
+    def run(self):
+        """Run the simulator till tstop"""
         
-    def select_model_treeview(self):
-        """Synch the README and the modelOverview with the selected model."""
-        mod = self._retrieve_selected_model()
-        if mod:
-            readme = mod.get_readme_html()
-            overview = mod.get_overview()
-            self.ui.textBrowser_readme.clear()
-            self.ui.textBrowser_readme.insertHtml(readme)            
-            self.ui.textBrowser_model_overview.clear()
-            self.ui.textBrowser_model_overview.insertHtml(overview)
-       
-    def _retrieve_selected_model(self):
-        "Return the model selected in the "
-        items = self.ui.tree_models.selectedItems()
-    
-        if items:
-            selected_item = items[0] #first element
-            model_id = int(selected_item.text(self.ID))
-            models_name = self.models.get_model_names()
-            for name in models_name:
-                mod = self.models.get_model(name)
-                if model_id == mod.get_id():
-                    return mod
-        else:
-            logging.info('No model selected!')
-            return None
-       
-    def load_selected_model(self):
-        "Load the model selected in the treeview."
-        
-        mod = self._retrieve_selected_model()
-        if mod:
-            model_path = mod.download_model()
-            # tooltip
-            cols = self.ui.tree_models.columnCount()
-            items = self.ui.tree_models.selectedItems()
-            model_item = items[0]
-            for i in range (cols):
-                tooltip = mod.get_tooltip()
-                model_item.setToolTip(i, tooltip)
-            self.run_extracted_model(mod)
-
-    # create the command line to compile mod files into nrnmech.dll and launch it. command line is
-    # <cygwin-dir>\bin\bash.exe -c "cd <model-dir>; /usr/bin/sh -c '<nrnhome>/lib/mknrndll.sh <nrnhome>'"
-    def windows_compile_mod_files(self, model_dir):
-        import _winreg
-        k1=_winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, "SOFTWARE\\Cygwin\\setup")
-        s1=_winreg.QueryValueEx(k1, 'rootdir')[0]
-        _winreg.CloseKey(k1)
-
-        k2=_winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, "SOFTWARE\\NEURON\\nrn72") 
-        s2=_winreg.QueryValueEx(k2, 'Install_Dir')[0]
-        s2=s2.replace('\\', '/')
-        _winreg.CloseKey(k2)
-
-        cmd=s1+"\\bin\\bash.exe"
-        arg="cd "+model_dir+";/usr/bin/sh -c '" + s2 + "/lib/mknrndll.sh " + s2 + "'"
-        import subprocess
-        subprocess.Popen([cmd, '-c', arg], stdin=subprocess.PIPE).communicate(input="\r\n")
+        #Initializing
+        if self.init():
+            # Run
+            msg = "Running simulation. It will take a while maybe..."
+            self.ui.statusbar.showMessage(msg, 5000)
+            while h.t < h.tstop:
+                h.fadvance()
+                
+                self.ui.time_label.setText("<b>" + str(h.t) + "</b>")
+        self.animation()
 
     def run_extracted_model(self, mod):
         model_dir = mod.get_dir()
@@ -272,31 +482,7 @@ class Controls():
             path_info = "You can find the extracted model in %s" %model_dir
             mod.browse()
             logging.info(path_info)
-    
-    def load_hdf(self, path_to_hdf=None):
-    
-        if path_to_hdf != None:
-            self.path_to_hdf=os.path.abspath(path_to_hdf)
-        
-        else:
-            filename = QtGui.QFileDialog.getOpenFileName()
-            if filename:
-                self.path_to_hdf = str(filename)
-        
-        if self.path_to_hdf != None:
             
-            self.manager.load_from_hdf(self.path_to_hdf)
-            self.update_tree_view()
-            msg = "Loaded db: %s" % self.path_to_hdf
-            self.ui.statusbar.showMessage(msg, 3500)
-            # Enablig the Animation button
-            self.animation()
-            # Disabling all the rest
-            self.ui.init_btn.setEnabled(False)
-            self.ui.run_btn.setEnabled(False)
-            self.ui.create_vector.setEnabled(False)
-            
-        
     def save_hdf(self):
         if not self.path_to_hdf:
             filename = QtGui.QFileDialog.getSaveFileName()
@@ -304,212 +490,19 @@ class Controls():
             if self.path_to_hdf != None:
                 self.manager.save_to_hdf(self.path_to_hdf)
                 msg = "Saved hdf file: %s" % self.path_to_hdf
-                self.ui.statusbar.showMessage(msg, 3500)
+                self.ui.statusbar.showMessage(msg, 3500)    
         
-    def launch_visio(self):
-        msg = "Plotting..."
-        self.ui.statusbar.showMessage(msg, 3500)
-        if self.visio == None:
-            
-            # Checking there are sections in the model.
-            i = 0
-            for sec in h.allsec():
-                i += 1
-            
-            if i > 0:
-                self.visio = Visio(self.ui.sec_info_label, self.manager)
-                self.visio.draw_model()
-                self.ui.selected_section.setEnabled(True)
-            else:
-                msg = """No model found, no section created. You need 
-                to have at least one."""
-                logger.warning(msg)
-        else:
-            #Raise the visio window
-            self.visio.container.show()
-        # Enabling the animation
-        try:
-            self.animation()
-        except KeyError:
-            # No simulation run an nothing loaded.
-            # just pass
-            pass
-        
-    
-    def init(self):
-        """Set the vm_init from the spin button and prepare the simulator"""
-        
-        if not self.manager.refs.has_key('VecRef') :
-            logger.info("No vector Created. Create at least one vector to run the simulation")
-            return False
-        else:
-            v_init = self.ui.vSpinBox.value()
-            # Set the v_init
-            h.v_init = v_init
-            h.finitialize(v_init)
-            h.fcurrent()
-        
-            # Reset the time in the GUI
-            self.ui.time_label.setNum(h.t)
-            return True
-            
-    
-    def run(self):
-        """Run the simulator till tstop"""
-        
-        #Initializing
-        if self.init():
-            # Run
-            msg = "Running simulation. It will take a while maybe..."
-            self.ui.statusbar.showMessage(msg, 5000)
-            while h.t < h.tstop:
-                h.fadvance()
-                
-                self.ui.time_label.setText("<b>" + str(h.t) + "</b>")
-        self.animation()
-
-                    
-    def tstop_changed(self):
-        
-        h.tstop = self.ui.tstopSpinBox.value()
-        
-        
-    def dt_changed(self):
-        
-        h.dt = self.ui.dtSpinBox.value()
-    
-    def v_changed(self):
-        
-        h.v_init = self.ui.vSpinBox.value()
-        
-    def plot_vector(self):
-        
-        items = self.ui.treeWidget.selectedItems()
-        
-        x = None
-        
-        # Plot legend if required
-        legend_status = self.ui.legend.isChecked() #return True if toggled.
-        
-        points_status = self.ui.points.isChecked()
-        # Retrieve the fig num
-        fig_num = self.ui.fig_num_spinBox.value()
-        
-        for item in items:
-            if item.childCount() == 0: # Leaf, so it is the variable to plot
-                
-                sectionItem = item.parent()
-                sectionName = str(sectionItem.text(0)) #Column used
-                var = str(item.text(0))
-                detail = str(item.text(1))
-                
-                groupName = str(sectionItem.parent().text(0))
-                x = self.manager.groups[groupName]
-                key = sectionName + "_" + var
-                vecs_to_plot = { key : item.vec}
-                self.manager.plot_vecs(vecs_to_plot, x=x, legend=legend_status, 
-                              figure_num=fig_num, points=points_status)
-    
-    def create_vector(self):
-        
-        var = self.ui.var.text()
-        if var.isEmpty():
-
-            msgBox = QtGui.QMessageBox()
-            msgBox.setText("No var specified.")
-            msgBox.setIcon(QtGui.QMessageBox.Warning)
-            msgBox.exec_()
- 
-        else:
-            if self.ui.all_sections.isChecked():
-                allCreated = self.manager.add_all_vecRef(str(var))
-            elif self.ui.selected_section.isChecked():
-                if self.visio.selected_cyl is not None:
-                    sec = self.visio.cyl2sec[self.visio.selected_cyl]
-                    self.manager.add_vecRef(str(var), sec)
-                else:
-                    msgBox = QtGui.QMessageBox()
-                    msgBox.setText("<b>No vector has been created.</b>")
-                    msg = "You need to select the section where you want to create the vector"
-                    msgBox.setInformativeText(msg)
-                    msgBox.setIcon(QtGui.QMessageBox.Warning)
-                    msgBox.exec_()
-        self.update_tree_view()
-
-    def get_unique_parent(self, name, parentItem = None):
-        """Search the name in the treeview and return the qtElement.
-        Raise an exception if not unique"""
-        search = self.ui.treeWidget.findItems(name , 
-                                                Qt.MatchFixedString)
-        root_item = None
-        if len(search) == 0: # We create the group
-            root_item = None
-            if parentItem is None:
-                root_item = QtGui.QTreeWidgetItem(self.ui.treeWidget)
-            else:
-                root_item = QtGui.QTreeWidgetItem(parentItem)
-            root_item.setText(0, name)
-            
-        elif len(search) == 1:
-            root_item = search[0]
-            
-        else:
-            error = "ERROR - too many match: %d. Group Name not \
-            unique." %len(search)
-            raise NameError(error)
-        
-        return root_item
-                
-    def insert_item_treeview(self, groupName, section_name, vecs, 
-                             details = None):
-        """Insert a new item in the treewidget. 
-        Items are grouped by types. If a new type is provided a new group is added.
-        Items are then grouped by section.
-        In one section more than one variable is allowed.
-        Each variable can have a detail associated in a dictionary form """
-        group_root = self.get_unique_parent(groupName)
-        sec_root = self.get_unique_parent(section_name, 
-                                          parentItem = group_root)
-        for var,vec in vecs.iteritems():
-            item = ItemRef(sec_root, vec)
-            item.setText(0, var)
-            item.setText(1, details)    
-            sec_root.addChild(item)
-            
-    
-    def insert_refs_in_treeview(self):
-        for group, ref_list in self.manager.refs.iteritems():
-            for ref in ref_list:
-                self.insert_item_treeview(group, 
-                                          ref.sec_name, 
-                                          ref.vecs, 
-                                          ref.detail)
-            
-                        
-    def update_tree_view(self):
-        # Fill the treeview wit all the vectors created
-        #Clear all the row
-        self.ui.treeWidget.clear()
-        self.insert_refs_in_treeview()
-
-    
-    def update_dt(self, new_dt):
-        self.ui.dtSpinBox.setValue(new_dt)
-    
-    def update_tstop(self, new_tstop):
-        self.ui.tstopSpinBox.setValue(new_tstop)
-    
-    def update_v_init(self, new_v_init):
-        self.ui.vSpinBox.setValue(new_v_init)
-    
-    def animation(self):
-        
-        self.ui.timelineSlider.setRange(0, 
-                                          len (self.manager.groups['t']))
-        self.ui.timelineSlider.setEnabled(True)
-        self.ui.show()
-    
-    
+    def select_model_treeview(self):
+        """Synch the README and the modelOverview with the selected model."""
+        mod = self._retrieve_selected_model()
+        if mod:
+            readme = mod.get_readme_html()
+            overview = mod.get_overview()
+            self.ui.textBrowser_readme.clear()
+            self.ui.textBrowser_readme.insertHtml(readme)            
+            self.ui.textBrowser_model_overview.clear()
+            self.ui.textBrowser_model_overview.insertHtml(overview)
+       
     
     def select_sections(self, list_of_sections):
         """Select an arbitrary number of sections from the 
@@ -527,34 +520,6 @@ class Controls():
         else:
             logger.warning("You have to launch the 3D Visio window first!")
     
-    def on_animation_time_return_pressed(self):
-        "Getting the value from the text"
-        time = self.ui.animationTime.text()
-        try:
-            time = int (time)
-            time_list = self.manager.groups['t']
-            time_point_indx = 0
-            # If it's a vector on the just ran sim.
-            if hasattr(time_list, 'to_python'):
-                time_list = time_list.to_python()
-                time_list = np.around(time_list, 3)
-                
-                time_point_indx = np.where(time_list==time)[0]
-            # If it's a numpy array saved on the disk
-            else:
-                rounded = time_list.read().round(3)
-                time_point_indx = np.where(rounded==time)[0]
-                        
-            self.sync_visio_3d(time_point_indx)
-            self.ui.timelineSlider.setValue(time_point_indx)
-        except:
-            logger.warning("Value not present in the array.")
-    
-    def on_timeline_value_changed(self):
-        """Draw the animation according to the value of the timeline"""
-        
-        time_point_indx = self.ui.timelineSlider.value()
-        self.sync_visio_3d(time_point_indx)    
     
     def sync_visio_3d(self, time_point_indx):
         
@@ -574,19 +539,47 @@ class Controls():
 
         self.visio.show_variable_timecourse(var, time_point_indx, 
                                             start_value, end_value)
+
+    def tstop_changed(self):
+        h.tstop = self.ui.tstopSpinBox.value()
+        
+    def update_dt(self, new_dt):
+        self.ui.dtSpinBox.setValue(new_dt)
+
+    def update_tree_view(self):
+        # Fill the treeview wit all the vectors created
+        #Clear all the row
+        self.ui.treeWidget.clear()
+        self.insert_refs_in_treeview()
     
-    def about(self):
+    def update_tstop(self, new_tstop):
+        self.ui.tstopSpinBox.setValue(new_tstop)
+    
+    def update_v_init(self, new_v_init):
+        self.ui.vSpinBox.setValue(new_v_init)
         
-        self.aboutUi = uic.loadUi(os.path.join(os.path.dirname(__file__),
-                                               self.ui_dir,
-                                               "qtAbout.ui"))
-        import neuronvisio
-        name = '<font size=24><b>Neuronvisio %s<b><font>' %neuronvisio.__version__
-        authors = '%s' %neuronvisio.__authors__
-        
-        self.aboutUi.name.setText(name)
-        self.aboutUi.authors.setText(authors)    
-        self.aboutUi.show()
+    def v_changed(self):
+        h.v_init = self.ui.vSpinBox.value()
+    
+    # create the command line to compile mod files into nrnmech.dll and launch it. command line is
+    # <cygwin-dir>\bin\bash.exe -c "cd <model-dir>; /usr/bin/sh -c '<nrnhome>/lib/mknrndll.sh <nrnhome>'"
+    def windows_compile_mod_files(self, model_dir):
+        import _winreg
+        k1=_winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, "SOFTWARE\\Cygwin\\setup")
+        s1=_winreg.QueryValueEx(k1, 'rootdir')[0]
+        _winreg.CloseKey(k1)
+
+        k2=_winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, "SOFTWARE\\NEURON\\nrn72") 
+        s2=_winreg.QueryValueEx(k2, 'Install_Dir')[0]
+        s2=s2.replace('\\', '/')
+        _winreg.CloseKey(k2)
+
+        cmd=s1+"\\bin\\bash.exe"
+        arg="cd "+model_dir+";/usr/bin/sh -c '" + s2 + "/lib/mknrndll.sh " + s2 + "'"
+        import subprocess
+        subprocess.Popen([cmd, '-c', arg], stdin=subprocess.PIPE).communicate(input="\r\n")
+            
+
             
 class ItemRef(QtGui.QTreeWidgetItem):
     def __init__(self, sec_root, vec):
