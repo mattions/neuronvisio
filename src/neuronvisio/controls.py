@@ -27,9 +27,7 @@ This could be easily removed when we move to Python 3
 
     
 from pyface.qt import QtGui, QtCore 
-
 from PyQt4 import uic
-from PyQt4.QtCore import *
 
 from subprocess import call
 from manager import SynVecRef
@@ -129,6 +127,9 @@ class Controls():
                      'time_label' : self.ui.time_label
                     }
         self.timeLoop = Timeloop(widgetDic)
+        app.connect( self.timeLoop, QtCore.SIGNAL("updateDt(double)"), self.update_dt )
+        app.connect( self.timeLoop, QtCore.SIGNAL("updateTstop(double)"), self.update_tstop )
+        app.connect( self.timeLoop, QtCore.SIGNAL("updateVInit(double)"), self.update_v_init )
         self.timeLoop.start()
         
         
@@ -489,9 +490,17 @@ class Controls():
         # Fill the treeview wit all the vectors created
         #Clear all the row
         self.ui.treeWidget.clear()
-        
         self.insert_refs_in_treeview()
 
+    
+    def update_dt(self, new_dt):
+        self.ui.dtSpinBox.setValue(new_dt)
+    
+    def update_tstop(self, new_tstop):
+        self.ui.tstopSpinBox.setValue(new_tstop)
+    
+    def update_v_init(self, new_v_init):
+        self.ui.vSpinBox.setValue(new_v_init)
     
     def animation(self):
         
@@ -592,19 +601,21 @@ class Timeloop(QtCore.QThread):
         QtCore.QThread.__init__(self, parent)
         self.widgetDic = widgetDic
         
-        
+    def __del__(self):
+        self.wait()
+
     def run(self):
         """Update the gui interface"""
         while True:
             self.sleep(1) #check every sec
             
             if h.dt != self.widgetDic['dt'].value():
-                self.widgetDic['dt'].setValue(h.dt)
+                self.emit( QtCore.SIGNAL('updateDt(double)'), h.dt )
             if h.tstop != self.widgetDic['tstop'].value():
-                self.widgetDic['tstop'].setValue(h.tstop)
+                self.emit( QtCore.SIGNAL('updateTstop(double)'), h.tstop )
             if h.v_init != self.widgetDic['v_init'].value():
-                self.widgetDic['v_init'].setValue(h.v_init)
-            
+                self.emit( QtCore.SIGNAL('updateVInit(double)'), h.v_init )
+                        
                 
             
             
