@@ -34,7 +34,7 @@ from manager import SynVecRef
 os.environ['ETS_TOOLKIT'] = 'qt4'
 import logging
 FORMAT = '%(levelname)s %(name)s %(lineno)s   %(message)s'
-logging.basicConfig(level=logging.INFO, format=FORMAT)
+logging.basicConfig(level=logging.DEBUG, format=FORMAT)
 logger = logging.getLogger(__name__)
 
 import sys
