@@ -166,12 +166,7 @@ class Controls():
                 model_item.setText(self.AUTHORS, model.get_authors())
                 model_item.setText(self.TITLE, model.get_title())
                 model_item.setData(self.ID, 0, model.get_id())
-                
-                # tooltip
-                cols = self.ui.tree_models.columnCount()
-                for i in range (cols):
-                    tooltip = model.get_tooltip()
-                    model_item.setToolTip(i, tooltip)
+                self.set_tooltip(model, model_item)
             
                 
             #Resizing the column.
@@ -182,7 +177,14 @@ class Controls():
             self.ui.textBrowser_readme.clear()
             self.ui.textBrowser_readme.insertPlainText("No model selected.")
             self.tab_model_already_populated = True #we populated only once.
-        
+
+    def set_tooltip(self, model, model_item):
+        # tooltip
+        cols = self.ui.tree_models.columnCount()
+        for i in range (cols):
+            tooltip = model.get_tooltip()
+            model_item.setToolTip(i, tooltip)
+
     def select_model_treeview(self):
         """Synch the README and the modelOverview with the selected model."""
         mod = self._retrieve_selected_model()
@@ -216,13 +218,8 @@ class Controls():
         mod = self._retrieve_selected_model()
         if mod:
             model_path = mod.download_model()
-            # tooltip
-            cols = self.ui.tree_models.columnCount()
             items = self.ui.tree_models.selectedItems()
-            model_item = items[0]
-            for i in range (cols):
-                tooltip = mod.get_tooltip()
-                model_item.setToolTip(i, tooltip)
+            self.set_tooltip(mod, items[0])
             self.run_extracted_model(mod)
 
     # create the command line to compile mod files into nrnmech.dll and launch it. command line is
@@ -275,6 +272,7 @@ class Controls():
             path_info = "You can find the extracted model in %s" %model_dir
             mod.browse()
             logging.info(path_info)
+            self.ui.statusbar.showMessage(path_info, 3500)
     
     def load_hdf(self, path_to_hdf=None):
     
