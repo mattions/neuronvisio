@@ -44060,4 +44060,245 @@ After building the mod files, run the demo.hoc file.
    We investigated how changes in ionic conductances alter the phase response curve (PRC) of a globus pallidal (GP) neuron and stability of a synchronous activity of a GP network, using a single-compartmental conductance-based neuron model. The results showed the PRC and the stability were influenced by changes in the persistent sodium current, the Kv3 potassium, the M-type potassium and the calcium-dependent potassium current.Reference: Fujita T, Fukai T, Kitano K (2011) Influences of membrane properties on phase response curve and synchronization stability in a model globus pallidus neuron. [epub ahead of print]
   </description>
  </item>
+ <item>
+  <model_id>
+   143114
+  </model_id>
+  <model_concepts>
+   <value>
+    Action Potential Initiation
+   </value>
+   <value>
+    Simplified Models
+   </value>
+   <value>
+    Spike Frequency Adaptation
+   </value>
+   <value>
+    Depolarization block
+   </value>
+  </model_concepts>
+  <transmitters>
+  </transmitters>
+  <name>
+   Effects of the membrane AHP on the Lateral Superior Olive (LSO) (Zhou &amp; Colburn 2010)
+  </name>
+  <reference>
+   Zhou Y, Colburn HS (2010) A modeling study of the effects of membrane afterhyperpolarization on spike interval statistics and on ILD encoding in the lateral superior olive.  103:2355-71
+  </reference>
+  <url>
+   http://senselab.med.yale.edu/modeldb/ShowModel.asp?model=143114
+  </url>
+  <citations>
+   mdbCitations.asp?mode=m&amp;id=143114&amp;twocol=True
+  </citations>
+  <genes>
+  </genes>
+  <readme>
+   &lt;pre&gt;
+&lt;h1&gt;Demonstrations&lt;/h1&gt;
+
+This is the README for the model associated with the paper:
+
+Zhou Y, Colburn HS (2010) A modeling study of the effects of membrane
+afterhyperpolarization on spike interval statistics and on ILD
+encoding in the lateral superior olive. &lt;a href=&quot;http://jn.physiology.org/content/103/5/2355.full&quot;&gt;J Neurophysiol&lt;/a&gt; 103:2355-71
+
+This model was contributed by Yi Zhou.
+
+&lt;h2&gt;A: Introduction&lt;/h2&gt;
+This simulation study investigated how membrane afterhyperpolarization
+(AHP) influences spiking activity of neurons in the Lateral Superior
+Olive (LSO). The model incorporates a general integrate-and-fire
+spiking mechanism with a first-order adaptation channel. Simulations
+focus on differentiating the effects of GAHP, tau_AHP, and input strength
+on (1) spike interval statistics, such as negative serial correlation
+and chopper onset, and (2) neural sensitivity to interaural level
+difference (ILD) of LSO neurons. The model simulated
+electrophysiological data collected in cat LSO (Tsuchitani and
+Johnson, 1985). The complete set of simulation results were reported
+in &lt;a href=&quot;http://jn.physiology.org/content/103/5/2355.full&quot;&gt;Zhou and Colburn (2010)&lt;/a&gt;.
+
+&lt;h2&gt;B: Download&lt;/h2&gt;
+
+This model was written in the NEURON simulation environment. After
+installing NEURON, download and unzip the model package
+LSO_ZhouColburn.zip to a local directory (e.g., C:/Neuron/LSO). Use
+nrnivmodl to compile mod files, and then execute the main NEURON
+programs (LSO_current_input.hoc or LSO_synaptic_input.hoc). The LSO
+model neuron receives synaptic inputs whose firing rate functions are
+stored in the input directory, e.g., &quot;C:/Neuron/LSO/input&quot;. The
+simulation results are saved in the output directory, e.g.,
+&quot;C:/Neuron/LSO/output&quot;. Two Matlab scripts in the model package,
+func_current_stim.m and func_syn_stim.m, provide example commands for
+data importing and plotting.
+
+&lt;b&gt;System Requirements:&lt;/b&gt;
+
+NEURON program. Please refer to the general NEURON documentation
+(&lt;a href=&quot;http://www.neuron.yale.edu/neuron/docs&quot;&gt;http://www.neuron.yale.edu/neuron/docs&lt;/a&gt;) for furtherinstructions on
+compiling mod files and launching hoc files on different operating
+systems.  Matlab software (&lt;a href=&quot;http://www.mathworks.com&quot;&gt;http://www.mathworks.com&lt;/a&gt;).
+
+&lt;h2&gt;C: Model Descriptions&lt;/h2&gt;
+&lt;b&gt;Cell Model:&lt;/b&gt;
+
+An LSO cell was simulated using a modified leaky integrate-and-fire
+(LIF) model containing a capacitance Cm, a leak conductance GL, and
+two time-varying conductance-based channels, Gabs and gAHP(t), which
+produced the absolute and relative refractory periods, respectively,
+for a model cell. After the absolute refractory period (t_abs), the
+conductance of the adaptation channel gAHP(t) was increased by GAHP
+and decayed exponentially toward zero with a time constant
+tau_AHP. Responses of four model cells were tested in modeling, which
+have small or large GAHP and short or long tau_AHP. (See Table I in
+Zhou and Colburn, 2010.)
+
+&lt;b&gt;Input Model:&lt;/b&gt;
+
+Stimulation was provided through either current injection (which
+simulated the ipsilateral-alone stimulation) or through
+synaptic-conductance channels (which simulated the combined effects of
+ipsilateral and contralateral acoustic stimulation).
+
+&lt;ul&gt;&lt;li&gt;The current stimulation was implemented in LSO_current_input.hoc. The
+model cell received a random discrete current at a sampling rate of
+4000 Hz. The amplitude of the current within each sample period (0.25
+ms) was a Gaussian random variable with a mean of I and an SD of
+sigma_I; and both I and sigma_I were time-invariant.&lt;/li&gt;
+&lt;li&gt;The synaptic stimuation was implemented in
+LSO_synaptic_input.hoc. Mathematically generated spike trains
+simulated the ipsilateral excitatory and contralateral inhibitory
+input spike trains (50 per side) to a LSO neuron. The input spike
+times were loaded during NEURON simulation. The excitatory and
+inhibitory synaptic time constant was 1ms.&lt;/li&gt;&lt;/ul&gt;
+
+&lt;h2&gt;D: Simulations&lt;/h2&gt;
+&lt;h3&gt;Example test 1: Stochastic current injection&lt;/h3&gt;
+
+Run LSO_current_input.hoc to launch the screen below. The command and
+parameter panels are shown on the left and the three result panels are
+shown on the right. On the parameter panels, shown from the top to
+bottom shown the leak conductance, Gabs and t_abs, AHP channel, and
+injecting current properties.
+
+Specify the AHP channel and current properties. The default setting is
+those of the model cell 4 (GAHP =0.08uS and tau_AHP=5ms). The default
+current input has I_mean of 1.4nA and sigma_I of 0.4nA. The values of
+passive leak conductance and absolute refractory period (2ms) were
+those reported in Zhou and Colburn (2010).
+
+Hit Run. Shown on the middle result panel is the PSTH, and those on
+the right from top to bottom are the recovery function, the
+inter-spike interval histograms of the steady state of responses (&gt;40
+msec), the serial dependence of GAHP, and the serial dependence of
+interspike intervals. Methods of data analyses are given in Zhou and
+Colburn (2010).
+
+Hit WriteFile, which saves eight data files into the subfolder
+/output. Each file was named after AHP channel and input current
+parameters.
+
+Run Matlab script func_current_stim.m, which plots the results of all
+4 model cells in response to current stimulation with I_mean =1.4nA
+and sigma_I = 0.4nA.
+
+&lt;img src=&quot;.\getModelFile.asp?model=143114&amp;amp;AttrID=23&amp;amp;file=\ZhouColburn2010\.\current_edit.jpg&quot; alt=&quot;screenshot 1&quot; height=&quot;400&quot; width=&quot;600&quot; /&gt;
+
+&lt;h2&gt;Example test 2: Synaptic stimulation with binaural EI inputs&lt;/h2&gt;
+
+Run LSO_synaptic_input.hoc to launch the screen below. Main procedures
+are identical to the program shown above. The default setting used the
+model cell 1 (GAHP =0.02 uS and tau_AHP=20 ms). The peak conductance
+of excitatory (Ge) and inhibitory (Gi) conductance are 3ns and 1.2ns,
+respectively. This setting yields a net zero synaptic current at the
+spiking threshold (i.e., balanced excitation and inhibition).  See
+Methods in Zhou and Colburn (2010) for more details.
+
+To specify an ILD, click Choose E Input Rate and then choose from the
+pull-down menu a desired ipsilateral (excitatory) sound level. Do the
+same for contralateral (inhibitory) sound level.
+
+Hit Run. The results shown on the screen were obtained by using
+E=50dB and I=10dB.
+
+Hit WriteFile, which saves eight data files into the subfolder
+/output. Each file was named after AHP channel and E/I level. The
+sound pressure level from 0 to 70dB are coded by letters A to H,
+respectively.
+
+Run Matlab script func_syn_stim.m, which plots the results of the 4
+model cells in response to binaural inputs with E=50dB and I=10dB.
+
+&lt;img src=&quot;.\getModelFile.asp?model=143114&amp;amp;AttrID=23&amp;amp;file=\ZhouColburn2010\.\synaptic_edit.jpg&quot; alt=&quot;screenshot 2&quot; height=&quot;400&quot; width=&quot;600&quot; /&gt;
+
+&lt;h2&gt;References&lt;/h2&gt;
+
+Tsuchitani C, Johnson DH (1985). The effects of ipsilateral tone burst
+stimulus level on the discharge patterns of cat lateral superior
+olivary units. J Acoust Soc Am 77: 1484-1496.
+
+Zhou Y and Colburn HS (2010). &quot;Effects of membrane
+afterhyperpolarization on discharge interval statistics: A model study
+of responses of lateral superior olive neurons to ipsilateral and
+bilateral acoustic stimuli,&quot; J. Neurophysiol. 103: 2355-2371.
+
+&lt;h2&gt;Contact&lt;/h2&gt;
+
+Yi Zhou (zhouyi at jhu.edu) 
+&lt;/pre&gt;
+  </readme>
+  <implementers>
+   <value>
+    Zhou, Yi
+   </value>
+  </implementers>
+  <receptors>
+   <value>
+    GabaA
+   </value>
+   <value>
+    Glutamate
+   </value>
+  </receptors>
+  <brain_regions>
+   <value>
+    Auditory brainstem
+   </value>
+  </brain_regions>
+  <channels>
+   <value>
+    I_AHP
+   </value>
+  </channels>
+  <cell_types>
+   <value>
+    Lateral Superior Olive (LSO) cell
+   </value>
+  </cell_types>
+  <pubmed>
+   http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=Retrieve&amp;db=PubMed&amp;list_uids=20107123&amp;dopt=Abstract
+  </pubmed>
+  <model_type>
+  </model_type>
+  <article>
+   http://dx.doi.org/10.1152/jn.00385.2009
+  </article>
+  <gap_junctions>
+  </gap_junctions>
+  <zip_url>
+   http://SenseLab.med.Yale.edu/ModelDB/eavBinDown.asp?o=143114&amp;a=23&amp;mime=application/zip
+  </zip_url>
+  <simulation_environment>
+   <value>
+    Neuron
+   </value>
+   <value>
+    MATLAB
+   </value>
+  </simulation_environment>
+  <description>
+   This simulation study investigated how membrane afterhyperpolarization (AHP) influences spiking activity of neurons in the Lateral Superior Olive (LSO). The model incorporates a general integrate-and-fire spiking mechanism with a first-order adaptation channel. Simulations focus on differentiating the effects of GAHP, tauAHP, and input strength on (1) spike interval statistics, such as negative serial correlation and chopper onset, and (2) neural sensitivity to interaural level difference (ILD) of LSO neurons. The model simulated electrophysiological data collected in cat LSO (Tsuchitani and Johnson, 1985).Reference: Zhou Y, Colburn HS (2010) A modeling study of the effects of membrane afterhyperpolarization on spike interval statistics and on ILD encoding in the lateral superior olive.  103:2355-71
+  </description>
+ </item>
 </items>
