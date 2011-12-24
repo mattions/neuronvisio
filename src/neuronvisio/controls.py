@@ -166,7 +166,7 @@ class Controls():
                 model_item.setText(self.AUTHORS, model.get_authors())
                 model_item.setText(self.TITLE, model.get_title())
                 model_item.setData(self.ID, 0, model.get_id())
-                self.set_tooltip(model, model_item)
+                self._set_tooltip(model, model_item)
             
                 
             #Resizing the column.
@@ -178,7 +178,7 @@ class Controls():
             self.ui.textBrowser_readme.insertPlainText("No model selected.")
             self.tab_model_already_populated = True #we populated only once.
 
-    def set_tooltip(self, model, model_item):
+    def _set_tooltip(self, model, model_item):
         # tooltip
         cols = self.ui.tree_models.columnCount()
         for i in range (cols):
@@ -219,7 +219,7 @@ class Controls():
         if mod:
             model_path = mod.download_model()
             items = self.ui.tree_models.selectedItems()
-            self.set_tooltip(mod, items[0])
+            self._set_tooltip(mod, items[0])
             self.run_extracted_model(mod)
 
     # create the command line to compile mod files into nrnmech.dll and launch it. command line is
