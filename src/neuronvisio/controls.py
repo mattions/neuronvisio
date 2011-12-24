@@ -414,7 +414,7 @@ class Controls():
     def create_vector(self):
         
         var = self.ui.var.text()
-        if var.isEmpty():
+        if not var:
 
             msgBox = QtGui.QMessageBox()
             msgBox.setText("No var specified.")
