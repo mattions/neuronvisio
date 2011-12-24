@@ -44301,4 +44301,167 @@ Yi Zhou (zhouyi at jhu.edu)
    This simulation study investigated how membrane afterhyperpolarization (AHP) influences spiking activity of neurons in the Lateral Superior Olive (LSO). The model incorporates a general integrate-and-fire spiking mechanism with a first-order adaptation channel. Simulations focus on differentiating the effects of GAHP, tauAHP, and input strength on (1) spike interval statistics, such as negative serial correlation and chopper onset, and (2) neural sensitivity to interaural level difference (ILD) of LSO neurons. The model simulated electrophysiological data collected in cat LSO (Tsuchitani and Johnson, 1985).Reference: Zhou Y, Colburn HS (2010) A modeling study of the effects of membrane afterhyperpolarization on spike interval statistics and on ILD encoding in the lateral superior olive.  103:2355-71
   </description>
  </item>
+ <item>
+  <model_id>
+   141505
+  </model_id>
+  <model_concepts>
+   <value>
+    Activity Patterns
+   </value>
+   <value>
+    Deep brain stimulation
+   </value>
+   <value>
+    Information transfer
+   </value>
+   <value>
+    Brain Rhythms
+   </value>
+  </model_concepts>
+  <transmitters>
+   <value>
+    Gaba
+   </value>
+   <value>
+    Glutamate
+   </value>
+  </transmitters>
+  <name>
+   Prosthetic electrostimulation for information flow repair in a neocortical simulation (Kerr 2011)
+  </name>
+  <reference>
+   Reference: Kerr CC, Neymotin SA, Chadderdon GL, Fietkiewicz CT, Francis JT, Lytton WW (2011) Electrostimulation as a prosthesis for repair of information flow in a computer model of neocortex  99:1-1
+  </reference>
+  <url>
+   http://senselab.med.yale.edu/modeldb/ShowModel.asp?model=141505
+  </url>
+  <genes>
+  </genes>
+  <readme>
+   &lt;pre&gt;This code generates the key results figures shown in 
+
+Kerr CC, Neymotin SA, Chadderdon GL, Fietkiewicz CT, Francis JT,
+Lytton WW (under review) Electrostimulation as a prosthesis for repair
+of information flow in a computer model of neocortex IEEE Transactions
+on Neural Systems &amp; Rehabilitation Engineering.
+
+This document provides brief installation and usage instructions.
+
+INSTALLATION
+
+Note: the code has been designed to work on Linux machines. It may
+work on Macs and will definitely not work on Windows. If this is a
+problem, please contact Cliff Kerr (cliffk@neurosim.downstate.edu) for
+assistance.
+
+Dependencies:
+1. NEURON
+2. Python
+3. Pylab, SciPy, NumPy, and Matplotlib. Note that Matplotlib must be
+version &amp;gt;1.0 -- note that most Linux distributions still come with
+0.99; if this is a problem, you'll get the error &quot;ImportError: cannot
+import name sca&quot;.
+
+Instructions:
+
+1. Unzip all files (which it looks like you've already done).
+2. Type &quot;nrnivmodl *.mod&quot; in the directory. This should create a
+directory called either i686 or x86_64, depending on your computer's
+architecture, and put a file called &quot;special&quot; in that directory.
+
+
+USAGE
+
+1. Type &quot;runsim&quot;. Two graphs should appear, corresponding to the two
+types of results figures in the paper.
+
+
+OPTIONS
+
+* To adjust cortical vs. thalamic damage, simulation time, and model
+  size, please adjust the hopefully-clearly-labeled parameters in
+  runsim.
+&lt;/pre&gt;&lt;br /&gt;
+  </readme>
+  <implementers>
+   <value>
+    Lytton, William
+   </value>
+   <value>
+    Neymotin, Sam
+   </value>
+  </implementers>
+  <receptors>
+   <value>
+    GabaA
+   </value>
+   <value>
+    AMPA
+   </value>
+   <value>
+    NMDA
+   </value>
+   <value>
+    Gaba
+   </value>
+  </receptors>
+  <brain_regions>
+   <value>
+    Neocortex
+   </value>
+  </brain_regions>
+  <channels>
+   <value>
+    I Chloride
+   </value>
+   <value>
+    I Sodium
+   </value>
+   <value>
+    I Potassium
+   </value>
+  </channels>
+  <cell_types>
+   <value>
+    Neocortical pyramidal neuron: deep
+   </value>
+   <value>
+    Neocortical pyramidal neuron: superficial
+   </value>
+   <value>
+    Neocortical basket cell
+   </value>
+   <value>
+    Neocortical Fast Spiking (FS) interneuron
+   </value>
+   <value>
+    Spiny stellate cell
+   </value>
+  </cell_types>
+  <citations>
+   mdbCitations.asp?mode=m&amp;id=141505&amp;twocol=True
+  </citations>
+  <model_type>
+   <value>
+    Network
+   </value>
+  </model_type>
+  <article>
+   http://dx.doi.org/10.1109/TNSRE.2011.2178614
+  </article>
+  <gap_junctions>
+  </gap_junctions>
+  <zip_url>
+   http://SenseLab.med.Yale.edu/ModelDB/eavBinDown.asp?o=141505&amp;a=23&amp;mime=application/zip
+  </zip_url>
+  <simulation_environment>
+   <value>
+    Neuron
+   </value>
+  </simulation_environment>
+  <description>
+   This model is an extension of a model (138379) recently published in Frontiers in Computational Neuroscience. This model consists of 4700 event-driven, rule-based neurons, wired according to anatomical data, and driven by both white-noise synaptic inputs and a sensory signal recorded from a rat thalamus. Its purpose is to explore the effects of cortical damage, along with the repair of this damage via a neuroprosthesis.Reference: Kerr CC, Neymotin SA, Chadderdon GL, Fietkiewicz CT, Francis JT, Lytton WW (2011) Electrostimulation as a prosthesis for repair of information flow in a computer model of neocortex  99:1-1
+  </description>
+ </item>
 </items>
