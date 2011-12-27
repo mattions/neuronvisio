@@ -268,8 +268,10 @@ class Models():
         self._modelTree = self._generate_models_tree(self._modelList)        
 
     # Get all model names
-    def get_model_names(self):
-        return self._modelTree.keys()
+    def get_model_names(self, keyword=""):
+        for name in self._modelTree.keys():
+            if not keyword or self.search(name, keyword):
+                yield name
 
     # Check if specific model exists
     def has_model(self, modelName):

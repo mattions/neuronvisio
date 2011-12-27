@@ -124,6 +124,9 @@ class Controls():
         self.ui.load_model_btn.connect(self.ui.load_model_btn, 
                                     QtCore.SIGNAL('clicked()'),
                                     self.load_selected_model)
+        self.ui.load_model_btn.connect(self.ui.filter_list_btn, 
+                                    QtCore.SIGNAL('clicked()'),
+                                    self.filter_list)
         
         
         ### Connection with the console
@@ -149,17 +152,17 @@ class Controls():
         self.YEAR = 0
         self.TITLE = 2
         self.ID = 3
-        # Dictionary to old the models class for the ModelDb integration
-        self.models = None
+        # Dictionary to hold the models class for the ModelDb integration
+        self.models = Models()
         
-    def populate_treeview_model(self, index):
+    def populate_treeview_model(self, index, filter=""):
         """populate the tree view and the scroll_area when the tab is 
         activated"""
-        if not self.tab_model_already_populated and index == 3 :
+        if index == 3 and (filter or not self.tab_model_already_populated):
+            self.ui.tree_models.clear()
             
-            self.models =  Models()
             # Populating the treeview with the dictionary
-            for model_name in self.models.get_model_names():
+            for model_name in self.models.get_model_names(filter):
                 model = self.models.get_model(model_name)
                 model_item = QtGui.QTreeWidgetItem(self.ui.tree_models, 'Models')
                 model_item.setText(self.YEAR, model.get_year())
@@ -221,6 +224,12 @@ class Controls():
             items = self.ui.tree_models.selectedItems()
             self._set_tooltip(mod, items[0])
             self.run_extracted_model(mod)
+
+    def filter_list(self):
+        "Filter the models list using the given text."
+        filter = self.ui.filter_input.text()
+        logger.info("Filtering list using keyword '%s'" %(filter))
+        self.populate_treeview_model(3, filter)
 
     # create the command line to compile mod files into nrnmech.dll and launch it. command line is
     # <cygwin-dir>\bin\bash.exe -c "cd <model-dir>; /usr/bin/sh -c '<nrnhome>/lib/mknrndll.sh <nrnhome>'"
