@@ -11,7 +11,7 @@ To install NeuronVisio you need to satisfy the following dependencies
 
 - PyQt4: http://www.riverbankcomputing.co.uk/software/pyqt/download
 - ipython: http://ipython.scipy.org/moin/
-- mayavi2: http://code.enthought.com/projects/mayavi/ 4.0.0 (or better)
+- mayavi2: http://code.enthought.com/projects/mayavi/ series 3.6.0 (or better)
 - matplotlib: http://matplotlib.sourceforge.net/
 - setuptools: http://pypi.python.org/pypi/setuptools
 - pytables: http://www.pytables.org/
@@ -27,7 +27,7 @@ Ubuntu and friends
 On Ubuntu you can easily install all the requirements using apt-get with::
 
     sudo apt-get install python-qt4 ipython python-matplotlib \
-    python-setuptools python-tables  
+    python-setuptools python-tables python-mayavi 
 
 If you are running a different flavour of GNU/Linux, like Fedora for example, just install 
 the requirements with your package manager, then go to the `Package Install`_.
@@ -51,9 +51,21 @@ On Ubuntu you will need to install manually these two modules: `python-vtk pytho
 
     sudo apt-get install python-vtk python-configobj
     
-Mayavi <= 3.6.0 required TraitsBackendQt, which is not available anymore. 
-We suggest to update to Mayavi => 4.0.0, and the qt support is installed automatically with the 
-`traits`, `traitsui`, and `pyface` packages.
+Mayavi <= 3.6.0 required _TraitsBackendQt, which is not available anymore from pypi and 
+has to be installed through ubuntu package manager or directly from github.
+
+.. TraitsBackendQt_ https://github.com/enthought/traitsbackendqt
+
+The latest release of Mayavi is 4.0.0, which is not API compatible with the 3.6.0.
+ 
+Master is already ported to Mayavi 4.0.0, however there are two regression bugs 32_ and 34_, 
+which belong upstream and have already signalled at Mayavi tracker.  
+
+.. _32: https://github.com/mattions/neuronvisio/issues/32
+.. _34: https://github.com/mattions/neuronvisio/issues/34
+
+If you like blending-edge, we suggest to update to Mayavi => 4.0.0, and the qt support 
+is installed automatically with the `traits`, `traitsui`, and `pyface` packages.
 
 Mac OS X
 ========
