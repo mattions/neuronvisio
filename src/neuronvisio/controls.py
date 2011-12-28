@@ -228,7 +228,7 @@ class Controls(object):
     def filter_list(self):
         "Filter the models list using the given text."
         filter = self.ui.filter_input.text()
-        logger.info("Filtering list using keyword '%s'" %(filter))
+        logger.debug("Filtering list using keyword '%s'" %(filter))
         self.populate_treeview_model(3, filter)
 
     # create the command line to compile mod files into nrnmech.dll and launch it. command line is
