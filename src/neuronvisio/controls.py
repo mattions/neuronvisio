@@ -121,6 +121,9 @@ class Controls(object):
         self.ui.load_model_btn.connect(self.ui.filter_list_btn, 
                                     QtCore.SIGNAL('clicked()'),
                                     self.filter_list)
+        self.ui.filter_input.connect(self.ui.filter_input,
+                                     QtCore.SIGNAL('returnPressed()'),
+                                     self.filter_list)
         
         
         ### Connection with the console
