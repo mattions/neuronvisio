@@ -118,6 +118,9 @@ class Controls(object):
         self.ui.load_model_btn.connect(self.ui.load_model_btn, 
                                     QtCore.SIGNAL('clicked()'),
                                     self.load_selected_model)
+        self.ui.load_model_btn.connect(self.ui.filter_list_btn, 
+                                    QtCore.SIGNAL('clicked()'),
+                                    self.filter_list)
         
         
         ### Connection with the console
@@ -146,9 +149,53 @@ class Controls(object):
         self.YEAR = 0
         self.TITLE = 2
         self.ID = 3
-        # Dictionary to old the models class for the ModelDb integration
-        self.models = None
-    
+        # Dictionary to hold the models class for the ModelDb integration
+        self.models = Models()
+        
+    def populate_treeview_model(self, index, filter=""):
+        """populate the tree view and the scroll_area when the tab is 
+        activated"""
+        if index == 3 and (filter or not self.tab_model_already_populated):
+            self.ui.tree_models.clear()
+            
+            # Populating the treeview with the dictionary
+            for model_name in self.models.get_model_names(filter):
+                model = self.models.get_model(model_name)
+                model_item = QtGui.QTreeWidgetItem(self.ui.tree_models, 'Models')
+                model_item.setText(self.YEAR, model.get_year())
+                model_item.setText(self.AUTHORS, model.get_authors())
+                model_item.setText(self.TITLE, model.get_title())
+                model_item.setData(self.ID, 0, model.get_id())
+                self._set_tooltip(model, model_item)
+            
+                
+            #Resizing the column.
+            #self.ui.tree_models.resizeColumnToContents(0)
+            self.ui.tree_models.resizeColumnToContents(self.YEAR)
+            self.ui.tree_models.resizeColumnToContents(self.TITLE)
+            self.ui.tree_models.resizeColumnToContents(self.ID)
+            self.ui.textBrowser_readme.clear()
+            self.ui.textBrowser_readme.insertPlainText("No model selected.")
+            self.tab_model_already_populated = True #we populated only once.
+
+    def _set_tooltip(self, model, model_item):
+        # tooltip
+        cols = self.ui.tree_models.columnCount()
+        for i in range (cols):
+            tooltip = model.get_tooltip()
+            model_item.setToolTip(i, tooltip)
+
+    def select_model_treeview(self):
+        """Synch the README and the modelOverview with the selected model."""
+        mod = self._retrieve_selected_model()
+        if mod:
+            readme = mod.get_readme_html()
+            overview = mod.get_overview()
+            self.ui.textBrowser_readme.clear()
+            self.ui.textBrowser_readme.insertHtml(readme)            
+            self.ui.textBrowser_model_overview.clear()
+            self.ui.textBrowser_model_overview.insertHtml(overview)
+       
     def _retrieve_selected_model(self):
         "Return the model selected in the "
         items = self.ui.tree_models.selectedItems()
@@ -164,6 +211,74 @@ class Controls(object):
         else:
             logging.info('No model selected!')
             return None
+       
+    def load_selected_model(self):
+        "Load the model selected in the treeview."
+        
+        mod = self._retrieve_selected_model()
+        if mod:
+            model_path = mod.download_model()
+            items = self.ui.tree_models.selectedItems()
+            self._set_tooltip(mod, items[0])
+            self.run_extracted_model(mod)
+
+    def filter_list(self):
+        "Filter the models list using the given text."
+        filter = self.ui.filter_input.text()
+        logger.info("Filtering list using keyword '%s'" %(filter))
+        self.populate_treeview_model(3, filter)
+
+    # create the command line to compile mod files into nrnmech.dll and launch it. command line is
+    # <cygwin-dir>\bin\bash.exe -c "cd <model-dir>; /usr/bin/sh -c '<nrnhome>/lib/mknrndll.sh <nrnhome>'"
+    def windows_compile_mod_files(self, model_dir):
+        import _winreg
+        k1=_winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, "SOFTWARE\\Cygwin\\setup")
+        s1=_winreg.QueryValueEx(k1, 'rootdir')[0]
+        _winreg.CloseKey(k1)
+
+        k2=_winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, "SOFTWARE\\NEURON\\nrn72") 
+        s2=_winreg.QueryValueEx(k2, 'Install_Dir')[0]
+        s2=s2.replace('\\', '/')
+        _winreg.CloseKey(k2)
+
+        cmd=s1+"\\bin\\bash.exe"
+        arg="cd "+model_dir+";/usr/bin/sh -c '" + s2 + "/lib/mknrndll.sh " + s2 + "'"
+        import subprocess
+        subprocess.Popen([cmd, '-c', arg], stdin=subprocess.PIPE).communicate(input="\r\n")
+
+    def run_extracted_model(self, mod):
+        model_dir = mod.get_dir()
+        if os.path.exists(os.path.join (model_dir, 'mosinit.hoc')):
+            old_dir = os.path.abspath(os.getcwd())
+            logger.info("Path changed to %s" %(os.path.abspath(model_dir)))
+            os.chdir(model_dir)
+            try:
+                # If windows
+                if os.name == 'nt':                
+                    self.windows_compile_mod_files('.')
+                    from neuron import h
+                    h.nrn_load_dll('./nrnmech.dll')
+                else: # Anything else.
+                    call(['nrnivmodl'])
+                    import neuron            
+                    neuron.load_mechanisms('./')
+                from neuron import gui # to not freeze neuron gui
+                from neuron import h
+                logger.info("Loading model in %s" %model_dir)
+                h.load_file('mosinit.hoc')
+            except Exception as e:
+                logger.warning("Error running model: "+e.message)
+            logger.info("Path changed back to %s" %old_dir)
+            os.chdir(old_dir)
+        else: 
+            response = """We didn't find any mosinit.hoc . Unfortunately we can't 
+            automatically run the model. Check the README, maybe there is an 
+            hint."""
+            logging.warning(response)
+            path_info = "You can find the extracted model in %s" %model_dir
+            mod.browse()
+            logging.info(path_info)
+            self.ui.statusbar.showMessage(path_info, 3500)
     
     def about(self):
         
@@ -405,10 +520,48 @@ class Controls(object):
                 self.manager.plot_vecs(vecs_to_plot, x=x, legend=legend_status, 
                               figure_num=fig_num, points=points_status)
     
-    def populate_treeview_model(self, index):
-        """populate the tree view and the scroll_area when the tab is 
-        activated"""
-        if not self.tab_model_already_populated and index == 3 :
+    def create_vector(self):
+        
+        var = self.ui.var.text()
+        if not var:
+
+            msgBox = QtGui.QMessageBox()
+            msgBox.setText("No var specified.")
+            msgBox.setIcon(QtGui.QMessageBox.Warning)
+            msgBox.exec_()
+ 
+        else:
+            if self.ui.all_sections.isChecked():
+                allCreated = self.manager.add_all_vecRef(str(var))
+            elif self.ui.selected_section.isChecked():
+                if self.visio.selected_cyl is not None:
+                    sec = self.visio.cyl2sec[self.visio.selected_cyl]
+                    self.manager.add_vecRef(str(var), sec)
+                else:
+                    msgBox = QtGui.QMessageBox()
+                    msgBox.setText("<b>No vector has been created.</b>")
+                    msg = "You need to select the section where you want to create the vector"
+                    msgBox.setInformativeText(msg)
+                    msgBox.setIcon(QtGui.QMessageBox.Warning)
+                    msgBox.exec_()
+        self.update_tree_view()
+
+    def get_unique_parent(self, name, parentItem = None):
+        """Search the name in the treeview and return the qtElement.
+        Raise an exception if not unique"""
+        search = self.ui.treeWidget.findItems(name , 
+                                                Qt.MatchFixedString)
+        root_item = None
+        if len(search) == 0: # We create the group
+            root_item = None
+            if parentItem is None:
+                root_item = QtGui.QTreeWidgetItem(self.ui.treeWidget)
+            else:
+                root_item = QtGui.QTreeWidgetItem(parentItem)
+            root_item.setText(0, name)
+            
+        elif len(search) == 1:
+            root_item = search[0]
             
             self.models =  Models()
             # Populating the treeview with the dictionary

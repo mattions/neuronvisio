@@ -488,6 +488,19 @@
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_5">
             <item>
+             <widget class="QLineEdit" name="filter_input"/>
+            </item>
+            <item>
+             <widget class="QPushButton" name="filter_list_btn">
+              <property name="toolTip">
+               <string>Filter the models list using the given text.</string>
+              </property>
+              <property name="text">
+               <string>Filter List</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <spacer name="horizontalSpacer_2">
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
@@ -527,7 +540,7 @@
      <x>0</x>
      <y>0</y>
      <width>563</width>
-     <height>25</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
