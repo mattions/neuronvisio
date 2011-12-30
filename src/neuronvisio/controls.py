@@ -234,18 +234,24 @@ class Controls():
     # create the command line to compile mod files into nrnmech.dll and launch it. command line is
     # <cygwin-dir>\bin\bash.exe -c "cd <model-dir>; /usr/bin/sh -c '<nrnhome>/lib/mknrndll.sh <nrnhome>'"
     def windows_compile_mod_files(self, model_dir):
-        import _winreg
-        k1=_winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, "SOFTWARE\\Cygwin\\setup")
-        s1=_winreg.QueryValueEx(k1, 'rootdir')[0]
-        _winreg.CloseKey(k1)
+        # Get the required pathes
+        if os.environ.has_key('NEURONHOME'):
+            s1=os.environ['NEURONHOME']
+            s2=os.environ['NEURONHOME']
+        else:
+            import _winreg
+            k1=_winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, "SOFTWARE\\Cygwin\\setup")
+            s1=_winreg.QueryValueEx(k1, 'rootdir')[0]
+            _winreg.CloseKey(k1)
 
-        k2=_winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, "SOFTWARE\\NEURON\\nrn72") 
-        s2=_winreg.QueryValueEx(k2, 'Install_Dir')[0]
-        s2=s2.replace('\\', '/')
-        _winreg.CloseKey(k2)
+            k2=_winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, "SOFTWARE\\NEURON\\nrn72") 
+            s2=_winreg.QueryValueEx(k2, 'Install_Dir')[0]
+            _winreg.CloseKey(k2)
 
+        s1u=s1.replace('\\', '/')
+        s2u=s2.replace('\\', '/')
         cmd=s1+"\\bin\\bash.exe"
-        arg="cd "+model_dir+";/usr/bin/sh -c '" + s2 + "/lib/mknrndll.sh " + s2 + "'"
+        arg="cd "+model_dir+";"+s1u+"/bin/sh -c '" + s2u + "/lib/mknrndll.sh " + s2u + "'"
         import subprocess
         subprocess.Popen([cmd, '-c', arg], stdin=subprocess.PIPE).communicate(input="\r\n")
 
