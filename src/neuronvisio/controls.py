@@ -463,6 +463,9 @@ class Controls(object):
             logger.info("Path changed to %s" %(os.path.abspath(model_dir)))
             os.chdir(model_dir)
             try:
+                # Add all mod files into current directory
+                self.find_mod_files(model_dir)
+
                 # If windows
                 if os.name == 'nt':                
                     self.windows_compile_mod_files('.')
@@ -590,7 +593,19 @@ class Controls(object):
         arg="cd "+model_dir+";"+s1u+"/bin/sh -c '" + s2u + "/lib/mknrndll.sh " + s2u + "'"
         import subprocess
         subprocess.Popen([cmd, '-c', arg], stdin=subprocess.PIPE).communicate(input="\r\n")
-            
+
+    # Copy all mod files under model directory into the root directory
+    def find_mod_files(self, model_dir):
+        import shutil
+        mod_files = []
+        for root, dirnames, filenames in os.walk('.'):
+            if (root == '.'): continue
+            for filename in filenames:
+                base_name, file_extension = os.path.splitext(filename)
+                if file_extension == '.mod':
+                    logger.info('Copy %s into model directory'%os.path.join(root, filename))
+                    shutil.copy(os.path.join(root, filename), '.')
+
 class ItemRef(QtGui.QTreeWidgetItem):
     def __init__(self, sec_root, vec):
         QtGui.QTreeWidgetItem.__init__(self, sec_root) # >1000 if custom.
