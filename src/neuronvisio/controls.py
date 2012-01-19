@@ -17,15 +17,6 @@
 
 #@PydevCodeAnalysisIgnoren
 import os
-"""
-This is a check to make sure the sip and the QStrings play nicely in Windows, 
-where the PySide is using the new Python API (Python 3)
-http://www.mail-archive.com/matplotlib-users@lists.sourceforge.net/msg19702.html
-http://stackoverflow.com/questions/1400858/how-to-create-qstring-in-pyqt4
-This could be easily removed when we move to Python 3
-"""
-
-    
 from pyface.qt import QtGui, QtCore 
 from PyQt4 import uic
 
@@ -42,8 +33,8 @@ sys.path.append(os.path.dirname(__file__))
 
 if os.name != 'nt':
     from PyQt4 import QtGui, QtCore, uic
-    from PyQt4.QtCore import Qt
 
+from PyQt4.QtCore import Qt
 import numpy as np
 
 import matplotlib as mpl
