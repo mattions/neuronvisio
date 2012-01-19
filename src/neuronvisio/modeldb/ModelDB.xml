@@ -44698,4 +44698,153 @@ determined in the previous run.
    This model explores the dendritic sodium and potassium conductances needed to recapitulate voltage-sensitive dye optical recordings of thalamic interneuron dendrites in the dorsal lateral geniculate nucleus.  Model ion channels were selected based on pharmacological data.Reference: Casale AE, McCormick DA (2011) Active action potential propagation but not initiation in thalamic interneuron dendrites.  31:18289-302
   </description>
  </item>
+ <item>
+  <model_id>
+   143671
+  </model_id>
+  <model_concepts>
+   <value>
+    Activity Patterns
+   </value>
+   <value>
+    Bursting
+   </value>
+   <value>
+    Action Potentials
+   </value>
+  </model_concepts>
+  <transmitters>
+  </transmitters>
+  <name>
+   Simulations of motor unit discharge patterns (Powers et al. 2011)
+  </name>
+  <reference>
+   Powers RK, Elbasiouny SM, Rymer WZ, Heckman CJ (2011) Contribution of Intrinsic Properties and Synaptic Inputs to Motoneuron Discharge Patterns: A Simulation Study.
+  </reference>
+  <url>
+   http://senselab.med.yale.edu/modeldb/ShowModel.asp?model=143671
+  </url>
+  <citations>
+   mdbCitations.asp?mode=m&amp;id=143671&amp;twocol=True
+  </citations>
+  <genes>
+  </genes>
+  <readme>
+   &lt;pre&gt;
+This is the README for the model associated with the paper
+
+Powers RK, ElBasiouny SM, Rymer WZ and Heckman CJ. Contributions of
+intrinsic properties and synaptic inputs to motoneuron discharge
+patterns: a simulation study.  J Neurophys, 107:808-823, 2012.
+
+These files were contributed by Randy Powers.
+
+Usage: This archive contains all the files necessary to produce the
+responses of a medium threshold motoneuron to the triangular
+current-clamp, voltage-clamp and noisy conductance commands used in
+Powers et al. 2012.  These simulations use and require that NEURON
+(&lt;a href=&quot;http://www.neuron.yale.edu&quot;&gt;http://www.neuron.yale.edu&lt;/a&gt;)
+is installed. The base code and mod files are in the subfolder &quot;code&quot;.
+The files for initiating the simulations and for specifying the
+parameters for a medium threshold motoneuron are in the subfolder
+&quot;MN_hoc_and_output&quot;.
+
+Either auto-launch from ModelDB or compile the mod files in the code
+folder with mknrndll (MacOS and mswin) or by typing &quot;nrnivmodl code&quot;
+(unix/linux).  You can start the simulation by with either the
+mosinit.hoc file, init_synss.hoc, or init_gramp.hoc.  The former
+allows you to select either of the latter by clicking a button.  The
+file init_synss.hoc is used for current-clamp and voltage-clamp
+simulations, whereas init_gramp.hoc is used for the simulating
+responses to synaptic conductance commands.
+
+
+Upon running init_synss.hoc, the NEURON Main Menu and a window
+entitled &quot;FR motoneuron control panel&quot; will appear.  Click the pick a
+file button and pick Medium_thresh_MN.hoc. Then click Exit on the file
+chooser. Then click the &quot;Choose analysis&quot; button and pick either FI
+for the current-clamp simulation or IV for the voltage-clamp
+simulation.  If you click &quot;GO&quot; the &quot;IV&quot; simulation will generate
+Fig. 1E:
+
+&lt;img src=&quot;.\getModelFile.asp?model=143671&amp;amp;AttrID=23&amp;amp;file=\PowersEtAl2012\fig1e.jpg&quot; alt=&quot;Fig. 1 E&quot; /&gt;
+
+and Fig. 1F:
+
+&lt;img src=&quot;.\getModelFile.asp?model=143671&amp;amp;AttrID=23&amp;amp;file=\PowersEtAl2012\fig1f.jpg&quot; alt=&quot;Fig. 1 F&quot; /&gt;
+
+After the simulation is finished an output text file is
+generated that either lists injected current and spike time values
+(for current-clamp) or voltage command and voltage-clamp current
+values (for voltage clamp).  For the voltage-clamp simulation you have
+the option of looking at the effects of tonic excitatory input, by
+clicking the enable synaptic input button.
+
+Upon running init_gramp.hoc you can record the responses to the
+various mixtures of excitatory and inhibitory input used in Powers et
+al. 2012 by executing the commands in the file gramp_commands.
+&lt;/pre&gt;
+  </readme>
+  <implementers>
+   <value>
+    Powers, Randy
+   </value>
+  </implementers>
+  <receptors>
+  </receptors>
+  <brain_regions>
+  </brain_regions>
+  <channels>
+  </channels>
+  <cell_types>
+   <value>
+    Spinal motor neuron
+   </value>
+  </cell_types>
+  <pubmed>
+   http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=Retrieve&amp;db=PubMed&amp;list_uids=22031773&amp;dopt=Abstract
+  </pubmed>
+  <model_type>
+   <value>
+    Neuron or other electrically excitable cell
+   </value>
+  </model_type>
+  <article>
+   http://dx.doi.org/10.1152/jn.00510.2011
+  </article>
+  <gap_junctions>
+  </gap_junctions>
+  <zip_url>
+   http://SenseLab.med.Yale.edu/ModelDB/eavBinDown.asp?o=143671&amp;a=23&amp;mime=application/zip
+  </zip_url>
+  <simulation_environment>
+   <value>
+    Neuron
+   </value>
+  </simulation_environment>
+  <description>
+   &quot; ...
+To estimate the potential contributions of PIC (Persistent Inward Current) activation and synaptic input patterns to
+motor unit discharge patterns, we examined the responses of a set of cable
+motoneuron models to different patterns of excitatory and inhibitory
+inputs.
+
+The models were first tuned to approximate the current- and
+voltage-clamp responses of low- and medium-threshold spinal motoneurons
+studied in decerebrate cats and then driven with different patterns of
+excitatory and inhibitory inputs.
+
+The responses of the models to excitatory
+inputs reproduced a number of features of human motor unit
+discharge.
+
+However, the pattern of rate modulation was strongly influenced
+by the temporal and spatial pattern of concurrent inhibitory inputs.
+
+Thus, even though PIC activation is likely to exert a strong influence on
+firing rate modulation, PIC activation in combination with different
+patterns of excitatory and inhibitory synaptic inputs can produce a wide
+variety of motor unit discharge patterns.&quot;Reference: Powers RK, Elbasiouny SM, Rymer WZ, Heckman CJ (2011) Contribution of Intrinsic Properties and Synaptic Inputs to Motoneuron Discharge Patterns: A Simulation Study.
+  </description>
+ </item>
 </items>
