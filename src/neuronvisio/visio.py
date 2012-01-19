@@ -346,7 +346,7 @@ class Visio(object):
         tube = mlab.pipeline.tube(stripper, tube_sides = 6, tube_radius = 1)
         tube.filter.capping = True
 #        tube.filter.use_default_normal = False
-        tube.filter.vary_radius = 'vary_radius_by_absolute_scalar'
+#        tube.filter.vary_radius = 'vary_radius_by_absolute_scalar' 
         self.tube = tube
         
 
