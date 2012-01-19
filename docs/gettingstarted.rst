@@ -20,9 +20,27 @@ backend to `Qt4Agg`
 	backend      : Qt4Agg
 
 So then you can run the console with the `-pylab` switch, which makes the console 
-interactive and import all the pylab methods (which are always handy). 
+interactive and import all the pylab methods (which are always handy).
+If you get the error like 
 
-When you have your ipython enviroment set, then you can use the NeuronVisio module::
+	/usr/local/lib/python2.7/dist-packages/pyface/qt/__init__.py in prepare_pyqt4()
+     15     # Set PySide compatible APIs.
+
+     16     import sip
+---> 17     sip.setapi('QString', 2)
+     18     sip.setapi('QVariant', 2)
+     19 
+
+	ValueError: API 'QString' has already been set to version 1
+	 
+
+It means your matplotlib installation doesn't play well with the latest PyQt4.
+To solve just run ipython, without the switch. 
+To import all the classic matplotlib shortcuts just run
+
+	from matplotlib.pyplot import *
+
+When you have your ipython environment set, then you can use the NeuronVisio module::
 
     from neuronvisio.controls import Controls 
     controls = Controls()   # starting the GUI

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>563</width>
-    <height>461</height>
+    <width>644</width>
+    <height>457</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -397,133 +397,144 @@
        <attribute name="title">
         <string>ModelDB Explorer</string>
        </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout_6">
+       <layout class="QVBoxLayout" name="verticalLayout_5">
         <item>
-         <layout class="QVBoxLayout" name="verticalLayout_5">
+         <layout class="QHBoxLayout" name="horizontalLayout_5">
           <item>
-           <widget class="QSplitter" name="splitter">
+           <spacer name="horizontalSpacer_3">
             <property name="orientation">
-             <enum>Qt::Vertical</enum>
+             <enum>Qt::Horizontal</enum>
             </property>
-            <widget class="QTreeWidget" name="tree_models">
-             <property name="midLineWidth">
-              <number>0</number>
-             </property>
-             <property name="verticalScrollBarPolicy">
-              <enum>Qt::ScrollBarAlwaysOn</enum>
-             </property>
-             <property name="sortingEnabled">
-              <bool>true</bool>
-             </property>
-             <property name="animated">
-              <bool>false</bool>
-             </property>
-             <property name="wordWrap">
-              <bool>true</bool>
-             </property>
-             <property name="columnCount">
-              <number>4</number>
-             </property>
-             <column>
-              <property name="text">
-               <string>Year</string>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>Authors</string>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>Title</string>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>Id</string>
-              </property>
-             </column>
-            </widget>
-           </widget>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
           </item>
           <item>
-           <widget class="QTabWidget" name="tabWidget_2">
-            <property name="tabPosition">
-             <enum>QTabWidget::South</enum>
-            </property>
-            <property name="currentIndex">
-             <number>0</number>
-            </property>
-            <widget class="QWidget" name="tab_5">
-             <attribute name="title">
-              <string>Readme</string>
-             </attribute>
-             <layout class="QVBoxLayout" name="verticalLayout_7">
-              <item>
-               <widget class="QTextBrowser" name="textBrowser_readme">
-                <property name="openExternalLinks">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-            <widget class="QWidget" name="tab_6">
-             <attribute name="title">
-              <string>Model Overview</string>
-             </attribute>
-             <layout class="QVBoxLayout" name="verticalLayout_8">
-              <item>
-               <widget class="QTextBrowser" name="textBrowser_model_overview">
-                <property name="openExternalLinks">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-           </widget>
+           <widget class="QLineEdit" name="filter_input"/>
           </item>
           <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_5">
-            <item>
-             <widget class="QLineEdit" name="filter_input"/>
-            </item>
-            <item>
-             <widget class="QPushButton" name="filter_list_btn">
-              <property name="toolTip">
-               <string>Filter the models list using the given text.</string>
-              </property>
-              <property name="text">
-               <string>Filter List</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <spacer name="horizontalSpacer_2">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>138</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item>
-             <widget class="QPushButton" name="load_model_btn">
-              <property name="toolTip">
-               <string>Download, extract, compile and load the selected model.</string>
-              </property>
-              <property name="text">
-               <string>Load Model</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
+           <widget class="QPushButton" name="filter_list_btn">
+            <property name="toolTip">
+             <string>Filter the models list using the given text.</string>
+            </property>
+            <property name="text">
+             <string>Search</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QSplitter" name="splitter">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <widget class="QTreeWidget" name="tree_models">
+           <property name="midLineWidth">
+            <number>0</number>
+           </property>
+           <property name="verticalScrollBarPolicy">
+            <enum>Qt::ScrollBarAlwaysOn</enum>
+           </property>
+           <property name="sortingEnabled">
+            <bool>true</bool>
+           </property>
+           <property name="animated">
+            <bool>false</bool>
+           </property>
+           <property name="wordWrap">
+            <bool>true</bool>
+           </property>
+           <property name="columnCount">
+            <number>4</number>
+           </property>
+           <column>
+            <property name="text">
+             <string>Year</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Authors</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Title</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Id</string>
+            </property>
+           </column>
+          </widget>
+          <widget class="QTabWidget" name="tabWidget_2">
+           <property name="tabPosition">
+            <enum>QTabWidget::South</enum>
+           </property>
+           <property name="currentIndex">
+            <number>0</number>
+           </property>
+           <widget class="QWidget" name="tab_5">
+            <attribute name="title">
+             <string>Readme</string>
+            </attribute>
+            <layout class="QVBoxLayout" name="verticalLayout_7">
+             <item>
+              <widget class="QTextBrowser" name="textBrowser_readme">
+               <property name="openExternalLinks">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="tab_6">
+            <attribute name="title">
+             <string>Model Overview</string>
+            </attribute>
+            <layout class="QVBoxLayout" name="verticalLayout_8">
+             <item>
+              <widget class="QTextBrowser" name="textBrowser_model_overview">
+               <property name="openExternalLinks">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </widget>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_6">
+          <item>
+           <spacer name="horizontalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>138</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QPushButton" name="load_model_btn">
+            <property name="toolTip">
+             <string>Download, extract, compile and load the selected model.</string>
+            </property>
+            <property name="text">
+             <string>Load Model</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -539,8 +550,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>563</width>
-     <height>20</height>
+     <width>644</width>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

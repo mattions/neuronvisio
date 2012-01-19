@@ -1,6 +1,9 @@
-0.7.3+dev -- development
+0.7.3+dev -- Development
 ========================
 
+- Ported to Mayavi 4.0.0
+- Closed #31
+- Reorganized controls method in alphabetical order.
 - Animation set true when simulation is launched.
 - Fixed a vectors handling if no values present.
 - Updated the doc for Mayavi 4.0.0
