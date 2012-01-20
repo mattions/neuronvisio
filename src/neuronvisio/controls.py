@@ -346,41 +346,34 @@ class Controls(object):
             self.ui.run_btn.setEnabled(False)
             self.ui.create_vector.setEnabled(False)
 
-    def load_hoc_model(self, mod):
-        model_dir = mod.get_dir()
-        if os.path.exists(os.path.join (model_dir, 'mosinit.hoc')):
-            old_dir = os.path.abspath(os.getcwd())
-            logger.info("Path changed to %s" %(os.path.abspath(model_dir)))
-            os.chdir(model_dir)
-            try:
-                # Add all mod files into current directory
-                self.find_mod_files()
+    def load_hoc_model(self, model_dir, hoc_file):
+        if not os.path.exists(os.path.join (model_dir, hoc_file)):
+            return False
+        old_dir = os.path.abspath(os.getcwd())
+        logger.info("Path changed to %s" %(os.path.abspath(model_dir)))
+        os.chdir(model_dir)
+        try:
+            # Add all mod files into current directory
+            self.find_mod_files()
 
-                # If windows
-                if os.name == 'nt':                
-                    self.windows_compile_mod_files('.')
-                    from neuron import h
-                    h.nrn_load_dll('./nrnmech.dll')
-                else: # Anything else.
-                    call(['nrnivmodl'])
-                    import neuron            
-                    neuron.load_mechanisms('./')
-                from neuron import gui # to not freeze neuron gui
+            # If windows
+            if os.name == 'nt':                
+                self.windows_compile_mod_files('.')
                 from neuron import h
-                logger.info("Loading model in %s" %model_dir)
-                h.load_file('mosinit.hoc')
-            except Exception as e:
-                logger.warning("Error running model: "+e.message)
-            logger.info("Path changed back to %s" %old_dir)
-            os.chdir(old_dir)
-        else: 
-            response = """We didn't find any mosinit.hoc . Unfortunately we can't 
-            automatically run the model. Check the README, maybe there is an 
-            hint."""
-            logging.warning(response)
-            path_info = "You can find the extracted model in %s" %model_dir
-            mod.browse()
-            logging.info(path_info)
+                h.nrn_load_dll('./nrnmech.dll')
+            else: # Anything else.
+                call(['nrnivmodl'])
+                import neuron            
+                neuron.load_mechanisms('./')
+            from neuron import gui # to not freeze neuron gui
+            from neuron import h
+            logger.info("Loading model in %s from %s"%(model_dir, hoc_file))
+            h.load_file(hoc_file)
+        except Exception as e:
+            logger.warning("Error running model: "+e.message)
+        logger.info("Path changed back to %s" %old_dir)
+        os.chdir(old_dir)
+        return True
                         
     def load_selected_model(self):
         "Load the model selected in the treeview."
@@ -395,7 +388,11 @@ class Controls(object):
             for i in range (cols):
                 tooltip = mod.get_tooltip()
                 model_item.setToolTip(i, tooltip)
-            self.load_hoc_model(mod)
+            if (not self.load_hoc_model(mod.get_dir(), 'mosinit.hoc')):
+                path_info = "Could not locate mosinit.hoc, check the README for hints on which hoc to use and copy it to %s/mosinit.hoc" %model_path
+                logging.warning(path_info)
+                self.ui.statusbar.showMessage(path_info, 10000)
+                mod.browse()
         
     def on_animation_time_return_pressed(self):
         "Getting the value from the text"
