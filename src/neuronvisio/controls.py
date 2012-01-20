@@ -354,7 +354,7 @@ class Controls(object):
             os.chdir(model_dir)
             try:
                 # Add all mod files into current directory
-                self.find_mod_files(model_dir)
+                self.find_mod_files()
 
                 # If windows
                 if os.name == 'nt':                
@@ -595,7 +595,7 @@ class Controls(object):
         subprocess.Popen([cmd, '-c', arg], stdin=subprocess.PIPE).communicate(input="\r\n")
 
     # Copy all mod files under model directory into the root directory
-    def find_mod_files(self, model_dir):
+    def find_mod_files(self):
         import shutil
         mod_files = []
         for root, dirnames, filenames in os.walk('.'):
