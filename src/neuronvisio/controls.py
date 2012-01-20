@@ -96,7 +96,7 @@ class Controls(object):
                                       self.on_animation_time_return_pressed)
         self.ui.actionLoad.connect(self.ui.actionLoad, 
                                    QtCore.SIGNAL("triggered()"),
-                                   self.load_hdf)
+                                   self.load)
         self.ui.actionSave.connect(self.ui.actionSave,
                                    QtCore.SIGNAL("triggered()"),
                                    self.save_hdf)
@@ -320,18 +320,24 @@ class Controls(object):
             # No simulation run an nothing loaded.
             # just pass
             pass
+
+    def load(self, path_to_file=None): 
+        if path_to_file == None:
+            filename = QtGui.QFileDialog.getOpenFileName()
+            if filename:
+                path_to_file = str(filename)
         
-    def load_hdf(self, path_to_hdf=None):
+        base_name, file_extension = os.path.splitext(path_to_file)
+        if (file_extension == '.hoc'):
+            file_path, hoc_file = os.path.split(path_to_file)
+            self.load_hoc_model(file_path, hoc_file)
+        else:
+            self.load_hdf(self, path_to_hdf)
+
+    def load_hdf(self, path_to_hdf):
     
         if path_to_hdf != None:
             self.path_to_hdf=os.path.abspath(path_to_hdf)
-        
-        else:
-            filename = QtGui.QFileDialog.getOpenFileName()
-            if filename:
-                self.path_to_hdf = str(filename)
-        
-        if self.path_to_hdf != None:
             
             self.manager.load_from_hdf(self.path_to_hdf)
             self.update_tree_view()
