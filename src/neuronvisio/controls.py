@@ -346,6 +346,42 @@ class Controls(object):
             self.ui.run_btn.setEnabled(False)
             self.ui.create_vector.setEnabled(False)
 
+    def load_hoc_model(self, mod):
+        model_dir = mod.get_dir()
+        if os.path.exists(os.path.join (model_dir, 'mosinit.hoc')):
+            old_dir = os.path.abspath(os.getcwd())
+            logger.info("Path changed to %s" %(os.path.abspath(model_dir)))
+            os.chdir(model_dir)
+            try:
+                # Add all mod files into current directory
+                self.find_mod_files(model_dir)
+
+                # If windows
+                if os.name == 'nt':                
+                    self.windows_compile_mod_files('.')
+                    from neuron import h
+                    h.nrn_load_dll('./nrnmech.dll')
+                else: # Anything else.
+                    call(['nrnivmodl'])
+                    import neuron            
+                    neuron.load_mechanisms('./')
+                from neuron import gui # to not freeze neuron gui
+                from neuron import h
+                logger.info("Loading model in %s" %model_dir)
+                h.load_file('mosinit.hoc')
+            except Exception as e:
+                logger.warning("Error running model: "+e.message)
+            logger.info("Path changed back to %s" %old_dir)
+            os.chdir(old_dir)
+        else: 
+            response = """We didn't find any mosinit.hoc . Unfortunately we can't 
+            automatically run the model. Check the README, maybe there is an 
+            hint."""
+            logging.warning(response)
+            path_info = "You can find the extracted model in %s" %model_dir
+            mod.browse()
+            logging.info(path_info)
+                        
     def load_selected_model(self):
         "Load the model selected in the treeview."
                     
@@ -359,7 +395,7 @@ class Controls(object):
             for i in range (cols):
                 tooltip = mod.get_tooltip()
                 model_item.setToolTip(i, tooltip)
-            self.run_extracted_model(mod)
+            self.load_hoc_model(mod)
         
     def on_animation_time_return_pressed(self):
         "Getting the value from the text"
@@ -456,42 +492,6 @@ class Controls(object):
                 self.ui.time_label.setText("<b>" + str(h.t) + "</b>")
         self.animation()
             
-    def run_extracted_model(self, mod):
-        model_dir = mod.get_dir()
-        if os.path.exists(os.path.join (model_dir, 'mosinit.hoc')):
-            old_dir = os.path.abspath(os.getcwd())
-            logger.info("Path changed to %s" %(os.path.abspath(model_dir)))
-            os.chdir(model_dir)
-            try:
-                # Add all mod files into current directory
-                self.find_mod_files(model_dir)
-
-                # If windows
-                if os.name == 'nt':                
-                    self.windows_compile_mod_files('.')
-                    from neuron import h
-                    h.nrn_load_dll('./nrnmech.dll')
-                else: # Anything else.
-                    call(['nrnivmodl'])
-                    import neuron            
-                    neuron.load_mechanisms('./')
-                from neuron import gui # to not freeze neuron gui
-                from neuron import h
-                logger.info("Loading model in %s" %model_dir)
-                h.load_file('mosinit.hoc')
-            except Exception as e:
-                logger.warning("Error running model: "+e.message)
-            logger.info("Path changed back to %s" %old_dir)
-            os.chdir(old_dir)
-        else: 
-            response = """We didn't find any mosinit.hoc . Unfortunately we can't 
-            automatically run the model. Check the README, maybe there is an 
-            hint."""
-            logging.warning(response)
-            path_info = "You can find the extracted model in %s" %model_dir
-            mod.browse()
-            logging.info(path_info)
-                        
     def save_hdf(self):
         if not self.path_to_hdf:
             filename = QtGui.QFileDialog.getSaveFileName()
