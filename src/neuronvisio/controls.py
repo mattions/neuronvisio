@@ -215,17 +215,13 @@ class Controls(object):
         self.aboutUi.show()
      
     def animation(self):
-        
-        self.ui.timelineSlider.setRange(0, 
-                                          len (self.manager.groups['t']))
+        self.ui.timelineSlider.setRange(0, len (self.manager.groups['t']))
         self.ui.timelineSlider.setEnabled(True)
         self.ui.show()
     
     def create_vector(self):
-        
         var = self.ui.var.text()
         if not var:
-
             msgBox = QtGui.QMessageBox()
             msgBox.setText("No var specified.")
             msgBox.setIcon(QtGui.QMessageBox.Warning)
@@ -256,7 +252,9 @@ class Controls(object):
         """Set the vm_init from the spin button and prepare the simulator"""
         
         if not self.manager.refs.has_key('VecRef') :
-            logger.info("No vector Created. Create at least one vector to run the simulation")
+            message = "No vector Created. Create at least one vector to run the simulation"
+            logger.info(message)
+            self.ui.statusbar.showMessage(message, 3500)
             return False
         else:
             v_init = self.ui.vSpinBox.value()
