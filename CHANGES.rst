@@ -7,6 +7,10 @@
 - Animation set true when simulation is launched.
 - Fixed a vectors handling if no values present.
 - Updated the doc for Mayavi 4.0.0
+- Load hoc or hdf with the same method
+- Added new models from modelDB
+- User Interface improvement
+- Closed #37
 
 0.7.3 -- 24 Nov 2011  
 ====================
