@@ -44847,4 +44847,159 @@ patterns of excitatory and inhibitory synaptic inputs can produce a wide
 variety of motor unit discharge patterns.&quot;Reference: Powers RK, Elbasiouny SM, Rymer WZ, Heckman CJ (2011) Contribution of Intrinsic Properties and Synaptic Inputs to Motoneuron Discharge Patterns: A Simulation Study.
   </description>
  </item>
+ <item>
+  <model_id>
+   143719
+  </model_id>
+  <model_concepts>
+   <value>
+    Simplified Models
+   </value>
+   <value>
+    Depolarization block
+   </value>
+   <value>
+    Bifurcation
+   </value>
+  </model_concepts>
+  <transmitters>
+   <value>
+    Gaba
+   </value>
+   <value>
+    Glutamate
+   </value>
+  </transmitters>
+  <name>
+   CA1 pyramidal neuron: depolarization block  (Bianchi et al. 2012)
+  </name>
+  <reference>
+   Bianchi D, Marasco A, Limongiello A, Marchetti C, Marie H, Tirozzi B, Migliore M (2012) On the mechanisms underlying the depolarization block in the spiking dynamics of CA1 pyramidal neurons
+  </reference>
+  <url>
+   http://senselab.med.yale.edu/modeldb/ShowModel.asp?model=143719
+  </url>
+  <genes>
+  </genes>
+  <readme>
+   &lt;pre&gt;NEURON and Mathematica files from the paper:
+
+On the mechanisms underlying the depolarization block in the spiking
+dynamics of CA1 pyramidal neurons by D.Bianchi, A. Marasco,
+A.Limongiello, C.Marchetti, H.Marie,B.Tirozzi, M.Migliore (2012).
+J Comput Neurosci.
+
+The CA1 morphological neuron model has been implemented starting by
+merging model files from Poirazi et al. (ModelDB accession number
+20212), and from Shah et al. (ModelDB accession number 112546),
+adapting a few parameters from their original values to take into
+account the specific set of experimental traces used in this work, as
+discussed in the Appendix of the paper.
+
+The Simulation.hoc file in the &quot;experiment&quot; directory will reproduce
+the results in Fig. 5 of the paper.
+
+The Mathematica file refers to the bifurcation analysis of the
+specific somatic model used in the paper.
+The file will be visualized correctly with Mathematica, so save it on
+your pc and then open with the software.
+
+To run the simulation which will reproduce the results in Fig. 9, type
+SHIFT + ENTER in the current Mathematica session.
+
+Questions on the NEURON simulation should be addressed to
+(replace -at- with the usual @ symbol):
+danielabianchi12-at-gmail.com
+daniela.bianchi-at-roma1.infn.it
+
+Questions on the Mathematica file should be addressed to
+(replace -at- with the usual @ symbol):
+alessandro.limongiello-at-unina.it
+&lt;/pre&gt;&lt;br /&gt;
+  </readme>
+  <implementers>
+   <value>
+    Bianchi, Daniela [danielabianchi12 at gmail.com]
+   </value>
+   <value>
+    Limongiello, Alessandro [alessandro.limongiello at unina.it]
+   </value>
+  </implementers>
+  <receptors>
+   <value>
+    GabaA
+   </value>
+   <value>
+    AMPA
+   </value>
+   <value>
+    NMDA
+   </value>
+  </receptors>
+  <brain_regions>
+   <value>
+    Hippocampus
+   </value>
+  </brain_regions>
+  <channels>
+   <value>
+    I Na,t
+   </value>
+   <value>
+    I A
+   </value>
+   <value>
+    I K
+   </value>
+   <value>
+    I M
+   </value>
+   <value>
+    I IR,Q,h
+   </value>
+   <value>
+    I K,Ca
+   </value>
+   <value>
+    I_AHP
+   </value>
+  </channels>
+  <cell_types>
+   <value>
+    CA1 pyramidal neuron
+   </value>
+  </cell_types>
+  <citations>
+   mdbCitations.asp?mode=m&amp;id=143719&amp;twocol=True
+  </citations>
+  <model_type>
+   <value>
+    Neuron or other electrically excitable cell
+   </value>
+  </model_type>
+  <article>
+   http://dx.doi.org/10.1007/s10827-012-0383-y
+  </article>
+  <gap_junctions>
+  </gap_junctions>
+  <zip_url>
+   http://SenseLab.med.Yale.edu/ModelDB/eavBinDown.asp?o=143719&amp;a=23&amp;mime=application/zip
+  </zip_url>
+  <simulation_environment>
+   <value>
+    Neuron
+   </value>
+   <value>
+    Mathematica
+   </value>
+  </simulation_environment>
+  <description>
+   NEURON files from the paper: On the mechanisms underlying the depolarization block in the spiking dynamics of CA1 pyramidal neurons
+by D.Bianchi, A. Marasco, A.Limongiello, C.Marchetti, H.Marie,B.Tirozzi, M.Migliore (2012). J Comput. Neurosci. In press. DOI: 10.1007/s10827-012-0383-y.
+Experimental findings shown that under sustained input current of increasing strength neurons eventually stop firing, entering a depolarization block.
+We analyze the spiking dynamics of CA1 pyramidal neuron models using the same set of ionic currents on both an accurate morphological reconstruction and on its reduction to a single-compartment.
+ The results show the specic ion channel properties and kinetics that are needed to
+reproduce the experimental findings, and how their interplay can drastically modulate the neuronal dynamics and the input current range leading to depolarization block.Reference: Bianchi D, Marasco A, Limongiello A, Marchetti C, Marie H, Tirozzi B, Migliore M (2012) On the mechanisms underlying the depolarization block in the spiking dynamics of CA1 pyramidal neurons
+  </description>
+ </item>
 </items>
