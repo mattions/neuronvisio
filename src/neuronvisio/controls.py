@@ -321,7 +321,9 @@ class Controls(object):
             # just pass
             pass
 
-    def load(self, path_to_file=None): 
+    def load(self, path_to_file=None):
+        """General loading method. It loads either an hoc file or 
+        a hdf5 file. The file type is recognised on the extension"""
         if path_to_file == None:
             filename = QtGui.QFileDialog.getOpenFileName()
             if filename:
@@ -332,7 +334,7 @@ class Controls(object):
             file_path, hoc_file = os.path.split(path_to_file)
             self.load_hoc_model(file_path, hoc_file)
         else:
-            self.load_hdf(self, path_to_hdf)
+            self.load_hdf(path_to_file)
 
     def load_hdf(self, path_to_hdf):
     

@@ -12,6 +12,6 @@ if __name__ == '__main__':
     
     controls = Controls()
     if len(sys.argv) == 2:
-        controls.load_hdf(sys.argv[1])
+        controls.load(sys.argv[1])
     
          
