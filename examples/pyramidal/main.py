@@ -14,7 +14,7 @@
 # You need to compile the hoc file before launching it
 # $ nrnivmodl 
 
-# Importing the NeuronVisio
+# Importing Neuronvisio
 from neuronvisio.controls import Controls
 controls = Controls()
 
