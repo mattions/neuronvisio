@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+﻿<?xml version='1.0' encoding='utf-8'?>
 <items>
  <item>
   <model_id>
@@ -44998,7 +44998,7 @@ alessandro.limongiello-at-unina.it
 by D.Bianchi, A. Marasco, A.Limongiello, C.Marchetti, H.Marie,B.Tirozzi, M.Migliore (2012). J Comput. Neurosci. In press. DOI: 10.1007/s10827-012-0383-y.
 Experimental findings shown that under sustained input current of increasing strength neurons eventually stop firing, entering a depolarization block.
 We analyze the spiking dynamics of CA1 pyramidal neuron models using the same set of ionic currents on both an accurate morphological reconstruction and on its reduction to a single-compartment.
- The results show the specic ion channel properties and kinetics that are needed to
+ The results show the specific ion channel properties and kinetics that are needed to
 reproduce the experimental findings, and how their interplay can drastically modulate the neuronal dynamics and the input current range leading to depolarization block.Reference: Bianchi D, Marasco A, Limongiello A, Marchetti C, Marie H, Tirozzi B, Migliore M (2012) On the mechanisms underlying the depolarization block in the spiking dynamics of CA1 pyramidal neurons
   </description>
  </item>
