@@ -35,6 +35,9 @@ classifiers = [
 install_requires = [
     # -*- Install requires: -*-
     'setuptools',
+    'ipython>=0.12',
+    'traitsui>=4.1.1.dev',
+    'mayavi>=4.1.1.dev',
     ]
 
 entry_points="""
