@@ -23,6 +23,7 @@ except ImportError, e:
 
 
 version = neuronvisio.__version__
+authors = neuronvisio.__authors__
 
 classifiers = [
     # Get more strings from http://www.python.org/pypi?%3Aaction=list_classifiers
@@ -56,7 +57,7 @@ setup(
     scripts= ['src/nrnvisio.py'],
     classifiers=classifiers,
     keywords='neuron, gui, pylab, 3D, visualization',
-    author='Michele Mattioni',
+    author=authors,
     author_email='mattioni@ebi.ac.uk',
     url='http://mattions.github.com/neuronvisio/',
     license='GPLv3',
