@@ -1,16 +1,21 @@
 0.7.3+dev -- Development
 ========================
 
-- Ported to Mayavi 4.0.0
+- Ported to Mayavi 4.1.1.dev
 - Closed #31
 - Reorganized controls method in alphabetical order.
 - Animation set true when simulation is launched.
 - Fixed a vectors handling if no values present.
 - Updated the doc for Mayavi 4.0.0
 - Load hoc or hdf with the same method
-- Added new models from modelDB
+- Added new models from ModelDB
 - User Interface improvement
 - Closed #37
+- Closed #32
+- Closed #34
+- Improved nrnvisio.py to integrate seamlessy with IPython session, 
+  or create a new one on the fly
+- Automatic handling of Mayavi installation through pip.
 
 0.7.3 -- 24 Nov 2011  
 ====================
