@@ -6,32 +6,33 @@
 
 It creates a IPython shell and loads neuronvisio inside it."""
 
+def load_neuronvisio(ipshell):
+"""General method to load neuronvisio specific code. 
+params:
+    ipshell - IPython interactive shell, obtained either from the current 
+              session, or created ad hoc."""
+
+    ipshell.run_cell("import sys")
+    ipshell.run_cell("from neuronvisio.controls import Controls")
+    ipshell.run_cell("controls = Controls()")
+    if len(sys.argv) == 2:
+        ipshell.run_cell("controls.load(sys.argv[1]"))
+    return ipshell
 
 if __name__ == '__main__':
 
-    # Duplicate code, 'cause IPython returns a function if called outside the 
-    # try block. Could be imporved if a better way comes up.
-    cell1 = "import sys"
-    cell2 = "from neuronvisio.controls import Controls"
-    cell3 = "controls = Controls()"
-    cell4 = "controls.load(sys.argv[1]"
-
-    try:
-        ipshell = get_ipython()
-        ipshell.run_cell(cell1)
-        ipshell.run_cell(cell2)
-        ipshell.run_cell(cell3)
-        if len(sys.argv) == 2:
-            ipshell.run_cell(cell4)
+    try: 
+        # check if inside an ipython session
+        # Not need to launch ipshell() at the end, 'cause already running
+        ipshell = get_ipython() 
+        ipshell = load_neuronvisio(ipshell)
         
-    except NameError:
+        
+    except NameError: 
+        # Not IPython running, create an ad hoc ipshell and launching.
         from IPython.frontend.terminal.embed import InteractiveShellEmbed
         ipshell = InteractiveShellEmbed()
-        ipshell.run_cell(cell1)
-        ipshell.run_cell(cell2)
-        ipshell.run_cell(cell3)
-        if len(sys.argv) == 2:
-            ipshell.run_cell(cell4)
+        ipshell = load_neuronvisio(ipshell)
         ipshell()
 
     else:
