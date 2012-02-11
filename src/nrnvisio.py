@@ -7,16 +7,16 @@
 It creates a IPython shell and loads neuronvisio inside it."""
 
 def load_neuronvisio(ipshell):
-"""General method to load neuronvisio specific code. 
-params:
-    ipshell - IPython interactive shell, obtained either from the current 
-              session, or created ad hoc."""
+    """General method to load neuronvisio specific code. 
+    params:
+        ipshell - IPython interactive shell, obtained either from the current 
+                  session, or created ad hoc."""
 
     ipshell.run_cell("import sys")
     ipshell.run_cell("from neuronvisio.controls import Controls")
     ipshell.run_cell("controls = Controls()")
     if len(sys.argv) == 2:
-        ipshell.run_cell("controls.load(sys.argv[1]"))
+        ipshell.run_cell("controls.load(sys.argv[1])")
     return ipshell
 
 if __name__ == '__main__':
