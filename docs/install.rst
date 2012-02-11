@@ -10,19 +10,18 @@ Requirements
 To install NeuronVisio you need to satisfy the following dependencies
 
 - PyQt4: http://www.riverbankcomputing.co.uk/software/pyqt/download
-- ipython: http://ipython.scipy.org/moin/
-- mayavi2: http://code.enthought.com/projects/mayavi/ series 3.6.0 (or better)
+- ipython: http://ipython.org 0.12 or better
+- mayavi2: http://code.enthought.com/projects/mayavi/  4.4.1.dev or better
 - matplotlib: http://matplotlib.sourceforge.net/
 - setuptools: http://pypi.python.org/pypi/setuptools
 - pytables: http://www.pytables.org/
 
+and of course NEURON_ compiled with python support
 
-and of course NEURON_. compiled with python support
-
-.. _NEURON: http://www.neuron.yale.edu/neuron/
+.. _NEURON: http://www.neuron.yale.edu/neuron/  
 
 Ubuntu and friends
-==================
+------------------
 
 On Ubuntu you can easily install all the requirements using apt-get with::
 
@@ -32,43 +31,8 @@ On Ubuntu you can easily install all the requirements using apt-get with::
 If you are running a different flavour of GNU/Linux, like Fedora for example, just install 
 the requirements with your package manager, then go to the `Package Install`_.
 
-Mayavi 
-======
-
-If you have pip_ installed you can install Mayavi just running::
-
-    pip install "Mayavi[app]"
-    
-if you prefer easy_install just run::
-
-    easy_install "Mayavi[app]"
-    
-If you want to use another method for installation look at the `Mayavi doc`_
-
-.. _Mayavi doc: http://code.enthought.com/projects/mayavi/docs/development/html/mayavi/installation.html
-
-On Ubuntu you will need to install manually these two modules: `python-vtk python-configobj`::
-
-    sudo apt-get install python-vtk python-configobj
-    
-Mayavi <= 3.6.0 required _TraitsBackendQt, which is not available anymore from pypi and 
-has to be installed through ubuntu package manager or directly from github.
-
-.. TraitsBackendQt_ https://github.com/enthought/traitsbackendqt
-
-The latest release of Mayavi is 4.0.0, which is not API compatible with the 3.6.0.
- 
-Master is already ported to Mayavi 4.0.0, however there are two regression bugs 32_ and 34_, 
-which belong upstream and have already signalled at Mayavi tracker.  
-
-.. _32: https://github.com/mattions/neuronvisio/issues/32
-.. _34: https://github.com/mattions/neuronvisio/issues/34
-
-If you like blending-edge, we suggest to update to Mayavi => 4.0.0, and the qt support 
-is installed automatically with the `traits`, `traitsui`, and `pyface` packages.
-
 Mac OS X
-========
+---------
 
 Install the PyQt4_
 
@@ -82,14 +46,11 @@ Some pointers:
 - Enthought Distribution: http://www.enthought.com/products/epd.php
 - Scipy SuperPack: http://macinscience.org/?page_id=6
 
-The last one is maybe missing mayavi2. Follow the instruction on `mayavi doc_` to install it
-
-.. mayavi doc: http://code.enthought.com/projects/mayavi/ 
- 
-Then move to `Package Install`_.
+The last one is maybe missing mayavi2. you can automatically installing it
+following the `Package Install`_.
 
 Windows
-=======
+-------
 
 You need to install 
 
@@ -100,24 +61,32 @@ Some pointers as for MAC:
 - Enthought Distribution: http://www.enthought.com/products/epd.php
 - Python(x,y): http://www.pythonxy.com/foreword.php
 
-The last one is maybe missing mayavi2. Follow the instruction on `mayavi doc_` to install it
+The last one is maybe missing mayavi2. Follow the instruction on 
+`mayavi doc_` to install it
 
 .. mayavi doc: http://code.enthought.com/projects/mayavi/docs/development/html/mayavi/installation.html
 
 Proceed to the `Package Install`_ .
 
+
 Package Install
 ===============
 
-If you have `pip`_ installed and all the requirements are already met you can install neuronvisio 
-in a really handy way::
+To install neuronvisio we suggest to create a virtualenv and install
+the packages there. Check out virtualenv_ and virtualenvwrapper_
 
-    pip install neuronvisio
+.. _virtualenv: http://pypi.python.org/pypi/virtualenv
+.. _virtualenvwrapper: http://pypi.python.org/pypi/virtualenvwrapper
 
-Without pip, if you met all the requirements it's still pretty easy. Download the latest 
-neuronvisio.tgz file from `Neuronvisio's PyPI page`_, untar it and run::
 
-    python setup.py install
+.. note:: Neuronvisio 0.8.0 depends on a development version of Mayavi, until this is integrated in Mayavi master. You still have to fullfill the Mayavi's requirements listed on `Mayavi website`_.
+
+.. _Mayavi website: http://github.enthought.com/mayavi/mayavi/installation.html#requirements-for-manual-installs 
+
+If you have `pip`_ installed and all the requirements are already met you 
+can install neuronvisio typing::
+
+    pip install -U --extra-index-url=http://www.ebi.ac.uk/~mattioni/snapshots/ neuronvisio
 
 .. _Neuronvisio's PyPI page: http://pypi.python.org/pypi/neuronvisio/
 .. _pip: http://pypi.python.org/pypi/pip
@@ -133,16 +102,6 @@ then you need to add the directory (the absolute path) to your PYTHONPATH (in ba
     
     export PYTHONPATH=$PYTHONPATH:/path-to-neuronvisio-dir/src
     
-Legacy releases
-===============
-
-You can find all the old Neuronvisio releases on `github repo`_ Note there was a major
-rewriting of the software from series 0.3 to 0.4 and the use of the old releases is not 
-encouraged. 
-
-.. _github repo: http://github.com/mattions/neuronvisio/downloads
-
-
 .. _source-code-section:
 
 Source Code
@@ -162,5 +121,3 @@ To install from the git just clone the repo::
 and then run::
     
     python setup.py install    
-
-
