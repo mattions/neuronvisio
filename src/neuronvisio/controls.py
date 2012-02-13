@@ -371,7 +371,7 @@ class Controls(object):
             else: # Anything else.
                 call(['nrnivmodl'])
                 import neuron            
-                neuron.load_mechanisms('./')
+                #neuron.load_mechanisms('.') # Auto loading. Not needed anymore.
             from neuron import gui # to not freeze neuron gui
             from neuron import h
             logger.info("Loading model in %s from %s"%(model_dir, hoc_file))
