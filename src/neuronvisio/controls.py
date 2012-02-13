@@ -357,11 +357,12 @@ class Controls(object):
             return False
         old_dir = os.path.abspath(os.getcwd())
         logger.info("Path changed to %s" %(os.path.abspath(model_dir)))
-        os.chdir(model_dir)
+        if model_dir != '' :
+            os.chdir(model_dir)
         try:
             # Add all mod files into current directory
             self.find_mod_files()
-
+        
             # If windows
             if os.name == 'nt':                
                 self.windows_compile_mod_files('.')
@@ -607,7 +608,12 @@ class Controls(object):
                 base_name, file_extension = os.path.splitext(filename)
                 if file_extension == '.mod':
                     logger.info('Copy %s into model directory'%os.path.join(root, filename))
-                    shutil.copy(os.path.join(root, filename), '.')
+                    # Double checking we are not copying over the same file.
+                    logger.debug("%s %s" %(root, filename))
+                    filename_src = os.path.join(root, filename)
+                    filename_dest = os.path.join('.', filename)
+                    if not os.path.isfile(filename_dest):
+                        shutil.copy(filename_src, filename_dest)
 
 class ItemRef(QtGui.QTreeWidgetItem):
     def __init__(self, sec_root, vec):
