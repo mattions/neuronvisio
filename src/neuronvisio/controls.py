@@ -353,8 +353,13 @@ class Controls(object):
             self.ui.create_vector.setEnabled(False)
 
     def load_hoc_model(self, model_dir, hoc_file):
-        if not os.path.exists(os.path.join (model_dir, hoc_file)):
-            return False
+        """Load an hoc files. It compiles the mod 
+        before loading the hoc."""
+        try:
+            os.path.isfile(os.path.join (model_dir, hoc_file))
+        except IOError:
+            logger.error("Not existing file: %s" %e.value)
+            
         old_dir = os.path.abspath(os.getcwd())
         logger.info("Path changed to %s" %(os.path.abspath(model_dir)))
         if model_dir != '' :
