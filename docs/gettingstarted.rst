@@ -84,7 +84,7 @@ A classical template is::
     controls = Controls()   # starting the GUI
     h.load_file('path/to/my_model.hoc')
 
-NeuronVisio features
+Neuronvisio features
 ====================
 
 Visualization

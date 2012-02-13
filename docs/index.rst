@@ -23,10 +23,19 @@ Features
 - Exploration of the timecourse of any variable among time using a color coded scale
 - Saving the results simulation for later analysis
 
+Quick Links
+=========== 
 
+- **Install Neuronvisio:** :ref:`install`
+- **Browse the code:** `Github Repo`_
+- **Subscribe to the Mailing List:** `Google group`_   
+- **Read the docs of any versions:** `Read the docs`_
+- **Report an issue:** `Issues tracker`_ 
 
-Quick overview
-==============
+.. _Google group: http://groups.google.com/group/neuronvisio
+.. _github repo:  http://github.com/mattions/neuronvisio
+.. _Issues tracker:  http://github.com/mattions/neuronvisio/issues
+.. _Read the docs: http://readthedocs.org/docs/neuronvisio/
 
 Quick overview of the 3D capabilites. More :ref:`screenshots`. 
 
@@ -38,37 +47,12 @@ A zoomed version:
 .. image:: images/spines_detailed.png
     :scale: 30
 
-
-
-Help and development
-====================
-
-Install
--------
-
-- To **install** Neuronvisio check the :ref:`install`
-- To **browse** the code online go to the `github repo`_
-- To **download and install** the code from github check the :ref:`source-code-section` section
-- To **submit a bug** use the `tracker`_
-
-
-.. _github repo:  http://github.com/mattions/neuronvisio
-.. _tracker:  http://github.com/mattions/neuronvisio/issues
-
-MailingList
------------
-
-There is a `google group`_ to ask for help or send patches. 
-
-.. _google group: http://groups.google.com/group/neuronvisio
-
 Contents
 ========
 
 .. toctree::
     :maxdepth: 2
     
-    self
     install
     gettingstarted
     storage

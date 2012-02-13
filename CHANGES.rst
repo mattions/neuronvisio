@@ -1,4 +1,4 @@
-0.7.3+dev -- Development
+0.8.0.dev -- Development
 ========================
 
 - Ported to Mayavi 4.1.1.dev
