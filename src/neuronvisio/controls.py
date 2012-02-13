@@ -382,7 +382,7 @@ class Controls(object):
             logger.info("Loading model in %s from %s"%(model_dir, hoc_file))
             h.load_file(hoc_file)
         except Exception as e:
-            logger.warning("Error running model: "+e.message)
+            logger.warning("Error running model: " + e.message)
         logger.info("Path changed back to %s" %old_dir)
         os.chdir(old_dir)
         return True
@@ -400,11 +400,15 @@ class Controls(object):
             for i in range (cols):
                 tooltip = mod.get_tooltip()
                 model_item.setToolTip(i, tooltip)
-            if (not self.load_hoc_model(mod.get_dir(), 'mosinit.hoc')):
-                path_info = "Could not locate mosinit.hoc, check the README for hints on which hoc to use and copy it to %s/mosinit.hoc" %model_path
-                logging.warning(path_info)
-                self.ui.statusbar.showMessage(path_info, 10000)
-                mod.browse()
+            
+            if os.path.exists(os.path.join(mod.get_dir(), 'mosinit.hoc')):
+                self.load_hoc_model(mod.get_dir(), 'mosinit.hoc')
+            else:
+                path_info = "Could not locate a predefined mosinit.hoc. Can't automatically load the model. \
+                Check the README for hints on which hoc to use and copy it to %s/mosinit.hoc" %model_path
+            logging.warning(path_info)
+            self.ui.statusbar.showMessage(path_info, 10000)
+            mod.browse()
         
     def on_animation_time_return_pressed(self):
         "Getting the value from the text"
