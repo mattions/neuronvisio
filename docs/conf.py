@@ -1,21 +1,24 @@
 # -*- coding: utf-8 -*-
 
-import os
+import sys,os
+sys.path.append('./src')
+import neuronvisio
 
-from pkg_resources import parse_version
-import pkginfo
+#def _egg_info(path_to_egg='../'):
+#    path_to_egg = os.path.join(
+#        os.path.dirname(__file__), path_to_egg)
+#    egg_info = pkginfo.Develop(path_to_egg)
+#    release = egg_info.version
+#    parsed_version = parse_version(release)
+#    version = '%s.%s' % tuple([int(x) for x in parsed_version[0:2]])
+#    return egg_info.name, egg_info.author, version, release
 
-def _egg_info(path_to_egg='../'):
-    path_to_egg = os.path.join(
-        os.path.dirname(__file__), path_to_egg)
-    egg_info = pkginfo.Develop(path_to_egg)
-    release = egg_info.version
-    parsed_version = parse_version(release)
-    version = '%s.%s' % tuple([int(x) for x in parsed_version[0:2]])
-    return egg_info.name, egg_info.author, version, release
 
-project, author, version, release = _egg_info()
-copyright = '2009, Michele Mattioni'
+project = "Neuronvisio"
+author = neuronvisio.__authors__
+version = neuronvisio.__version__ 
+release = version
+copyright = '2009 -2012, Michele Mattioni'
 
 # Extension
 extensions = ['sphinx.ext.autodoc', 'sphinx.ext.intersphinx', 'sphinx.ext.todo', 
