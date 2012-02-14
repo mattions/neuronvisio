@@ -415,16 +415,17 @@ class Manager(object):
         
     
     def save_to_hdf(self, filename):
-        h5f = tables.openFile(filename, 'w')
-        
-        # Saving geometry
-        
-        # Saving the vecRef
-        self._save_geom(h5f)
-        res = h5f.createGroup('/', self.results_root)
-        for group in self.refs:
-            self._save_baseRef(self.refs[group], h5f, res)
-        h5f.close()
+        try:
+            self.get_time()
+            h5f = tables.openFile(filename, 'w')
+            self._save_geom(h5f)
+            res = h5f.createGroup('/', self.results_root)
+            for group in self.refs:
+                self._save_baseRef(self.refs[group], h5f, res)
+            h5f.close()
+        except KeyError:
+            logger.warning("No vectors have been created. The file will not be saved.")
+            
         
     def _save_baseRef(self, baseRefs, h5f_holder, base_group):
         """Save the baseRef in the database"""
