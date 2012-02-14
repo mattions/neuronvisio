@@ -1,0 +1,27 @@
+#!/usr/bin/env python
+# Author Michele Mattioni
+# Tue Feb 14 15:47:08 GMT 2012
+
+"""Updates the ModelDB.xml in the current location"""
+
+import os
+import sys
+import logging
+
+import neuronvisio.modeldb
+from neuronvisio.modeldb.Updater import ModelDBUpdater
+
+
+if __name__ == '__main__':
+
+    h = logging.StreamHandler(sys.stderr)
+    h.setLevel(logging.DEBUG)
+    logging.getLogger().addHandler(h)
+    logging.getLogger().setLevel(logging.INFO)
+    
+    # Update models
+    path_to_module_dir = neuronvisio.modeldb.__path__[0]
+    print path_to_module_dir
+    path_to_file = os.path.join(path_to_module_dir, 'ModelDB.xml')    
+    updater = ModelDBUpdater(path_to_file)
+    updater.update()

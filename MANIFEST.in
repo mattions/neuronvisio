@@ -6,8 +6,8 @@ include pavement.py
 include paver-minilib.zip
 include bootstrap.py
 
-include src/neuronvisio/modeldb/ModelDB.xml
-recursive-include src/neuronvisio/ui *
+include neuronvisio/modeldb/ModelDB.xml
+recursive-include neuronvisio/ui *
 recursive-include examples *
 recursive-include docs *
 prune docs/_build
