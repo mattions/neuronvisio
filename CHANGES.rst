@@ -1,6 +1,7 @@
 0.8.0.dev -- Development
 ========================
 
+- New repo layout
 - Ported to Mayavi 4.1.1.dev
 - Closed #31
 - Reorganized controls method in alphabetical order.
