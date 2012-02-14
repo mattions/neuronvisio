@@ -78,19 +78,6 @@ options(
         builddir="_build",
         sourcedir=""
         ),
-    virtualenv=Bunch(
-        packages_to_install=[
-            # -*- Virtualenv packages to install: -*-
-            'github-tools',
-            "nose",
-            "Sphinx>=0.6b1",
-            "pkginfo", 
-            "virtualenv"],
-        dest_dir='./virtual-env/',
-        install_paver=True,
-        script_name='bootstrap.py',
-        paver_command_line=None
-        ),
     )
 
 #options.setup.package_data=paver.setuputils.find_package_data(
