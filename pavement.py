@@ -51,7 +51,7 @@ setup(
     description='NeuronVisio is a Graphical User Interface for NEURON simulator enviroment',
     long_description=open('README.rst', 'r').read(),
     packages = ['neuronvisio', 'neuronvisio.modeldb'],
-    package_dir={'neuronvisio': 'src/neuronvisio'},
+    package_dir={'neuronvisio': 'neuronvisio'},
     package_data=paver.setuputils.find_package_data(package="neuronvisio", ),
     scripts= ['bin/nrnvisio'],
     classifiers=classifiers,

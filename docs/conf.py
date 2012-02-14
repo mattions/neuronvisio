@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import sys,os
-sys.path.append('./src')
 import neuronvisio
 
 #def _egg_info(path_to_egg='../'):
