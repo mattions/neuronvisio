@@ -23,9 +23,14 @@ from PyQt4 import uic
 from subprocess import call
 from manager import SynVecRef
 os.environ['ETS_TOOLKIT'] = 'qt4'
+
+
 import logging
 FORMAT = '%(levelname)s %(name)s %(lineno)s   %(message)s'
-logging.basicConfig(level=logging.DEBUG, format=FORMAT)
+if os.environ.has_key('DEBUG'):
+    logging.basicConfig(level=logging.DEBUG, format=FORMAT)
+else: 
+    logging.basicConfig(level=logging.INFO, format=FORMAT)
 logger = logging.getLogger(__name__)
 
 import sys
@@ -376,7 +381,7 @@ class Controls(object):
             else: # Anything else.
                 call(['nrnivmodl'])
                 import neuron            
-                #neuron.load_mechanisms('.') # Auto loading. Not needed anymore.
+                neuron.load_mechanisms('.') # Auto loading. Not needed anymore.
             from neuron import gui # to not freeze neuron gui
             from neuron import h
             logger.info("Loading model in %s from %s"%(model_dir, hoc_file))
@@ -406,9 +411,9 @@ class Controls(object):
             else:
                 path_info = "Could not locate a predefined mosinit.hoc. Can't automatically load the model. \
                 Check the README for hints on which hoc to use and copy it to %s/mosinit.hoc" %model_path
-            logging.warning(path_info)
-            self.ui.statusbar.showMessage(path_info, 10000)
-            mod.browse()
+                logging.warning(path_info)
+                self.ui.statusbar.showMessage(path_info, 10000)
+                mod.browse()
         
     def on_animation_time_return_pressed(self):
         "Getting the value from the text"
