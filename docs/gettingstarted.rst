@@ -5,12 +5,14 @@ Getting Started
 How does it work
 ================
 
-To run Neuronvisio you can either use the provided nrnvisio.py executable,
+To run Neuronvisio you can either use the provided `neuronvisio` executable,
 which will create an ipython_ session:
 
-$ nrnvisio.py
+$ neuronvisio
 
 .. _ipython: http://ipython.org/
+
+.. note:: On windows, you can launch it with `neuronvisio.bat` 
 
 or you can start ipython and load neuronvisio from within your script, 
 as explained in section `How to integrate NeuronVisio with your code`_ 
@@ -158,7 +160,7 @@ Select a section (Just click over it) and the section info
 will be displayed in the Sec Info Tab.
 
 .. image:: images/Neuronvisio_sec_info.png
-    :scale: 100
+    :scale: 80
     
 ModelDB Integration
 ===================
@@ -203,12 +205,10 @@ The content of the XML file which is included with each version of
 Neuronvisio is usually up-to-date with the content of ModelDB at the time 
 of the release. Updating this file from the online DB can be done by 
 manually, if required, by running from any shell the script 
-`src/neuronvisio/modeldb/Updater.py`. For example, on most systems 
-you'll need to do::
+`neuronvisio-modeldb-updater`. Neuronvisio updater will find where the 
+current `ModelDB.xml` is stored, and update with the latest items, if any.
 
-    # from neuronvisio install directory
-    cd src/neuronvisio/modeldb
-    Uploader.py
+.. note:: You need to be able to write on the `ModelDB.xml` location. If you have installed the package as root, you may need to run it as root.
 
 It should be noted that the model extraction from ModelDB is slowed down 
 to 1/sec in order to avoid loading the site. Also this process only 

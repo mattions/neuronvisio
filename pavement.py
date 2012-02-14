@@ -4,7 +4,6 @@ from paver.setuputils import setup
 #from setuptools import setup
 from setuptools import find_packages
 import sys, os
-sys.path.append('./src')
 import neuronvisio
 
 try:
@@ -52,9 +51,10 @@ setup(
     description='NeuronVisio is a Graphical User Interface for NEURON simulator enviroment',
     long_description=open('README.rst', 'r').read(),
     packages = ['neuronvisio', 'neuronvisio.modeldb'],
-    package_dir={'neuronvisio': 'src/neuronvisio'},
+    package_dir={'neuronvisio': 'neuronvisio'},
     package_data=paver.setuputils.find_package_data(package="neuronvisio", ),
-    scripts= ['src/nrnvisio.py'],
+    scripts= ['bin/neuronvisio', 'bin/neuronvisio.bat', 
+              'bin/neuronvisio-modeldb-updater'],
     classifiers=classifiers,
     keywords='neuron, gui, pylab, 3D, visualization',
     author=authors,
@@ -78,19 +78,6 @@ options(
         docroot='docs',
         builddir="_build",
         sourcedir=""
-        ),
-    virtualenv=Bunch(
-        packages_to_install=[
-            # -*- Virtualenv packages to install: -*-
-            'github-tools',
-            "nose",
-            "Sphinx>=0.6b1",
-            "pkginfo", 
-            "virtualenv"],
-        dest_dir='./virtual-env/',
-        install_paver=True,
-        script_name='bootstrap.py',
-        paver_command_line=None
         ),
     )
 
