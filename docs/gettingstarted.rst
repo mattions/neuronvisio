@@ -8,9 +8,11 @@ How does it work
 To run Neuronvisio you can either use the provided `neuronvisio` executable,
 which will create an ipython_ session:
 
-$ nrnvisio.py
+$ neuronvisio
 
 .. _ipython: http://ipython.org/
+
+.. note:: On windows, you can launch it with `neuronvisio.bat` 
 
 or you can start ipython and load neuronvisio from within your script, 
 as explained in section `How to integrate NeuronVisio with your code`_ 
