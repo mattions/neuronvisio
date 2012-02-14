@@ -23,7 +23,15 @@ copyright = '2009 -2012, Michele Mattioni'
 # Extension
 extensions = ['sphinx.ext.autodoc', 'sphinx.ext.intersphinx', 'sphinx.ext.todo', 
 'sphinx.ext.coverage', 'sphinx.ext.pngmath', 'sphinx.ext.ifconfig', 
-'sphinx.ext.autosummary', 'github.tools.sphinx']
+'sphinx.ext.autosummary']
+
+# Adding githubtool only if building for github.
+# not available on readthedocs.
+try:
+    import github.tools.sphinx
+    extensions.append('github.tools.sphinx')
+except:
+    pass
 
 intersphinx_mapping = {'http://docs.python.org/': None}
 htmlhelp_basename = 'Neuronvisiodoc'
