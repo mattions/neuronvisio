@@ -120,8 +120,11 @@ class ModelDBUpdater:
 	    f = codecs.open(self._xml_file, "w", encoding='utf-8')
 	    xml=self._dom.toxml(encoding="utf-8")
 	    soup = BeautifulSoup(xml)
-	    f.write(soup.prettify().decode('utf-8')) 
-	    f.close()
+	    try:
+	    	f.write(soup.prettify().decode('utf-8')) 
+	    	f.close()
+	    except IOError:
+	    	logger.error("Not able to write the file: %s" % self._xml_file)
 
 	# Parse a ModelDB model page and extract an item dictionary	
 	def parse_item(self, url):
@@ -239,19 +242,3 @@ class ModelDBUpdater:
 			# See the comment above about the shortcoming of BeautifulStoneSoup
 			return u""
 		return node.renderContents()
-
-# A stand-along main which updates ModelDB.xml in current directory
-def main():
-	# Setup logging to stdout
-	import sys
-	h = logging.StreamHandler(sys.stderr)
-	h.setLevel(logging.DEBUG)
-	logging.getLogger().addHandler(h)
-	logging.getLogger().setLevel(logging.INFO)
-
-	# Update models	
-	updater = ModelDBUpdater('ModelDB.xml')
-	updater.update()
-	
-if __name__ == '__main__':
-    main()
