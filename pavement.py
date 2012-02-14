@@ -53,7 +53,7 @@ setup(
     packages = ['neuronvisio', 'neuronvisio.modeldb'],
     package_dir={'neuronvisio': 'neuronvisio'},
     package_data=paver.setuputils.find_package_data(package="neuronvisio", ),
-    scripts= ['bin/nrnvisio'],
+    scripts= ['bin/neuronvisio', 'bin/neuronvisio-modeldb-updater'],
     classifiers=classifiers,
     keywords='neuron, gui, pylab, 3D, visualization',
     author=authors,
