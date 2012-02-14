@@ -4,7 +4,6 @@ from paver.setuputils import setup
 #from setuptools import setup
 from setuptools import find_packages
 import sys, os
-sys.path.append('./src')
 import neuronvisio
 
 try:
@@ -54,7 +53,7 @@ setup(
     packages = ['neuronvisio', 'neuronvisio.modeldb'],
     package_dir={'neuronvisio': 'src/neuronvisio'},
     package_data=paver.setuputils.find_package_data(package="neuronvisio", ),
-    scripts= ['src/nrnvisio.py'],
+    scripts= ['bin/nrnvisio'],
     classifiers=classifiers,
     keywords='neuron, gui, pylab, 3D, visualization',
     author=authors,
