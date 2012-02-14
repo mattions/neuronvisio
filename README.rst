@@ -30,7 +30,7 @@ sphinx http://sphinx.pocoo.org/ installed.
 
 Move in the doc directory::
     
-    cd doc
+    cd docs
     
 and then launch::
 
