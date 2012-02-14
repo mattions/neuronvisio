@@ -4,9 +4,13 @@
 
 """Updates the ModelDB.xml in the current location"""
 
-import logging
-import neuronvisio.modeldb
 import os
+import sys
+import logging
+
+import neuronvisio.modeldb
+from neuronvisio.modeldb.Updater import ModelDBUpdater
+
 
 if __name__ == '__main__':
 
@@ -16,6 +20,8 @@ if __name__ == '__main__':
     logging.getLogger().setLevel(logging.INFO)
     
     # Update models
-    path_to_module_dir = neuronvisio.modeldb.__path__    
-    updater = ModelDBUpdater(os.path.join(path_to_module_dir, 'ModelDB.xml'))
+    path_to_module_dir = neuronvisio.modeldb.__path__[0]
+    print path_to_module_dir
+    path_to_file = os.path.join(path_to_module_dir, 'ModelDB.xml')    
+    updater = ModelDBUpdater(path_to_file)
     updater.update()
