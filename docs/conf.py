@@ -130,7 +130,7 @@ latex_paper_size = 'a4'
 # latex build settings
 latex_documents = [
     ('index', '%s.tex' % project, u'%s Documentation' % project,
-    author, 'manual'),
+    "Michele Mattioni", 'manual', True),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -139,7 +139,7 @@ latex_documents = [
 
 # For "manual" documents, if this is true, then toplevel headings are parts,
 # not chapters.
-#latex_use_parts = False
+latex_use_parts = False
 
 # Additional stuff for the LaTeX preamble.
 #latex_preamble = ''
