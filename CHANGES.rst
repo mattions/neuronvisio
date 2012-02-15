@@ -1,5 +1,5 @@
-0.8.0.dev -- Development
-========================
+0.8.0 -- 15 Feb 2012
+====================
 
 - New repo layout
 - Ported to Mayavi 4.1.1.dev
