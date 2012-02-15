@@ -22,7 +22,7 @@
 
 __authors__ = ['Michele Mattioni', 'Uri Cohen']
 __authors_emails__ = ['<mattioni@ebi.ac.uk>', '<uri.cohen@alice.nc.huji.ac.il>']
-__version__ = '0.8.0'
+__version__ = '0.8.1.dev'
 
 
 import os
@@ -30,6 +30,8 @@ import os
 try:
     import git
     if git.__version__ == '0.3.1':
+        src_root = os.path.dirname(__path__[0]) # Getting the root of the module
+        root = os.path.join(src_root, '../')
         if git.repo.fun.is_git_dir(os.path.join(root, ".git")):
             r = git.Repo(root)
             git_commit = r.head.commit.hexsha
