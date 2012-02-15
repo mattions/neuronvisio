@@ -49,7 +49,7 @@ entry_points="""
 setup(
     name='neuronvisio',
     version=version,
-    description='NeuronVisio is a Graphical User Interface for NEURON simulator enviroment',
+    description='Neuronvisio is a Graphical User Interface for NEURON simulator enviroment',
     long_description=open('README.rst', 'r').read(),
     packages = ['neuronvisio', 'neuronvisio.modeldb'],
     package_dir={'neuronvisio': 'neuronvisio'},

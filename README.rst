@@ -4,7 +4,7 @@ Neuronvisio
 What is it
 ----------
 
-NeuronVisio is a Graphical User Interface for `NEURON simulator enviroment 
+Neuronvisio is a Graphical User Interface for `NEURON simulator enviroment 
 <http://www.neuron.yale.edu/neuron/>`_. 
 NeuronVisio connect with NEURON using the new python NEURON interface.
 
