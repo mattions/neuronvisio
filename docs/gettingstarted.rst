@@ -41,7 +41,7 @@ To solve this you can either define the varaible `QT_API==pyqt`, e.g. in bash::
 Or you can launch ipython without pylab support, load neuronvisio and then 
 load pylab with the magic `%pylab`.
 
-To load Neuronvisio just paste this two lines in ipython:
+To load Neuronvisio just paste this two lines in ipython::
 
     from neuronvisio.controls import Controls 
     controls = Controls()   # starting the GUI
