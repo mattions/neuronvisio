@@ -64,9 +64,13 @@ Some pointers as for MAC:
 The last one is maybe missing mayavi2. Follow the instruction on 
 `mayavi doc_` to install it
 
-.. mayavi doc: http://code.enthought.com/projects/mayavi/docs/development/html/mayavi/installation.html
+.. _mayavi doc: http://code.enthought.com/projects/mayavi/docs/development/html/mayavi/installation.html
+
+.. note:: A portable and already compiled version of NEURON is available at https://bitbucket.org/uric/pyneuron/
 
 Proceed to the `Package Install`_ .
+
+
 
 
 Package Install
