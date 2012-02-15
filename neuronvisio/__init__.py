@@ -20,8 +20,8 @@
 #
 #"""
 
-__authors__ = ['Michele Mattioni <mattioni@ebi.ac.uk>', 
-               'Uri Cohen <uri.cohen@alice.nc.huji.ac.il>']
+__authors__ = ['Michele Mattioni', 'Uri Cohen']
+__authors_emails__ = ['<mattioni@ebi.ac.uk>', '<uri.cohen@alice.nc.huji.ac.il>']
 __version__ = '0.8.0'
 
 

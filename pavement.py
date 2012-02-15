@@ -23,6 +23,7 @@ except ImportError, e:
 
 version = neuronvisio.__version__
 authors = neuronvisio.__authors__
+authors_email = neuronvisio.__authors_emails__
 
 classifiers = [
     # Get more strings from http://www.python.org/pypi?%3Aaction=list_classifiers
@@ -58,7 +59,7 @@ setup(
     classifiers=classifiers,
     keywords='neuron, gui, pylab, 3D, visualization',
     author=authors,
-    author_email='mattioni@ebi.ac.uk',
+    author_email=authors_email,
     url='http://mattions.github.com/neuronvisio/',
     license='GPLv3',
     include_package_data=True,
@@ -87,7 +88,7 @@ options(
 if ALL_TASKS_LOADED:
     @task
     @needs('generate_setup', 'minilib', 'gh_pages_build_fix', 
-           'setuptools.command.sdist')
+           'distutils.command.sdist')
     def sdist():
         """Overrides sdist to make sure that our setup.py is generated."""
         print "Package baked."
