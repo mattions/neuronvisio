@@ -87,8 +87,7 @@ options(
 
 if ALL_TASKS_LOADED:
     @task
-    @needs('generate_setup', 'minilib', 'gh_pages_build_fix', 
-           'distutils.command.sdist')
+    @needs('generate_setup', 'minilib', 'distutils.command.sdist')
     def sdist():
         """Overrides sdist to make sure that our setup.py is generated."""
         print "Package baked."
