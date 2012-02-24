@@ -172,10 +172,12 @@ class Mock(object):
         else:
             return Mock()
 
-MOCK_MODULES = ['neuron', 'pyface', 'numpy', 'pyface.qt', 'tables',
-                'traits', 'mayavi', 'traitsui.api', 'matplotlib', 
-                'matplotlib.pyplot', 'PyQt4', 'PyQt4.QtCore', 'PyQt4.QtGui',
-                'traits.api', 'mayavi.core.ui.api', 'bisect']
+MOCK_MODULES = ['neuron', 'numpy', 'tables', 'bisect',
+                'pyface', 'pyface.qt', 
+                'traits', 'traits.api', 'traitsui', 'traitsui.api', 
+                'matplotlib', 'matplotlib.pyplot', 
+                'PyQt4', 'PyQt4.QtCore', 'PyQt4.QtGui',
+                'mayavi', 'mayavi.core.ui.api']
 for mod_name in MOCK_MODULES:
     sys.modules[mod_name] = Mock()
 
