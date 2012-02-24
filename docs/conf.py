@@ -172,7 +172,7 @@ class Mock(object):
         else:
             return Mock()
 
-MOCK_MODULES = ['PyQt4', 'neuron', 'pyface']
+MOCK_MODULES = ['PyQt4', 'neuron', 'pyface.qt', 'numpy']
 for mod_name in MOCK_MODULES:
     sys.modules[mod_name] = Mock()
 
