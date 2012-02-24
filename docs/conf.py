@@ -170,7 +170,7 @@ class Mock(object):
         elif name[0] == name[0].upper():
             return type(name, (), {})
         else:
-            return Mock(object)
+            return Mock()
 
 MOCK_MODULES = ['neuron', 'numpy', 'tables', 'bisect',
                 'pyface', 'pyface.qt', 
