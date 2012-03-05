@@ -218,7 +218,7 @@ class ModelDBUpdater:
 			elif i.string != None:
 				t=t+i.string
 			else:
-				logging.debug("No text extracted from %s"%str(i))
+				logger.debug("No text extracted from %s"%str(i))
 		return t
 
 	# Extract text from a list, returning a list of strings

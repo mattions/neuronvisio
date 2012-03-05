@@ -201,11 +201,11 @@ class Manager(object):
                     vec.record(point_process, 
                                getattr(sec(0.5), varRef), 
                                time_interval_recording)
-                    logging.info( "Sec: %s has pp: %s" %(sec.name(), point_process))
+                    logger.info( "Sec: %s has pp: %s" %(sec.name(), point_process))
                 else:
                     vec.record(getattr(sec(0.5), varRef), 
                                time_interval_recording)
-                    logging.info( "Sec: %s has not pp" %(sec.name()))
+                    logger.info( "Sec: %s has not pp" %(sec.name()))
             else:
                 if point_process:
                     vec.record(point_process, 
@@ -215,7 +215,7 @@ class Manager(object):
                 
             
         except NameError:
-            logging.error( "The variable %s is not present in the section %s" \
+            logger.error( "The variable %s is not present in the section %s" \
             % (varRef, sec.name()))
         
         h.pop_section()
@@ -333,7 +333,7 @@ class Manager(object):
                     plt.plot(self.groups['t'], vec, 'o', label=key)
                 elif len(x) != len(vec):
                     plt.plot(vec, 'o', label=key)
-                    logging.warning("x and y mismatched. Is the %s wrapped in the right baseref? \
+                    logger.warning("x and y mismatched. Is the %s wrapped in the right baseref? \
                     Plotted vs it's it own length anyway." %key)
                 else:
                     plt.plot(x, vec, 'o', label=key)

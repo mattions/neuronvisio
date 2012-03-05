@@ -198,7 +198,7 @@ class Controls(object):
                 if model_id == mod.get_id():
                     return mod
         else:
-            logging.info('No model selected!')
+            logger.info('No model selected!')
             return None
        
     def filter_list(self):
@@ -411,7 +411,7 @@ class Controls(object):
             else:
                 path_info = "Could not locate a predefined mosinit.hoc. Can't automatically load the model. \
                 Check the README for hints on which hoc to use and copy it to %s/mosinit.hoc" %model_path
-                logging.warning(path_info)
+                logger.warning(path_info)
                 self.ui.statusbar.showMessage(path_info, 10000)
                 mod.browse()
         
