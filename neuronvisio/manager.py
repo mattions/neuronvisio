@@ -201,11 +201,11 @@ class Manager(object):
                     vec.record(point_process, 
                                getattr(sec(0.5), varRef), 
                                time_interval_recording)
-                    logger.info( "Sec: %s has pp: %s" %(sec.name(), point_process))
+                    logger.debug( "Sec: %s has pp: %s" %(sec.name(), point_process))
                 else:
                     vec.record(getattr(sec(0.5), varRef), 
                                time_interval_recording)
-                    logger.info( "Sec: %s has not pp" %(sec.name()))
+                    logger.debug( "Sec: %s has not pp" %(sec.name()))
             else:
                 if point_process:
                     vec.record(point_process, 
