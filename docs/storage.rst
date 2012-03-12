@@ -101,7 +101,7 @@ Neuronvisio graphical interface. If don't need to supply your own time vector, b
 same of the main NEURON one, you can use the `manager.groups['t']` which will return the 
 NEURON time array::
  
-    manager.add_ref(timeseriesRef, x)
+    manager.add_ref(myRef, x)
 
 All together is::
 
