@@ -415,6 +415,33 @@ class Controls(object):
                 self.ui.statusbar.showMessage(path_info, 10000)
                 mod.browse()
         
+    def make_animation_screenshots(self, time_start, time_stop=None,
+                                   saving_dir='anim'):
+        from mayavi import mlab
+        t = self.manager.get_time()
+        indx_start = t.indwhere("==", time_start)
+        indx_stop = None
+        if time_stop:
+            indx_stop = t.indwhere("==", time_stop)
+        else:
+            indx_stop = len(t)
+        
+        if not os.path.exists(saving_dir):
+            os.mkdir(saving_dir)
+            
+        png_format = "%09d.png"
+        for i in range(int(indx_start), int(indx_stop)):
+            
+            figure_filename_animation = png_format %(i - indx_start)
+            logger.debug( figure_filename_animation)
+            self.sync_visio_3d(i)
+            mlab.savefig(os.path.join(saving_dir, figure_filename_animation))
+        
+        logger.info("files created in %s" %saving_dir)
+        logger.info("To create a video run:")
+        logger.info("ffmpeg -f image2 -r 10 -i %s -sameq anim.mov -pass 2" %png_format)
+
+    
     def on_animation_time_return_pressed(self):
         "Getting the value from the text"
         time = self.ui.animationTime.text()
