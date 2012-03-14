@@ -51,11 +51,11 @@ Loading a previous simulation
 
 To load the results of a simulation you can start neuronvisio giving the path_to_the_hdf_file::
 
-    $ nrnvisio path/to/storage.h5
+    $ neuronvisio path/to/storage.h5
     
 or you can just start neuronvisio and use the Load button::
 
-    $ nrnvisio
+    $ neuronvisio
 
 Saving your variables in storage.h5 and use Neuronvisio to plot them 
 ====================================================================
