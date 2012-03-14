@@ -1,2 +1,2 @@
 rem Used on Windows system to launch the neuronvisio script
-python -i -c execfile('neuronvisio-modeldb-updater')
+python -i %0\..\neuronvisio-modeldb-updater
