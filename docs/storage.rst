@@ -32,6 +32,10 @@ This is a quick example how to save the simulation in neuronvisio::
     manager = Manager()
     manager.add_all_vecRef('v') # Adding vector for the variable v
     
+    # Perform your simulation
+    # ...
+    #
+    
     # file where to save the results
     filename = 'storage.h5'
     # Saving the vectors
