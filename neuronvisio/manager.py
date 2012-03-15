@@ -509,11 +509,13 @@ class Manager(object):
         
         # List check for legacy code
         xml_data = None
-        if isinstance(xml_data, list):
-            xml_data = geom[0]  # get the string.
+        geom_data = geom.read()
+        if isinstance(geom_data, list):
+            xml_data = geom_data[0]  # get the string.
         else:
-            xml_data = geom # The node is directly a string
-        
+            xml_data = geom_data # The node is directly a string
+        logger.debug(type (xml_data))
+        logger.debug("xml_data is a list: %s" %isinstance(xml_data, list))
         tmp_file = 'temp.xml'
         f = open(tmp_file, 'w')
         f.write(xml_data)
