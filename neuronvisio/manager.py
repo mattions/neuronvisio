@@ -410,7 +410,7 @@ class Manager(object):
             xml_data = f.read()
         geom_group = h5file_holder.createGroup('/', self.geometry_root)
         h5file_holder.createArray(geom_group, self.geometry_node_name, 
-                                  [xml_data])
+                                  xml_data)
         os.remove(tmp_file)
         
     
@@ -506,7 +506,13 @@ class Manager(object):
         h5f = tables.openFile(filename)
         node = "/%s/%s" %(self.geometry_root, self.geometry_node_name) 
         geom = h5f.getNode(node)
-        xml_data = geom[0]  # get the string.
+        
+        # List check for legacy code
+        xml_data = None
+        if isinstance(xml_data, list):
+            xml_data = geom[0]  # get the string.
+        else:
+            xml_data = geom # The node is directly a string
         
         tmp_file = 'temp.xml'
         f = open(tmp_file, 'w')
