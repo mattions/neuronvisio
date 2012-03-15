@@ -6,6 +6,8 @@
 
 It creates a IPython shell and loads neuronvisio inside it."""
 
+import sys
+
 def load_neuronvisio(ipshell):
     """General method to load neuronvisio specific code. 
     params:
