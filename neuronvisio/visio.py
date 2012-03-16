@@ -74,7 +74,7 @@ class MayaviQWidget(QtGui.QWidget):
     def __init__(self, parent=None):
         QtGui.QWidget.__init__(self, parent)
         layout = QtGui.QVBoxLayout(self)
-        layout.setContentsMargin(1,2,3,4)
+        setContentsMargins(0,0,0,0)
         layout.setSpacing(0)
         self.visualization = Visualization()
 
