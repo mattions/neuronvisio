@@ -2,9 +2,8 @@
 ========================
 
 - Added new models on the ModelDB.xml
-
-
-
+- Closed #45
+- Easy function to export a video as a stack of screenshots
 
 0.8.0 -- 15 Feb 2012
 ====================
