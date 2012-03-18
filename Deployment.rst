@@ -1,39 +1,29 @@
-============
-Github-Tools
-============
+==========
+Deployment
+==========
 
-Github-tools works only with GitPython 0.1.7. Anything else is ok with 
-0.3.1 so when deployment is needed just uninstall 0.1.7.
+To update the docs just do 
 
-The discussion is going on here: https://github.com/dinoboff/github-tools/pull/20
-In the meantime...
+    paver docs
+    
+To submit it to github
 
-For deployment
---------------
+    paver ghpages
+    
+In one go
 
-	sudo rm /usr/local/lib/python2.6/dist-packages/git -rvd
-	sudo rm /usr/local/lib/python2.6/dist-packages/GitPython-0.3.1.egg-info -rvd
-	sudo pip install GitPython==0.1.7
+    paver update_docs
 
-For development
----------------
-
-	sudo rm /usr/local/lib/python2.6/dist-packages/git -rvd
-	sudo rm /usr/local/lib/python2.6/dist-packages/GitPython-0.1.7.egg-info -rvd
-	sudo pip install GitPython==0.3.1-beta2
-
-
-Creating the doc to preview them offline
-----------------------------------------
-
-	paver gh_pages_build_fix
-	
-Pushing the doc online
-----------------------
-
-	paver gh_pages_update -m "Updated the docs online"
 
 Making the release and pushing on piPy
 -------------------------------------
 
 	paver sdist upload
+	
+
+Tools used for development
+--------------------------
+
+Paved==0.4.1
+Paver==1.0.5
+Sphinx==1.1.3
