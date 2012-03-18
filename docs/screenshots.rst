@@ -63,15 +63,6 @@ The pylab graphs are integrated and can be easily generated with a click.
 For example here we shows hhow the voltage change in a simple model and in 
 a pyramidal one.
 
-Simple model
-------------
-
-A simple 3 sections model showing the different value of the voltage in the 
-cell.
-
-.. image:: _static/voltage_variation_among_time.png
-    :scale: 70
-
 Pyramidal neuron
 ----------------
 
