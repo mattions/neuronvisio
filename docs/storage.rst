@@ -13,9 +13,9 @@ without re-run it.
 .. _hdf: http://www.hdfgroup.org/
 .. _PyTables: http://www.pytables.org
 
-The file has a structure shown in the following images
+The file has a structure shown in the following _static
 
-.. image:: images/hdf_neuronvisio_structure.png
+.. image:: _static/hdf_neuronvisio_structure.png
     :scale: 30
     
 The Refs is the data structure used by Neuronvisio. The `VecRef` is the specialized one. It is possible to add more 
@@ -132,4 +132,4 @@ Then you just need to save the file where is more convenient for you::
 
 When you reload the simulation you will have your variables back        
 
-.. image:: images/Neuronvisio_Refs.png
+.. image:: _static/Neuronvisio_Refs.png

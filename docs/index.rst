@@ -39,12 +39,12 @@ Quick Links
 
 Quick overview of the 3D capabilites. More :ref:`screenshots`. 
 
-.. image:: images/neuronWithSpines.png
+.. image:: _static/neuronWithSpines.png
     :scale: 50
 
 A zoomed version:
 
-.. image:: images/spines_detailed.png
+.. image:: _static/spines_detailed.png
     :scale: 30
 
 Contents
