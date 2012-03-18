@@ -593,12 +593,13 @@ class Manager(object):
         """Create the 3 grid (X,Y,Z) uses to plot wireframe or surface 3D 
         
         :param: distance_dic - dictionary with sections' names as key and 
-        distance as a value
+                distance as a value
         :param: time - Time array
         :param: variable_dic - dictionary with sections' names as key and 
-        array as value
+                array as value
+        :rtype: tuple (X,Y,Z) numpy array
         
-        :rtype: tuple (X,Y,Z) numpy array"""
+        """
         # create a grid
         X_time, Y_distance = np.meshgrid(time, distance_dic.values())
         Z_variable = X_time*0
