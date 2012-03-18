@@ -105,5 +105,3 @@ To stack them in a movie, you can use ffmpeg with the following command::
     
 One of the example video, using the pyrimidal neuron can be seen here: 
 http://www.youtube.com/watch?v=LOuptLKZ5rU
-    
-    
