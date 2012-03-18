@@ -51,8 +51,8 @@ Rendering of a more complex model, a pyramidal neuron.
     :scale: 70
 
 
-Animation and pylab graphs
-==========================
+Timecourse movie and pylab graphs
+=================================
 
 It is possible to follow the timecourse of a variable in the whole neuron or 
 networks using the bottom slider, after the simulation has been ran, 
@@ -90,3 +90,20 @@ number.
 
 .. image:: images/pylab_integration.png
     :scale: 70
+    
+Making a movie
+==============
+
+To make a movie it is possible to call the function::
+
+    controls.make_animation_screenshots(time_start, time_stop)
+    
+which will save all the screenshots in brand new directory (default is anim).
+To stack them in a movie, you can use ffmpeg with the following command::
+
+    ffmpeg -f image2 -r 10 -i %09d.png -sameq anim.mov -pass 2
+    
+One of the example video, using the pyrimidal neuron can be seen here: 
+http://www.youtube.com/watch?v=LOuptLKZ5rU
+    
+    

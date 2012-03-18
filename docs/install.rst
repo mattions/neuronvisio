@@ -16,7 +16,7 @@ To install NeuronVisio you need to satisfy the following dependencies
 - setuptools: http://pypi.python.org/pypi/setuptools
 - pytables: http://www.pytables.org/
 
-and of course NEURON_ compiled with python support
+and of course NEURON_>=7.2 compiled with python support
 
 .. _NEURON: http://www.neuron.yale.edu/neuron/  
 
@@ -66,11 +66,13 @@ which contains most of neuronvisio's dependencies, such as:
 - Enthought Distribution: http://www.enthought.com/products/epd.php (free for an
   academic use)
 - Python(x,y): http://www.pythonxy.com/foreword.php (free)
+
 Alternatively, if you want to do it yourself, you will need to manually install
 and configure the dependencies listed in `Requirements`_
 
 A portable and already compiled version of NEURON for Python is available 
 from https://bitbucket.org/uric/pyneuron/ or simply by using::
+    
     pip install PyNEURON
 
 Proceed to the `Package Install`_ .
