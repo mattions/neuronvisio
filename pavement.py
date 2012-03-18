@@ -6,15 +6,12 @@ from setuptools import find_packages
 import sys, os
 import neuronvisio
 
-from paved import *
-from paved.docs import *
 
 try:
     # Optional tasks, only needed for development
     # -*- Optional import: -*-
     from paved import *
-    from paver.docs import *
-    #import paver.doctools
+    from paved.docs import *
     import paver.virtual
     import paver.misctasks
     ALL_TASKS_LOADED = True
