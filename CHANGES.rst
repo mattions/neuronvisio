@@ -1,5 +1,5 @@
-0.8.1.dev -- Development
-========================
+0.8.1 -- 19 March 2012
+======================
 
 - Added new models on the ModelDB.xml
 - Closed #45
