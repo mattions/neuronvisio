@@ -6,16 +6,17 @@ from setuptools import find_packages
 import sys, os
 import neuronvisio
 
+
 try:
     # Optional tasks, only needed for development
     # -*- Optional import: -*-
-    from github.tools.task import *
-    import paver.doctools
+    from paved import *
+    from paved.docs import *
     import paver.virtual
     import paver.misctasks
     ALL_TASKS_LOADED = True
 except ImportError, e:
-    info("some tasks could not not be imported.")
+    info("some tasks used for neuronvisio development could not not be imported.")
     debug(str(e))
     ALL_TASKS_LOADED = False
 
@@ -49,13 +50,13 @@ entry_points="""
 setup(
     name='neuronvisio',
     version=version,
-    description='Neuronvisio is a Graphical User Interface for NEURON simulator enviroment',
+    description='Neuronvisio is a Graphical User Interface for NEURON simulator environment',
     long_description=open('README.rst', 'r').read(),
     packages = ['neuronvisio', 'neuronvisio.modeldb'],
     package_dir={'neuronvisio': 'neuronvisio'},
     package_data=paver.setuputils.find_package_data(package="neuronvisio", ),
     scripts= ['bin/neuronvisio', 'bin/neuronvisio.bat', 
-              'bin/neuronvisio-modeldb-updater'],
+              'bin/neuronvisio-modeldb-updater', 'bin/neuronvisio-modeldb-updater.bat'],
     classifiers=classifiers,
     keywords='neuron, gui, pylab, 3D, visualization',
     author=authors,
@@ -91,70 +92,14 @@ if ALL_TASKS_LOADED:
     def sdist():
         """Overrides sdist to make sure that our setup.py is generated."""
         print "Package baked."
-        
-@task
-@needs(['gh_pages_build'])
-def gh_pages_build_fix():
-    """Generate the html and fix the _images with image
-    
-    Bug submitted: http://github.com/dinoboff/github-tools/issues#issue/10
-    """
-    import glob
-    import os.path
-    
-    root_dir = 'docs/_build/html/'
-    for filename in glob.glob(os.path.join(root_dir, '*.html')):
-        f = open(filename, 'r')
-        buffer = ""
-        try:
-            for line in f:
-                buffer += line.replace('_images', 'images')
-        except:
-            pass
-        f.close()
-        # reopen and rewriting
-        f = open(filename, 'w')
-        f.write(buffer)
-        f.close()
-    print "html documentation fixed."
-    
-@task
-def build_pdf():
-    """Build the User Manual"""
-    from subprocess import call
-    root = os.getcwd()
-    docs = os.path.join(root, 'docs')
-    pdf_building = os.path.join(docs, '_build/pdf/')
-    manual_filename = 'Neuronvisio_User_Manual.pdf'
-    print "root dir: %s, docs dir: %s" %(root, docs)
-    
-    # building latex
-    call(['sphinx-build', '-b', 'latex', docs, pdf_building])
-    
-    # building pdf
-    os.chdir(pdf_building)
-    call(['pdflatex', 'neuronvisio.tex'])
-    # second round for the toc
-    call(['pdflatex', 'neuronvisio.tex'])
-    
-    #copying the file
-    os.rename(os.path.join(pdf_building, 'neuronvisio.pdf'), 
-              os.path.join(docs, manual_filename))
-    print "Usual Manual created in the docs dir"
+
+
 
 @task
-def build_source_deb():
-    """Build a source debian package of the version supplied"""
-    from subprocess import call
-    import os.path
-    package_ver = neuronvisio.__version__
-    dist_dir = 'dist'
-    package_name = 'neuronvisio' + '-' + package_ver + '.tar.gz'
-    tarball = os.path.join('dist', package_name)
-    call(['py2dsc', tarball])
-    os.chdir(dist_dir)
-    call(['debuild', '-S', '-sa'])
-    os.chdir('..')
+@needs(['docs', 'ghpages'])
+def update_docs():
+    """Generate the website and updates pages on github
+    """
 
 #@task
 #def upload_to_launchpad():

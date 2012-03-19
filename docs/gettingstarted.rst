@@ -94,12 +94,12 @@ Visualization
 
 To visualize you model after you loaded you have to click the Plot3d button.
 
-.. image:: images/neuronvisio_main_control.png
+.. image:: _static/neuronvisio_main_control.png
     
 
 The 3D window will open showing your model:
     
-.. image:: images/Neuronvisio_3D.png
+.. image:: _static/Neuronvisio_3D.png
 
 How to rotate
 -------------
@@ -128,7 +128,7 @@ To plot the simulation's results you first have to create a Vector
 For example if you are interested in the voltage you have to insert `v` 
 in the 'Variable to record` and click `Create Vector`. 
 
-.. image:: images/neuronvisio_main_control.png
+.. image:: _static/neuronvisio_main_control.png
 
 Run the simulation
 ------------------
@@ -136,7 +136,7 @@ Run the simulation
 The simulation can be run clicking on the `Init & Run` button. 
 It will run until the tstop.
 
-.. image:: images/neuronvisio_main_control.png
+.. image:: _static/neuronvisio_main_control.png
     
     
 Plotting the simulation
@@ -150,7 +150,7 @@ many as you want, then click `Plot`
 
 If you want to insert the legend just select the `legend box` 
 
-.. image:: images/plotting_vector_results.png
+.. image:: _static/plotting_vector_results.png
     :scale: 70
 
 Investigate the section parameters
@@ -159,7 +159,7 @@ Investigate the section parameters
 Select a section (Just click over it) and the section info 
 will be displayed in the Sec Info Tab.
 
-.. image:: images/Neuronvisio_sec_info.png
+.. image:: _static/Neuronvisio_sec_info.png
     :scale: 80
     
 ModelDB Integration
@@ -196,7 +196,7 @@ compile and try to launch the mosinit.hoc in the current session, giving the use
 possibility to explore and simulate the model, otherwise opening the folder 
 where the model has been downloaded. 
 
-.. image:: images/neuronvisio_modelDB.png
+.. image:: _static/neuronvisio_modelDB.png
 
 Updating information from ModelDB
 ---------------------------------

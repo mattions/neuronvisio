@@ -3,16 +3,6 @@
 import sys,os
 import neuronvisio
 
-#def _egg_info(path_to_egg='../'):
-#    path_to_egg = os.path.join(
-#        os.path.dirname(__file__), path_to_egg)
-#    egg_info = pkginfo.Develop(path_to_egg)
-#    release = egg_info.version
-#    parsed_version = parse_version(release)
-#    version = '%s.%s' % tuple([int(x) for x in parsed_version[0:2]])
-#    return egg_info.name, egg_info.author, version, release
-
-
 project = "Neuronvisio"
 author = neuronvisio.__authors__
 version = neuronvisio.__version__ 
@@ -24,13 +14,6 @@ extensions = ['sphinx.ext.autodoc', 'sphinx.ext.intersphinx', 'sphinx.ext.todo',
 'sphinx.ext.coverage', 'sphinx.ext.pngmath', 'sphinx.ext.ifconfig', 
 'sphinx.ext.autosummary']
 
-# Adding githubtool only if building for github.
-# not available on readthedocs.
-try:
-    import github.tools.sphinx
-    extensions.append('github.tools.sphinx')
-except:
-    pass
 
 intersphinx_mapping = {'http://docs.python.org/': None}
 htmlhelp_basename = 'Neuronvisiodoc'
@@ -75,7 +58,7 @@ html_theme_path = ['_template']
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static', 'images']
+html_static_path = ['_static']
 
 # If not '', a 'Last updated on:' timestamp is inserted at every page bottom,
 # using the given strftime format.

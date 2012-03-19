@@ -379,19 +379,21 @@ class Manager(object):
         """Sanitize the neuroML """
         import re
         split = sec_name.split('.') # Getting rid of the Cell name
-        sec = ''
-        name = ''
+        sec_sanitezed = None
+        sec_to_sanitize = None
+        m = None
         if len(split) == 1:
-            sec = split[0]
+            sec_to_sanitize = split[0]
         elif len(split) == 2: 
-            name = split[1]
-            m = re.match ('(\w+)\[(\d+)\]', name)
-            if m:
-                sec = m.group(1) +'_'+ m.group(2)
-                
-            else:
-                sec = name
-        return sec
+            sec_to_sanitize = split[1]
+            
+        m = re.match ('(\w+)\[(\d+)\]', sec_to_sanitize)
+        if m:
+            sec_sanitezed = m.group(1) +'_'+ m.group(2)
+            
+        else:
+            sec_sanitezed = sec_to_sanitize
+        return sec_sanitezed
         
     def _save_geom(self, h5file_holder):
         """Store the NeuroML in the geometry table"""
@@ -599,12 +601,13 @@ class Manager(object):
         """Create the 3 grid (X,Y,Z) uses to plot wireframe or surface 3D 
         
         :param: distance_dic - dictionary with sections' names as key and 
-        distance as a value
+                distance as a value
         :param: time - Time array
         :param: variable_dic - dictionary with sections' names as key and 
-        array as value
+                array as value
+        :rtype: tuple (X,Y,Z) numpy array
         
-        :rtype: tuple (X,Y,Z) numpy array"""
+        """
         # create a grid
         X_time, Y_distance = np.meshgrid(time, distance_dic.values())
         Z_variable = X_time*0
