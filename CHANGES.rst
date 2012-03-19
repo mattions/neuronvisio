@@ -5,6 +5,8 @@
 - Closed #45
 - Easy function to export a video as a stack of screenshots
 - Updated the docs to work witht the latest pyqt
+- Geometry node in the HDF is directly a NeuroML string 
+  and not wrapped in a list 
 
 0.8.0 -- 15 Feb 2012
 ====================
