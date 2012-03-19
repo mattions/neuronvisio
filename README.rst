@@ -4,9 +4,9 @@ Neuronvisio
 What is it
 ----------
 
-Neuronvisio is a Graphical User Interface for `NEURON simulator enviroment 
+Neuronvisio is a Graphical User Interface for `NEURON simulator environment 
 <http://www.neuron.yale.edu/neuron/>`_. 
-NeuronVisio connect with NEURON using the new python NEURON interface.
+Neuronvisio connect with NEURON using the new python NEURON interface.
 
 Features
 --------
@@ -31,8 +31,8 @@ Move in the doc directory::
     
 and then launch::
 
-    sphinx-build . html
+    make html
 
-In the html directory you will have the online doc. 
+In the `_build/html` directory you will have the online doc. 
 
 
