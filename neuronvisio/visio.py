@@ -191,7 +191,7 @@ class Visio(object):
             info = "Selected sections: %s" %sections
             self.sec_info_label.setText(info)
     
-    def get_selection_scalar(self, selected_secs):
+    def get_selection_scalar(self, selected_secs, scalar_values=None):
         """ Return a scalar array with zero everywhere but one 
         for the selected sections
         
@@ -200,9 +200,14 @@ class Visio(object):
         """
         
         new_scalar = []
-        for sec in h.allsec():
+        for sec in (h.allsec()):
             if sec.name() in selected_secs:
-                sec_scalar = self.build_sec_scalar(sec, 1.)
+                if scalar_values:
+                    indx = selected_secs.index(sec.name())
+                    sec_scalar = self.build_sec_scalar(sec, scalar_values[indx])
+                    logger.debug(scalar_values[indx])
+                else:
+                    sec_scalar = self.build_sec_scalar(sec, 1.)
             else:
                 sec_scalar = self.build_sec_scalar(sec, 0.)
             new_scalar.extend(sec_scalar) 
@@ -377,6 +382,27 @@ class Visio(object):
                                                   point_scalars=scalar_name)
         self.surf = mlab.pipeline.surface(src2, colormap='blue-red')
         
+    
+    def select_sections(self, secs_list, scalar_values=None):
+        """Gets a set of sections and color them according to the scalar, 
+        if provided.
+        
+        :param: 
+        secs_list = list of the section to color
+        scalar_value = array with the color value (must be between 0 and 1)
+        
+        The position of the array is used for the secs_list
+        
+        Example:
+        secs_list = [sec1, sec2]
+        scalar_values = [0.5, 1.0]
+        sec1 will be coloured with a 0.5 scalar value (middle of the scalar bar), 
+        while sec2 will be coloured with 1.0 scalar value (end of the bar)."""
+    
+        scalar = self.get_selection_scalar(secs_list, scalar_values=scalar_values)
+        self.redraw_color(scalar, 'v')
+        #self.redraw_color(scalar, 'v') # terrible hack. We need to call it twice. y?
+    
     
     def show_variable_timecourse(self, var, time_point, 
                                  start_value, end_value):
