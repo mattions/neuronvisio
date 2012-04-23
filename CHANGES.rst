@@ -1,3 +1,12 @@
+0.8.2 -- 23 Apr 2012
+====================
+
+- Added two new model to ModelDB.xml
+- Introduced a new method to assign a color to more than one sections from 
+  the console
+- Added the apptools patched version as explicit dependency until it's not
+  released officially.
+
 0.8.1 -- 19 March 2012
 ======================
 
