@@ -38,6 +38,7 @@ install_requires = [
     # -*- Install requires: -*-
     'setuptools',
     'ipython>=0.12',
+    'apptools>=4.0.1.dev',
     'traitsui>=4.1.1.dev',
     'mayavi>=4.1.1.dev',
     ]
