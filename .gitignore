@@ -22,3 +22,7 @@ docs/_build
 # Models download folder
 
 src/Models
+
+# paver-lib is generated
+
+paver-minilib.zip
