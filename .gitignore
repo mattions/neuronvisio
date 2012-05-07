@@ -22,6 +22,7 @@ docs/_build
 # Models download folder
 
 src/Models
+Models
 
 # paver-lib is generated
 
