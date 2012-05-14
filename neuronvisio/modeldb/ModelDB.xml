@@ -46338,4 +46338,157 @@ This detailed compartmental model of a CA1 pyramidal neuron is based on one desc
 Reference: Gomez Gonzalez JF, Mel BW, Poirazi P (2012) Distinguishing Linear vs. Non-Linear Integration in CA1 Radial Oblique Dendrites: It's about Time.
   </description>
  </item>
+ <item>
+  <model_id>
+   144482
+  </model_id>
+  <model_concepts>
+   <value>
+    Action Potentials
+   </value>
+   <value>
+    STDP
+   </value>
+   <value>
+    Calcium dynamics
+   </value>
+   <value>
+    Conductance distributions
+   </value>
+  </model_concepts>
+  <transmitters>
+  </transmitters>
+  <name>
+   Pyramidal neuron conductances state and STDP (Delgado et al. 2010)
+  </name>
+  <reference>
+   Delgado JY, Gómez González JF, Desai NS (2010) Pyramidal neuron conductance state gates spike-timing-dependent plasticity  30(47):15713-25
+  </reference>
+  <url>
+   http://senselab.med.yale.edu/modeldb/ShowModel.asp?model=144482
+  </url>
+  <citations>
+   mdbCitations.asp?mode=m&amp;id=144482&amp;twocol=True
+  </citations>
+  <genes>
+  </genes>
+  <readme>
+   &lt;pre&gt;NEURON PROGRAM FOR SIMULATING PYRAMIDAL NEURON CONDUCTANCES STATE AND STDP
+
+Delgado JY, Gómez González JF, Desai NS. Pyramidal neuron conductance
+state gates spike-timing-dependent plasticity. J Neurosci. 2010 Nov
+24;30 (47):15713-25.  doi: 10.1523/JNEUROSCI.3068-10.2010
+
+Folders:
+
+&quot;..\morphology\&quot; : contains the morphology of the model cell 
+&quot;..\mechanism\&quot;  : contains mechanisms of the model cell 
+&quot;..\experiment\&quot; : contains experiments and data of simulations 
+
+
+Instructions:
+
+0- Auto-launch from ModelDB and skip to step 3 or:
+1- Copy all the folders into your computer.
+2- To Compile the mechanisms, you have to execute &quot;clean-compile.bat&quot;
+file in folder &quot;..\mechanism\mechanism_cell1\&quot; (for mswin).  For
+linux/unix compile the mod files with nrnivmodl.
+3- Simulations:    
+
+   a) Execute &quot;run.hoc&quot; from &quot;..\experiment\&quot; folder.
+   b) Fit the morphology variable (diameter and length of dendrites
+   and soma, position and morphology of the spine) and parameters of
+   the mechanisms, etc, if it was necessary.
+   c) There are two options to run:
+          i) One run: Press the &quot;Run&quot; key, in this case, it executes
+          one simulation. If you wanted to save the data, you have to
+          select a &quot;Number of Folder&quot;, for example &quot;1&quot;, and if you
+          press the key &quot;Save&quot;, the data will save in
+          &quot;..\experiment\data_1&quot;.
+
+          ii) Multi-runs: Press the &quot;Auto Runs&quot; key, in this case, it
+          executes multiple simulations. The number of runs is given
+          in &quot;..\experiment\Protocols.hoc&quot; file, in addition, it is
+          able to define the protocols that you want to apply for
+          every run. By default, Delgado et al, 2010 defined the
+          position from the spine to the soma for every run. The data
+          will save automatically into folders named &quot;data_XX&quot;, XX is
+          the distance from the spine to the soma.
+
+
+For questions:
+José Francisco Gómez González, jfcgomez@ull.edu.es
+&lt;/pre&gt;&lt;br /&gt;
+  </readme>
+  <implementers>
+   <value>
+    Gomez-Gonzalez, JF [jfcgomez at ull.edu.es]
+   </value>
+   <value>
+    Delgado JY,  [jyamir at ucla.edu]
+   </value>
+  </implementers>
+  <receptors>
+   <value>
+    AMPA
+   </value>
+   <value>
+    NMDA
+   </value>
+  </receptors>
+  <brain_regions>
+   <value>
+    Auditory cortex
+   </value>
+  </brain_regions>
+  <channels>
+   <value>
+    I Na,p
+   </value>
+   <value>
+    I Sodium
+   </value>
+   <value>
+    I Calcium
+   </value>
+   <value>
+    I Potassium
+   </value>
+   <value>
+    I_AHP
+   </value>
+  </channels>
+  <cell_types>
+   <value>
+    Neocortical pyramidal neuron: superficial
+   </value>
+  </cell_types>
+  <pubmed>
+   http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=Retrieve&amp;db=PubMed&amp;list_uids=21106811&amp;dopt=Abstract
+  </pubmed>
+  <model_type>
+   <value>
+    Neuron or other electrically excitable cell
+   </value>
+  </model_type>
+  <article>
+   http://dx.doi.org/10.1523/JNEUROSCI.3068-10.2010
+  </article>
+  <gap_junctions>
+  </gap_junctions>
+  <zip_url>
+   http://SenseLab.med.Yale.edu/ModelDB/eavBinDown.asp?o=144482&amp;a=23&amp;mime=application/zip
+  </zip_url>
+  <simulation_environment>
+   <value>
+    Neuron
+   </value>
+  </simulation_environment>
+  <description>
+   Neocortical neurons in vivo process each of their individual inputs in the context of ongoing synaptic background activity, produced by the thousands of presynaptic partners a typical neuron has. That background activity affects multiple aspects of neuronal and network function. However, its effect on the induction of spike-timing dependent plasticity (STDP) is not clear.
+Using the present biophysically-detailed computational model, it is not only able to replicate the conductance-dependent shunting of dendritic potentials (Delgado et al,2010), but show that synaptic background can truncate calcium dynamics within dendritic spines, in a way that affects potentiation more strongly than depression.
+This program uses a simplified layer 2/3 pyramidal neuron constructed in NEURON.
+It was similar to the model of Traub et al., J Neurophysiol. (2003), and consisted of a soma, an apical shaft, distal dendrites, five basal dendrites, an axon, and a single spine. The spine&amp;rsquo;s location was variable along the apical shaft (initial 50 &amp;#956;m) and apical. The axon contained an axon hillock region, an initial segment, segments with myelin, and nodes of Ranvier, in order to have realistic action potential generation. For more information about the model see supplemental material, Delgado et al 2010.Reference: Delgado JY, Gómez González JF, Desai NS (2010) Pyramidal neuron conductance state gates spike-timing-dependent plasticity  30(47):15713-25
+  </description>
+ </item>
 </items>
