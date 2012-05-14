@@ -1,3 +1,9 @@
+0.8.2.dev -- 
+============
+
+- Fixed paver minilib, missing from the tarball
+- Added one new model to the ModelDB.xml
+
 0.8.2 -- 23 Apr 2012
 ====================
 
