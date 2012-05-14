@@ -24,6 +24,3 @@ docs/_build
 src/Models
 Models
 
-# paver-lib is generated
-
-paver-minilib.zip
