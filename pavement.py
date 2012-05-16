@@ -97,7 +97,15 @@ if ALL_TASKS_LOADED:
 
 
 @task
-@needs(['docs', 'ghpages'])
+def create_CNAME():
+    "creates the CNAME for the domain when deployed"
+    filename = os.path.join('docs', '_build', 'html', "CNAME")
+    if not os.path.exists(filename): 
+        with open(filename, 'w') as f:
+            f.write("neuronvisio.org")
+
+@task
+@needs(['docs', 'create_CNAME', 'ghpages'])
 def update_docs():
     """Generate the website and updates pages on github
     """
