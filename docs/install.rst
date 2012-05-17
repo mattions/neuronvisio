@@ -100,9 +100,9 @@ can install neuronvisio from PyPi_ typing::
 Running the bleeding edge
 -------------------------
 
-If you want to run the latest code you can clone the git repo and run the software from there::
+If you want to run the latest code, directly from the repo, you can do it using pip::
 
-    git clone git://github.com/mattions/neuronvisio.git neuronvisio
+    pip install -e git+https://github.com/NeuralEnsemble/neuronvisio.git#egg=neuronvisio
 
 then you need to add the directory (the absolute path) to your PYTHONPATH (in bash)::
     
