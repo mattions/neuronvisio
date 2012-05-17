@@ -152,8 +152,14 @@ class Controls(object):
         self.models = Models()
         
     def populate_treeview_model(self, index, filter=""):
-        """populate the tree view and the scroll_area when the tab is 
-        activated"""
+        """Populate the tree view on the gui and the scroll_area when the tab is 
+        activated. 
+        
+        Args:
+            index (int): the index of the activated tab
+            
+            filter (string): the string used to filter the search on the treeview
+            """
         if index == 3 and (filter or not self.tab_model_already_populated):
             self.ui.tree_models.clear()
             
@@ -186,7 +192,7 @@ class Controls(object):
 
        
     def _retrieve_selected_model(self):
-        "Return the model selected in the "
+        "Return the model selected in the treeview"
         items = self.ui.tree_models.selectedItems()
     
         if items:
@@ -202,7 +208,7 @@ class Controls(object):
             return None
        
     def filter_list(self):
-        "Filter the models list using the given text."
+        "Filter the models list using the given text in the filter box"
         filter = self.ui.filter_input.text()
         logger.debug("Filtering list using keyword '%s'" %(filter))
         self.populate_treeview_model(3, filter)
@@ -417,6 +423,17 @@ class Controls(object):
         
     def make_animation_screenshots(self, time_start, time_stop=None,
                                    saving_dir='anim'):
+        """Creates a series of screenshots which can be put together using memcoder 
+        to make a movie
+        
+        Args:
+            time_start (float): time from where to start to take the screenshots
+            
+            time_stop (float): time where to stop. If None will continue till the end
+            
+            saving_dir (string): directory where to save the screenshots. Default is anim
+        
+        """
         from mayavi import mlab
         t = self.manager.get_time()
         indx_start = t.indwhere("==", time_start)
@@ -555,25 +572,7 @@ class Controls(object):
             self.ui.textBrowser_readme.clear()
             self.ui.textBrowser_readme.insertHtml(readme)            
             self.ui.textBrowser_model_overview.clear()
-            self.ui.textBrowser_model_overview.insertHtml(overview)
-
-    
-    def select_sections(self, list_of_sections):
-        """Select an arbitrary number of sections from the 
-        command line.
-        
-        
-        :param: list_of_section - the list of sections to select. Each section should
-                          be given by the name (sec.name() from Neuron point 
-                          of view. 
-        """
-        if self.visio is not None:
-            selection_scalar = self.visio.get_selection_scalar(list_of_sections)
-            self.visio.redraw_color(selection_scalar, 'v')
-            self.visio.update_sections_info(list_of_sections)
-        else:
-            logger.warning("You have to launch the 3D Visio window first!")
-    
+            self.ui.textBrowser_model_overview.insertHtml(overview)  
                 
     def sync_visio_3d(self, time_point_indx):
         

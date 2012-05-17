@@ -5,14 +5,17 @@ Neuronvisio
 What is it
 ==========
 
-Neuronvisio is a Graphical User Interface for `NEURON simulator enviroment 
+Neuronvisio is a Graphical User Interface for `NEURON simulator environment 
 <http://www.neuron.yale.edu/neuron/>`_ with 3D capabilities. Neuronvisio 
 makes easy to select and investigate sections' properties and it offers 
 easy integration with matplotlib for plotting the results. 
 
-The geometry can be saved using NeuroML and the computational results in 
+The geometry can be saved using NeuroML_ and the computational results in 
 a customised and extensible HDF5 format; the results can then be reload in the software
 and analysed in a later stage, without re-running the simulation.
+
+.. _NeuroML: http://www.neuroml.org/
+
 
 Features
 ========
@@ -22,6 +25,9 @@ Features
 - Pylab integration to plot directly the result of the simulation
 - Exploration of the timecourse of any variable among time using a color coded scale
 - Saving the results simulation for later analysis
+- Automatic download and running of models in ModelDB_
+
+.. _ModelDB: http://senselab.med.yale.edu/modeldb/
 
 Quick Links
 =========== 

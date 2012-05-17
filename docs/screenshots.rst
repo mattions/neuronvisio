@@ -1,14 +1,8 @@
 .. _screenshots:
 
-***********
-Screenshots
-***********
-
-Everybody loves screenshots, so here we go. 
-
-*Notice: Some of the screenshots are missing the modelDB tabs, 'cause 
-the functionality was added at later stage. We decided to keep them,
-'cause they are stil informative to what you can do with Neuronvisio.* 
+****************************************
+How to take screenshots and make movies
+****************************************
 
 GUI control
 ===========
@@ -85,11 +79,11 @@ number.
 Making a movie
 ==============
 
-To make a movie it is possible to call the function::
+To make a movie it is possible to call the function :py:class:`neuronvisio.controls.Controls.make_animation_screenshots`::
 
     controls.make_animation_screenshots(time_start, time_stop=None, 
                                         saving_dir='anim')
-    
+
 which will save all the screenshots in brand new directory (default is anim).
 To stack them in a movie, you can use ffmpeg with the following command::
 

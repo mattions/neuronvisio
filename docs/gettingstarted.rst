@@ -6,16 +6,16 @@ How does it work
 ================
 
 To run Neuronvisio you can either use the provided `neuronvisio` executable,
-which will create an ipython_ session:
+which will create an ipython_ session::
 
-$ neuronvisio
+    $ neuronvisio
 
 .. _ipython: http://ipython.org/
 
 .. note:: On windows, you can launch it with `neuronvisio.bat` 
 
 or you can start ipython and load neuronvisio from within your script, 
-as explained in section `How to integrate NeuronVisio with your code`_ 
+as explained in section `How to integrate Neuronvisio with your code`_ 
 
 If you start ipython with the `--pylab=qt` switch and get and error like:: 
 
@@ -52,7 +52,7 @@ the prompt as you would do normally when using _NEURON.
 
 .. NEURON: http://www.neuron.yale.edu/neuron/
 
-How to integrate NeuronVisio with your code
+How to integrate Neuronvisio with your code
 ===========================================
 
 The integration is rather simple and you can use either the python or the hoc 
