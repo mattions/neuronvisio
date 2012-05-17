@@ -3,6 +3,8 @@
 
 - Fixed paver minilib, missing from the tarball
 - Added one new model to the ModelDB.xml
+- Improved the documentation of several classes
+- Inserted the domain in the about (neuronvisio.org)
 
 0.8.2 -- 23 Apr 2012
 ====================
