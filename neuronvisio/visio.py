@@ -387,17 +387,24 @@ class Visio(object):
         """Gets a set of sections and color them according to the scalar, 
         if provided.
         
-        :param: 
-        secs_list = list of the section to color
-        scalar_value = array with the color value (must be between 0 and 1)
+        Args:
+         
+            secs_list (list): list of the section to color
+            
+            scalar_value (float): array with the color value (must be between 0 and 1)
         
         The position of the array is used for the secs_list
         
         Example:
-        secs_list = [sec1, sec2]
-        scalar_values = [0.5, 1.0]
-        sec1 will be coloured with a 0.5 scalar value (middle of the scalar bar), 
-        while sec2 will be coloured with 1.0 scalar value (end of the bar)."""
+        
+            secs_list = [sec1, sec2]
+            
+            scalar_values = [0.5, 1.0]
+            
+            sec1 will be coloured with a 0.5 scalar value (middle of the scalar bar), 
+            while sec2 will be coloured with 1.0 scalar value (end of the bar).
+        
+        """
     
         scalar = self.get_selection_scalar(secs_list, scalar_values=scalar_values)
         self.redraw_color(scalar, 'v')
