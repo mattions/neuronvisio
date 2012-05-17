@@ -552,7 +552,7 @@ class Controls(object):
                 h.fadvance()
     
                 self.ui.time_label.setText("<b>" + str(h.t) + "</b>")
-        self.animation()
+            self.animation()
             
     def save_hdf(self):
         if not self.path_to_hdf:
