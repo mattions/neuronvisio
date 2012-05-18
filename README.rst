@@ -16,8 +16,9 @@ Features
 - Pylab integration to plot directly the result of the simulation
 - Exploration of the timecourse of any variable among time using a color coded scale
 - the GUI runs in its own thread so it's possible to use the console (integrated with IPython)
+- automatically download and load models from `ModelDB <http://senselab.med.yale.edu/modeldb/>`_
 
-More info are available on the homepage: http://mattions.github.com/neuronvisio/
+More info are available on the homepage: http://neuronvisio.org
 
 Offline Documentation
 ---------------------
