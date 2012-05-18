@@ -62,7 +62,7 @@ setup(
     keywords='neuron, gui, pylab, 3D, visualization',
     author=authors,
     author_email=authors_email,
-    url='http://mattions.github.com/neuronvisio/',
+    url='http://neuronvisio.org',
     license='GPLv3',
     include_package_data=True,
     zip_safe=False,
