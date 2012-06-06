@@ -1,0 +1,477 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>neuronvisio.manager – Manage the map between vectors and sections &mdash; Neuronvisio 0.8.3 documentation</title>
+    
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.8.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Neuronvisio 0.8.3 documentation" href="index.html" />
+    <link rel="up" title="Reference" href="reference.html" />
+    <link rel="next" title="neuronvisio.visio – 3D Visual operations" href="visio.html" />
+    <link rel="prev" title="Reference" href="reference.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="visio.html" title="neuronvisio.visio – 3D Visual operations"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="reference.html" title="Reference"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Neuronvisio 0.8.3 documentation</a> &raquo;</li>
+          <li><a href="reference.html" accesskey="U">Reference</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#"><tt class="docutils literal"><span class="pre">neuronvisio.manager</span></tt> &#8211; Manage the map between vectors and sections</a><ul>
+<li><a class="reference internal" href="#manager"><tt class="docutils literal"><span class="pre">Manager</span></tt></a></li>
+<li><a class="reference internal" href="#baseref"><tt class="docutils literal"><span class="pre">BaseRef</span></tt></a></li>
+<li><a class="reference internal" href="#vecref"><tt class="docutils literal"><span class="pre">VecRef</span></tt></a></li>
+<li><a class="reference internal" href="#synvecref"><tt class="docutils literal"><span class="pre">SynVecRef</span></tt></a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="reference.html"
+                        title="previous chapter">Reference</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="visio.html"
+                        title="next chapter"><tt class="docutils literal docutils literal"><span class="pre">neuronvisio.visio</span></tt> &#8211; 3D Visual operations</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/manager.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-neuronvisio.manager">
+<span id="neuronvisio-manager-manage-the-map-between-vectors-and-sections"></span><h1><a class="reference internal" href="#module-neuronvisio.manager" title="neuronvisio.manager"><tt class="xref py py-mod docutils literal"><span class="pre">neuronvisio.manager</span></tt></a> &#8211; Manage the map between vectors and sections<a class="headerlink" href="#module-neuronvisio.manager" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">synopsis:</th><td class="field-body">Manage the map between vectors and sections</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="manager">
+<h2><a class="reference internal" href="#neuronvisio.manager.Manager" title="neuronvisio.manager.Manager"><tt class="xref py py-class docutils literal"><span class="pre">Manager</span></tt></a><a class="headerlink" href="#manager" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="neuronvisio.manager.Manager">
+<em class="property">class </em><tt class="descclassname">neuronvisio.manager.</tt><tt class="descname">Manager</tt><a class="headerlink" href="#neuronvisio.manager.Manager" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Manager class can be used as a library and imported on cluster 
+simulation. Refer to the online doc for how to save in HDF5 and how to 
+create New Generic Ref.</p>
+<dl class="method">
+<dt id="neuronvisio.manager.Manager.add_all_vecRef">
+<tt class="descname">add_all_vecRef</tt><big>(</big><em>var</em>, <em>time_interval_recording=None</em>, <em>point_process=None</em><big>)</big><a class="headerlink" href="#neuronvisio.manager.Manager.add_all_vecRef" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create the vector for all the section present in the model 
+with the given variable
+:param var: The variable to record</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="neuronvisio.manager.Manager.add_ref">
+<tt class="descname">add_ref</tt><big>(</big><em>generic_ref</em>, <em>x</em><big>)</big><a class="headerlink" href="#neuronvisio.manager.Manager.add_ref" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a generic ref to manager.refs dictionary. If a list of the ref of 
+the same type is already present, the <cite>genercref</cite> will be added, otherwise the list
+will be created.
+<cite>x</cite> is the indipendent variable which should be used to when the genericref is 
+plotted from the Neuronvisio UI.</p>
+<p><cite>generic_ref</cite> &#8211; the ref to add to the manager.ref list
+<cite>x</cite> &#8211; indipendent varialbe use to plot the variable from the genericref</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="neuronvisio.manager.Manager.add_synVecRef">
+<tt class="descname">add_synVecRef</tt><big>(</big><em>synapse</em><big>)</big><a class="headerlink" href="#neuronvisio.manager.Manager.add_synVecRef" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add the synVecRef object to the list</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>synapse</strong> &#8211; The synapse to record.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="neuronvisio.manager.Manager.add_vecRef">
+<tt class="descname">add_vecRef</tt><big>(</big><em>var</em>, <em>sec</em>, <em>time_interval_recording=None</em>, <em>point_process=None</em><big>)</big><a class="headerlink" href="#neuronvisio.manager.Manager.add_vecRef" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add the vecRef to the vec_res list. It takes care to create the vector 
+and record the given variable.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>var</strong> &#8211; The variable to record</li>
+<li><strong>sec</strong> &#8211; The section where to record</li>
+<li><strong>time_interval_recording</strong> &#8211; If None, use the dt of Neuron. 
+Specify which interval to use to record the vectors. 
+Note the same resolution should apply to the time 
+vectors.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">True if the vector is created successfully.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="neuronvisio.manager.Manager.create_3d_grid">
+<tt class="descname">create_3d_grid</tt><big>(</big><em>distance_dic</em>, <em>time</em>, <em>variable_dic</em><big>)</big><a class="headerlink" href="#neuronvisio.manager.Manager.create_3d_grid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create the 3 grid (X,Y,Z) uses to plot wireframe or surface 3D</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Param :</th><td class="field-body">distance_dic - dictionary with sections&#8217; names as key and 
+distance as a value</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Param :</th><td class="field-body">time - Time array</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Param :</th><td class="field-body">variable_dic - dictionary with sections&#8217; names as key and 
+array as value</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">tuple (X,Y,Z) numpy array</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="neuronvisio.manager.Manager.create_new_dir">
+<tt class="descname">create_new_dir</tt><big>(</big><em>prefix='./'</em>, <em>root='Sims'</em><big>)</big><a class="headerlink" href="#neuronvisio.manager.Manager.create_new_dir" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create the directory where to put the simulation</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="neuronvisio.manager.Manager.create_record_vector">
+<tt class="descname">create_record_vector</tt><big>(</big><em>sec</em>, <em>var</em>, <em>time_interval_recording</em><big>)</big><a class="headerlink" href="#neuronvisio.manager.Manager.create_record_vector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create the vector which will record the variable
+Will pass the first pointprocess to make sure the recording 
+are thread safe.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="neuronvisio.manager.Manager.create_time_record">
+<tt class="descname">create_time_record</tt><big>(</big><em>time_interval_recording=None</em>, <em>point_process=None</em><big>)</big><a class="headerlink" href="#neuronvisio.manager.Manager.create_time_record" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create the vector to record time. If not time_interval specified the 
+NEURON default is used.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="neuronvisio.manager.Manager.find_point_process">
+<tt class="descname">find_point_process</tt><big>(</big><em>sec</em><big>)</big><a class="headerlink" href="#neuronvisio.manager.Manager.find_point_process" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find a point_process in a section if any.</p>
+<dl class="docutils">
+<dt>Params:</dt>
+<dd>sec - Section to search</dd>
+<dt>Return:</dt>
+<dd>point_process or None if not present.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="neuronvisio.manager.Manager.get_distance">
+<tt class="descname">get_distance</tt><big>(</big><em>sections</em>, <em>base_sec</em><big>)</big><a class="headerlink" href="#neuronvisio.manager.Manager.get_distance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a dictionary with section names as keys and 
+distance from base_sec to specified point as value in microns</p>
+<dl class="docutils">
+<dt>param:</dt>
+<dd>secs: list of section which distance need to be calculated
+base_sec: section from where the distance should be measured from.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="neuronvisio.manager.Manager.get_time">
+<tt class="descname">get_time</tt><big>(</big><big>)</big><a class="headerlink" href="#neuronvisio.manager.Manager.get_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the vector time associated with the voltage</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="neuronvisio.manager.Manager.get_tree">
+<tt class="descname">get_tree</tt><big>(</big><em>sec</em><big>)</big><a class="headerlink" href="#neuronvisio.manager.Manager.get_tree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the minimal tree of section 
+Using the given section as the last leaf</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sec</strong> &#8211; The section that will be used as the last leaf</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The section&#8217;s tree in a list format</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="neuronvisio.manager.Manager.get_vector">
+<tt class="descname">get_vector</tt><big>(</big><em>sec</em>, <em>var</em>, <em>group='VecRef'</em><big>)</big><a class="headerlink" href="#neuronvisio.manager.Manager.get_vector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the vec that record the var in a given section</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>sec</strong> &#8211; Section of interest or the name of the section</li>
+<li><strong>var</strong> &#8211; variable recorded by the vector.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">the vector that record the variable var</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="neuronvisio.manager.Manager.get_vectors">
+<tt class="descname">get_vectors</tt><big>(</big><em>section_list</em>, <em>var</em><big>)</big><a class="headerlink" href="#neuronvisio.manager.Manager.get_vectors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a dictionary containing the vector which record the var. The 
+section name is used as key.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>section_list</strong> &#8211; The list of the section which is interested</li>
+<li><strong>var</strong> &#8211; The variable of interest</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The dictionary with section name as key and the vector as the value</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">dictionary</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="neuronvisio.manager.Manager.load_from_hdf">
+<tt class="descname">load_from_hdf</tt><big>(</big><em>filename</em><big>)</big><a class="headerlink" href="#neuronvisio.manager.Manager.load_from_hdf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load all the results on the hvf in memory</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="neuronvisio.manager.Manager.plot3D">
+<tt class="descname">plot3D</tt><big>(</big><em>sections</em>, <em>base_sec</em>, <em>var</em><big>)</big><a class="headerlink" href="#neuronvisio.manager.Manager.plot3D" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrap up module to plot in three Dimensions the voltage the distance and the time 
+:param: sections - list of section to consider
+:param: base_sec - section used as a starting pooint for the distance
+:param: var - variable to plot</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="neuronvisio.manager.Manager.plot_vecs">
+<tt class="descname">plot_vecs</tt><big>(</big><em>vecs_dic</em>, <em>x=None</em>, <em>legend=True</em>, <em>figure_num=None</em>, <em>points=False</em><big>)</big><a class="headerlink" href="#neuronvisio.manager.Manager.plot_vecs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the vectors with plt</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>vecs_dic</strong> &#8211; dictionary with section name as k and the vec obj as value</li>
+<li><strong>var</strong> &#8211; Which variable we are plotting.</li>
+<li><strong>legend</strong> &#8211; If True the legend is plotted</li>
+<li><strong>figure_num</strong> &#8211; in which figure we want to plot the line</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="neuronvisio.manager.Manager.sanitized_sec">
+<tt class="descname">sanitized_sec</tt><big>(</big><em>sec_name</em><big>)</big><a class="headerlink" href="#neuronvisio.manager.Manager.sanitized_sec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sanitize the neuroML</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="neuronvisio.manager.Manager.save_node">
+<tt class="descname">save_node</tt><big>(</big><em>h5file_holder</em>, <em>group_path</em>, <em>section_name</em>, <em>variables</em>, <em>detail=''</em><big>)</big><a class="headerlink" href="#neuronvisio.manager.Manager.save_node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save a node to the h5file.
+h5file_holder: The holder of the h5file
+group_path: Where in the hierarchy the leaf has to be saved
+section_name: The name of the section which the variables belong to
+variables: The dictionary of the variable</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="neuronvisio.manager.Manager.sum_vector">
+<tt class="descname">sum_vector</tt><big>(</big><em>vec1</em>, <em>vec2</em><big>)</big><a class="headerlink" href="#neuronvisio.manager.Manager.sum_vector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sums two vectors with the same length. The vector are 
+converted in numpy array and then summed together</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>vec1</strong> &#8211; First addendum</li>
+<li><strong>vec2</strong> &#8211; Second addendum</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The numpy array sum of the two.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">Numpy array</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="baseref">
+<h2><a class="reference internal" href="#neuronvisio.manager.BaseRef" title="neuronvisio.manager.BaseRef"><tt class="xref py py-class docutils literal"><span class="pre">BaseRef</span></tt></a><a class="headerlink" href="#baseref" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="neuronvisio.manager.BaseRef">
+<em class="property">class </em><tt class="descclassname">neuronvisio.manager.</tt><tt class="descname">BaseRef</tt><a class="headerlink" href="#neuronvisio.manager.BaseRef" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base Ref class. Subclass it to create your own ref.</p>
+<p>Initialize the attribute for the baseRef with empty string none</p>
+</dd></dl>
+
+</div>
+<div class="section" id="vecref">
+<h2><a class="reference internal" href="#neuronvisio.manager.VecRef" title="neuronvisio.manager.VecRef"><tt class="xref py py-class docutils literal"><span class="pre">VecRef</span></tt></a><a class="headerlink" href="#vecref" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="neuronvisio.manager.VecRef">
+<em class="property">class </em><tt class="descclassname">neuronvisio.manager.</tt><tt class="descname">VecRef</tt><big>(</big><em>sec</em><big>)</big><a class="headerlink" href="#neuronvisio.manager.VecRef" title="Permalink to this definition">¶</a></dt>
+<dd><p>Specialized class for HocVectors class to associate one or more vectors with a section</p>
+<p>Create a vecRef object which map the section name and the 
+recorded vectors.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sec</strong> &#8211; The section which all the vectors belong</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="synvecref">
+<h2><a class="reference internal" href="#neuronvisio.manager.SynVecRef" title="neuronvisio.manager.SynVecRef"><tt class="xref py py-class docutils literal"><span class="pre">SynVecRef</span></tt></a><a class="headerlink" href="#synvecref" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="neuronvisio.manager.SynVecRef">
+<em class="property">class </em><tt class="descclassname">neuronvisio.manager.</tt><tt class="descname">SynVecRef</tt><big>(</big><em>chan_type=None</em>, <em>section_name=None</em>, <em>vecs=None</em><big>)</big><a class="headerlink" href="#neuronvisio.manager.SynVecRef" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class to track all the synapse quantity of interest</p>
+<p>Create a synVecRef object which map the synapse position and name 
+and the recorded vectors in it.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>chan_type</strong> &#8211; The channel in the synapse</li>
+<li><strong>section_name</strong> &#8211; Name of the section where the synapse is</li>
+<li><strong>vecs</strong> &#8211; Dictionary with the synapse vecs</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="visio.html" title="neuronvisio.visio – 3D Visual operations"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="reference.html" title="Reference"
+             >previous</a> |</li>
+        <li><a href="index.html">Neuronvisio 0.8.3 documentation</a> &raquo;</li>
+          <li><a href="reference.html" >Reference</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2009 -2012, Michele Mattioni.
+      Last updated on Jun 06, 2012.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

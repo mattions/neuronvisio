@@ -1,0 +1,196 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>How to take screenshots and make movies &mdash; Neuronvisio 0.8.3 documentation</title>
+    
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.8.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Neuronvisio 0.8.3 documentation" href="index.html" />
+    <link rel="next" title="Reference" href="reference.html" />
+    <link rel="prev" title="Saving and loading simulations’ reults" href="storage.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="reference.html" title="Reference"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="storage.html" title="Saving and loading simulations’ reults"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Neuronvisio 0.8.3 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">How to take screenshots and make movies</a><ul>
+<li><a class="reference internal" href="#gui-control">GUI control</a></li>
+<li><a class="reference internal" href="#dimensions-with-a-simple-model">3-Dimensions with a simple model</a></li>
+<li><a class="reference internal" href="#dimensions-with-a-complex-model">3-Dimensions with a complex model</a></li>
+<li><a class="reference internal" href="#timecourse-movie-and-pylab-graphs">Timecourse movie and pylab graphs</a><ul>
+<li><a class="reference internal" href="#pyramidal-neuron">Pyramidal neuron</a></li>
+<li><a class="reference internal" href="#pylab-integration">Pylab integration</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#making-a-movie">Making a movie</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="storage.html"
+                        title="previous chapter">Saving and loading simulations&#8217; reults</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="reference.html"
+                        title="next chapter">Reference</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/screenshots.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="how-to-take-screenshots-and-make-movies">
+<span id="screenshots"></span><h1>How to take screenshots and make movies<a class="headerlink" href="#how-to-take-screenshots-and-make-movies" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="gui-control">
+<h2>GUI control<a class="headerlink" href="#gui-control" title="Permalink to this headline">¶</a></h2>
+<p>This is the Controls window. You can create vectors and run simulations. The time shows
+you the time of the <a class="reference external" href="http://www.neuron.yale.edu/neuron/">NEURON</a> simulator.</p>
+<p>You can change the <cite>tstop</cite>, the <cite>dt</cite> and the initial voltage from the GUI or
+the console.</p>
+<img alt="_images/Neuronvisio_Controls_Init_and_Run.png" src="_images/Neuronvisio_Controls_Init_and_Run.png" />
+</div>
+<div class="section" id="dimensions-with-a-simple-model">
+<h2>3-Dimensions with a simple model<a class="headerlink" href="#dimensions-with-a-simple-model" title="Permalink to this headline">¶</a></h2>
+<p>Rendering of a simple model with 3 section.</p>
+<img alt="_images/Simple_model.png" src="_images/Simple_model.png" />
+<p>The neurons is rendered using the Mayavi pipeline, where is possibile to choose
+from different colormap and additional filters.
+Using the <cite>GnBu</cite> colormap with the Axes.</p>
+<a class="reference internal image-reference" href="_images/nrnvisio-mayavi-color.png"><img alt="_images/nrnvisio-mayavi-color.png" src="_images/nrnvisio-mayavi-color.png" style="width: 784.0px; height: 645.4px;" /></a>
+<p>Using the <cite>red-blue</cite> colormap with the Axes.</p>
+<a class="reference internal image-reference" href="_images/nrnvisio-mayavi-color2.png"><img alt="_images/nrnvisio-mayavi-color2.png" src="_images/nrnvisio-mayavi-color2.png" style="width: 774.9px; height: 644.7px;" /></a>
+</div>
+<div class="section" id="dimensions-with-a-complex-model">
+<h2>3-Dimensions with a complex model<a class="headerlink" href="#dimensions-with-a-complex-model" title="Permalink to this headline">¶</a></h2>
+<p>Rendering of a more complex model, a pyramidal neuron.</p>
+<a class="reference internal image-reference" href="_images/Neuronvisio_3D.png"><img alt="_images/Neuronvisio_3D.png" src="_images/Neuronvisio_3D.png" style="width: 518.7px; height: 464.8px;" /></a>
+</div>
+<div class="section" id="timecourse-movie-and-pylab-graphs">
+<h2>Timecourse movie and pylab graphs<a class="headerlink" href="#timecourse-movie-and-pylab-graphs" title="Permalink to this headline">¶</a></h2>
+<p>It is possible to follow the timecourse of a variable in the whole neuron or
+networks using the bottom slider, after the simulation has been ran,
+or reloaded. If a particular point in time is of interest, insert in the
+animation Time line textfield and hit return.</p>
+<p>The pylab graphs are integrated and can be easily generated with a click.
+For example here we shows hhow the voltage change in a simple model and in
+a pyramidal one.</p>
+<div class="section" id="pyramidal-neuron">
+<h3>Pyramidal neuron<a class="headerlink" href="#pyramidal-neuron" title="Permalink to this headline">¶</a></h3>
+<p>The propagation of the voltage among the neuron. The stimul was given in the
+soma.</p>
+<a class="reference internal image-reference" href="_images/pyramidal_3D_change_voltage.png"><img alt="_images/pyramidal_3D_change_voltage.png" src="_images/pyramidal_3D_change_voltage.png" style="width: 711.2px; height: 521.5px;" /></a>
+</div>
+<div class="section" id="pylab-integration">
+<h3>Pylab integration<a class="headerlink" href="#pylab-integration" title="Permalink to this headline">¶</a></h3>
+<p>It is possible to use the standard pylab tool and to plot the timecourses in
+the current figure, or create a new one just selecting another output figure
+number.</p>
+<a class="reference internal image-reference" href="_images/pylab_integration.png"><img alt="_images/pylab_integration.png" src="_images/pylab_integration.png" style="width: 662.2px; height: 609.7px;" /></a>
+</div>
+</div>
+<div class="section" id="making-a-movie">
+<h2>Making a movie<a class="headerlink" href="#making-a-movie" title="Permalink to this headline">¶</a></h2>
+<p>To make a movie it is possible to call the function <a class="reference internal" href="controls.html#neuronvisio.controls.Controls.make_animation_screenshots" title="neuronvisio.controls.Controls.make_animation_screenshots"><tt class="xref py py-class docutils literal"><span class="pre">neuronvisio.controls.Controls.make_animation_screenshots</span></tt></a>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">controls</span><span class="o">.</span><span class="n">make_animation_screenshots</span><span class="p">(</span><span class="n">time_start</span><span class="p">,</span> <span class="n">time_stop</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                                    <span class="n">saving_dir</span><span class="o">=</span><span class="s">&#39;anim&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>which will save all the screenshots in brand new directory (default is anim).
+To stack them in a movie, you can use ffmpeg with the following command:</p>
+<div class="highlight-python"><pre>ffmpeg -f image2 -r 10 -i %09d.png -sameq anim.mov -pass 2</pre>
+</div>
+<p>One of the example video, using the pyrimidal neuron can be seen here:
+<a class="reference external" href="http://www.youtube.com/watch?v=LOuptLKZ5rU">http://www.youtube.com/watch?v=LOuptLKZ5rU</a></p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="reference.html" title="Reference"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="storage.html" title="Saving and loading simulations’ reults"
+             >previous</a> |</li>
+        <li><a href="index.html">Neuronvisio 0.8.3 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2009 -2012, Michele Mattioni.
+      Last updated on Jun 06, 2012.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>
