@@ -32,12 +32,16 @@ Features
 How to cite Neuronvisio
 =======================
 
-The paper describing Neuronvisio_ has been published in `Frontiers Neuroinformatics`_.
+The paper describing Neuronvisio_ has been published in `Frontiers Neuroinformatics`_, 
+here the text citation:
 
 .. note:: Mattioni M, Cohen U and Le Novère N (2012) Neuronvisio: a graphical user interface with 3D capabilities for NEURON. Front. Neuroinform. 6:20. doi: 10.3389/fninf.2012.00020
 
-.. _Frontiers Neuroinformatics: http://www.frontiersin.org/neuroinformatics/10.3389/fninf.2012.00020
+or get the BibTeX_.
+
+.. _Frontiers Neuroinformatics: http://www.frontiersin.org/neuroinformatics/10.3389/fninf.2012.00020/abstract
 .. _Neuronvisio: http://neuronvisio.org
+.. _BibTeX: _static/Mattioni_Neuronvisio.bib
 
 Quick Links
 =========== 
