@@ -102,7 +102,7 @@ def create_CNAME():
     filename = os.path.join('docs', '_build', 'html', "CNAME")
     if not os.path.exists(filename): 
         with open(filename, 'w') as f:
-            f.write("neuronvisio.org")
+            f.write("neuronvisio.org\n")
 
 @task
 @needs(['docs', 'create_CNAME', 'ghpages'])
