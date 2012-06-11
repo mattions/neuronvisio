@@ -27,3 +27,4 @@ Tools used for development
 Paved==0.4.1
 Paver==1.0.5
 Sphinx==1.1.3
+ghp-import==0.1.8
