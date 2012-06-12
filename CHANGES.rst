@@ -1,3 +1,9 @@
+0.8.4 -- 12 Jun 2012
+====================
+
+- Added new model to the ModelDBlist
+- updated the documentation
+
 0.8.3 -- 18 May 2012 
 ====================
 
