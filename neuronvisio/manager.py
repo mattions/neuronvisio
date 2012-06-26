@@ -20,7 +20,10 @@
 from neuron import h
 import numpy as np
 import os
-import tables
+try:
+    import tables
+except ImportError:
+    print "You will not able to save in HDF because you don't have pytables installed."
 import datetime
 import matplotlib
 import matplotlib.pyplot as plt
