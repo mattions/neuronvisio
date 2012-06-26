@@ -39,6 +39,7 @@ install_requires = [
     'setuptools',
     'ipython>=0.12',
     'apptools>=4.1.0',
+    'traits>=4.2.0',
     'traitsui>=4.2.0',
     'mayavi>=4.2.0',
     ]
