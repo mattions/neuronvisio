@@ -35,7 +35,7 @@ is default on Python 2.7 (Version 2 is default on Python 3.)
 
 To solve this you can either define the varaible `QT_API==pyqt`, e.g. in bash::
 
-    $ export QT_API==pyqt
+    $ export QT_API=pyqt
     $ ipython --pylab=qt
     
 Or you can launch ipython without pylab support, load neuronvisio and then 
