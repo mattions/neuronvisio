@@ -91,3 +91,15 @@ To stack them in a movie, you can use ffmpeg with the following command::
     
 One of the example video, using the pyrimidal neuron can be seen here: 
 http://www.youtube.com/watch?v=LOuptLKZ5rU
+
+
+Networks
+========
+
+If you're NEURON model has Network instantiated, yes we can do that. 
+The model has been taken from neuroConstruct_ example of the `Cerebellum Networks`_. 
+
+.. _neuroConstruct: http://www.neuroconstruct.org
+.. _Cerebellum Networks: /samples/index.html#Ex6_CerebellumDemo-N101EA
+
+.. image:: _static/cerebellum_network.png
