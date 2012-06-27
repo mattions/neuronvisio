@@ -22,7 +22,7 @@ def load_neuronvisio(ipshell):
     return ipshell
 
 if __name__ == '__main__':
-
+	
     try: 
         # check if inside an ipython session
         # Not need to launch ipshell() at the end, 'cause already running
@@ -33,7 +33,7 @@ if __name__ == '__main__':
     except NameError: 
         # Not IPython running, create an ad hoc ipshell and launching.
         from IPython.frontend.terminal.embed import InteractiveShellEmbed
-        ipshell = InteractiveShellEmbed()
+        ipshell = InteractiveShellEmbed(display_banner=False)
         ipshell = load_neuronvisio(ipshell)
         ipshell()
 

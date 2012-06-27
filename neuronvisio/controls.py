@@ -59,6 +59,10 @@ import res # icons
 # ModelDb
 from modeldb.ModelDB import Models
 
+class ExtensionNotRecognised(Exception):
+    pass
+
+
 class Controls(object):
     """Main class Neuronvisio"""
     def __init__(self):
@@ -333,19 +337,38 @@ class Controls(object):
             pass
 
     def load(self, path_to_file=None):
-        """General loading method. It loads either an hoc file or 
-        a hdf5 file. The file type is recognised on the extension"""
+        """General loading method. It loads either:
+        - an hoc file
+        - a NeuroML file
+        - a hdf5 file. The file type is recognised on the extension"""
         if path_to_file == None:
             filename = QtGui.QFileDialog.getOpenFileName()
             if filename:
                 path_to_file = str(filename)
         
         base_name, file_extension = os.path.splitext(path_to_file)
-        if (file_extension == '.hoc'):
-            file_path, hoc_file = os.path.split(path_to_file)
-            self.load_hoc_model(file_path, hoc_file)
-        else:
-            self.load_hdf(path_to_file)
+        try:
+            if (file_extension == '.hoc'):
+                file_path, hoc_file = os.path.split(path_to_file)
+                self.load_hoc_model(file_path, hoc_file)
+            elif (file_extension == ".xml"):
+                self.manager.load_neuroml(path_to_file)
+            elif (file_extension == ".h5"):
+                self.load_hdf(path_to_file)
+            else:
+                raise ExtensionNotRecognised
+        except ExtensionNotRecognised:
+        
+            msg= """
+            File extension not recognised!! 
+            Neuronvisio was not able to recognise the file extension. 
+            Extensions recognised:
+                    .xml - NeuroML
+                    .hoc - NEURON hoc file
+                    .h5 - HDF file formatted according to Neuronvisio format.
+                    """
+            logger.error(msg)
+            
 
     def load_hdf(self, path_to_hdf):
     

@@ -504,6 +504,13 @@ class Manager(object):
         self._load_geom(filename)
         self._load_allRef(filename)
         
+    def load_neuroml(self, filename):
+        """This loads neuroml, using the internal Neuron loader"""
+        h.load_file('celbild.hoc')
+        cb = h.CellBuild(0)
+        cb.manage.neuroml(filename)
+        logger.info(("File %s has been loaded. Check the output if any errors has occurred") %filename)
+        
     
     def _load_geom(self, filename):
         """Load the geometry of the model"""
