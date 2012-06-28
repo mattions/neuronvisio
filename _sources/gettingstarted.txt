@@ -19,30 +19,6 @@ which will create an ipython_ session::
 or you can start ipython and load neuronvisio from within your script, 
 as explained in section `How to integrate Neuronvisio with your code`_ 
 
-If you start ipython with the `--pylab=qt` switch and get and error like:: 
-
-    	/usr/local/lib/python2.7/dist-packages/pyface/qt/__init__.py in prepare_pyqt4()
-         15     # Set PySide compatible APIs.
-    
-         16     import sip
-    ---> 17     sip.setapi('QString', 2)
-         18     sip.setapi('QVariant', 2)
-         19 
-    
-    	ValueError: API 'QString' has already been set to version 1
-	 
-
-It means ipython has loaded the PyQt4 using the Version 1 of the API, which
-is default on Python 2.7 (Version 2 is default on Python 3.) 
-
-To solve this you can either define the varaible `QT_API==pyqt`, e.g. in bash::
-
-    $ export QT_API=pyqt
-    $ ipython --pylab=qt
-    
-Or you can launch ipython without pylab support, load neuronvisio and then 
-load pylab with the magic `%pylab`.
-
 To load Neuronvisio just paste this two lines in ipython::
 
     from neuronvisio.controls import Controls 
@@ -50,7 +26,7 @@ To load Neuronvisio just paste this two lines in ipython::
 
 The Control class run the main loop of the application with all the GUI activities
 in its own thread. The console is ready for input so you can enter your command to 
-the prompt as you would do normally when using _NEURON.
+the prompt as you would do normally when using NEURON_.
 
 .. _NEURON: http://www.neuron.yale.edu/neuron/
 
@@ -232,3 +208,46 @@ It should be noted that the model extraction from ModelDB is slowed down
 to 1/sec in order to avoid loading the site. Also this process only 
 update the file with models which do not exist in the local XML file 
 and does not currently refresh the content of existing ones.
+
+Troubleshooting
+===============
+
+If you start ipython with the `--pylab=qt` switch and get and error like:: 
+
+    	/usr/local/lib/python2.7/dist-packages/pyface/qt/__init__.py in prepare_pyqt4()
+         15     # Set PySide compatible APIs.
+    
+         16     import sip
+    ---> 17     sip.setapi('QString', 2)
+         18     sip.setapi('QVariant', 2)
+         19 
+    
+    	ValueError: API 'QString' has already been set to version 1
+	 
+
+It means ipython has loaded the PyQt4 using the Version 1 of the API, which
+is default on Python 2.7 (Version 2 is default on Python 3.) 
+
+To solve this you can either define the variable `QT_API=pyqt`, e.g. in bash::
+
+    $ export QT_API=pyqt
+    $ ipython --pylab=qt
+    
+Or you can launch ipython without pylab support, load Neuronvisio and then 
+load pylab with the magic `%pylab`.
+
+If when you try to plot matplotlib segfault, you may have the wrong backend selected. 
+Neuronvisio try to set the right backed, but if you start ipython with --pylab, automatically
+a bakcend is loaded and we can't change it due to matplotlib technical limitation.
+
+To solve this, just `customize your matplotlibrc`_ downloading the matplotlibrc_, saving 
+the file in `.matplotlib/matplotlibrc` and changing the backend to `Qt4Agg`, from:: 
+
+	backend      : GTKAgg
+
+to::
+
+	backend      : Qt4Agg
+
+.. _matplotlibrc: http://matplotlib.sourceforge.net/_static/matplotlibrc
+.. _customize your matplotlibrc: http://matplotlib.sourceforge.net/users/customizing.html#customizing-matplotlib

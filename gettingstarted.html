@@ -85,6 +85,7 @@
 <li><a class="reference internal" href="#updating-information-from-modeldb">Updating information from ModelDB</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#troubleshooting">Troubleshooting</a></li>
 </ul>
 </li>
 </ul>
@@ -135,25 +136,6 @@ which will create an <a class="reference external" href="http://ipython.org/">ip
 </div>
 <p>or you can start ipython and load neuronvisio from within your script,
 as explained in section <a class="reference internal" href="#how-to-integrate-neuronvisio-with-your-code">How to integrate Neuronvisio with your code</a></p>
-<p>If you start ipython with the <cite>&#8211;pylab=qt</cite> switch and get and error like:</p>
-<div class="highlight-python"><pre>    /usr/local/lib/python2.7/dist-packages/pyface/qt/__init__.py in prepare_pyqt4()
-     15     # Set PySide compatible APIs.
-
-     16     import sip
----&gt; 17     sip.setapi('QString', 2)
-     18     sip.setapi('QVariant', 2)
-     19
-
-    ValueError: API 'QString' has already been set to version 1</pre>
-</div>
-<p>It means ipython has loaded the PyQt4 using the Version 1 of the API, which
-is default on Python 2.7 (Version 2 is default on Python 3.)</p>
-<p>To solve this you can either define the varaible <cite>QT_API==pyqt</cite>, e.g. in bash:</p>
-<div class="highlight-python"><pre>$ export QT_API=pyqt
-$ ipython --pylab=qt</pre>
-</div>
-<p>Or you can launch ipython without pylab support, load neuronvisio and then
-load pylab with the magic <cite>%pylab</cite>.</p>
 <p>To load Neuronvisio just paste this two lines in ipython:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">neuronvisio.controls</span> <span class="kn">import</span> <span class="n">Controls</span>
 <span class="n">controls</span> <span class="o">=</span> <span class="n">Controls</span><span class="p">()</span>   <span class="c"># starting the GUI</span>
@@ -161,7 +143,7 @@ load pylab with the magic <cite>%pylab</cite>.</p>
 </div>
 <p>The Control class run the main loop of the application with all the GUI activities
 in its own thread. The console is ready for input so you can enter your command to
-the prompt as you would do normally when using _NEURON.</p>
+the prompt as you would do normally when using <a class="reference external" href="http://www.neuron.yale.edu/neuron/">NEURON</a>.</p>
 <p>You can also load 3 different formats right now:</p>
 <ol class="arabic simple">
 <li>A NeuroML file (.xml)</li>
@@ -303,6 +285,38 @@ current <cite>ModelDB.xml</cite> is stored, and update with the latest items, if
 to 1/sec in order to avoid loading the site. Also this process only
 update the file with models which do not exist in the local XML file
 and does not currently refresh the content of existing ones.</p>
+</div>
+</div>
+<div class="section" id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this headline">¶</a></h2>
+<p>If you start ipython with the <cite>&#8211;pylab=qt</cite> switch and get and error like:</p>
+<div class="highlight-python"><pre>    /usr/local/lib/python2.7/dist-packages/pyface/qt/__init__.py in prepare_pyqt4()
+     15     # Set PySide compatible APIs.
+
+     16     import sip
+---&gt; 17     sip.setapi('QString', 2)
+     18     sip.setapi('QVariant', 2)
+     19
+
+    ValueError: API 'QString' has already been set to version 1</pre>
+</div>
+<p>It means ipython has loaded the PyQt4 using the Version 1 of the API, which
+is default on Python 2.7 (Version 2 is default on Python 3.)</p>
+<p>To solve this you can either define the variable <cite>QT_API=pyqt</cite>, e.g. in bash:</p>
+<div class="highlight-python"><pre>$ export QT_API=pyqt
+$ ipython --pylab=qt</pre>
+</div>
+<p>Or you can launch ipython without pylab support, load Neuronvisio and then
+load pylab with the magic <cite>%pylab</cite>.</p>
+<p>If when you try to plot matplotlib segfault, you may have the wrong backend selected.
+Neuronvisio try to set the right backed, but if you start ipython with &#8211;pylab, automatically
+a bakcend is loaded and we can&#8217;t change it due to matplotlib technical limitation.</p>
+<p>To solve this, just <a class="reference external" href="http://matplotlib.sourceforge.net/users/customizing.html#customizing-matplotlib">customize your matplotlibrc</a> downloading the <a class="reference external" href="http://matplotlib.sourceforge.net/_static/matplotlibrc">matplotlibrc</a>, saving
+the file in <cite>.matplotlib/matplotlibrc</cite> and changing the backend to <cite>Qt4Agg</cite>, from:</p>
+<div class="highlight-python"><pre>backend      : GTKAgg</pre>
+</div>
+<p>to:</p>
+<div class="highlight-python"><pre>backend      : Qt4Agg</pre>
 </div>
 </div>
 </div>
