@@ -337,10 +337,14 @@ class Controls(object):
             pass
 
     def load(self, path_to_file=None):
-        """General loading method. It loads either:
-        - an hoc file
-        - a NeuroML file
-        - a hdf5 file. The file type is recognised on the extension"""
+        """
+        General loading method for any kind of format.
+        Extensions recognised:
+        .xml - NeuroML
+        .hoc - NEURON hoc file
+        .h5 - HDF file formatted according to Neuronvisio format.
+        The file type is recognised using the extension.
+        """
         if path_to_file == None:
             filename = QtGui.QFileDialog.getOpenFileName()
             if filename:
