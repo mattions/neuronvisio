@@ -17,8 +17,8 @@ the console.
 
 .. image:: _static/Neuronvisio_Controls_Init_and_Run.png
 
-3-Dimensions with a simple model
-================================
+3-D rendering
+=============
 
 Rendering of a simple model with 3 section.
 
@@ -36,8 +36,8 @@ Using the `red-blue` colormap with the Axes.
 .. image:: _static/nrnvisio-mayavi-color2.png
 	:scale: 70
 
-3-Dimensions with a complex model
-=================================
+3-rendering of a 3d-points reconstructed model
+----------------------------------------------
 
 Rendering of a more complex model, a pyramidal neuron.
 
@@ -68,7 +68,21 @@ soma.
 
 The `pyramidal example`_ is shipped with Neuronvisio.
 
-.. pyramidal example: https://github.com/mattions/neuronvisio/tree/master/examples/pyramidal
+.. _pyramidal example: https://github.com/mattions/neuronvisio/tree/master/examples/pyramidal
+
+Medium Spiny Neuron with explicit spines modelled
+-------------------------------------------------
+
+There are more than 4000 sections in this model, where each spine is individually modelled 
+and distributed on the MSN body.
+
+.. image:: _static/neuronWithSpines.png
+    :scale: 50
+
+A zoomed version, with one spine's head selected.
+
+.. image:: _static/spines_detailed.png
+    :scale: 30
 
 Pylab integration
 -----------------
@@ -79,7 +93,21 @@ number.
 
 .. image:: _static/pylab_integration.png
     :scale: 70
-    
+
+Network example
+===============
+
+Neuronvisio can handle the visualization of networks.
+For example check out the `Cerebellum Networks`_ example, ported to NEURON with 
+neuroConstruct_. 
+
+This `Cerebellum Network example`_ is shipped with Neuronvisio code.
+
+.. _neuroConstruct: http://www.neuroconstruct.org
+.. _Cerebellum Networks:  http://www.neuroconstruct.org/samples/index.html#Ex6_CerebellumDemo-N101EA
+.. _Cerebellum Network example: https://github.com/mattions/neuronvisio/tree/master/examples/cerebellum_network
+.. image:: _static/cerebellum_network.png
+
 Making a movie
 ==============
 
@@ -95,18 +123,3 @@ To stack them in a movie, you can use ffmpeg with the following command::
     
 One of the example video, using the pyrimidal neuron can be seen here: 
 http://www.youtube.com/watch?v=LOuptLKZ5rU
-
-
-Network example
-===============
-
-Neuronvisio can handle the visualization of networks.
-For example check out the `Cerebellum Networks`_ example, ported to NEURON with 
-neuroConstruct_. 
-
-This `Cerebellum Network example`_ is shipped with Neuronvisio code
-
-.. _neuroConstruct: http://www.neuroconstruct.org
-.. _Cerebellum Networks:  http://www.neuroconstruct.org/samples/index.html#Ex6_CerebellumDemo-N101EA
-.. _Cerebellum Network example: https://github.com/mattions/neuronvisio/tree/master/examples/cerebellum_network
-.. image:: _static/cerebellum_network.png

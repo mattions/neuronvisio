@@ -1,3 +1,5 @@
+.. _getting started:
+
 ***************
 Getting Started
 ***************
@@ -50,7 +52,21 @@ The Control class run the main loop of the application with all the GUI activiti
 in its own thread. The console is ready for input so you can enter your command to 
 the prompt as you would do normally when using _NEURON.
 
-.. NEURON: http://www.neuron.yale.edu/neuron/
+.. _NEURON: http://www.neuron.yale.edu/neuron/
+
+You can also load 3 different formats right now:
+
+1. A NeuroML file (.xml)
+2. A NEURON hoc file hoc file (.hoc)
+3. A HDF file formatted according to Neuronvisio format, (.h5). Check `storage`.  
+
+to load any of them just pass it as an argument::
+
+	$ neuronvisio path/to/my/file.hoc (or .h5, or .xml)
+
+.. note: The import of the NeuroML is done using the current NeuroML importer facilities provided with NEURON, which they are not working all the time. When released, we will switch to libNeuroML_. 
+
+.. _libNeuroML: https://github.com/NeuralEnsemble/libNeuroML
 
 How to integrate Neuronvisio with your code
 ===========================================
@@ -84,7 +100,9 @@ A classical template is::
     from neuronvisio.controls import Controls
     from neuron import h 
     controls = Controls()   # starting the GUI
-    h.load_file('path/to/my_model.hoc')
+    controls.load('path/to/my_model.hoc')
+
+Loading a model alre
 
 Neuronvisio features
 ====================
