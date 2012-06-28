@@ -17,14 +17,14 @@
 
 #@PydevCodeAnalysisIgnoren
 import os
-from pyface.qt import QtGui, QtCore 
-from PyQt4 import uic
-
+import sys
+sys.path.append(os.path.dirname(__file__))
 from subprocess import call
-from manager import SynVecRef
-os.environ['ETS_TOOLKIT'] = 'qt4'
 
+from neuron import h
+h.load_file("stdrun.hoc")
 
+# Logging
 import logging
 FORMAT = '%(levelname)s %(name)s %(lineno)s   %(message)s'
 if os.environ.has_key('DEBUG'):
@@ -33,28 +33,38 @@ else:
     logging.basicConfig(level=logging.INFO, format=FORMAT)
 logger = logging.getLogger(__name__)
 
-import sys
-sys.path.append(os.path.dirname(__file__)) 
+import matplotlib as mpl
+import matplotlib.backends
+if mpl.backends.backend is not "Qt4Agg":
+    msg = "Neuronvisio works only with the Qt4Agg backend." 
+    msg += " Your current backend is %s." %mpl.backends.backend
+    msg += " Please change it to Qt4Agg following the instruction at "
+    msg += "http://neuronvisio.org/gettingstarted.html#picking-the-right-backend"
+    
+    logger.error(msg)
+elif mpl.backends.backend == None:
+    mpl.use('Qt4Agg')
+mpl.interactive(True)
+
+import numpy as np
+
+os.environ['ETS_TOOLKIT'] = 'qt4'
+from pyface.qt import QtGui, QtCore 
+from PyQt4 import uic
 
 if os.name != 'nt':
     from PyQt4 import QtGui, QtCore, uic
 
 from PyQt4.QtCore import Qt
-import numpy as np
 
-import matplotlib as mpl
-if mpl.backends.backend is None: 
-    mpl.use('Qt4Agg')
-mpl.interactive(True)
 
-from neuron import h
-h.load_file("stdrun.hoc")
 
 # Visio
 
 from visio import Visio
 import manager
 import res # icons
+from manager import SynVecRef
 
 # ModelDb
 from modeldb.ModelDB import Models
