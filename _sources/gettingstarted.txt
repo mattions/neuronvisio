@@ -236,6 +236,9 @@ To solve this you can either define the variable `QT_API=pyqt`, e.g. in bash::
 Or you can launch ipython without pylab support, load Neuronvisio and then 
 load pylab with the magic `%pylab`.
 
+Picking the right backend
+-------------------------
+
 If when you try to plot matplotlib segfault, you may have the wrong backend selected. 
 Neuronvisio try to set the right backed, but if you start ipython with --pylab, automatically
 a bakcend is loaded and we can't change it due to matplotlib technical limitation.
