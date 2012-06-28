@@ -100,6 +100,6 @@ If you're NEURON model has Network instantiated, yes we can do that.
 The model has been taken from neuroConstruct_ example of the `Cerebellum Networks`_. 
 
 .. _neuroConstruct: http://www.neuroconstruct.org
-.. _Cerebellum Networks: /samples/index.html#Ex6_CerebellumDemo-N101EA
+.. _Cerebellum Networks:  http://www.neuroconstruct.org/samples/index.html#Ex6_CerebellumDemo-N101EA
 
 .. image:: _static/cerebellum_network.png
