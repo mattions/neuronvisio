@@ -27,7 +27,7 @@ from neuron import h
 #import neuron.gui
 
 # Load the script
-h.load_file("demo.hoc")
+controls.load("demo.hoc")
 
 
 ## Insert an IClamp
