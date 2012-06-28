@@ -60,11 +60,15 @@ a pyramidal one.
 Pyramidal neuron
 ----------------
 
-The propagation of the voltage among the neuron. The stimul was given in the 
+The propagation of the voltage among the neuron. The stimuli was given in the 
 soma.
 
 .. image:: _static/pyramidal_3D_change_voltage.png
     :scale: 70
+
+The `pyramidal example`_ is shipped with Neuronvisio.
+
+.. pyramidal example: https://github.com/mattions/neuronvisio/tree/master/examples/pyramidal
 
 Pylab integration
 -----------------
@@ -93,13 +97,16 @@ One of the example video, using the pyrimidal neuron can be seen here:
 http://www.youtube.com/watch?v=LOuptLKZ5rU
 
 
-Networks
-========
+Network example
+===============
 
-If you're NEURON model has Network instantiated, yes we can do that. 
-The model has been taken from neuroConstruct_ example of the `Cerebellum Networks`_. 
+Neuronvisio can handle the visualization of networks.
+For example check out the `Cerebellum Networks`_ example, ported to NEURON with 
+neuroConstruct_. 
+
+This `Cerebellum Network example`_ is shipped with Neuronvisio code
 
 .. _neuroConstruct: http://www.neuroconstruct.org
 .. _Cerebellum Networks:  http://www.neuroconstruct.org/samples/index.html#Ex6_CerebellumDemo-N101EA
-
+.. _Cerebellum Network example: https://github.com/mattions/neuronvisio/tree/master/examples/cerebellum_network
 .. image:: _static/cerebellum_network.png
