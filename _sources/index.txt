@@ -29,6 +29,30 @@ Features
 
 .. _ModelDB: http://senselab.med.yale.edu/modeldb/
 
+How to use it
+=============
+
+Launch it from the terminal::
+
+	$ neuronvisio
+
+then check the :ref:`getting started` section for more info.
+
+Quick Links
+=========== 
+
+- Install Neuronvisio: :ref:`install`
+- Browse the code: `Github Repo`_
+- Subscribe to the Mailing List: `Google group`_   
+- Read the docs of any versions: `Read the docs`_
+- Report an issue: `Issues tracker`_ 
+
+.. _Google group: http://groups.google.com/group/neuronvisio
+.. _github repo:  http://github.com/mattions/neuronvisio
+.. _Issues tracker:  http://github.com/mattions/neuronvisio/issues
+.. _Read the docs: http://readthedocs.org/docs/neuronvisio/
+
+
 How to cite Neuronvisio
 =======================
 
@@ -42,30 +66,6 @@ or get the BibTeX_.
 .. _Frontiers Neuroinformatics: http://www.frontiersin.org/neuroinformatics/10.3389/fninf.2012.00020/abstract
 .. _Neuronvisio: http://neuronvisio.org
 .. _BibTeX: _static/Mattioni_Neuronvisio.bib
-
-Quick Links
-=========== 
-
-- **Install Neuronvisio:** :ref:`install`
-- **Browse the code:** `Github Repo`_
-- **Subscribe to the Mailing List:** `Google group`_   
-- **Read the docs of any versions:** `Read the docs`_
-- **Report an issue:** `Issues tracker`_ 
-
-.. _Google group: http://groups.google.com/group/neuronvisio
-.. _github repo:  http://github.com/mattions/neuronvisio
-.. _Issues tracker:  http://github.com/mattions/neuronvisio/issues
-.. _Read the docs: http://readthedocs.org/docs/neuronvisio/
-
-Quick overview of the 3D capabilites. More :ref:`screenshots`. 
-
-.. image:: _static/neuronWithSpines.png
-    :scale: 50
-
-A zoomed version:
-
-.. image:: _static/spines_detailed.png
-    :scale: 30
 
 Contents
 ========
