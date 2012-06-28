@@ -51,7 +51,7 @@ Alternatively, if you want to do it yourself, you should look at the following:
 - Scipy SuperPack: http://fonnesbeck.github.com/ScipySuperpack/
 - PyQt4: http://www.riverbankcomputing.co.uk/software/pyqt/download
   
-Next, see the instructions on installation of NEURON with Python availabe at
+Next, see the instructions on installation of NEURON with Python available at
 http://www.davison.webfactional.com/notes/installation-neuron-python/.
 
 Proceed to the `Package Install`_ .
