@@ -46893,4 +46893,411 @@ paper:
    &quot;Equations have been developed to describe cardiac action potentials and pacemaker activity.  The model takes account of extensive developments in experimental work ...&quot;Reference: DiFrancesco D, Noble D (1985) A model of cardiac electrical activity incorporating ionic pumps and concentration changes.  307:353-98
   </description>
  </item>
+ <item>
+  <model_id>
+   144526
+  </model_id>
+  <model_concepts>
+   <value>
+    Action Potential Initiation
+   </value>
+   <value>
+    Action Potentials
+   </value>
+  </model_concepts>
+  <transmitters>
+  </transmitters>
+  <name>
+   State and location dependence of action potential metabolic cost (Hallermann et al., 2012)
+  </name>
+  <reference>
+   Hallermann S, de Kock CP, Stuart GJ, Kole MH (2012) State and location dependence of action potential metabolic cost in cortical pyramidal neurons
+  </reference>
+  <url>
+   http://senselab.med.yale.edu/modeldb/ShowModel.asp?model=144526
+  </url>
+  <citations>
+   mdbCitations.asp?mode=m&amp;id=144526&amp;twocol=True
+  </citations>
+  <genes>
+  </genes>
+  <readme>
+   &lt;pre&gt;This model reproduces Figure 6a and 6b and Supplementary Figure 5b of
+the article
+
+&quot;State and location dependence of action potential metabolic cost in
+cortical pyramidal neurons&quot;. Nature Neuroscience (2012)
+doi:10.1038/nn.3132
+
+When the folder is compiled using the mknrndll script the simulation
+can be started with &quot;mosinit.hoc&quot;.
+
+The newly developed model of the axonal K+ currents (Kv1_axonal.mod)
+was based on step evoked K+ currents including activation,
+deactivation and inactivation protocols as well as steady state
+curves. To describe the activation, eight Hodgkin-Huxley gates were
+used (n^8). To describe the biphasic inactivation and recovery from
+inactivation, two populations of channels with different
+Hodgkin-Huxley inactivation gates were used (n^8*h1^+n^8*h2).
+
+To analyze the AP efficiency and the ATP usage on a subcellular level,
+the Na+/K+ charge overlap, the excess Na+ influx and the ATP usage
+were calculated as RANGE variables (charge.mod).
+
+Executing &quot;ch()&quot; in the terminal shell (see charge.hoc) will print
+average ATP usage per cellular compartment as shown below (some of the
+information is exported into text files).
+
+-------------------------------------------------------------------------
+
+The Na influx was analyzed from 517.000000 to 535.000000 ms
+Required ATP molecules to pump Na ions out:
+Total: 1.998503e+08
+Soma: 1.416016e+07
+Basal dendrite: 4.609883e+07
+Apical dendrite: 9.149446e+07
+Axon Initial Segment: 2.498228e+07
+Axon collaterals: 2.095502e+07
+Myelin: 7.227968e+05
+Node: 1.436733e+06
+
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------
+
+Required ATP molecules to pump Na ions out per um^2:
+Total: 2.818287e+03
+Soma: 6.810007e+03
+Basal dendrite: 2.531221e+03
+Apical dendrite: 2.213969e+03
+Axon Initial Segment: 5.531797e+04
+Axon collaterals: 3.932075e+03
+Myelin: 2.081271e+02
+Node: 3.517895e+04
+-------------------------------------------------------------------------
+Total area (um^2): 7.091197e+04
+Soma area (um^2): 2.079316e+03
+-------------------------------------------------------------------------
+
+For questions please contact s.hallermann@eni-g.de or
+m.kole@nin.knaw.nl
+
+
+June 12th 2012, Stefan Hallermann
+&lt;/pre&gt;&lt;br /&gt;
+  </readme>
+  <implementers>
+   <value>
+    Hallermann, Stefan [s.hallermann at eni-g.de]
+   </value>
+   <value>
+    Kole, Maarten [m.kole at nin.knaw.nl]
+   </value>
+  </implementers>
+  <receptors>
+  </receptors>
+  <brain_regions>
+   <value>
+    Neocortex
+   </value>
+  </brain_regions>
+  <channels>
+   <value>
+    I Na,t
+   </value>
+   <value>
+    I K
+   </value>
+  </channels>
+  <cell_types>
+   <value>
+    Neocortical pyramidal neuron: deep
+   </value>
+  </cell_types>
+  <pubmed>
+   http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=Retrieve&amp;db=PubMed&amp;list_uids=22660478&amp;dopt=Abstract
+  </pubmed>
+  <model_type>
+   <value>
+    Neuron or other electrically excitable cell
+   </value>
+  </model_type>
+  <article>
+   http://dx.doi.org/10.1038/nn.3132
+  </article>
+  <gap_junctions>
+  </gap_junctions>
+  <zip_url>
+   http://SenseLab.med.Yale.edu/ModelDB/eavBinDown.asp?o=144526&amp;a=23&amp;mime=application/zip
+  </zip_url>
+  <simulation_environment>
+   <value>
+    Neuron
+   </value>
+  </simulation_environment>
+  <description>
+   With this model of a layer 5 pyramidal neuron the state and location dependence of the ATP usage and the metabolic efficiency of action potentials can be analyzed. Model parameters were constrained by direct subcellular recordings at dendritic, somatic and axonal compartments.Reference: Hallermann S, de Kock CP, Stuart GJ, Kole MH (2012) State and location dependence of action potential metabolic cost in cortical pyramidal neurons
+  </description>
+ </item>
+ <item>
+  <model_id>
+   144549
+  </model_id>
+  <model_concepts>
+   <value>
+    Pattern Recognition
+   </value>
+   <value>
+    Coincidence Detection
+   </value>
+   <value>
+    Temporal Pattern Generation
+   </value>
+   <value>
+    Synchronization
+   </value>
+   <value>
+    Attractor Neural Network
+   </value>
+  </model_concepts>
+  <transmitters>
+  </transmitters>
+  <name>
+   Hopfield and Brody model (Hopfield, Brody 2000) (NEURON+python)
+  </name>
+  <reference>
+   1. Hopfield JJ, Brody CD (2001) What is a moment? Transient synchrony as a collective mechanism for spatiotemporal integration.  98:1282-72. Hopfield JJ, Brody CD (2000) What is a moment? &quot;Cortical&quot; sensory integration over a brief interval.  97:13919-24
+  </reference>
+  <url>
+   http://senselab.med.yale.edu/modeldb/ShowModel.asp?model=144549
+  </url>
+  <citations>
+   mdbCitations.asp?mode=m&amp;id=144549&amp;twocol=True
+  </citations>
+  <genes>
+  </genes>
+  <readme>
+   &lt;pre&gt;
+Demonstration of Hopfield-Brody snychronization using artificial cells in NEURON+python.
+
+The main file in this demonstration is net.py
+
+To use:
+ 1. unzip the contents of the zip file
+ 2. nrnivmodl , to compile the mod files
+ 3. ./x86_64/special -python net.py
+
+The third step will run the simulation for 500 ms of simulation time and display
+the spikes of the cells as red dots. The vertical blue lines indicate the
+synchronization between the cells. The third step also assumes your computer's
+architecture is 64-bit. If not, then the special file will be created in a
+different sub-directory.
+
+
+This demo was originally written by Bill Lytton and then later translated to python
+by Sam Neymotin. 
+
+For questions/comments contact Sam Neymotin:
+ samuel dot neymotin at yale dot edu
+  or
+ samn at neurosim dot downstate dot edu
+
+&lt;/pre&gt;&lt;br /&gt;
+  </readme>
+  <implementers>
+   <value>
+    Lytton, William [billl at neurosim.downstate.edu]
+   </value>
+   <value>
+    Neymotin, Sam [samn at neurosim.downstate.edu]
+   </value>
+  </implementers>
+  <receptors>
+  </receptors>
+  <brain_regions>
+  </brain_regions>
+  <channels>
+  </channels>
+  <cell_types>
+  </cell_types>
+  <pubmed>
+   http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=Retrieve&amp;db=PubMed&amp;list_uids=11158631&amp;dopt=Abstract
+  </pubmed>
+  <model_type>
+   <value>
+    Network
+   </value>
+  </model_type>
+  <article>
+   http://dx.doi.org/10.1073/pnas.031567098
+  </article>
+  <gap_junctions>
+  </gap_junctions>
+  <zip_url>
+   http://SenseLab.med.Yale.edu/ModelDB/eavBinDown.asp?o=144549&amp;a=23&amp;mime=application/zip
+  </zip_url>
+  <simulation_environment>
+   <value>
+    Neuron
+   </value>
+   <value>
+    Python
+   </value>
+  </simulation_environment>
+  <description>
+   Demonstration of Hopfield-Brody snychronization using artificial cells in NEURON+python.References: 1. Hopfield JJ, Brody CD (2001) What is a moment? Transient synchrony as a collective mechanism for spatiotemporal integration.  98:1282-72. Hopfield JJ, Brody CD (2000) What is a moment? &quot;Cortical&quot; sensory integration over a brief interval.  97:13919-24
+  </description>
+ </item>
+ <item>
+  <model_id>
+   144541
+  </model_id>
+  <model_concepts>
+   <value>
+    Detailed Neuronal Models
+   </value>
+   <value>
+    Epilepsy
+   </value>
+   <value>
+    Synaptic Integration
+   </value>
+  </model_concepts>
+  <transmitters>
+  </transmitters>
+  <name>
+   CA1 pyramidal neuron: Ih current (Migliore et al. 2012)
+  </name>
+  <reference>
+   Migliore M, Migliore R (2012) Know your current I: interaction with a shunting current explains the puzzling effects of its pharmacological or pathological modulations
+  7(5):e36867-
+  </reference>
+  <url>
+   http://senselab.med.yale.edu/modeldb/ShowModel.asp?model=144541
+  </url>
+  <citations>
+   mdbCitations.asp?mode=m&amp;id=144541&amp;twocol=True
+  </citations>
+  <genes>
+  </genes>
+  <readme>
+   &lt;pre&gt;
+NEURON files from the paper:
+
+Migliore M, Migliore R (2012) Know Your Current Ih: Interaction with a
+Shunting Current Explains the Puzzling Effects of Its Pharmacological
+or Pathological Modulations. PLoS ONE 7(5): e36867.
+doi:10.1371/journal.pone.0036867
+
+
+The non-specific, hyperpolarization activated, Ih current is
+particularly involved in epilepsy and it exhibits an excitatory or
+inhibitory action on synaptic integration in an apparently
+inconsistent way. With a series of simulations, using a realistic
+model, we show how and why a shunting current, such as that carried by
+TASK-like channels, dependent on the Ih peak conductance, is able to
+explain virtually all experimental findings on Ih up- or
+down-regulation by modulators or pathological conditions.
+
+The hoc file &quot; fig-5a&quot; is a typical simulation file, for illustration
+purposes only, that reproduces the results reported in Fig. 5a:
+
+&lt;img src=&quot;.\getModelFile.asp?model=144541&amp;amp;AttrID=23&amp;amp;file=\Ih_current\.\screenshot.png&quot; alt=&quot;screenshot&quot; /&gt;
+
+It tests the peak somatic membrane potential as a function of synaptic
+stimulation strength using I_lk with lk = 0.7 (i.e. 70% of the peak Ih
+conductance) under control conditions (red) and no Ih (blue).  Ih
+increases the peak depolarization for weak inputs and reduces it for
+stronger inputs.
+
+Under unix systems:
+to compile the mod files use the command
+nrnivmodl
+and run the simulation hoc file with the command
+nrniv fig-5a.hoc
+
+
+Under Windows systems:
+to compile the mod files use the &quot;mknrndll&quot; command.
+A double click on the simulation file
+fig-5a.hoc
+will open the simulation window.
+
+
+Questions on how to use this model should be directed to
+michele.migliore@cnr.it
+&lt;/pre&gt;
+  </readme>
+  <implementers>
+   <value>
+    Migliore, Michele [Michele.Migliore at Yale.edu]
+   </value>
+  </implementers>
+  <receptors>
+  </receptors>
+  <brain_regions>
+   <value>
+    Hippocampus
+   </value>
+  </brain_regions>
+  <channels>
+   <value>
+    I Na,t
+   </value>
+   <value>
+    I A
+   </value>
+   <value>
+    I K
+   </value>
+   <value>
+    I M
+   </value>
+   <value>
+    I IR,Q,h
+   </value>
+   <value>
+    I Potassium
+   </value>
+  </channels>
+  <cell_types>
+   <value>
+    CA1 pyramidal neuron
+   </value>
+  </cell_types>
+  <pubmed>
+   http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=Retrieve&amp;db=PubMed&amp;list_uids=22606301&amp;dopt=Abstract
+  </pubmed>
+  <model_type>
+   <value>
+    Synapse
+   </value>
+   <value>
+    Channel
+   </value>
+  </model_type>
+  <article>
+   http://dx.doi.org/10.1371/journal.pone.0036867
+  </article>
+  <gap_junctions>
+  </gap_junctions>
+  <zip_url>
+   http://SenseLab.med.Yale.edu/ModelDB/eavBinDown.asp?o=144541&amp;a=23&amp;mime=application/zip
+  </zip_url>
+  <simulation_environment>
+   <value>
+    Neuron
+   </value>
+  </simulation_environment>
+  <description>
+   NEURON files from the paper:
+Migliore M, Migliore R (2012) Know Your Current Ih: Interaction with a Shunting Current Explains the Puzzling Effects of Its Pharmacological or
+Pathological Modulations. PLoS ONE 7(5): e36867.
+doi:10.1371/journal.pone.0036867.
+
+
+Experimental findings on the effects of Ih current modulation, which is particularly involved in epilepsy, appear to be inconsistent. In the paper, using a realistic model we show  how and why a shunting current, such as that carried by TASK-like channels, dependent on the Ih peak conductance is able to explain virtually all experimental findings on Ih up- or down-regulation by modulators or pathological conditions.
+Reference: Migliore M, Migliore R (2012) Know your current I: interaction with a shunting current explains the puzzling effects of its pharmacological or pathological modulations
+  7(5):e36867-
+  </description>
+ </item>
 </items>

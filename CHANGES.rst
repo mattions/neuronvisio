@@ -8,6 +8,7 @@
 
 - Added new model to the ModelDBlist
 - updated the documentation
+- Added 3 new models to ModelDB
 
 0.8.3 -- 18 May 2012 
 ====================
