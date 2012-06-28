@@ -38,6 +38,7 @@ install_requires = [
     # -*- Install requires: -*-
     'setuptools',
     'ipython>=0.12',
+    'tables>=2.3.1',
     'apptools>=4.1.0',
     'traits>=4.2.0',
     'traitsui>=4.2.0',
