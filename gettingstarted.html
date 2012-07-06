@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Getting Started &mdash; Neuronvisio 0.8.4+dev documentation</title>
+    <title>Getting Started &mdash; Neuronvisio 0.8.5 documentation</title>
     
     <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.8.4+dev',
+        VERSION:     '0.8.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Neuronvisio 0.8.4+dev documentation" href="index.html" />
+    <link rel="top" title="Neuronvisio 0.8.5 documentation" href="index.html" />
     <link rel="next" title="Saving and loading simulations’ reults" href="storage.html" />
     <link rel="prev" title="Install" href="install.html" />
  
@@ -52,7 +52,7 @@
         <li class="right" >
           <a href="install.html" title="Install"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Neuronvisio 0.8.4+dev documentation</a> &raquo;</li> 
+        <li><a href="index.html">Neuronvisio 0.8.5 documentation</a> &raquo;</li> 
       </ul>
     </div>
       <div class="sphinxsidebar">
@@ -60,7 +60,10 @@
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Getting Started</a><ul>
-<li><a class="reference internal" href="#how-does-it-work">How does it work</a></li>
+<li><a class="reference internal" href="#how-does-it-work">How does it work</a><ul>
+<li><a class="reference internal" href="#loading-a-file">Loading a file</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#how-to-integrate-neuronvisio-with-your-code">How to integrate Neuronvisio with your code</a><ul>
 <li><a class="reference internal" href="#python-integration">Python integration</a></li>
 <li><a class="reference internal" href="#hoc-intergration">Hoc Intergration</a></li>
@@ -147,6 +150,8 @@ as explained in section <a class="reference internal" href="#how-to-integrate-ne
 <p>The Control class run the main loop of the application with all the GUI activities
 in its own thread. The console is ready for input so you can enter your command to
 the prompt as you would do normally when using <a class="reference external" href="http://www.neuron.yale.edu/neuron/">NEURON</a>.</p>
+<div class="section" id="loading-a-file">
+<h3>Loading a file<a class="headerlink" href="#loading-a-file" title="Permalink to this headline">¶</a></h3>
 <p>You can also load 3 different formats right now:</p>
 <ol class="arabic simple">
 <li>A NeuroML file (.xml)</li>
@@ -155,6 +160,7 @@ the prompt as you would do normally when using <a class="reference external" hre
 </ol>
 <p>to load any of them just pass it as an argument:</p>
 <div class="highlight-python"><pre>$ neuronvisio path/to/my/file.hoc (or .h5, or .xml)</pre>
+</div>
 </div>
 </div>
 <div class="section" id="how-to-integrate-neuronvisio-with-your-code">
@@ -348,13 +354,13 @@ the file in <cite>.matplotlib/matplotlibrc</cite> and changing the backend to <c
         <li class="right" >
           <a href="install.html" title="Install"
              >previous</a> |</li>
-        <li><a href="index.html">Neuronvisio 0.8.4+dev documentation</a> &raquo;</li> 
+        <li><a href="index.html">Neuronvisio 0.8.5 documentation</a> &raquo;</li> 
       </ul>
     </div>
 
     <div class="footer">
         &copy; Copyright 2009 -2012, Michele Mattioni.
-      Last updated on Jun 28, 2012.
+      Last updated on Jul 06, 2012.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
     </div>
 <div class="footer">This page uses <a href="http://analytics.google.com/">

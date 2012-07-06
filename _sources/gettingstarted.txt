@@ -30,6 +30,9 @@ the prompt as you would do normally when using NEURON_.
 
 .. _NEURON: http://www.neuron.yale.edu/neuron/
 
+Loading a file
+--------------
+
 You can also load 3 different formats right now:
 
 1. A NeuroML file (.xml)
