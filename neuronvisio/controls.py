@@ -621,8 +621,8 @@ class Controls(object):
         if len (self.manager.groups['t']) == time_point_indx:
             time_point_indx = time_point_indx - 1 # Avoid to go out of scale
         time = self.manager.groups['t'][time_point_indx]
-        self.ui.animationTime.setText(str(time))
-        
+        time_point_string = "%.3f" %round(time, 3)
+        self.ui.animationTime.setText(time_point_string)
         
         start_value = float(self.ui.startValue.text())
         end_value = float(self.ui.endValue.text())

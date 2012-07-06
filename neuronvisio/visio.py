@@ -436,16 +436,17 @@ class Visio(object):
 
         if not self.colorbar:
             self.colorbar = mlab.colorbar(orientation='vertical')
+            time_point_string = "%.3f" %time_point
             self.timelabel = mlab.text(0.05, 
                                        0.05, 
-                                       str(time_point), 
+                                       time_point_string, 
                                        width=0.05
                                        )
         
         self.colorbar.data_range = [start_value, end_value]
         time = self.manager.groups['t'][time_point]
-        self.timelabel.text = str(round(time, 3))
-        
+        time_point_string = "%.3f" %round(time, 3)
+        self.timelabel.text = time_point_string
         self.mayavi.visualization.scene.disable_render = False
 
     
