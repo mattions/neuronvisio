@@ -79,7 +79,7 @@ A classical template is::
     from neuronvisio.controls import Controls
     from neuron import h 
     controls = Controls()   # starting the GUI
-    h.load('path/to/my_model.hoc')
+    h.load_file('path/to/my_model.hoc')
 
 Loading a model alre
 

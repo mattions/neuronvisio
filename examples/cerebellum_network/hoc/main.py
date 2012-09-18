@@ -16,7 +16,7 @@ controls = Controls()
 #import neuron.gui
 
 # Load the script
-h.load("Ex6_CerebellumDemo.hoc")
+h.load_file("Ex6_CerebellumDemo.hoc")
 
 # Uncomment, or copy paste in the ipython console to record and run our vectors
 
