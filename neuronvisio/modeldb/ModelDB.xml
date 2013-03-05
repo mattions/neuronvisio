@@ -47300,4 +47300,3397 @@ Reference: Migliore M, Migliore R (2012) Know your current I: interaction with a
   7(5):e36867-
   </description>
  </item>
+ <item>
+  <model_id>
+   144579
+  </model_id>
+  <model_concepts>
+   <value>
+    Oscillations
+   </value>
+   <value>
+    Parameter sensitivity
+   </value>
+  </model_concepts>
+  <transmitters>
+   <value>
+    Gaba
+   </value>
+   <value>
+    Glutamate
+   </value>
+  </transmitters>
+  <name>
+   Parametric computation and persistent gamma in a cortical model (Chambers et al. 2012)
+  </name>
+  <reference>
+   Chambers JD, Bethwaite B, Diamond NT, Peachey T, Abramson D, Petrou S, Thomas EA (2012) Parametric computation predicts a multiplicative interaction between synaptic strength parameters that control gamma oscillations.
+6:53. Epub 2012 Jul 24.  6:53:1-12
+  </reference>
+  <url>
+   http://senselab.med.yale.edu/modeldb/ShowModel.asp?model=144579
+  </url>
+  <citations>
+   mdbCitations.asp?mode=m&amp;id=144579&amp;twocol=True
+  </citations>
+  <genes>
+  </genes>
+  <readme>
+   &lt;pre&gt;These are the source files to generate the data in Figs 4-6 of the paper:
+
+&quot;Parametric computation predicts a multiplicative interaction between synaptic
+strength parameters that control gamma oscillations&quot; by Jordan D. Chambers,
+Blair Bethwaite, Neil T. Diamond, Tom Peachey, David Abramson,
+Steve Petrou1 and Evan A. Thomas. 
+Frontiers in Computational Neuroscience (2012) 6:1
+
+1) Build the neuron load library from the command line
+nrnivmodl mod
+
+2) The python script des2runs.py reads the design file created by Nimrod,
+creates a PBS run file which passes the parameters to neuron model and 
+submits the run to the PBS queueing system.
+
+3) The matlab script EFPgen.m reads the output files and generates local 
+field traces in matlab format (EFP.mat)
+
+4) The matlab script EFP2PSD.m reads the EPF data and creates power spectra
+in matlab format (PSD.mat)
+
+5) The matlab script singleoutput.m reads the PSD file and generates the
+output used in figs 4, 5 and 6 of the paper.
+
+You will almost certainly need to modify these scripts to work in your
+environment.
+
+Any questions? Email me evan@evan-thomas.net
+
+&lt;/pre&gt;&lt;br /&gt;
+  </readme>
+  <implementers>
+   <value>
+    Thomas, Evan [evan at evan-thomas.net]
+   </value>
+   <value>
+    Chambers,  Jordan [jordandchambers at gmail.com]
+   </value>
+  </implementers>
+  <receptors>
+   <value>
+    GabaA
+   </value>
+   <value>
+    AMPA
+   </value>
+   <value>
+    NMDA
+   </value>
+  </receptors>
+  <brain_regions>
+  </brain_regions>
+  <channels>
+   <value>
+    I A
+   </value>
+   <value>
+    I K
+   </value>
+   <value>
+    I K,leak
+   </value>
+   <value>
+    I K,Ca
+   </value>
+   <value>
+    I Calcium
+   </value>
+   <value>
+    I_K,Na
+   </value>
+  </channels>
+  <cell_types>
+   <value>
+    Neocortical pyramidal neuron: deep
+   </value>
+   <value>
+    Neocortical pyramidal neuron: superficial
+   </value>
+   <value>
+    Neocortical basket cell
+   </value>
+   <value>
+    Neocortical Fast Spiking (FS) interneuron
+   </value>
+   <value>
+    Spiny stellate cell
+   </value>
+   <value>
+    Neocortical Regular Spiking (RS) neuron
+   </value>
+   <value>
+    Neocortical Low Threshold Spiking (LTS) neuron
+   </value>
+  </cell_types>
+  <pubmed>
+   http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=Retrieve&amp;db=PubMed&amp;list_uids=22837747&amp;dopt=Abstract
+  </pubmed>
+  <model_type>
+   <value>
+    Network
+   </value>
+   <value>
+    Axon
+   </value>
+   <value>
+    Synapse
+   </value>
+   <value>
+    Channel
+   </value>
+   <value>
+    Dendrite
+   </value>
+  </model_type>
+  <article>
+   http://dx.doi.org/10.3389/fncom.2012.00053
+  </article>
+  <gap_junctions>
+   <value>
+    Gap junctions
+   </value>
+  </gap_junctions>
+  <zip_url>
+   http://SenseLab.med.Yale.edu/ModelDB/eavBinDown.asp?o=144579&amp;a=23&amp;mime=application/zip
+  </zip_url>
+  <simulation_environment>
+   <value>
+    Neuron
+   </value>
+  </simulation_environment>
+  <description>
+   Using the Traub et al (2005) model of the cortex we determined how 33 synaptic strength parameters control gamma oscillations. We used fractional factorial design to reduce the number of runs required to 4096. We found an expected multiplicative interaction between parameters.Reference: Chambers JD, Bethwaite B, Diamond NT, Peachey T, Abramson D, Petrou S, Thomas EA (2012) Parametric computation predicts a multiplicative interaction between synaptic strength parameters that control gamma oscillations.
+6:53. Epub 2012 Jul 24.  6:53:1-12
+  </description>
+ </item>
+ <item>
+  <model_id>
+   148094
+  </model_id>
+  <model_concepts>
+   <value>
+    Active Dendrites
+   </value>
+   <value>
+    Action Potentials
+   </value>
+   <value>
+    Epilepsy
+   </value>
+  </model_concepts>
+  <transmitters>
+  </transmitters>
+  <name>
+   CA1 pyramidal neuron: effects of R213Q and R312W Kv7.2 mutations (Miceli et al. 2013)
+  </name>
+  <reference>
+   Miceli F, Soldovieri MV, Ambrosino P, Barrese V, Migliore M, Cilio MR, Taglialatela M (2013) Genotype-phenotype correlations in neonatal epilepsies caused by mutations in the voltage sensor of Kv7.2 potassium channel subunits. Proc Natl Acad Sci U S A :
+  </reference>
+  <url>
+   http://senselab.med.yale.edu/modeldb/ShowModel.asp?model=148094
+  </url>
+  <citations>
+   mdbCitations.asp?mode=m&amp;id=148094&amp;twocol=True
+  </citations>
+  <genes>
+  </genes>
+  <readme>
+   &lt;pre&gt;
+NEURON mod files from the paper:
+
+Miceli et al, Genotype&amp;ndash;phenotype correlations in neonatal
+epilepsies caused by mutations in the voltage
+sensor of Kv7.2 potassium channel subunits, PNAS 2013 Feb 25. [Epub ahead of print]
+
+In this paper, functional studies revealed that in homomeric
+or heteromeric configuration with KV7.2 and/or KV7.3 subunits, R213W and 
+R213Q mutations markedly destabilized the open state, causing a dramatic
+decrease in channel voltage sensitivity.
+Modeling these channels in CA1 hippocampal pyramidal
+cells revealed that both mutations increased cell firing frequency,
+with the R213Q mutation prompting more dramatic functional
+changes compared with the R213W mutation  The fig4a.hoc
+reproduces the traces shown in Fig.4a of the paper.
+
+Under linux/unix systems:
+to compile the mod files use the command 
+nrnivmodl 
+and run the simulation hoc file with the command 
+nrngui fig6a.hoc
+
+Under Windows systems:
+to compile the mod files use the &quot;mknrndll&quot; command.
+A double click on the simulation file
+fig6a.hoc 
+will open the simulation window.
+
+Under MAC OS X:
+to compile the mod files drag and drop the extracted folder onto the
+mknrndll icon. Drag and drop the mosinit.hoc file onto the nrngui
+icon.
+
+Once the simulation is started you can select the desired simulation.
+
+Questions on how to use this model
+should be directed to michele.migliore@cnr.it
+&lt;/pre&gt;
+  </readme>
+  <implementers>
+   <value>
+    Migliore, Michele [Michele.Migliore at Yale.edu]
+   </value>
+  </implementers>
+  <receptors>
+  </receptors>
+  <brain_regions>
+   <value>
+    Hippocampus
+   </value>
+  </brain_regions>
+  <channels>
+   <value>
+    I Na,t
+   </value>
+   <value>
+    I A
+   </value>
+   <value>
+    I K
+   </value>
+   <value>
+    I M
+   </value>
+   <value>
+    I Calcium
+   </value>
+  </channels>
+  <cell_types>
+   <value>
+    CA1 pyramidal neuron
+   </value>
+  </cell_types>
+  <pubmed>
+   http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=Retrieve&amp;db=PubMed&amp;list_uids=23440208&amp;dopt=Abstract
+  </pubmed>
+  <model_type>
+   <value>
+    Channel
+   </value>
+   <value>
+    Dendrite
+   </value>
+  </model_type>
+  <gap_junctions>
+  </gap_junctions>
+  <zip_url>
+   http://SenseLab.med.Yale.edu/ModelDB/eavBinDown.asp?o=148094&amp;a=23&amp;mime=application/zip
+  </zip_url>
+  <simulation_environment>
+   <value>
+    Neuron
+   </value>
+  </simulation_environment>
+  <description>
+   NEURON mod files from the paper:
+
+Miceli et al, Genotype&amp;ndash;phenotype correlations in neonatal epilepsies caused by mutations in the voltage sensor of Kv7.2 potassium channel subunits, PNAS 2013 Feb 25. [Epub ahead of print]
+
+In this paper, functional studies revealed that in homomeric or heteromeric configuration with KV7.2 and/or KV7.3 subunits, R213W and 
+R213Q mutations markedly destabilized the open state, causing a dramatic decrease in channel voltage sensitivity.
+Modeling these channels in CA1 hippocampal pyramidal cells revealed that both mutations increased cell firing frequency,
+with the R213Q mutation prompting more dramatic functional changes compared with the R213W mutation.Reference: Miceli F, Soldovieri MV, Ambrosino P, Barrese V, Migliore M, Cilio MR, Taglialatela M (2013) Genotype-phenotype correlations in neonatal epilepsies caused by mutations in the voltage sensor of Kv7.2 potassium channel subunits. Proc Natl Acad Sci U S A :
+  </description>
+ </item>
+ <item>
+  <model_id>
+   145672
+  </model_id>
+  <model_concepts>
+   <value>
+    Ion Channel Kinetics
+   </value>
+  </model_concepts>
+  <transmitters>
+  </transmitters>
+  <name>
+   Neurophysiological impact of inactivation pathways in A-type K+ channels (Fineberg et al 2012)
+  </name>
+  <reference>
+   Fineberg JD, Ritter DM, Covarrubias M (2012) Modeling-independent elucidation of inactivation pathways in recombinant and native A-type Kv channels  140:513-527
+  </reference>
+  <url>
+   http://senselab.med.yale.edu/modeldb/ShowModel.asp?model=145672
+  </url>
+  <genes>
+   <value>
+    Kv4.2 KCND2
+   </value>
+   <value>
+    Kv3.4 KCNC4
+   </value>
+  </genes>
+  <readme>
+   &lt;pre&gt;
+CA1 pyramidal neuron model and IonChannelLab simulations from the paper:
+
+J.D. Fineberg, D.M. Ritter and M. Covarrubias
+Modeling-independent elucidation of inactivation pathways in
+recombinant and native A-type Kv channels. J Gen Physiol 2012
+
+These models predict the differential effects of having varying
+pathways of inactivation. Model of CA1 pyramidal neuron from Migliore
+et al (1999; ModelDB accession #2796) with the A-type potassium
+current replaced by Markov models of Kv4 channels.
+
+As in the paper, in file names: 
+CSI = closed state inactivation
+OSI = open state inactivation
+CSIOSI = combined CSI and OSI
+
+To reproduce figures:
+
+Figure 2, 3, and 4
+	1) Open folder &quot;IonChannelLab files&quot;
+	2) Open .ichl file of channel interested in
+	3) Click &quot;Simulations&quot; tab 
+	4) Underneath &quot;Experiments&quot; select experiment interested in
+	5) Click Run
+Figure 11C - 
+	1) open &quot;Figure11C CSI.hoc&quot; and click &quot;Run Figure 11C CSI&quot;
+	2) open &quot;Figure11c CSIOSI.hoc&quot; and click &quot;Run Figure 11C
+           CSI+OSI&quot;
+Figure 11D -
+	1) open &quot;Figure11D.hoc&quot; and click &quot;Run Figure 11D&quot;
+Figure 11E-G -
+	1) open &quot;Figure11E.hoc&quot; and click &quot;Run Figure 11E&quot;
+
+&quot;Auto Launch&quot; (will start the mosinit.hoc file if you have NEURON
+installed and your browser is properly configured) to recreate Figure
+11E. Press &quot;Run Figure11E&quot; and in a minute you should see graphs like:
+
+&lt;img src=&quot;.\getModelFile.asp?model=145672&amp;amp;AttrID=23&amp;amp;file=\Fineberg_et_al_2012\.\screenshot1.png&quot; alt=&quot;screenshot 1&quot; width=&quot;550&quot; height=&quot;340&quot; /&gt;
+&lt;img src=&quot;.\getModelFile.asp?model=145672&amp;amp;AttrID=23&amp;amp;file=\Fineberg_et_al_2012\.\screenshot2.png&quot; alt=&quot;screenshot 2&quot; width=&quot;550&quot; height=&quot;191&quot; /&gt;
+
+To load figures 11C, 11D, and the channel simulations the entire
+folder must be dowloaded and opened.  Figures 11A&amp;B; can be simulated
+creating single compartment models with Kv4 CSI or Kv4 CSI+OSI and
+using the vClamp family or the grapher function for current families
+and SSI, repsectively.
+
+Any questions may be directed to david.ritter@jefferson.edu
+&lt;/pre&gt;
+  </readme>
+  <implementers>
+   <value>
+    Ritter, David [david.ritter at jefferson.edu]
+   </value>
+  </implementers>
+  <receptors>
+  </receptors>
+  <brain_regions>
+  </brain_regions>
+  <channels>
+   <value>
+    I Na,t
+   </value>
+   <value>
+    I A
+   </value>
+   <value>
+    I K
+   </value>
+  </channels>
+  <cell_types>
+   <value>
+    CA1 pyramidal neuron
+   </value>
+  </cell_types>
+  <citations>
+   mdbCitations.asp?mode=m&amp;id=145672&amp;twocol=True
+  </citations>
+  <model_type>
+   <value>
+    Neuron or other electrically excitable cell
+   </value>
+   <value>
+    Channel
+   </value>
+  </model_type>
+  <article>
+   http://dx.doi.org/10.1085/jgp.201210869
+  </article>
+  <gap_junctions>
+  </gap_junctions>
+  <zip_url>
+   http://SenseLab.med.Yale.edu/ModelDB/eavBinDown.asp?o=145672&amp;a=23&amp;mime=application/zip
+  </zip_url>
+  <simulation_environment>
+   <value>
+    Neuron
+   </value>
+   <value>
+    IonChannelLab
+   </value>
+  </simulation_environment>
+  <description>
+   These models predict the differential effects of varying pathways of inactivation (closed state inactivation, CSI, or open state inactivation, OSI).  Specifically, Markov models of Kv4 potassium channels with CSI or CSI+OSI were inserted into the CA1 pyramidal neuron model from Migliore et al (1999; ModelDB accession #2796) to determine the neurophysiological impact of inactivation pathways.  Furthermore, Markov models of Kv4.2 and Kv3.4 channels are used to illustrate a method by which to test what pathway of inactivation a channel uses.Reference: Fineberg JD, Ritter DM, Covarrubias M (2012) Modeling-independent elucidation of inactivation pathways in recombinant and native A-type Kv channels  140:513-527
+  </description>
+ </item>
+ <item>
+  <model_id>
+   140789
+  </model_id>
+  <model_concepts>
+   <value>
+    Parameter Fitting
+   </value>
+   <value>
+    Detailed Neuronal Models
+   </value>
+  </model_concepts>
+  <transmitters>
+  </transmitters>
+  <name>
+   Detailed passive cable model of Dentate Gyrus Basket Cells (Norenberg et al. 2010)
+  </name>
+  <reference>
+   Norenberg A, Hu H, Vida I, Bartos M, Jonas P (2010) Distinct nonuniform cable properties optimize rapid and efficient activation of fast-spiking GABAergic interneurons.  107:894-9
+  </reference>
+  <url>
+   http://senselab.med.yale.edu/modeldb/ShowModel.asp?model=140789
+  </url>
+  <citations>
+   mdbCitations.asp?mode=m&amp;id=140789&amp;twocol=True
+  </citations>
+  <genes>
+  </genes>
+  <readme>
+   File not selected &lt;br /&gt;&lt;br /&gt;&amp;lt;- Select file from this column.
+  </readme>
+  <implementers>
+   <value>
+    Matthiä (Nörenberg), Anja [anja.matthiae at charite.de]
+   </value>
+  </implementers>
+  <receptors>
+  </receptors>
+  <brain_regions>
+   <value>
+    Hippocampus
+   </value>
+   <value>
+    Dentate gyrus
+   </value>
+  </brain_regions>
+  <channels>
+  </channels>
+  <cell_types>
+   <value>
+    Dentate basket cell
+   </value>
+  </cell_types>
+  <pubmed>
+   http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=Retrieve&amp;db=PubMed&amp;list_uids=20080772&amp;dopt=Abstract
+  </pubmed>
+  <model_type>
+   <value>
+    Neuron or other electrically excitable cell
+   </value>
+   <value>
+    Dendrite
+   </value>
+  </model_type>
+  <article>
+   http://dx.doi.org/10.1073/pnas.0910716107
+  </article>
+  <gap_junctions>
+  </gap_junctions>
+  <zip_url>
+   http://SenseLab.med.Yale.edu/ModelDB/eavBinDown.asp?o=140789&amp;a=23&amp;mime=application/zip
+  </zip_url>
+  <simulation_environment>
+   <value>
+    Neuron
+   </value>
+  </simulation_environment>
+  <description>
+   Fast-spiking, parvalbumin-expressing basket cells (BCs) play a key role in feedforward and feedback inhibition in the hippocampus. 
+...
+To quantitatively address this question, we developed detailed passive cable models of BCs in the dentate gyrus based on dual somatic or somatodendritic recordings and complete morphologic reconstructions. 
+
+Both specific membrane capacitance and axial resistivity were comparable to those of pyramidal neurons, but the average somatodendritic specific membrane resistance (R(m)) was substantially lower in BCs. 
+
+Furthermore, R(m) was markedly nonuniform, being lowest in soma and proximal dendrites, intermediate in distal dendrites, and highest in the axon. 
+...
+Further computational analysis revealed that these unique cable properties accelerate the time course of synaptic potentials at the soma in response to fast inputs, while boosting the efficacy of slow distal inputs. 
+
+These properties will facilitate both rapid phasic and efficient tonic activation of BCs in hippocampal microcircuits.
+Reference: Norenberg A, Hu H, Vida I, Bartos M, Jonas P (2010) Distinct nonuniform cable properties optimize rapid and efficient activation of fast-spiking GABAergic interneurons.  107:894-9
+  </description>
+ </item>
+ <item>
+  <model_id>
+   144490
+  </model_id>
+  <model_concepts>
+   <value>
+    Dendritic Action Potentials
+   </value>
+   <value>
+    Synaptic Plasticity
+   </value>
+  </model_concepts>
+  <transmitters>
+  </transmitters>
+  <name>
+   CA1 pyramidal neuron: synaptically-induced bAP predicts synapse location (Sterratt et al. 2012)
+  </name>
+  <reference>
+   Sterratt DC, Groen MR, Meredith RM, van Ooyen A (2012) Spine calcium transients induced by synaptically-evoked action potentials can predict synapse location and establish synaptic democracy  8(6):e1002545
+  </reference>
+  <url>
+   http://senselab.med.yale.edu/modeldb/ShowModel.asp?model=144490
+  </url>
+  <citations>
+   mdbCitations.asp?mode=m&amp;id=144490&amp;twocol=True
+  </citations>
+  <genes>
+  </genes>
+  <readme>
+   &lt;pre&gt;DDSP README file
+================
+
+David Sterratt, 4th July 2012
+-----------------------------
+
+How to run the simulations interactively
+========================================
+
+1. Compile all the &quot;.mod&quot; files in this directory using
+   the NEURON utility &quot;nrnivmodl&quot; (on GNU/Linux) or mknrndll (on MS
+   Windows).
+
+2. Use NEURON to run &quot;bpap-gui.hoc&quot;. A number of windows should appear
+   on the screen. This is the interative version of the simulations.
+
+3. Change parameters and options as desired, and then click on &quot;BPAP
+   Run&quot;. For example, try setting &quot;AMPA synapses scaled&quot;, and changing
+   the &quot;Number of runs&quot; to 5.
+
+4. The simulation will run. Traces appear in the window at the right,
+   and various analysis plots will appear in the centre window. The
+   top row refers to voltage, and the bottom row to calcium. The left
+   column is peak V or Ca, the middle column is integral of V or Ca
+   and the right column is time to peak V or Ca.
+
+5. To save the parameters and data, click on &quot;Save Parameters and
+   Data&quot;. Click on &quot;Accept&quot; in the window that pops up, and the data
+   and parameters will be saved in a file in R format in the datastore
+   directory.
+
+6. To plot figures from this file, open up the R program, and type the
+   following at the prompt:
+
+   &amp;gt; source(&quot;figure-example.R&quot;)
+
+   The first time this happens you may be prompted to download a
+   package - this is intended.
+
+7. To produce further simulations and plots, repeat steps 3 to 6. You
+   will need to copy &quot;figure-example.R&quot; to a file with a new name and
+   edit the &quot;dataset&quot; line to match the name of the dataset in the
+   datastore directory.
+
+How to reproduce the simulations with the standard morphology
+=============================================================
+
+1. Compile the mod files as in step (1) above.
+
+2. Use NEURON to run &quot;bpap-sims.hoc&quot;. This will take some time. Data
+   files (R text files) will appear in the &quot;datastore&quot; directory.
+
+3. To produced the figures, start R and type:
+
+   &amp;gt; source(&quot;figures.R&quot;)
+
+   Figures will appear in the &quot;plots&quot; directory.
+
+How to reproduce the scaling simulations
+========================================
+
+1. Compile the mod files as above.
+
+2. Use NEURON to run &quot;bpap-sims-scaling.hoc&quot;. This will take some
+   time. Data files (text files with a .dat suffix) will appear in the
+   &quot;datastore&quot; directory.
+
+3. Open MATLAB from the bpap directory and type &quot;scaling_plots&quot;
+
+To run simulations with cells with alternative morphologies (Fig 3B,C)
+======================================================================
+
+1. Compile the mod files as above.
+
+2. Use NEURON to run &quot;bpap-sims-cell1.hoc&quot; and
+   &quot;bpap-sims-cell2.hoc&quot;. This will take some time. Data files (R text
+   files) will appear in the &quot;datastore&quot; directory.
+
+3. These can be plotted using figure-example.R
+
+
+&lt;/pre&gt;&lt;br /&gt;
+  </readme>
+  <implementers>
+   <value>
+    Sterratt, David
+   </value>
+   <value>
+    Groen, Martine R [martine.groen at gmail.com]
+   </value>
+  </implementers>
+  <receptors>
+   <value>
+    AMPA
+   </value>
+   <value>
+    NMDA
+   </value>
+  </receptors>
+  <brain_regions>
+  </brain_regions>
+  <channels>
+   <value>
+    I Na,t
+   </value>
+   <value>
+    I L high threshold
+   </value>
+   <value>
+    I T low threshold
+   </value>
+   <value>
+    I A
+   </value>
+   <value>
+    I K
+   </value>
+   <value>
+    I M
+   </value>
+   <value>
+    I Mixed
+   </value>
+   <value>
+    I R
+   </value>
+   <value>
+    I_AHP
+   </value>
+  </channels>
+  <cell_types>
+   <value>
+    CA1 pyramidal neuron
+   </value>
+  </cell_types>
+  <pubmed>
+   http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=Retrieve&amp;db=PubMed&amp;list_uids=22719238&amp;dopt=Abstract
+  </pubmed>
+  <model_type>
+   <value>
+    Neuron or other electrically excitable cell
+   </value>
+  </model_type>
+  <article>
+   http://dx.doi.org/10.1371/journal.pcbi.1002545
+  </article>
+  <gap_junctions>
+  </gap_junctions>
+  <zip_url>
+   http://SenseLab.med.Yale.edu/ModelDB/eavBinDown.asp?o=144490&amp;a=23&amp;mime=application/zip
+  </zip_url>
+  <simulation_environment>
+   <value>
+    Neuron
+   </value>
+  </simulation_environment>
+  <description>
+   This is an adaptation of Poirazi et al.'s  (2003) CA1 model that is used to measure BAP-induced voltage and calcium signals in spines after simulated Schaffer
+collateral synapse stimulation.  In the model, the  peak calcium concentration is highly
+correlated with soma-synapse distance under a number of physiologically-realistic
+suprathreshold stimulation regimes and for a range of dendritic morphologies. There are also simulations demonstrating that peak calcium can be used to set up a synaptic democracy
+in a homeostatic manner, whereby synapses regulate their synaptic strength on the
+basis of the difference between peak calcium and a uniform target value.Reference: Sterratt DC, Groen MR, Meredith RM, van Ooyen A (2012) Spine calcium transients induced by synaptically-evoked action potentials can predict synapse location and establish synaptic democracy  8(6):e1002545
+  </description>
+ </item>
+ <item>
+  <model_id>
+   144553
+  </model_id>
+  <model_concepts>
+   <value>
+    Activity Patterns
+   </value>
+   <value>
+    Influence of Dendritic Geometry
+   </value>
+   <value>
+    Detailed Neuronal Models
+   </value>
+   <value>
+    Electrotonus
+   </value>
+   <value>
+    Conductance distributions
+   </value>
+  </model_concepts>
+  <transmitters>
+  </transmitters>
+  <name>
+   Rhesus Monkey Layer 3 Pyramidal Neurons:  V1 vs PFC (Amatrudo, Weaver et al. 2012)
+  </name>
+  <reference>
+   Amatrudo JM, Weaver CM, Crimins JL, Hof PR, Rosene DL, Luebke JI (2012) Influence of highly distinctive structural properties on the excitability of pyramidal neurons in monkey visual and prefrontal cortices
+  </reference>
+  <url>
+   http://senselab.med.yale.edu/modeldb/ShowModel.asp?model=144553
+  </url>
+  <genes>
+  </genes>
+  <readme>
+   &lt;pre&gt;Rhesus Monkey Layer 3 Pyramidal Neurons: V1 vs PFC (Amatrudo, Weaver
+et al. 2012)
+
+README for the models associated with the paper
+
+Amatrudo JM, Weaver CM, Crimins JL, Hof PR, Rosene DL, Luebke JI.
+Influence of highly distinctive structural properties on the
+excitability of pyramidal neurons in monkey visual and prefrontal
+cortices.  In Press, J Neurosci (2012).
+
+These files were contributed by Christina Weaver [christina.weaver at
+fandm.edu] and build off the model by Vetter et al. (2001), running
+under the NEURON simulation environment.
+ 
+Summary:
+
+Whole-cell patch-clamp recordings and high-resolution 3D morphometric
+analyses of layer 3 pyramidal neurons in in vitro slices of monkey
+primary visual cortex (V1) and dorsolateral granular prefrontal cortex
+(dlPFC) revealed that neurons in these two brain areas possess highly
+distinctive structural and functional properties. ... Three-dimensional
+reconstructions of V1 and dlPFC neurons were incorporated into
+computational models containing Hodgkin-Huxley and AMPA- and
+GABAA-receptor gated channels. Morphology alone largely accounted for
+observed passive physiological properties, but led to AP firing rates
+that differed more than observed empirically, and to synaptic
+responses that opposed empirical results. Accordingly, modeling
+predicts that active channel conductances differ between V1 and dlPFC
+neurons. The unique features of V1 and dlPFC neurons are likely
+fundamental determinants of area-specific network behavior. The
+compact electrotonic arbor and increased excitability of V1 neurons
+support the rapid signal integration required for early processing of
+visual information. The greater connectivity and dendritic complexity
+of dlPFC neurons likely support higher level cognitive functions
+including working memory and planning.
+
+------------------------------------------------
+
+This model can be auto-launched from modeldb or run by starting the
+mosinit.hoc with:
+
+nrngui mosinit.hoc
+
+or double clicking on the mosinit.hoc file after the mod files have
+been compiled (nrnivmodl compiles in unix, mknrndll in mswin, mac)
+
+Select a subfigure by clicking on a figure name.
+&lt;/pre&gt;&lt;br /&gt;
+  </readme>
+  <implementers>
+   <value>
+    Weaver, Christina [christina.weaver at fandm.edu]
+   </value>
+  </implementers>
+  <receptors>
+  </receptors>
+  <brain_regions>
+   <value>
+    Neocortex
+   </value>
+   <value>
+    Prefrontal cortex (PFC)
+   </value>
+  </brain_regions>
+  <channels>
+   <value>
+    I N
+   </value>
+   <value>
+    I K
+   </value>
+  </channels>
+  <cell_types>
+   <value>
+    Neocortical pyramidal neuron: superficial
+   </value>
+  </cell_types>
+  <citations>
+   mdbCitations.asp?mode=m&amp;id=144553&amp;twocol=True
+  </citations>
+  <model_type>
+   <value>
+    Neuron or other electrically excitable cell
+   </value>
+  </model_type>
+  <article>
+   http://dx.doi.org/10.1523/JNEUROSCI.2581-12.2012
+  </article>
+  <gap_junctions>
+  </gap_junctions>
+  <zip_url>
+   http://SenseLab.med.Yale.edu/ModelDB/eavBinDown.asp?o=144553&amp;a=23&amp;mime=application/zip
+  </zip_url>
+  <simulation_environment>
+   <value>
+    Neuron
+   </value>
+  </simulation_environment>
+  <description>
+   Whole-cell patch-clamp recordings and high-resolution 3D morphometric analyses of layer 3 pyramidal neurons in in vitro slices of monkey primary visual cortex (V1) and dorsolateral granular prefrontal cortex (dlPFC) revealed that neurons in these two brain areas possess highly distinctive structural and functional properties. ... Three-dimensional reconstructions of V1 and dlPFC neurons were incorporated into computational models containing Hodgkin-Huxley and AMPA- and GABAA-receptor gated channels. Morphology alone largely accounted for observed passive physiological properties, but led to AP firing rates that differed more than observed empirically, and to synaptic responses that opposed empirical results. Accordingly, modeling predicts that active channel conductances differ between V1 and dlPFC neurons. The unique features of V1 and dlPFC neurons are likely fundamental
+determinants of area-specific network behavior. The compact electrotonic arbor and increased excitability of V1 neurons support the rapid signal integration required for early processing of visual information. The greater connectivity and dendritic complexity of dlPFC neurons likely
+support higher level cognitive functions including working memory and planning.Reference: Amatrudo JM, Weaver CM, Crimins JL, Hof PR, Rosene DL, Luebke JI (2012) Influence of highly distinctive structural properties on the excitability of pyramidal neurons in monkey visual and prefrontal cortices
+  </description>
+ </item>
+ <item>
+  <model_id>
+   146509
+  </model_id>
+  <model_concepts>
+   <value>
+    Action Potential Initiation
+   </value>
+   <value>
+    Dendritic Action Potentials
+   </value>
+   <value>
+    Active Dendrites
+   </value>
+   <value>
+    Influence of Dendritic Geometry
+   </value>
+   <value>
+    Action Potentials
+   </value>
+   <value>
+    Conduction failure
+   </value>
+   <value>
+    Information transfer
+   </value>
+   <value>
+    Bifurcation
+   </value>
+  </model_concepts>
+  <transmitters>
+   <value>
+    Glutamate
+   </value>
+  </transmitters>
+  <name>
+   Functional impact of dendritic branch point morphology (Ferrante et al., 2013)
+  </name>
+  <reference>
+   Ferrante M, Migliore M, Ascoli GA (2013) Functional Impact of Dendritic Branch-Point Morphology
+  33:2156-2165
+  </reference>
+  <url>
+   http://senselab.med.yale.edu/modeldb/ShowModel.asp?model=146509
+  </url>
+  <genes>
+  </genes>
+  <readme>
+   &lt;pre&gt;
+This is the readme for the model associated with the paper:
+
+Ferrante M, Migliore M, Ascoli GA (2013) Functional Impact of
+Dendritic Branch-Point Morphology J. Neurosci. 33:2156-2165
+
+This model was contributed by Michele Ferrante.  The model requires
+NEURON which is available at http://www.neuron.yale.edu
+
+Usage:
+
+Auto-launch from ModelDB (starts simulation if browser is properly
+setup) or do the following 1) Download and extract the archive.  2)
+Compile the mod files (mknrndll on mswin, mac os x, or nrnivmodl
+unix/linux). 3) Start the simulation with double clicking the
+mosinit.hoc (mswin), drag and dropping the mosinit.hoc file on the
+nrngui icon (mac os x) or typing &quot;nrngui mosinit.hoc&quot; on the command
+line (linux/unix).
+
+Once the simulation has started press the run simulation button (takes
+2 1/2 hours on a 2009 pc).  When done you should see figures like the
+below which corresponds to the inset in Fig. 1E in the paper:
+
+&lt;img src=&quot;.\getModelFile.asp?model=146509&amp;amp;AttrID=23&amp;amp;file=\Branch_Point_Tapering\.\screenshot.png&quot; alt=&quot;screenshot&quot; /&gt;
+
+&lt;/pre&gt;
+  </readme>
+  <implementers>
+   <value>
+    Ferrante, Michele [mferr133 at bu.edu]
+   </value>
+  </implementers>
+  <receptors>
+  </receptors>
+  <brain_regions>
+  </brain_regions>
+  <channels>
+   <value>
+    I Na,t
+   </value>
+   <value>
+    I A
+   </value>
+   <value>
+    I K
+   </value>
+   <value>
+    I h
+   </value>
+  </channels>
+  <cell_types>
+   <value>
+    CA1 pyramidal neuron
+   </value>
+  </cell_types>
+  <citations>
+   mdbCitations.asp?mode=m&amp;id=146509&amp;twocol=True
+  </citations>
+  <model_type>
+   <value>
+    Synapse
+   </value>
+   <value>
+    Dendrite
+   </value>
+  </model_type>
+  <article>
+   http://dx.doi.org/10.1523/JNEUROSCI.3495-12.2013
+  </article>
+  <gap_junctions>
+  </gap_junctions>
+  <zip_url>
+   http://SenseLab.med.Yale.edu/ModelDB/eavBinDown.asp?o=146509&amp;a=23&amp;mime=application/zip
+  </zip_url>
+  <simulation_environment>
+   <value>
+    Neuron
+   </value>
+  </simulation_environment>
+  <description>
+   &quot; ... Here, we first quantified the morphological variability of branch points from two-photon images of rat CA1 pyramidal neurons. We then investigated the geometrical features affecting spike initiation, propagation, and timing with a computational model validated by glutamate uncaging experiments. The results suggest that even subtle membrane readjustments at branch point could drastically alter the ability of synaptic input to generate, propagate, and time action potentials.&quot;Reference: Ferrante M, Migliore M, Ascoli GA (2013) Functional Impact of Dendritic Branch-Point Morphology
+  33:2156-2165
+  </description>
+ </item>
+ <item>
+  <model_id>
+   147578
+  </model_id>
+  <model_concepts>
+   <value>
+    Ion Channel Kinetics
+   </value>
+   <value>
+    Active Dendrites
+   </value>
+   <value>
+    Detailed Neuronal Models
+   </value>
+  </model_concepts>
+  <transmitters>
+  </transmitters>
+  <name>
+   Chirp stimulus responses in a morphologically realistic model (Narayanan and Johnston, 2007)
+  </name>
+  <reference>
+   Reference: Narayanan R, Johnston D (2007) Long-term potentiation in rat hippocampal neurons is accompanied by spatially widespread changes in intrinsic oscillatory dynamics and excitability.  56:1061-75
+  </reference>
+  <url>
+   http://senselab.med.yale.edu/modeldb/ShowModel.asp?model=147578
+  </url>
+  <citations>
+   mdbCitations.asp?mode=m&amp;id=147578&amp;twocol=True
+  </citations>
+  <genes>
+  </genes>
+  <readme>
+   &lt;pre&gt;
+This directory contains NEURON files associated with computing
+neuronal responses to a Chirp stimulus in a morphologically realistic
+model of a CA1 pyramidal neuron. These files, and the functions
+there in, could be used to compute input resistance and to generate
+voltage traces in response to a local Chirp current stimulus, along
+various trunk locations of the model. The only channel in the model
+is the h channel which has a conductance gradient, and increases
+with distance from the soma. These files will help recreate results
+presented in Fig. 8C of the paper referenced below.
+
+Rishikesh Narayanan and Daniel Johnston, Long-term potentiation
+in rat hippocampal neurons is accompanied by spatially widespread
+changes in intrinsic oscillatory dynamics and excitability, Neuron,
+56(6), pp. 1061-1075, December 2007.
+
+If you choose to save input resistances, the input resistances along
+with the corresponding radial distances of the trunk compartment
+under consideration  will be saved in a file named &quot;Trunk_RN.txt&quot;.
+The actual output that you obtain by running the RN_Trunk() function
+is attached.
+
+If you choose to save responses to a Chirp stimulus, the files will
+be saved in the Output directory. The traces that one will obtain
+by running the &quot;Chirp_Gh()&quot; function are attached in the Output
+directory. Only two representative traces corresponding to the first
+(&quot;ChirpOutput_0.txt&quot;) and the last (&quot;ChirpOutput_61.txt&quot;) trunk
+compartments are attached. Once you run the &quot;Chirp_Gh()&quot;, you should
+get all 62 files in the Output directory. The corresponding current
+values are in the file &quot;ChirpI.txt&quot;. All these files contain 1002000
+points, corresponding to a time period of 25050 ms, with 40 points
+per ms.  If impedance analyses were to be performed with values
+from saved files in the Output directory as voltage responses, and
+values in the file &quot;ChirpI.txt&quot; as the current input, then the
+measurements should read as in the file named &quot;Trunk_Z.txt&quot;. It may
+be noted that the distances here are the same as those in the
+&quot;Trunk_RN.txt&quot; file, as the compartment order is the same.
+
+For details about each of the measurements in these files and on the
+gradient in the h channels, refer to the paper mentioned above.
+
+Written by Rishikesh Narayanan. Contact: rishi.n@gmail.com
+&lt;/pre&gt;&lt;br /&gt;
+  </readme>
+  <implementers>
+   <value>
+    Narayanan, Rishikesh [rishi at mbu.iisc.ernet.in]
+   </value>
+  </implementers>
+  <receptors>
+  </receptors>
+  <brain_regions>
+   <value>
+    Hippocampus
+   </value>
+  </brain_regions>
+  <channels>
+   <value>
+    I h
+   </value>
+  </channels>
+  <cell_types>
+   <value>
+    CA1 pyramidal neuron
+   </value>
+  </cell_types>
+  <pubmed>
+   http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=Retrieve&amp;db=PubMed&amp;list_uids=18093527&amp;dopt=Abstract
+  </pubmed>
+  <model_type>
+   <value>
+    Neuron or other electrically excitable cell
+   </value>
+   <value>
+    Dendrite
+   </value>
+  </model_type>
+  <article>
+   http://dx.doi.org/10.1016/j.neuron.2007.10.033
+  </article>
+  <gap_junctions>
+  </gap_junctions>
+  <zip_url>
+   http://SenseLab.med.Yale.edu/ModelDB/eavBinDown.asp?o=147578&amp;a=23&amp;mime=application/zip
+  </zip_url>
+  <simulation_environment>
+   <value>
+    Neuron
+   </value>
+  </simulation_environment>
+  <description>
+   ...we built a multicompartmental model with a morphologically realistic three-dimensional reconstruction of a CA1 pyramidal neuron. The only active conductance we added to the model was the h conductance. ... We conclude that experimentally observed gradient in density of h channels could theoretically account for experimentally observed gradient in resonance properties (Narayanan and Johnston, 2007). Reference: Narayanan R, Johnston D (2007) Long-term potentiation in rat hippocampal neurons is accompanied by spatially widespread changes in intrinsic oscillatory dynamics and excitability.  56:1061-75
+  </description>
+ </item>
+ <item>
+  <model_id>
+   146565
+  </model_id>
+  <model_concepts>
+   <value>
+    Active Dendrites
+   </value>
+   <value>
+    Detailed Neuronal Models
+   </value>
+   <value>
+    Synaptic Integration
+   </value>
+   <value>
+    Calcium dynamics
+   </value>
+   <value>
+    Direction Selectivity
+   </value>
+  </model_concepts>
+  <transmitters>
+   <value>
+    Gaba
+   </value>
+   <value>
+    Glutamate
+   </value>
+  </transmitters>
+  <name>
+   Nonlinear dendritic processing in barrel cortex spiny stellate neurons (Lavzin et al. 2012)
+  </name>
+  <reference>
+   Lavzin M, Rapoport S, Polsky A, Garion L, Schiller J (2012) Nonlinear dendritic processing determines angular tuning of barrel cortex neurons in vivo.  490:397-401
+  </reference>
+  <url>
+   http://senselab.med.yale.edu/modeldb/ShowModel.asp?model=146565
+  </url>
+  <citations>
+   mdbCitations.asp?mode=m&amp;id=146565&amp;twocol=True
+  </citations>
+  <genes>
+  </genes>
+  <readme>
+   &lt;pre&gt;
+This is the model associated with the paper
+
+Lavzin M, Rapoport S, Polsky A, Garion L, Schiller J (2012) Nonlinear
+dendritic processing determines angular tuning of barrel cortex
+neurons in vivo. Nature 490:397-401
+
+This model was contributed by Alon Polsky.  The code is written in
+NEURON which is available for free from &lt;a href=&quot;http://www.neuron.yale.edu&quot;&gt;http://www.neuron.yale.edu&lt;/a&gt;
+
+Usage: Auto-launch from ModelDB or compile the mod files with mknrndll
+(mac, mswin) or nrnivmodl (linux/unix).  Start the program by double
+clicking mosinit.hoc (mswin), drag and dropping mosinit.hoc onto the
+nrngui icon (mac) or typing &quot;nrngui mosinit.hoc&quot; (linux/unix).  Here
+is a short description of the panels:
+
+PARAMS
+
+Axon,soma,dends - Conductance of sodium and potassium voltage gated
+channels in the axon, the soma and the dendritic tree can be adjusted
+using the corresponding panels. L type calcium conductance was
+distributed homogeneously and can be controlled with the CaL value.
+Iterations -- parameters that determine synaptic distribution:
+Downlimit,UPlimit and Countlimit are used in iterations in which the
+number of synapses is changed from Downlimit to Uplimit in Countlimit
+steps.
+TC Ratio -- multiplier of the number of thalamocortical
+synapses. (1-number matches the current iteration number, 0 -- no TC
+synapses)
+CC Ratio, Inhib Ratio -- same as TC Ratio for excitatory and inhibitory
+cortico-cortical connections
+Calc -- clicking on the button runs the simulation
+New Loc- redistribution of the synapses, randomly over the whole
+dendtiric tree
+
+SYNAPSES
+Delay -- start of synaptic activation
+Amp -- mean conductance of a single synapse, in nS. Individual synaptic
+conductances are picked from a lognormal distribution with standard
+deviation of Amp.
+Tspike -- Interval between presynaptic pulses (ms)
+Nspike -- number of presynaptic pulses
+Nnoise -- presynaptic randomness -- 0 for precise timing, 1 for random
+activation
+Syn # number of synapses (adjusted automatically for each iteration
+when calc button is pressed).
+Random synapses are constantly active and provide the background, non
+specific to thalamic, activation.
+
+This code was used to generate figures S8, S9 and S13 in the
+supplementary information.
+
+Example of activation of the model cell by 40 ThalamoCortical (TC), 12
+excitatory CorticoCortical (eCC) and 20 inhibitory CorticoCortical
+(iCC) synapses that were randomly distributed across the dendrites.
+
+&lt;img src=&quot;.\getModelFile.asp?model=146565&amp;amp;AttrID=23&amp;amp;file=\LavzinEtAl2012\.\fig1.jpg&quot; alt=&quot;fig 1&quot; width=&quot;550&quot; /&gt;
+Figure 1: Left - somatic voltage. Right - synaptic location. Blue
+circles - TC, Red circles - eCC and Green circles -iCC. Squares -
+background 'noise' synapses.
+
+&lt;img src=&quot;.\getModelFile.asp?model=146565&amp;amp;AttrID=23&amp;amp;file=\LavzinEtAl2012\.\fig2.jpg&quot; alt=&quot;fig 2&quot; width=&quot;550&quot; /&gt;
+Figure 2: Peak cai (internal calcium) profile across the cell. Some
+dendrites exhibit 'hot spots' of high calcium entry
+
+&lt;img src=&quot;.\getModelFile.asp?model=146565&amp;amp;AttrID=23&amp;amp;file=\LavzinEtAl2012\.\fig3.jpg&quot; alt=&quot;fig 3&quot; width=&quot;550&quot; /&gt;
+Figure 3: Peak Vm is more homogeneous than the calcium signal. Sodium
+channel conductance was set to zero to prevent bAPs.
+
+&lt;/pre&gt;
+  </readme>
+  <implementers>
+   <value>
+    Polsky, Alon [alonpol at tx.technion.ac.il]
+   </value>
+  </implementers>
+  <receptors>
+   <value>
+    GabaA
+   </value>
+   <value>
+    AMPA
+   </value>
+   <value>
+    NMDA
+   </value>
+  </receptors>
+  <brain_regions>
+  </brain_regions>
+  <channels>
+   <value>
+    I Sodium
+   </value>
+   <value>
+    I Potassium
+   </value>
+   <value>
+    Ca pump
+   </value>
+  </channels>
+  <cell_types>
+   <value>
+    Spiny stellate cell
+   </value>
+  </cell_types>
+  <pubmed>
+   http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=Retrieve&amp;db=PubMed&amp;list_uids=22940864&amp;dopt=Abstract
+  </pubmed>
+  <model_type>
+   <value>
+    Network
+   </value>
+   <value>
+    Neuron or other electrically excitable cell
+   </value>
+   <value>
+    Synapse
+   </value>
+   <value>
+    Dendrite
+   </value>
+  </model_type>
+  <article>
+   http://dx.doi.org/10.1038/nature11451
+  </article>
+  <gap_junctions>
+  </gap_junctions>
+  <zip_url>
+   http://SenseLab.med.Yale.edu/ModelDB/eavBinDown.asp?o=146565&amp;a=23&amp;mime=application/zip
+  </zip_url>
+  <simulation_environment>
+   <value>
+    Neuron
+   </value>
+  </simulation_environment>
+  <description>
+   This is a multi-compartmental simulation of a spiny stellate neuron which is stimulated by a thalamocortical (TC) and cortico-cortical (CC) inputs. No other cells are explicitly modeled; the presynaptic network activation is represented by the number of active synapses. Preferred and non &amp;ndash;preferred thalamic directions thus correspond to larder/smaller number of TC synapses. This simulation revealed that randomly activated synapses can cooperatively trigger global NMDA spikes, which involve participation of most of the dendritic tree.  Surprisingly, we found that although the voltage profile of the cell was uniform, the calcium influx was restricted to &amp;lsquo;hot spots&amp;rsquo; which correspond to synaptic clusters or large conductance synapsesReference: Lavzin M, Rapoport S, Polsky A, Garion L, Schiller J (2012) Nonlinear dendritic processing determines angular tuning of barrel cortex neurons in vivo.  490:397-401
+  </description>
+ </item>
+ <item>
+  <model_id>
+   147218
+  </model_id>
+  <model_concepts>
+   <value>
+    Dendritic Action Potentials
+   </value>
+   <value>
+    Simplified Models
+   </value>
+   <value>
+    Active Dendrites
+   </value>
+   <value>
+    Detailed Neuronal Models
+   </value>
+   <value>
+    Action Potentials
+   </value>
+   <value>
+    Calcium dynamics
+   </value>
+   <value>
+    Conductance distributions
+   </value>
+  </model_concepts>
+  <transmitters>
+   <value>
+    Gaba
+   </value>
+   <value>
+    Glutamate
+   </value>
+  </transmitters>
+  <name>
+   Dendritic signals command firing dynamics in a Cerebellar Purkinje Cell model (Genet et al. 2010)
+  </name>
+  <reference>
+   Genet S, Sabarly L, Guigon E, Berry H, Delord B (2010) Dendritic signals command firing dynamics in a mathematical model of cerebellar Purkinje cells. Biophys J 99:427-36
+  </reference>
+  <url>
+   http://senselab.med.yale.edu/modeldb/ShowModel.asp?model=147218
+  </url>
+  <citations>
+   mdbCitations.asp?mode=m&amp;id=147218&amp;twocol=True
+  </citations>
+  <genes>
+  </genes>
+  <readme>
+   &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;CONTENT-TYPE&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;
+&lt;title&gt;&lt;/title&gt;
+&lt;meta name=&quot;GENERATOR&quot; content=&quot;OpenOffice.org 3.2  (Linux)&quot; /&gt;
+&lt;meta name=&quot;AUTHOR&quot; content=&quot;sgenet&quot; /&gt;
+&lt;meta name=&quot;CREATED&quot; content=&quot;20130114;16380000&quot; /&gt;
+&lt;meta name=&quot;CHANGEDBY&quot; content=&quot;sgenet&quot; /&gt;
+&lt;meta name=&quot;CHANGED&quot; content=&quot;20130120;18280000&quot; /&gt;
+&lt;meta name=&quot;AppVersion&quot; content=&quot;14.0000&quot; /&gt;
+&lt;meta name=&quot;Company&quot; content=&quot;isir&quot; /&gt;
+&lt;meta name=&quot;DocSecurity&quot; content=&quot;0&quot; /&gt;
+&lt;meta name=&quot;HyperlinksChanged&quot; content=&quot;false&quot; /&gt;
+&lt;meta name=&quot;LinksUpToDate&quot; content=&quot;false&quot; /&gt;
+&lt;meta name=&quot;ScaleCrop&quot; content=&quot;false&quot; /&gt;
+&lt;meta name=&quot;ShareDoc&quot; content=&quot;false&quot; /&gt;
+&lt;style type=&quot;text/css&quot;&gt;
+&lt;!--
+		@page { size: 8.27in 11.69in; margin: 0.98in }
+		P { margin-bottom: 0.08in; direction: ltr; color: #000000; widows: 2; orphans: 2 }
+		A:link { color: #0000ff; so-language: zxx }
+	--&gt;
+&lt;/style&gt;
+&lt;/head&gt;
+  </readme>
+  <implementers>
+   <value>
+    Genet, Stéphane [stephane.genet@upmc.fr]
+   </value>
+  </implementers>
+  <receptors>
+  </receptors>
+  <brain_regions>
+  </brain_regions>
+  <channels>
+   <value>
+    I K
+   </value>
+   <value>
+    I Ca,p
+   </value>
+   <value>
+    Ca pump
+   </value>
+  </channels>
+  <cell_types>
+   <value>
+    Cerebellar purkinje cell
+   </value>
+  </cell_types>
+  <pubmed>
+   http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=Retrieve&amp;db=PubMed&amp;list_uids=20643060&amp;dopt=Abstract
+  </pubmed>
+  <model_type>
+   <value>
+    Neuron or other electrically excitable cell
+   </value>
+  </model_type>
+  <gap_junctions>
+  </gap_junctions>
+  <zip_url>
+   http://SenseLab.med.Yale.edu/ModelDB/eavBinDown.asp?o=147218&amp;a=23&amp;mime=application/zip
+  </zip_url>
+  <simulation_environment>
+   <value>
+    Neuron
+   </value>
+  </simulation_environment>
+  <description>
+   This model endows the dendrites of a reconstructed Purkinje cells (PC) with the mechanism of Ca-dependent plateau potentials and spikes described in Genet, S., and B. Delord. 2002. A biophysical model of nonlinear dynamics underlying plateau potentials and calcium spikes in Purkinje cell dendrites. J. Neurophysiol. 88:2430&amp;ndash;2444). It is a part of a comprehensive mathematical study suggesting that active electric signals in the dendrites of PC command epochs of firing and silencing of the PC soma.Reference: Genet S, Sabarly L, Guigon E, Berry H, Delord B (2010) Dendritic signals command firing dynamics in a mathematical model of cerebellar Purkinje cells. Biophys J 99:427-36
+  </description>
+ </item>
+ <item>
+  <model_id>
+   144976
+  </model_id>
+  <model_concepts>
+   <value>
+    Active Dendrites
+   </value>
+   <value>
+    Detailed Neuronal Models
+   </value>
+   <value>
+    Action Potentials
+   </value>
+   <value>
+    Aging/Alzheimer`s
+   </value>
+  </model_concepts>
+  <transmitters>
+  </transmitters>
+  <name>
+   CA1 pyramidal neurons: effects of Alzheimer (Culmone and Migliore 2012)
+  </name>
+  <reference>
+   Culmone V, Migliore M (2012) Progressive effect of beta amyloid peptides accumulation on CA1 pyramidal neurons: a model study suggesting possible treatments
+  </reference>
+  <url>
+   http://senselab.med.yale.edu/modeldb/ShowModel.asp?model=144976
+  </url>
+  <citations>
+   mdbCitations.asp?mode=m&amp;id=144976&amp;twocol=True
+  </citations>
+  <genes>
+  </genes>
+  <readme>
+   &lt;pre&gt;
+NEURON mod files from the paper:
+
+Culmone V, Migliore M (2012) 
+Progressive effect of beta-amyloid peptides accumulation on CA1
+pyramidal neurons: a model study suggesting possible treatments.
+Front. Comput. Neurosci. 6:52. doi: 10.3389/fncom.2012.00052
+
+The model predicts possible therapeutic treatments of Alzheimers's
+Disease in terms of pharmacological manipulations of channels' kinetic
+and activation properties. The results suggest how and which mechanism
+can be targeted by a drug to restore the original firing
+conditions. The simulations reproduce somatic membrane potential in
+control conditions, when 90% of membrane is affected by AD (Fig.4A of
+the paper), and after treatment (Fig.4B of the paper):
+
+&lt;img src=&quot;.\getModelFile.asp?model=144976&amp;amp;AttrID=23&amp;amp;file=\alzheimer\.\screenshot.png&quot; alt=&quot;fig 4B&quot; /&gt;
+
+Under unix systems:
+to compile the mod files use the command 
+nrnivmodl 
+and run the simulation hoc file with the command 
+nrngui membrane_potential.hoc
+
+Under Windows systems:
+to compile the mod files use the &quot;mknrndll&quot; command.
+A double click on the simulation file
+membrane_potential.hoc 
+will open the simulation window.
+
+Under Mac OS X systems:
+Drag and drop the alzheimer folder onto the mknrndll icon.
+Drag and drop the mosinit.hoc file onto the nrngui icon.
+
+Questions on how to use this model
+should be directed to viviana.abigail@hotmail.it
+&lt;/pre&gt;
+  </readme>
+  <implementers>
+   <value>
+    Migliore, Michele [Michele.Migliore at Yale.edu]
+   </value>
+   <value>
+    Culmone, Viviana [viviana.abigail at hotmail.it]
+   </value>
+  </implementers>
+  <receptors>
+   <value>
+    AMPA
+   </value>
+  </receptors>
+  <brain_regions>
+   <value>
+    Hippocampus
+   </value>
+  </brain_regions>
+  <channels>
+   <value>
+    I Na,t
+   </value>
+   <value>
+    I A
+   </value>
+   <value>
+    I K
+   </value>
+   <value>
+    I h
+   </value>
+  </channels>
+  <cell_types>
+   <value>
+    CA1 pyramidal neuron
+   </value>
+  </cell_types>
+  <pubmed>
+   http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=Retrieve&amp;db=PubMed&amp;list_uids=22837746&amp;dopt=Abstract
+  </pubmed>
+  <model_type>
+   <value>
+    Synapse
+   </value>
+   <value>
+    Channel
+   </value>
+   <value>
+    Dendrite
+   </value>
+  </model_type>
+  <article>
+   http://dx.doi.org/10.3389/fncom.2012.00052
+  </article>
+  <gap_junctions>
+  </gap_junctions>
+  <zip_url>
+   http://SenseLab.med.Yale.edu/ModelDB/eavBinDown.asp?o=144976&amp;a=23&amp;mime=application/zip
+  </zip_url>
+  <simulation_environment>
+   <value>
+    Neuron
+   </value>
+  </simulation_environment>
+  <description>
+   The model predicts possible therapeutic treatments of Alzheimers's Disease in terms of pharmacological manipulations of channels' kinetic and activation properties. The results suggest how and which mechanism can be targeted by a drug to restore the original firing conditions. The simulations reproduce somatic membrane potential in control conditions, when 90% of membrane is affected by AD (Fig.4A of the paper), and after treatment (Fig.4B of the paper).
+Reference: Culmone V, Migliore M (2012) Progressive effect of beta amyloid peptides accumulation on CA1 pyramidal neurons: a model study suggesting possible treatments
+  </description>
+ </item>
+ <item>
+  <model_id>
+   146030
+  </model_id>
+  <model_concepts>
+   <value>
+    Bursting
+   </value>
+   <value>
+    Oscillations
+   </value>
+   <value>
+    Synchronization
+   </value>
+   <value>
+    Active Dendrites
+   </value>
+   <value>
+    Influence of Dendritic Geometry
+   </value>
+   <value>
+    Calcium dynamics
+   </value>
+  </model_concepts>
+  <transmitters>
+  </transmitters>
+  <name>
+   Olfactory bulb mitral cell gap junction NN model: burst firing and synchrony (O`Connor et al. 2012)
+  </name>
+  <reference>
+   O`Connor S, Angelo K, Jacob TJC (2012) Burst firing versus synchrony in a gap junction connected olfactory bulb mitral cell network
+model. 6:75.  6:75:1-18
+  </reference>
+  <url>
+   http://senselab.med.yale.edu/modeldb/ShowModel.asp?model=146030
+  </url>
+  <genes>
+  </genes>
+  <readme>
+   &lt;pre&gt;This is the readme for a model that reproduces Figure 8c in:
+
+O'Connor S., Angelo K., Jacob T.J.C. Burst firing versus synchrony in
+a gap junction connected olfactory bulb mitral cell network
+model. Frontiers in Computational Neuroscience 6:75.
+
+Description:
+
+In a network of 6 mitral cells connected by gap junctions in the
+apical dendrite tuft, continuous current injections of 0.06 nA are
+injected into 20 locations in the apical tuft of two of the mitral
+cells. The current injection into one of the cells starts 10 ms after
+the other to generate asynchronous firing in the cells (Migliore et
+al. 2005 protocol). Firing of the cells is asynchronous for the first
+120 ms. However after the burst firing phase is completed the firing
+in all cells becomes synchronous.
+
+This implementation is by Simon O'Connor, to whom questions should be
+addressed.
+
+Usage:
+1. Unzip oconnoretal2012.zip into an empty directory.
+2. Compile the mod files with (linux/unix) nrnivmodl or (mswin/mac)
+mknrndll.
+3. (mswin) Double click on init.hoc, or (linux/unix) execute nrngui
+init.hoc from the command line or (mac) drag and drop init.hoc onto
+the nrngui icon.
+4. The simulation will run reproducing Figure 8c.
+&lt;/pre&gt;&lt;br /&gt;
+  </readme>
+  <implementers>
+  </implementers>
+  <receptors>
+  </receptors>
+  <brain_regions>
+   <value>
+    Olfactory bulb
+   </value>
+  </brain_regions>
+  <channels>
+   <value>
+    I Na,t
+   </value>
+   <value>
+    I L high threshold
+   </value>
+   <value>
+    I A
+   </value>
+   <value>
+    I K
+   </value>
+   <value>
+    I K,Ca
+   </value>
+  </channels>
+  <cell_types>
+   <value>
+    Olfactory bulb mitral cell
+   </value>
+  </cell_types>
+  <citations>
+   mdbCitations.asp?mode=m&amp;id=146030&amp;twocol=True
+  </citations>
+  <model_type>
+   <value>
+    Network
+   </value>
+  </model_type>
+  <article>
+   http://dx.doi.org/10.3389/fncom.2012.00075
+  </article>
+  <gap_junctions>
+   <value>
+    Gap junctions
+   </value>
+  </gap_junctions>
+  <zip_url>
+   http://SenseLab.med.Yale.edu/ModelDB/eavBinDown.asp?o=146030&amp;a=23&amp;mime=application/zip
+  </zip_url>
+  <simulation_environment>
+   <value>
+    Neuron
+   </value>
+  </simulation_environment>
+  <description>
+   In a network of 6 mitral cells connected by gap junction in the apical dendrite tuft, continuous current injections of 0.06 nA are injected into 20 locations in the apical tufts of two of the mitral cells. The current injections into one of the cells starts 10 ms after the other to generate asynchronous firing in the cells (Migliore et al. 2005 protocol). Firing of the cells is asynchronous for the first 120 ms. However after the burst firing phase is completed the firing in all cells becomes synchronous.Reference: O`Connor S, Angelo K, Jacob TJC (2012) Burst firing versus synchrony in a gap junction connected olfactory bulb mitral cell network
+model. 6:75.  6:75:1-18
+  </description>
+ </item>
+ <item>
+  <model_id>
+   147538
+  </model_id>
+  <model_concepts>
+   <value>
+    Active Dendrites
+   </value>
+   <value>
+    Synaptic Plasticity
+   </value>
+   <value>
+    Calcium dynamics
+   </value>
+  </model_concepts>
+  <transmitters>
+   <value>
+    Glutamate
+   </value>
+  </transmitters>
+  <name>
+   BCM-like synaptic plasticity with conductance-based models (Narayanan Johnston, 2010)
+  </name>
+  <reference>
+   Narayanan R, Johnston D (2010) The h current is a candidate mechanism for regulating the sliding modification threshold in a BCM-like synaptic learning rule.  104:1020-33
+  </reference>
+  <url>
+   http://senselab.med.yale.edu/modeldb/ShowModel.asp?model=147538
+  </url>
+  <citations>
+   mdbCitations.asp?mode=m&amp;id=147538&amp;twocol=True
+  </citations>
+  <genes>
+  </genes>
+  <readme>
+   &lt;pre&gt;
+The files in this directory form an implementation of a BCM-like
+synaptic plasticity rule in a conductance-based model. The simulation
+environment is NEURON.  The model contains Na, KDR, KA and h currents,
+and employs GHK-based implementations of AMPA and NMDA receptors.
+Whereas the MOD files for the channel and receptor currents were
+derived from previous studies, the main files associated with this
+model are Fig2.hoc and Wghkampa.mod. Fig2.hoc helps recreate Fig.
+2A and Fig. 2B of the following paper:
+
+Narayanan R, Johnston D. The h current is a candidate mechanism for 
+regulating the sliding modification threshold in a BCM-like synaptic 
+learning rule.  J Neurophysiol. 2010 Aug; 104(2):1020-33. doi: 
+10.1152/jn.01129.2009.  PubMed PMID: 20554832. PubMed Central PMCID: 
+PMC2934916.
+
+Running the functions Fig2A() and Fig2B() in the file Fig2.hoc will
+create files that will contain data for plotting Fig. 2A and Fig.
+2B of the paper, respectively. Example outputs that were obtained
+by running Fig2A() and Fig2B() are also provided as TXT files in
+this directory. A calcium-based synaptic plasticity rule (from
+Shouval et al., PNAS, 2002) is incorporated into the model to update
+the weight, and these weight updates are performed in the MOD file
+&quot;Wghkampa.mod&quot;.
+
+Implemented by Rishikesh Narayanan. Contact rishi.n@gmail.com.
+&lt;/pre&gt;&lt;br /&gt;
+  </readme>
+  <implementers>
+   <value>
+    Narayanan, Rishikesh [rishi at mbu.iisc.ernet.in]
+   </value>
+  </implementers>
+  <receptors>
+   <value>
+    AMPA
+   </value>
+   <value>
+    NMDA
+   </value>
+  </receptors>
+  <brain_regions>
+   <value>
+    Hippocampus
+   </value>
+  </brain_regions>
+  <channels>
+   <value>
+    I Na,t
+   </value>
+   <value>
+    I A
+   </value>
+   <value>
+    I h
+   </value>
+   <value>
+    I Potassium
+   </value>
+  </channels>
+  <cell_types>
+   <value>
+    CA1 pyramidal neuron
+   </value>
+  </cell_types>
+  <pubmed>
+   http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=Retrieve&amp;db=PubMed&amp;list_uids=20554832&amp;dopt=Abstract
+  </pubmed>
+  <model_type>
+   <value>
+    Neuron or other electrically excitable cell
+   </value>
+   <value>
+    Synapse
+   </value>
+   <value>
+    Channel
+   </value>
+  </model_type>
+  <article>
+   http://dx.doi.org/10.1152/jn.01129.2009
+  </article>
+  <gap_junctions>
+  </gap_junctions>
+  <zip_url>
+   http://SenseLab.med.Yale.edu/ModelDB/eavBinDown.asp?o=147538&amp;a=23&amp;mime=application/zip
+  </zip_url>
+  <simulation_environment>
+   <value>
+    Neuron
+   </value>
+  </simulation_environment>
+  <description>
+   &quot; ...
+Although the BCM-like plasticity framework
+has been a useful formulation to understand synaptic plasticity
+and metaplasticity, a mechanism for the activity-dependent regulation
+of this modification threshold has remained an open question. In this
+simulation study based on CA1 pyramidal cells, we use a modification
+of the calcium-dependent hypothesis proposed elsewhere and show
+that a change in the hyperpolarization-activated, nonspecific-cation h
+current is capable of shifting the modification threshold. 
+...&quot;Reference: Narayanan R, Johnston D (2010) The h current is a candidate mechanism for regulating the sliding modification threshold in a BCM-like synaptic learning rule.  104:1020-33
+  </description>
+ </item>
+ <item>
+  <model_id>
+   147539
+  </model_id>
+  <model_concepts>
+   <value>
+    Ion Channel Kinetics
+   </value>
+   <value>
+    Conductance distributions
+   </value>
+  </model_concepts>
+  <transmitters>
+  </transmitters>
+  <name>
+   Resonance properties through Chirp stimulus responses (Narayanan Johnston 2007, 2008)
+  </name>
+  <reference>
+   ...we show that the h channels introduce an apparent negative delay in the local voltage response of these neurons with respect to the injected current within the theta frequency range... we found that the total inductive phase increased monotonically with the h conductance, whereas it had a bell-shaped dependence on both the membrane voltage and the half-maximal activation voltage for the h conductance. (Narayanan and Johnston, 2008). References: 1. Narayanan R, Johnston D (2007) Long-term potentiation in rat hippocampal neurons is accompanied by spatially widespread changes in intrinsic oscillatory dynamics and excitability.  56:1061-752. Narayanan R, Johnston D (2008) The h channel mediates location dependence and plasticity of intrinsic phase response in rat hippocampal neurons. J Neurosci 28:5846-60
+  </reference>
+  <url>
+   http://senselab.med.yale.edu/modeldb/ShowModel.asp?model=147539
+  </url>
+  <citations>
+   mdbCitations.asp?mode=m&amp;id=147539&amp;twocol=True
+  </citations>
+  <genes>
+  </genes>
+  <readme>
+   &lt;pre&gt;
+This directory contains NEURON files associated with computing
+neuronal response to a Chirp stimulus. These files, and the functions
+there in, could be used to generate traces that shed light on the
+sensitivity of impedance measurements (both amplitude- and
+phase-related) to various parameters associated with the h channel
+and passive properties of a single compartmental model. These files
+will help recreate results presented in Fig. 7 of the 2007 paper
+and in Fig. 3 of the 2008 paper, both referenced below.
+
+Rishikesh Narayanan and Daniel Johnston, â&amp;euro;&amp;oelig;Long-term potentiation
+in rat hippocampal neurons is accompanied by spatially widespread
+changes in intrinsic oscillatory dynamics and excitability,â&amp;euro;? Neuron,
+56(6), pp.  1061â&amp;euro;&amp;ldquo;1075, December 2007.
+
+Rishikesh Narayanan and Daniel Johnston, â&amp;euro;&amp;oelig;The h channel mediates
+location dependence and plasticity of intrinsic phase response in
+rat hippocampal neurons,â&amp;euro;? The Journal of Neuroscience, 28(22), pp.
+5846â&amp;euro;&amp;ldquo;5860, May 2008.
+
+An example output voltage file, named &quot;ChirpGh_10.00.txt&quot;, is saved
+in the Output directory.  It corresponds to default values for all
+other parameters, with the h conductance set at 100 uS/cm2.  This
+was generated using the &quot;Chirp_Gh()&quot; function.  The corresponding
+current values are in the file &quot;ChirpI.txt&quot;. Both files contain
+1002000 points, corresponding to a time period of 25050 ms, with
+40 points per ms. If impedance analyses were to be performed with
+values in the &quot;ChirpGh_10.00.txt&quot; file as the voltage response, and
+values in the file &quot;ChirpI.txt&quot; as the current input, then the
+measurements should read as follows:
+
+Resonance frequency (f_R): 6.77 Hz 
+Resonance strength (Q): 1.338
+Maximal impedance amplitude (|Z|_Max): 50.9 MOhm 
+Total inductive area (Phi_L): 0.0545 rad.Hz
+
+For details about each of these measurements, refer to the two
+papers mentioned above.
+
+Written by Rishikesh Narayanan. Contact: rishi.n@gmail.com
+&lt;/pre&gt;&lt;br /&gt;
+  </readme>
+  <implementers>
+   <value>
+    Narayanan, Rishikesh [rishi at mbu.iisc.ernet.in]
+   </value>
+  </implementers>
+  <receptors>
+  </receptors>
+  <brain_regions>
+   <value>
+    Hippocampus
+   </value>
+  </brain_regions>
+  <channels>
+   <value>
+    I h
+   </value>
+  </channels>
+  <cell_types>
+   <value>
+    CA1 pyramidal neuron
+   </value>
+  </cell_types>
+  <pubmed>
+   http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=Retrieve&amp;db=PubMed&amp;list_uids=18093527&amp;dopt=Abstract
+  </pubmed>
+  <model_type>
+   <value>
+    Neuron or other electrically excitable cell
+   </value>
+  </model_type>
+  <article>
+   http://dx.doi.org/10.1016/j.neuron.2007.10.033
+  </article>
+  <gap_junctions>
+  </gap_junctions>
+  <zip_url>
+   http://SenseLab.med.Yale.edu/ModelDB/eavBinDown.asp?o=147539&amp;a=23&amp;mime=application/zip
+  </zip_url>
+  <simulation_environment>
+   <value>
+    Neuron
+   </value>
+  </simulation_environment>
+  <description>
+   ...we constructed a simple, single-compartment
+model with Ih as the only active current... we found that both resonance frequency and resonance strength increased monotonically with the increase in the h conductance, supporting the notion of a direct, graded relationship between h conductance and resonance properties... (Narayanan and Johnston, 2007).  ...we show that the h channels introduce an apparent negative delay in the local voltage response of these neurons with respect to the injected current within the theta frequency range... we found that the total inductive phase increased monotonically with the h conductance, whereas it had a bell-shaped dependence on both the membrane voltage and the half-maximal activation voltage for the h conductance. (Narayanan and Johnston, 2008). References: 1. Narayanan R, Johnston D (2007) Long-term potentiation in rat hippocampal neurons is accompanied by spatially widespread changes in intrinsic oscillatory dynamics and excitability.  56:1061-752. Narayanan R, Johnston D (2008) The h channel mediates location dependence and plasticity of intrinsic phase response in rat hippocampal neurons. J Neurosci 28:5846-60
+  </description>
+ </item>
+ <item>
+  <model_id>
+   147757
+  </model_id>
+  <model_concepts>
+   <value>
+    Synaptic Plasticity
+   </value>
+   <value>
+    Short-term Synaptic Plasticity
+   </value>
+   <value>
+    Facilitation
+   </value>
+   <value>
+    Depression
+   </value>
+   <value>
+    Synaptic Integration
+   </value>
+   <value>
+    Aging/Alzheimer`s
+   </value>
+  </model_concepts>
+  <transmitters>
+   <value>
+    Glutamate
+   </value>
+  </transmitters>
+  <name>
+   Amyloid-beta effects on release probability and integration at CA3-CA1 synapses (Romani et al. 2013)
+  </name>
+  <reference>
+   Romani A, Marchetti C, Bianchi D, Leinekugel X, Poirazi P, Migliore M, Marie H (2013) Computational modeling of the effects of amyloid-beta on release probability at hippocampal synapses.  7:1
+  </reference>
+  <url>
+   http://senselab.med.yale.edu/modeldb/ShowModel.asp?model=147757
+  </url>
+  <citations>
+   mdbCitations.asp?mode=m&amp;id=147757&amp;twocol=True
+  </citations>
+  <genes>
+  </genes>
+  <readme>
+   &lt;pre&gt;
+This archive contains the NEURON files from the paper: 
+
+Computational modeling of the effects of amyloid-beta on release
+probability at hippocampal synapses.
+Armando Romani, Cristina Marchetti, Daniela Bianchi, Xavier Leinekugel,
+Panayiota Poirazi, Michele Migliore and Hélène Marie 
+Front. Comput. Neurosci. (2013); doi: 10.3389/fncom.2013.00001 
+
+The CA1 pyramidal model is from Bianchi et al. (2012), with the
+kinetic scheme introduced by Tsodyks et al. (1998) to model changes in
+release probability and synaptic integration.
+
+Usage: Auto-launch from ModelDB or download and extract this archive,
+compile the mod files (mknrndll in mswin and mac OS X, nrnivmodl in
+unix/linux) in the experiment folder and use nrngui to start the
+simulation.hoc file in the &quot;experiment&quot; directory.  Once started press
+the &quot;Run&quot; button in the presented dialog box to reproduce the ctrl
+results in Figure 2 of the paper:
+
+&lt;img src=&quot;.\getModelFile.asp?model=147757&amp;amp;AttrID=23&amp;amp;file=\RomaniEtAl2013\.\screenshot1.png&quot; alt=&quot;&quot; /&gt;&lt;&quot;screenshot 1&quot;&gt;
+
+To reproduce Abeta results, set the variable U= 0.36 in the panel and
+click 'Run'. You should see a graph like this:
+
+&lt;img src=&quot;.\getModelFile.asp?model=147757&amp;amp;AttrID=23&amp;amp;file=\RomaniEtAl2013\.\screenshot2.png&quot; alt=&quot;&quot; /&gt;&lt;&quot;screenshot 2&quot;&gt;
+
+Questions on the NEURON simulation should be addressed to
+(replace -at- with the usual @ symbol):
+romani.armando -at- gmail.com
+danielabianchi12-at-gmail.com
+&lt;/pre&gt;
+  </readme>
+  <implementers>
+   <value>
+    Bianchi, Daniela [danielabianchi12 -at- gmail.com]
+   </value>
+   <value>
+    Romani, Armando [romani.armando -at- gmail.com]
+   </value>
+  </implementers>
+  <receptors>
+   <value>
+    AMPA
+   </value>
+  </receptors>
+  <brain_regions>
+   <value>
+    Hippocampus
+   </value>
+  </brain_regions>
+  <channels>
+   <value>
+    I Na,t
+   </value>
+   <value>
+    I A
+   </value>
+   <value>
+    I K
+   </value>
+   <value>
+    I M
+   </value>
+   <value>
+    I h
+   </value>
+   <value>
+    I Calcium
+   </value>
+   <value>
+    I_AHP
+   </value>
+  </channels>
+  <cell_types>
+   <value>
+    CA1 pyramidal neuron
+   </value>
+  </cell_types>
+  <pubmed>
+   http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=Retrieve&amp;db=PubMed&amp;list_uids=23355821&amp;dopt=Abstract
+  </pubmed>
+  <model_type>
+   <value>
+    Neuron or other electrically excitable cell
+   </value>
+   <value>
+    Synapse
+   </value>
+  </model_type>
+  <article>
+   http://dx.doi.org/10.3389/fncom.2013.00001
+  </article>
+  <gap_junctions>
+  </gap_junctions>
+  <zip_url>
+   http://SenseLab.med.Yale.edu/ModelDB/eavBinDown.asp?o=147757&amp;a=23&amp;mime=application/zip
+  </zip_url>
+  <simulation_environment>
+   <value>
+    Neuron
+   </value>
+  </simulation_environment>
+  <description>
+   The role of amyloid beta (Aß) in brain function and in the pathogenesis of Alzheimer&amp;rsquo;s disease remains elusive.
+Recent publications reported that an increase in Aß concentration perturbs presynaptic release in hippocampal neurons, in particular by increasing release probability of CA3-CA1 synapses. The model predics how this alteration can affect synaptic plasticity and signal integration. The results suggest that the perturbation of release probability induced by increased Aß can significantly alter the spike probability of CA1 pyramidal neurons and thus contribute to abnormal hippocampal function during Alzheimer&amp;rsquo;s disease.Reference: Romani A, Marchetti C, Bianchi D, Leinekugel X, Poirazi P, Migliore M, Marie H (2013) Computational modeling of the effects of amyloid-beta on release probability at hippocampal synapses.  7:1
+  </description>
+ </item>
+ <item>
+  <model_id>
+   147141
+  </model_id>
+  <model_concepts>
+   <value>
+    Synaptic Plasticity
+   </value>
+   <value>
+    Long-term Synaptic Plasticity
+   </value>
+   <value>
+    Learning
+   </value>
+   <value>
+    STDP
+   </value>
+   <value>
+    Homeostasis
+   </value>
+  </model_concepts>
+  <transmitters>
+   <value>
+    Gaba
+   </value>
+   <value>
+    Glutamate
+   </value>
+  </transmitters>
+  <name>
+   Synaptic scaling balances learning in a spiking model of neocortex (Rowan &amp; Neymotin 2013)
+  </name>
+  <reference>
+   Rowan MS,Neymotin SA (2013) Synaptic Scaling Balances Learning in a Spiking Model of Neocortex Lect. Notes in Comp. Sci., Proc. of the 11th Intern. Conf. on Adaptive and Natural Computing Algor.
+  </reference>
+  <url>
+   http://senselab.med.yale.edu/modeldb/ShowModel.asp?model=147141
+  </url>
+  <genes>
+  </genes>
+  <readme>
+   &lt;pre&gt;Introduction:
+-------------
+This is the source code for the model which was used in the paper &quot;Synaptic
+Scaling Balances Learning in a Spiking Model of Neocortex&quot; by Mark Rowan and
+Samuel Neymotin.
+
+To generate data for the figures in the paper, follow the instructions under
+'compiling' (below) then run the relevant commands from the following list. Be
+aware that some of the experiments will take a couple of days to run and will
+produce large amounts of data (&amp;gt; 2GB) due to the very long amounts of time being
+simulated (~44 hours).
+
+
+Figures:
+--------
+Figure 2 (long run):
+./runsim data/onlydeletion &quot;{stdpsim=0 scaling=0 deletionstep=3}&quot;
+./runsim data/scalingwithdeletion &quot;{stdpsim=0 scaling=1 deletionstep=3}&quot;
+
+Figure 3 (long run):
+./runsim data/onlyscaling &quot;{stdpsim=1 scaling=1 PreDur=160000 PostDur=0 LearnDur=0}&quot;
+
+Figures 4/6/7a/7c (couple of hours):
+./runsim data/onlytraining &quot;{stdpsim=1 scaling=0}&quot;
+
+Figures 5/6/7b/7d (couple of hours):
+./runsim data/trainingandscaling &quot;{stdpsim=1 scaling=1}&quot;
+
+
+Creating plots:
+---------------
+Plots can be created using 'python plot.py &amp;lt;datadir&amp;gt; &amp;lt;plot1&amp;gt;: &amp;lt;plot2&amp;gt;'
+(requires various Python packages including matplotlib, numpy, and mtspec).
+
+e.g. to create Figure 3:
+  python plot.py data/onlyscaling activity noinhib: scaling noinhib
+  
+or to create Figure 7:
+  python plot.py data/trainingandscaling power
+
+
+
+
+Compiling:
+----------
+Change to the 'mod' directory and run the command 'mkmod' to build the necessary
+.mod files.
+
+
+Running the sim:
+----------------
+Execute the simulation directly using ./runsim.sh [savepath] [optional args]
+
+  where [optional args] is a list such as   &quot;{variable=value other_variable=value}&quot;
+  e.g. &quot;{strdef simfilename simfilename=&quot;stdp_scaling.hoc&quot;}&quot; (which runs STDP sim)
+
+
+Batch runs:
+-----------
+To run multiple experiments in a batch on a cluster (e.g. to get results over
+various different values of activitytau), create a basic script in batchscripts
+and fill in the variable name, values, and optional arguments. (See the scripts
+already inside batchscripts for examples). This is currently set up to use a
+GridEngine cluster, but you can edit clusterrun.sh to change cluster settings.
+
+To execute:
+
+  batchscripts/&amp;lt;script&amp;gt;
+
+To run all scripts in a directory:
+
+  run-parts batchscripts/&amp;lt;directory&amp;gt;/
+
+
+Code hierarchy:
+---------------
+batchscripts/&amp;lt;script&amp;gt;
+ |_ batchcommon
+   |_ clusterrun.sh
+     |_ runsim.sh
+       |_ sim.hoc
+         |  sim setup files
+         |  stdp_scaling.hoc OR alz.hoc  (chosen by setting stdpsim=1/0)
+&lt;/pre&gt;&lt;br /&gt;
+  </readme>
+  <implementers>
+   <value>
+    Lytton, William [billl at neurosim.downstate.edu]
+   </value>
+   <value>
+    Neymotin, Sam [samn at neurosim.downstate.edu]
+   </value>
+   <value>
+    Rowan, Mark [m.s.rowan at cs.bham.ac.uk]
+   </value>
+  </implementers>
+  <receptors>
+   <value>
+    GabaA
+   </value>
+   <value>
+    AMPA
+   </value>
+   <value>
+    NMDA
+   </value>
+  </receptors>
+  <brain_regions>
+   <value>
+    Neocortex
+   </value>
+  </brain_regions>
+  <channels>
+  </channels>
+  <cell_types>
+   <value>
+    Neocortical pyramidal neuron: deep
+   </value>
+   <value>
+    Neocortical pyramidal neuron: superficial
+   </value>
+   <value>
+    Neocortical basket cell
+   </value>
+   <value>
+    Neocortical Fast Spiking (FS) interneuron
+   </value>
+   <value>
+    Spiny stellate cell
+   </value>
+   <value>
+    Neocortical Regular Spiking (RS) neuron
+   </value>
+   <value>
+    Neocortical Low Threshold Spiking (LTS) neuron
+   </value>
+  </cell_types>
+  <citations>
+   mdbCitations.asp?mode=m&amp;id=147141&amp;twocol=True
+  </citations>
+  <model_type>
+   <value>
+    Network
+   </value>
+  </model_type>
+  <gap_junctions>
+  </gap_junctions>
+  <zip_url>
+   http://SenseLab.med.Yale.edu/ModelDB/eavBinDown.asp?o=147141&amp;a=23&amp;mime=application/zip
+  </zip_url>
+  <simulation_environment>
+   <value>
+    Neuron
+   </value>
+   <value>
+    Python
+   </value>
+  </simulation_environment>
+  <description>
+   Learning in the brain requires complementary mechanisms: potentiation and activity-dependent homeostatic scaling. We introduce synaptic scaling to a biologically-realistic spiking model of neocortex which can learn changes in oscillatory rhythms using STDP, and show that scaling is necessary to balance both positive and negative changes in input from potentiation and atrophy. We discuss some of the issues that arise when considering synaptic scaling in such a model, and show that scaling regulates activity whilst allowing learning to remain unaltered.Reference: Rowan MS,Neymotin SA (2013) Synaptic Scaling Balances Learning in a Spiking Model of Neocortex Lect. Notes in Comp. Sci., Proc. of the 11th Intern. Conf. on Adaptive and Natural Computing Algor.
+  </description>
+ </item>
+ <item>
+  <model_id>
+   147514
+  </model_id>
+  <model_concepts>
+   <value>
+    Influence of Dendritic Geometry
+   </value>
+  </model_concepts>
+  <transmitters>
+   <value>
+    Serotonin
+   </value>
+  </transmitters>
+  <name>
+   Altered complexity in layer 2/3 pyramidal neurons (Luuk van der Velden et al. 2012)
+  </name>
+  <reference>
+   van der Velden L, van Hooft JA, Chameau P (2012) Altered dendritic complexity affects firing properties of cortical layer 2/3 pyramidal neurons in mice lacking the 5-HT3A receptor  108:1521-1528
+  </reference>
+  <url>
+   http://senselab.med.yale.edu/modeldb/ShowModel.asp?model=147514
+  </url>
+  <citations>
+   mdbCitations.asp?mode=m&amp;id=147514&amp;twocol=True
+  </citations>
+  <genes>
+  </genes>
+  <readme>
+   &lt;head&gt;
+&lt;meta http-equiv=&quot;Content-type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;
+&lt;header&gt;Neuron model to probe effects of altered dendritic complexity&lt;/header&gt;
+&lt;/head&gt;
+  </readme>
+  <implementers>
+   <value>
+    van der Velden, Luuk [l.j.j.vandervelden at uva.nl]
+   </value>
+  </implementers>
+  <receptors>
+   <value>
+    5-HT3
+   </value>
+  </receptors>
+  <brain_regions>
+  </brain_regions>
+  <channels>
+   <value>
+    Ca pump
+   </value>
+  </channels>
+  <cell_types>
+   <value>
+    Neocortical Regular Spiking (RS) neuron
+   </value>
+  </cell_types>
+  <pubmed>
+   http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=Retrieve&amp;db=PubMed&amp;list_uids=22696545&amp;dopt=Abstract
+  </pubmed>
+  <model_type>
+   <value>
+    Neuron or other electrically excitable cell
+   </value>
+  </model_type>
+  <article>
+   http://dx.doi.org/10.1152/jn.00829.2011
+  </article>
+  <gap_junctions>
+  </gap_junctions>
+  <zip_url>
+   http://SenseLab.med.Yale.edu/ModelDB/eavBinDown.asp?o=147514&amp;a=23&amp;mime=application/zip
+  </zip_url>
+  <simulation_environment>
+   <value>
+    Neuron
+   </value>
+  </simulation_environment>
+  <description>
+   &quot; ... Our experimental results show that hypercomplexity of the apical dendritic tuft of layer 2/3 pyramidal neurons affects neuronal excitability by reducing the amount of spike frequency adaptation. 
+
+This difference in firing pattern, related to a higher dendritic complexity, was accompanied by an altered development of the afterhyperpolarization slope with successive action potentials. 
+
+Our abstract and realistic neuronal models, which allowed manipulation of the dendritic complexity, showed similar effects on neuronal excitability and confirmed the impact of apical dendritic complexity.
+
+Alterations of dendritic complexity, as observed in several pathological conditions such as neurodegenerative diseases or neurodevelopmental disorders, may thus not only affect the input to layer 2/3 pyramidal neurons but also shape their firing pattern and consequently alter the information processing in the cortex.&quot;Reference: van der Velden L, van Hooft JA, Chameau P (2012) Altered dendritic complexity affects firing properties of cortical layer 2/3 pyramidal neurons in mice lacking the 5-HT3A receptor  108:1521-1528
+  </description>
+ </item>
+ <item>
+  <model_id>
+   144538
+  </model_id>
+  <model_concepts>
+   <value>
+    Simplified Models
+   </value>
+   <value>
+    Synaptic Plasticity
+   </value>
+   <value>
+    Long-term Synaptic Plasticity
+   </value>
+   <value>
+    Reinforcement Learning
+   </value>
+   <value>
+    Reward-modulated STDP
+   </value>
+  </model_concepts>
+  <transmitters>
+   <value>
+    Dopamine
+   </value>
+   <value>
+    Gaba
+   </value>
+   <value>
+    Glutamate
+   </value>
+  </transmitters>
+  <name>
+   Reinforcement learning of targeted movement (Chadderdon et al. 2012)
+  </name>
+  <reference>
+   7(10):e47251
+  </reference>
+  <url>
+   http://senselab.med.yale.edu/modeldb/ShowModel.asp?model=144538
+  </url>
+  <genes>
+  </genes>
+  <readme>
+   &lt;pre&gt;This code generates figures related to the model defined in
+
+Chadderdon GL, Neymotin SA, Kerr CC, Lytton WW (2012) 
+Reinforcement learning of targeted movement in a spiking neuronal 
+model of motor cortex.  PLoS ONE.
+
+This document provides brief installation and usage instructions.
+
+INSTALLATION
+
+Note: the code has been designed to work on Linux machines. It may
+work on Macs and will definitely not work on Windows.  This 
+simulation also requires a good deal of memory to run: e.g. it will  
+run on a machine with ~ 8 GB, but not one with ~ 3 GB.
+
+Instructions:
+
+1. Unzip all files.
+2. Type &quot;nrnivmodl *.mod&quot; in the directory. This should create a
+directory called either i686 or x86_64, depending on your computer's
+architecture, and put a file called &quot;special&quot; in that directory.
+
+
+USAGE
+
+Run the simulation by typing &quot;nrngui sim.hoc&quot; in the directory. 
+After brief initialization, a window should appear showing the arm 
+moving with respect to the target X.  After this has run for a 
+simulated 200 s, two more windows will be generated on top of this: 
+a window showing the spiking of all of the units of the model in 
+red for the first 1 s of the simulation, and another window showing 
+the trajectory of the elbow joint in blue as it learns to reach for 
+35 degrees.  Note that the raster plot shows 96 PR and 96 EM 
+cells.  48 of each of these are related to shoulder joint activity 
+of the virtual arm; the firing of these cells is not shown in the 
+figures of the paper.
+
+To run under a different learning target, you can go into arm.hoc, 
+Line 66 and change the value of 'targid' to pick a different elbow 
+angle target  (0 = 135, 1 = 105, 2 = 75, 3 = 35, 4 = 0 degrees).  
+To choose a different learning condition, you can go to Line 54 and 
+change the value of RLMode: 0 = no-learning, 1 = reward-only, 
+2 = punishment only, 3 = reward-and-punishment.  The random seed for 
+network wiring can be changed by going into Line 91 of network.hoc 
+and setting 'dvseed' to a different value.  The random seed for the 
+babbling noise can be changed by resetting the value of 'inputseed' 
+in Line 13 in stim.hoc.  After resetting these parameters and 
+saving the files, simulations can then be started as above.
+&lt;/pre&gt;&lt;br /&gt;
+  </readme>
+  <implementers>
+   <value>
+    Neymotin, Sam [samn at neurosim.downstate.edu]
+   </value>
+   <value>
+    Chadderdon, George [georgec at neurosim.downstate.edu]
+   </value>
+  </implementers>
+  <receptors>
+   <value>
+    GabaA
+   </value>
+   <value>
+    AMPA
+   </value>
+   <value>
+    NMDA
+   </value>
+  </receptors>
+  <brain_regions>
+   <value>
+    Neocortex
+   </value>
+  </brain_regions>
+  <channels>
+  </channels>
+  <cell_types>
+   <value>
+    Neocortical Fast Spiking (FS) interneuron
+   </value>
+   <value>
+    Neocortical Regular Spiking (RS) neuron
+   </value>
+   <value>
+    Neocortical Low Threshold Spiking (LTS) neuron
+   </value>
+  </cell_types>
+  <citations>
+   mdbCitations.asp?mode=m&amp;id=144538&amp;twocol=True
+  </citations>
+  <model_type>
+   <value>
+    Network
+   </value>
+  </model_type>
+  <article>
+   http://dx.doi.org/10.1371/journal.pone.0047251
+  </article>
+  <gap_junctions>
+  </gap_junctions>
+  <zip_url>
+   http://SenseLab.med.Yale.edu/ModelDB/eavBinDown.asp?o=144538&amp;a=23&amp;mime=application/zip
+  </zip_url>
+  <simulation_environment>
+   <value>
+    Neuron
+   </value>
+  </simulation_environment>
+  <description>
+   Reference: Chadderdon GL, Neymotin SA, Kerr CC, Lytton WW (2012) Reinforcement learning of targeted movement in a spiking neuronal model of motor cortex  7(10):e47251
+  </description>
+ </item>
+ <item>
+  <model_id>
+   147867
+  </model_id>
+  <model_concepts>
+   <value>
+    Active Dendrites
+   </value>
+   <value>
+    Influence of Dendritic Geometry
+   </value>
+   <value>
+    Detailed Neuronal Models
+   </value>
+   <value>
+    Action Potentials
+   </value>
+   <value>
+    Conductance distributions
+   </value>
+  </model_concepts>
+  <transmitters>
+   <value>
+    Glutamate
+   </value>
+  </transmitters>
+  <name>
+   Impact of dendritic atrophy on intrinsic and synaptic excitability (Narayanan &amp; Chattarji, 2010)
+  </name>
+  <reference>
+   Narayanan R, Chattarji S (2010) Computational analysis of the impact of chronic stress on intrinsic and synaptic excitability in the hippocampus. J Neurophysiol 103:3070-83
+  </reference>
+  <url>
+   http://senselab.med.yale.edu/modeldb/ShowModel.asp?model=147867
+  </url>
+  <citations>
+   mdbCitations.asp?mode=m&amp;id=147867&amp;twocol=True
+  </citations>
+  <genes>
+  </genes>
+  <readme>
+   &lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot; &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt;
+  </readme>
+  <implementers>
+   <value>
+    Narayanan, Rishikesh [rishi at mbu.iisc.ernet.in]
+   </value>
+  </implementers>
+  <receptors>
+   <value>
+    AMPA
+   </value>
+  </receptors>
+  <brain_regions>
+   <value>
+    Hippocampus
+   </value>
+  </brain_regions>
+  <channels>
+   <value>
+    I Na,t
+   </value>
+   <value>
+    I L high threshold
+   </value>
+   <value>
+    I N
+   </value>
+   <value>
+    I T low threshold
+   </value>
+   <value>
+    I A
+   </value>
+   <value>
+    I K
+   </value>
+   <value>
+    I M
+   </value>
+   <value>
+    I h
+   </value>
+   <value>
+    I K,Ca
+   </value>
+   <value>
+    I Calcium
+   </value>
+   <value>
+    I_AHP
+   </value>
+  </channels>
+  <cell_types>
+   <value>
+    CA3 pyramidal neuron
+   </value>
+  </cell_types>
+  <pubmed>
+   http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=Retrieve&amp;db=PubMed&amp;list_uids=20457854&amp;dopt=Abstract
+  </pubmed>
+  <model_type>
+   <value>
+    Neuron or other electrically excitable cell
+   </value>
+   <value>
+    Synapse
+   </value>
+   <value>
+    Dendrite
+   </value>
+  </model_type>
+  <gap_junctions>
+  </gap_junctions>
+  <zip_url>
+   http://SenseLab.med.Yale.edu/ModelDB/eavBinDown.asp?o=147867&amp;a=23&amp;mime=application/zip
+  </zip_url>
+  <simulation_environment>
+   <value>
+    Neuron
+   </value>
+  </simulation_environment>
+  <description>
+   These simulations examined the atrophy induced changes in electrophysiological properties of CA3 pyramidal neurons. We found these neurons change from bursting to regular spiking as atrophy increases. Region-specific atrophy induced region-specific increases in synaptic excitability in a passive dendritic tree. All dendritic compartments of an atrophied 
+neuron had greater synaptic excitability and a larger voltage transfer to the soma than the control neuron.
+Reference: Narayanan R, Chattarji S (2010) Computational analysis of the impact of chronic stress on intrinsic and synaptic excitability in the hippocampus. J Neurophysiol 103:3070-83
+  </description>
+ </item>
+ <item>
+  <model_id>
+   145836
+  </model_id>
+  <model_concepts>
+   <value>
+    Ion Channel Kinetics
+   </value>
+   <value>
+    Simplified Models
+   </value>
+   <value>
+    Long-term Synaptic Plasticity
+   </value>
+   <value>
+    Methods
+   </value>
+  </model_concepts>
+  <transmitters>
+   <value>
+    Glutamate
+   </value>
+  </transmitters>
+  <name>
+   A fast model of voltage-dependent NMDA Receptors (Moradi et al. 2012)
+  </name>
+  <reference>
+   Moradi K, Moradi K, Ganjkhani M, Hajihasani M, Gharibzadeh S, Kaka G (2012) A fast model of voltage-dependent NMDA receptors
+  </reference>
+  <url>
+   http://senselab.med.yale.edu/modeldb/ShowModel.asp?model=145836
+  </url>
+  <citations>
+   mdbCitations.asp?mode=m&amp;id=145836&amp;twocol=True
+  </citations>
+  <genes>
+   <value>
+    NR2B GRIN2B
+   </value>
+  </genes>
+  <readme>
+   File not selected &lt;br /&gt;&lt;br /&gt;&amp;lt;- Select file from this column.
+  </readme>
+  <implementers>
+   <value>
+    Moradi, Keivan [k.moradi at gmail.com]
+   </value>
+  </implementers>
+  <receptors>
+   <value>
+    NMDA
+   </value>
+   <value>
+    Glutamate
+   </value>
+  </receptors>
+  <brain_regions>
+   <value>
+    Neocortex
+   </value>
+   <value>
+    Hippocampus
+   </value>
+  </brain_regions>
+  <channels>
+  </channels>
+  <cell_types>
+   <value>
+    CA1 pyramidal neuron
+   </value>
+  </cell_types>
+  <pubmed>
+   http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=Retrieve&amp;db=PubMed&amp;list_uids=23224774&amp;dopt=Abstract
+  </pubmed>
+  <model_type>
+   <value>
+    Synapse
+   </value>
+  </model_type>
+  <article>
+   http://dx.doi.org/10.1007/s10827-012-0434-4
+  </article>
+  <gap_junctions>
+  </gap_junctions>
+  <zip_url>
+   http://SenseLab.med.Yale.edu/ModelDB/eavBinDown.asp?o=145836&amp;a=23&amp;mime=application/zip
+  </zip_url>
+  <simulation_environment>
+   <value>
+    Neuron
+   </value>
+  </simulation_environment>
+  <description>
+   These are two or triple-exponential models of the voltage-dependent NMDA receptors. Conductance of these receptors increase voltage-dependently with a &quot;Hodgkin and Huxley-type&quot; gating style that is also depending on glutamate-binding. Time course of the gating of these receptors in response to glutamate are also changing voltage-dependently. Temperature sensitivity and desensitization of these receptor are also taken into account.
+Three previous kinetic models that are able to simulate the voltage-dependence of the NMDARs are also imported to the NMODL. These models are not temperature sensitive. 
+
+These models are compatible with the &quot;event delivery system&quot; of NEURON. Parameters that are reported in our paper are applicable to CA1 pyramidal cell dendrites.Reference: Moradi K, Moradi K, Ganjkhani M, Hajihasani M, Gharibzadeh S, Kaka G (2012) A fast model of voltage-dependent NMDA receptors
+  </description>
+ </item>
+ <item>
+  <model_id>
+   146376
+  </model_id>
+  <model_concepts>
+   <value>
+    Simplified Models
+   </value>
+   <value>
+    Detailed Neuronal Models
+   </value>
+  </model_concepts>
+  <transmitters>
+  </transmitters>
+  <name>
+   Ca1 pyramidal neuron: reduction model (Marasco et al. 2012)
+  </name>
+  <reference>
+   Marasco A, Limongiello A, Migliore M (2012) Fast and accurate low-dimensional reduction of biophysically detailed neuron models  2:928:1-7
+  </reference>
+  <url>
+   http://senselab.med.yale.edu/modeldb/ShowModel.asp?model=146376
+  </url>
+  <citations>
+   mdbCitations.asp?mode=m&amp;id=146376&amp;twocol=True
+  </citations>
+  <genes>
+  </genes>
+  <readme>
+   &lt;pre&gt;
+NEURON files from the paper:
+
+Fast and accurate low-dimensional reduction of biophysically detailed
+neuron models A. Marasco, A.Limongiello, and M.Migliore
+(2012). Sci. Reports 2:928:1-7 http://dx.doi.org/10.1038/srep00928
+
+
+Usage:
+
+Compile the mod files and run REDUCTION1.0.hoc for the main simulation
+or MaxStimPROCEDURE1.0.hoc for the estimation of the maxstim parameter
+for a specific morphology to use in REDUCTION1.0.hoc
+
+The REDUCTION1.0.hoc simulation file allows to play with the method's
+parameters (see SoftReduction1.0.doc).
+
+Example run: After the simulation starts press the &quot;Run the Full &amp;
+Reduced Models&quot; button, then select geoc70863.hoc in the morphologies
+folder, the simulation will reproduce the traces in Fig.1B (left) of
+the paper:
+
+&lt;img src=&quot;.\getModelFile.asp?model=146376&amp;amp;AttrID=23&amp;amp;file=\reduction1.0\.\screenshot.png&quot; alt=&quot;screenshot&quot; /&gt;
+
+Written by A. Limongiello, 2012
+
+Questions should be addressed to michele.migliore@cnr.it
+&lt;/pre&gt;
+  </readme>
+  <implementers>
+   <value>
+    Limongiello, Alessandro [alessandro.limongiello at unina.it]
+   </value>
+  </implementers>
+  <receptors>
+   <value>
+    AMPA
+   </value>
+  </receptors>
+  <brain_regions>
+   <value>
+    Hippocampus
+   </value>
+  </brain_regions>
+  <channels>
+   <value>
+    I Na,t
+   </value>
+   <value>
+    I A
+   </value>
+   <value>
+    I K
+   </value>
+   <value>
+    I h
+   </value>
+  </channels>
+  <cell_types>
+   <value>
+    CA1 pyramidal neuron
+   </value>
+  </cell_types>
+  <pubmed>
+   http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=Retrieve&amp;db=PubMed&amp;list_uids=23226594&amp;dopt=Abstract
+  </pubmed>
+  <model_type>
+   <value>
+    Dendrite
+   </value>
+  </model_type>
+  <article>
+   http://dx.doi.org/10.1038/srep00928
+  </article>
+  <gap_junctions>
+  </gap_junctions>
+  <zip_url>
+   http://SenseLab.med.Yale.edu/ModelDB/eavBinDown.asp?o=146376&amp;a=23&amp;mime=application/zip
+  </zip_url>
+  <simulation_environment>
+   <value>
+    Neuron
+   </value>
+  </simulation_environment>
+  <description>
+   &quot;... Here we introduce a new, automatic and fast method to map realistic neurons into equivalent reduced models running up to &gt;40 times faster while maintaining a very high accuracy of the membrane potential dynamics during synaptic inputs, and a direct link with experimental observables. The mapping of arbitrary sets of synaptic inputs, without additional fine tuning, would also allow the convenient and efficient implementation of a new generation of large-scale simulations of brain regions reproducing the biological variability observed in real neurons, with unprecedented advances to understand higher brain functions.&quot;Reference: Marasco A, Limongiello A, Migliore M (2012) Fast and accurate low-dimensional reduction of biophysically detailed neuron models  2:928:1-7
+  </description>
+ </item>
+ <item>
+  <model_id>
+   141063
+  </model_id>
+  <model_concepts>
+   <value>
+    Bursting
+   </value>
+   <value>
+    Oscillations
+   </value>
+   <value>
+    Simplified Models
+   </value>
+   <value>
+    Sensory processing
+   </value>
+  </model_concepts>
+  <transmitters>
+  </transmitters>
+  <name>
+   Role of Ih in firing patterns of cold thermoreceptors (Orio et al., 2012)
+  </name>
+  <reference>
+   Orio P, Parra A, Madrid R, Gonzalez O, Belmonte C, Viana F (2012) Role of Ih in the firing pattern of mammalian cold thermoreceptor endings
+  </reference>
+  <url>
+   http://senselab.med.yale.edu/modeldb/ShowModel.asp?model=141063
+  </url>
+  <citations>
+   mdbCitations.asp?mode=m&amp;id=141063&amp;twocol=True
+  </citations>
+  <genes>
+  </genes>
+  <readme>
+   &lt;pre&gt;
+This is the readme for the model associated with the paper:
+ 
+Orio P., Parra A., Madrid R., Belmonte C. and Viana F. (2011)
+Role of the Hyperpolarization Activated Current (Ih) in the Firing
+Pattern of Mammalian Cold Thermoreceptor Endings.
+J Neurophysiol 108:3009-3023 (2012)
+published ahead of print September 5, 2012, doi:10.1152/jn.01033.2011
+
+This is a model for temperature-dependent bursting firing patterns,
+inspired by Braun et al. (Int J Bif Chaos 8:881-889 (1998)), with
+added hyperpolarization-activated current (Ih) and a TREK1-like
+potassium current. Also, there is a minor modification in the slow
+repolarizing current.
+
+This simulation code requires NEURON freely available from
+http://www.neuron.yale.edu
+
+How to run the model:  Auto-launch from ModelDB or
+1) compile the supplied mod files
+2) run or double-clic mosinit.hoc
+
+You will be prompted to choose type of simulation and type of Ih:
+1) The type of simulation
+- V traces @34, 30 and 25ÂºC: This is to produce voltage traces similar
+to Figures 7A and 8A.
+- 6 temperature steps (ISI plot): This will run a longer simulation
+(300s) with temperature steps at 34, 32, 30, 28, 26 and 24ÂºC. No
+voltage trace will be plotted but instead a firing rate plot, an ISI
+plot and a temperature trace.  Also a 'Save' button will be provided
+that will generate a file called &quot;APdata.txt&quot;. This text file will
+contain three columns: Time of spike, ISI and temperature. With this
+data the Figures 7B, 8B and 10A can be generated.
+- Effect of ZD (ISI plot): This will also run a 300s simulation with a
+firing rate and ISI plots, similar to Figures 7C, 8C and 10B. Spike
+time data can also be saved.
+
+- Effect of ZD with v-trace: A shorter simulation with the voltage
+trace while the Ih conductance is being reduced.
+
+2) The type of Ih:
+- wild type (HCN1): tau=125 ms (@25ÂºC) and V0=-85 mV. (Figure 7) For
+example, after selected from the initial dialog box and &quot;Run&quot; is
+pressed you should see an image similar to:
+&lt;img src=&quot;.\getModelFile.asp?model=141063&amp;amp;AttrID=23&amp;amp;file=\HBplusIh\fig7.png&quot; alt=&quot;fig 7&quot; /&gt;
+
+- slow Ih (HCN2): tau=900 ms (@25ÂºC) and V0=-95mV, (Figure 8)
+- slow Ih gh=0.2: tau=900 ms (@25ÂºC), V0=-95mV and gbar_ih=0.2 mS/cm2
+(Figure 10)
+&lt;/pre&gt;
+  </readme>
+  <implementers>
+   <value>
+    Orio, Patricio [patricio.orio at uv.cl]
+   </value>
+  </implementers>
+  <receptors>
+  </receptors>
+  <brain_regions>
+   <value>
+    Generic
+   </value>
+  </brain_regions>
+  <channels>
+   <value>
+    I Na,p
+   </value>
+   <value>
+    I Na,t
+   </value>
+   <value>
+    I K
+   </value>
+   <value>
+    I h
+   </value>
+   <value>
+    I K,Ca
+   </value>
+  </channels>
+  <cell_types>
+  </cell_types>
+  <pubmed>
+   http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=Retrieve&amp;db=PubMed&amp;list_uids=22956791&amp;dopt=Abstract
+  </pubmed>
+  <model_type>
+   <value>
+    Neuron or other electrically excitable cell
+   </value>
+  </model_type>
+  <article>
+   http://dx.doi.org/10.1152/jn.01033.2011
+  </article>
+  <gap_junctions>
+  </gap_junctions>
+  <zip_url>
+   http://SenseLab.med.Yale.edu/ModelDB/eavBinDown.asp?o=141063&amp;a=23&amp;mime=application/zip
+  </zip_url>
+  <simulation_environment>
+   <value>
+    Neuron
+   </value>
+  </simulation_environment>
+  <description>
+   &quot; ... Here we investigated the role of Ih in cold-sensitive (CS) nerve endings, where cold sensory transduction actually takes place. Corneal CS nerve endings in mice show a rhythmic spiking activity at neutral skin temperature that switches to bursting mode when the temperature is lowered. 
+...
+Mathematical modeling shows that the firing phenotype of CS nerve endings from HCN1&amp;#8722;/&amp;#8722; mice can be reproduced by replacing HCN1 channels with the slower HCN2 channels rather than by abolishing Ih. We propose that Ih carried by HCN1 channels helps tune the frequency of the oscillation and the length of bursts underlying regular spiking in cold thermoreceptors, having important implications for neural coding of cold sensation. 
+&quot;Reference: Orio P, Parra A, Madrid R, Gonzalez O, Belmonte C, Viana F (2012) Role of Ih in the firing pattern of mammalian cold thermoreceptor endings
+  </description>
+ </item>
+ <item>
+  <model_id>
+   146026
+  </model_id>
+  <model_concepts>
+   <value>
+    Action Potential Initiation
+   </value>
+   <value>
+    Parameter Fitting
+   </value>
+   <value>
+    Simplified Models
+   </value>
+   <value>
+    Active Dendrites
+   </value>
+   <value>
+    Detailed Neuronal Models
+   </value>
+   <value>
+    Action Potentials
+   </value>
+   <value>
+    Methods
+   </value>
+   <value>
+    Calcium dynamics
+   </value>
+  </model_concepts>
+  <transmitters>
+  </transmitters>
+  <name>
+   A set of reduced models of layer 5 pyramidal neurons (Bahl et al. 2012)
+  </name>
+  <reference>
+   Reference: Bahl A, Stemmler MB, Herz AV, Roth A (2012) Automated optimization of a reduced layer 5 pyramidal cell model based on experimental data.  210:22-34
+  </reference>
+  <url>
+   http://senselab.med.yale.edu/modeldb/ShowModel.asp?model=146026
+  </url>
+  <citations>
+   mdbCitations.asp?mode=m&amp;id=146026&amp;twocol=True
+  </citations>
+  <genes>
+  </genes>
+  <readme>
+   &lt;pre&gt;
+These are the NEURON files for 10 different models of a reduced L5
+pyramidal neuron. The parameters were obtained by automatically
+fitting the models to experimental data using a multi objective
+evolutionary search strategy. Details on the algorithm can be found at
+www.g-node.org/emoo and in Bahl et al. (2012).
+
+For testing: 
+
+- Compile the channels with nrnivmodl (this model was developed under
+  linux). You might then have to correct the path in reduced_model.hoc
+- Test regular firing and ca-Spike examples: nrngui example1.hoc etc.
+  By default the auto-launch button on ModelDB will start this file.
+  After the example1.hoc is started press Init &amp; Run.  You should see:
+
+&lt;img src=&quot;.\getModelFile.asp?model=146026&amp;amp;AttrID=23&amp;amp;file=\BahlEtAl2012\.\screenshot.png&quot; alt=&quot;screenshot&quot; width=&quot;550&quot; height=&quot;405&quot; /&gt;
+
+- You can also load the models directly: hoc files init_models_with_ca
+  are models with calcium parameters properly set, while the hoc files
+  in init_models_without_ca describe models with inactivated dendritic
+  calcium dynamics.
+
+Please contact me if you have problems or questions concerning the
+models or the search algorithm.
+
+Armin Bahl
+
+References:
+
+Bahl, A., Stemmler, M. B., Herz, A. V. M., &amp; Roth, A. (2012).
+Automated optimization of a reduced layer 5 pyramidal cell model based
+on experimental data. Journal of Neuroscience Methods, 210(1), 22-34.
+doi:10.1016/j.jneumeth.2012.04.006
+&lt;/pre&gt;
+  </readme>
+  <implementers>
+   <value>
+    Bahl, Armin [bahl at neuro.mpg.de]
+   </value>
+  </implementers>
+  <receptors>
+  </receptors>
+  <brain_regions>
+  </brain_regions>
+  <channels>
+   <value>
+    I Na,p
+   </value>
+   <value>
+    I Na,t
+   </value>
+   <value>
+    I K
+   </value>
+   <value>
+    I M
+   </value>
+   <value>
+    I h
+   </value>
+   <value>
+    I K,Ca
+   </value>
+   <value>
+    I Calcium
+   </value>
+   <value>
+    I A, slow
+   </value>
+  </channels>
+  <cell_types>
+   <value>
+    Neocortical pyramidal neuron: deep
+   </value>
+  </cell_types>
+  <pubmed>
+   http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=Retrieve&amp;db=PubMed&amp;list_uids=22524993&amp;dopt=Abstract
+  </pubmed>
+  <model_type>
+   <value>
+    Neuron or other electrically excitable cell
+   </value>
+   <value>
+    Dendrite
+   </value>
+  </model_type>
+  <article>
+   http://dx.doi.org/10.1016/j.jneumeth.2012.04.006
+  </article>
+  <gap_junctions>
+  </gap_junctions>
+  <zip_url>
+   http://SenseLab.med.Yale.edu/ModelDB/eavBinDown.asp?o=146026&amp;a=23&amp;mime=application/zip
+  </zip_url>
+  <simulation_environment>
+   <value>
+    Neuron
+   </value>
+   <value>
+    Python
+   </value>
+  </simulation_environment>
+  <description>
+   These are the NEURON files for 10 different models of a reduced L5 pyramidal neuron. The parameters were obtained by automatically fitting the models to experimental data using a multi objective evolutionary search strategy. Details on the algorithm can be found at 
+www.g-node.org/emoo and in Bahl et al. (2012).
+Reference: Bahl A, Stemmler MB, Herz AV, Roth A (2012) Automated optimization of a reduced layer 5 pyramidal cell model based on experimental data.  210:22-34
+  </description>
+ </item>
+ <item>
+  <model_id>
+   144586
+  </model_id>
+  <model_concepts>
+   <value>
+    Methods
+   </value>
+   <value>
+    Signaling pathways
+   </value>
+   <value>
+    Boolean network
+   </value>
+   <value>
+    Apoptosis
+   </value>
+  </model_concepts>
+  <transmitters>
+  </transmitters>
+  <name>
+   Boolean network-based analysis of the apoptosis network (Mai and Liu 2009)
+  </name>
+  <reference>
+   Mai Z, Liu H (2009) Boolean network-based analysis of the apoptosis network: irreversible apoptosis and stable surviving
+  259(4):760-9
+  </reference>
+  <url>
+   http://senselab.med.yale.edu/modeldb/ShowModel.asp?model=144586
+  </url>
+  <citations>
+   mdbCitations.asp?mode=m&amp;id=144586&amp;twocol=True
+  </citations>
+  <genes>
+  </genes>
+  <readme>
+   &lt;pre&gt;
+&lt;b&gt;Simulation description:&lt;/b&gt;
+
+This is a simulation of apoptosis using a discrete/boolean network
+formalism (BNET ARTIFICIAL_CELL C/NMODL code in bnet.mod). Nodes in
+the network can be in one of two states (ON,OFF). Each node in the
+network specifies a molecule/protein/enzyme and each rule specifies an
+interaction between a set of source nodes and a single target
+node. The nodes and rules are specified in text files: (names in
+apopnames.txt; rules in apoprules.txt). The specification is loaded
+using a python class (bnet) in bnet.py, or using the
+readnames/readrules functions located there. network.py has a apopnet
+class for a model of apoptosis that inherits from the bnet
+class. Nodes in apopnames.txt come in a few forms: input nodes,
+regular nodes, special nodes. Input nodes have the word &quot;input&quot; after
+them. These nodes have fixed values for a simulation and provide input
+to the rest of the network. Regular nodes (one name per line) have
+their states changed based on the rules described in [1]. Special
+nodes (DNADamage, Apoptosis) have their states specified based on a
+special rule that integrates inputs over several iterations of the
+model. Rules are specified in the following format (see apoprules.txt
+for examples):
+
+ SOURCENAMES:SOURCESTATES:WEIGHT -&gt; TARGET
+
+SOURCENAMES are the names of source nodes and can be comma-separated
+when there are multiple source nodes. SOURCESTATES are the states the
+sources must be in (single or comma-separated ON,OFF). TARGET is the
+target name. WEIGHT is the activation level that is changed in the
+target when a rule is turned on. These rules are more fully described
+in [1].
+
+&lt;b&gt;Instructions:&lt;/b&gt;&lt;br /&gt;
+
+This simulation was tested/developed on LINUX systems, but may run on
+Microsoft Windows or Mac OS.
+
+To run, you will need the NEURON simulator (available at
+http://www.neuron.yale.edu) compiled with python enabled.
+
+Unzip the contents of the zip file to a new directory.
+
+compile the mod files from the command line with:
+ nrnivmodl *.mod
+
+That will produce an architecture-dependent folder with a script
+called special.  On 64 bit systems the folder is x86_64. To run the
+simulation from the command line: 
+./x86_64/special -python mosinit.py
+
+then NEURON will start with the python interpreter and load the
+mechanisms and simulation. Next, the network and inputs will be setup.
+Then the simulation will run 40,000 times for 10,000 random
+initializations of network state and 4 input conditions (all
+combinations of TNF and GF ON/OFF).  Once the simulation has run to
+completion (a few minutes on an Intel Xeon 2.27 GHz CPU), the output
+will be displayed in textual format. The output measures how often the
+network reaches an apoptotic state (apoptosis ratio), in each of the 4
+input conditions, under the random initializations to network
+state. In this model, GF represents a growth factor (pro-survival) and
+TNF represents tumor necrosis factor (pro-apoptotic). The output will
+have values similar to these ([1]):
+
+ TNF: 0 GF: 0 apop ratio: 0.4733
+ TNF: 0 GF: 1 apop ratio: 0.4679
+ TNF: 1 GF: 0 apop ratio: 0.9715
+ TNF: 1 GF: 1 apop ratio: 0.6398
+
+&lt;b&gt;Visualization of network state:&lt;/b&gt;
+
+The software provided makes use of the Graphviz and ImageMagick
+software packages (if they are already installed) to draw the network
+state over time, as an animated gif. An example of how to do this in a
+simulation loop is in the myanim function in network.py . myanim also
+requires a directory to store the individual frames in. This directory
+should be called frames, and be present in the current working
+directory. A temporary file, __junk__.dot will be written to as
+well. An example rendering of a network and its state is provided
+here:
+
+ &lt;img src=&quot;.\getModelFile.asp?model=144586&amp;amp;AttrID=23&amp;amp;file=\anetdemo\.\netstate.gif&quot; alt=&quot;netstate.gif : network state&quot; height=&quot;250&quot; width=&quot;600&quot; /&gt;
+
+In this rendering, regular (special) nodes are drawn with circles
+(triangles) with the name of the node indicated. Color represents node
+state (off:gray, on:black).  Solid (dotted) lines represent that a
+source node must be ON (OFF) to activate the rule.  Lines indicate
+interaction rules (red:activating; blue:inhibiting). Thick (thin)
+lines indicate a currently active (inactive) rule.
+
+&lt;b&gt;References:&lt;/b&gt;
+
+ This simulation is based on the article:
+
+  [1] Boolean network-based analysis of the apoptosis network:
+  Irreversible apoptosis and stable surviving Journal of Theoretical
+  Biology volume 259, pages 760-769. by Mai Z and Liu, H (2009).
+
+For questions/comments email: samuel dot neymotin at yale dot edu or
+samn at neurosim dot downstate dot edu
+
+&lt;/pre&gt;
+  </readme>
+  <implementers>
+   <value>
+    Neymotin, Sam [samn at neurosim.downstate.edu]
+   </value>
+  </implementers>
+  <receptors>
+  </receptors>
+  <brain_regions>
+   <value>
+    Generic
+   </value>
+  </brain_regions>
+  <channels>
+  </channels>
+  <cell_types>
+  </cell_types>
+  <pubmed>
+   http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=Retrieve&amp;db=PubMed&amp;list_uids=19422837&amp;dopt=Abstract
+  </pubmed>
+  <model_type>
+   <value>
+    Molecular Network
+   </value>
+  </model_type>
+  <article>
+   http://dx.doi.org/10.1016/j.jtbi.2009.04.024
+  </article>
+  <gap_junctions>
+  </gap_junctions>
+  <zip_url>
+   http://SenseLab.med.Yale.edu/ModelDB/eavBinDown.asp?o=144586&amp;a=23&amp;mime=application/zip
+  </zip_url>
+  <simulation_environment>
+   <value>
+    Neuron
+   </value>
+   <value>
+    Python
+   </value>
+  </simulation_environment>
+  <description>
+   &quot;To understand the design principles of the molecular interaction network associated with the
+irreversibility of cell apoptosis and the stability of cell surviving, we constructed a Boolean network integrating both the intrinsic and extrinsic pro-apoptotic pathways with pro-survival signal transduction pathways.
+We performed statistical analyses of the dependences of cell fate on initial
+states and on input signals.
+The analyses reproduced the well-known pro- and anti-apoptotic effects of
+key external signals and network components. We found that the external GF signal by itself did not change the apoptotic ratio from randomly chosen initial states when there is no external TNF signal, but can significantly offset apoptosis induced by the TNF signal. ...&quot;Reference: Mai Z, Liu H (2009) Boolean network-based analysis of the apoptosis network: irreversible apoptosis and stable surviving
+  259(4):760-9
+  </description>
+ </item>
 </items>

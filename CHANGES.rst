@@ -1,8 +1,15 @@
-0.8.5 -- 6 Jul 2021
+Master
+======
+
+- Closed #53
+- Added 24 models available from ModelDB
+
+
+0.8.5 -- 6 Jul 2012
 ===================
 
 - Closed #49
-- Text in the Animation is alway formatted with 3 digits.
+- Text in the Animation is always formatted with 3 digits.
 - Added the ability to load a NeuroML (xml), a Hoc (.hoc) or a HDF file (.h5)  
   with Neuronvisio format directly when the program is launched. 
 
