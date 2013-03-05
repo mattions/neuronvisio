@@ -40,20 +40,46 @@ Proceed to the `Package Install`_ .
 Mac OS X
 ---------
 
-Under Mac it is recommended to get a prepackaged scientific python distribution 
-which contains most of neuronvisio's dependencies, such as:
+Install the Homebrew package manager::
 
-- Enthought Distribution: http://www.enthought.com/products/epd.php (free for an
-  academic use)
+    ruby -e "$(curl -fsSL https://raw.github.com/mxcl/homebrew/go)"
 
-Alternatively, if you want to do it yourself, you should look at the following:
+Ensure your homebrew installation is fully updated::
 
-- Scipy SuperPack: http://fonnesbeck.github.com/ScipySuperpack/
-- PyQt4: http://www.riverbankcomputing.co.uk/software/pyqt/download
-  
-Next, see the instructions on installation of NEURON with Python available at
+    brew update
+    
+and "Raring to brew" (configured to Homebrew's liking) by following the instructions given by::
+    
+    brew doctor
+    
+For example, it is critical to ensure sure that you don't have another python distribution on your path (eg. Enthought), and it is also recommended that you place "/usr/local/bin" before "/usr/bin" in your PATH variable set in your "$HOME/.bash_profile" settings file.
+    
+Install all the homebrew packages you need, including the Homebrew version of python (NB: it is recommended by some sources, eg. https://python-guide.readthedocs.org/en/latest/starting/install/osx/, to install python as a framework, i.e. brew install python --framework, but this has not been tested for this procedure)::
+
+    brew install python
+    brew install qt
+    brew install hdf5
+    brew install vtk --python
+
+Install python packages using pip, ensuring that you are using the Homebrew version of pip, /usr/local/bin/pip, which you should be if you put /usr/local/bin before /usr/bin in your PATH variable (this can be checked using the "which pip" command)::
+
+    pip install numpy
+    pip install ipython 
+    ln -s /usr/local/share/ipython /usr/local/bin/ipython
+    pip install sip 
+    
+Although you may need to install the sip version matching the PyQt you install manually from riverbank instead for PyQt to install.
+    
+Download and install PyQt from riverbank software at http://www.riverbankcomputing.com/software/pyqt/download (the pip package is broken because PyQt uses 'configure.py->qmake' instead of the regular setup tools 'setup.py' file)::
+
+    tar -xzf PyQt-mac-gpl-4.xx.tar.gz
+    cd PyQt-mac-gpl-4.xx
+    python configure.py
+    qmake
+
+Next, see the instructions on installation of NEURON with Python availabe at
 http://www.davison.webfactional.com/notes/installation-neuron-python/.
-
+    
 Proceed to the `Package Install`_ .
 
 

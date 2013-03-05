@@ -135,18 +135,36 @@ the requirements with your package manager.</p>
 </div>
 <div class="section" id="mac-os-x">
 <h3>Mac OS X<a class="headerlink" href="#mac-os-x" title="Permalink to this headline">¶</a></h3>
-<p>Under Mac it is recommended to get a prepackaged scientific python distribution
-which contains most of neuronvisio&#8217;s dependencies, such as:</p>
-<ul class="simple">
-<li>Enthought Distribution: <a class="reference external" href="http://www.enthought.com/products/epd.php">http://www.enthought.com/products/epd.php</a> (free for an
-academic use)</li>
-</ul>
-<p>Alternatively, if you want to do it yourself, you should look at the following:</p>
-<ul class="simple">
-<li>Scipy SuperPack: <a class="reference external" href="http://fonnesbeck.github.com/ScipySuperpack/">http://fonnesbeck.github.com/ScipySuperpack/</a></li>
-<li>PyQt4: <a class="reference external" href="http://www.riverbankcomputing.co.uk/software/pyqt/download">http://www.riverbankcomputing.co.uk/software/pyqt/download</a></li>
-</ul>
-<p>Next, see the instructions on installation of NEURON with Python available at
+<p>Install the Homebrew package manager:</p>
+<div class="highlight-python"><pre>ruby -e "$(curl -fsSL https://raw.github.com/mxcl/homebrew/go)"</pre>
+</div>
+<p>Ensure your homebrew&nbsp;installation is fully updated:</p>
+<div class="highlight-python"><pre>brew update</pre>
+</div>
+<p>and &#8220;Raring to brew&#8221; (configured to Homebrew&#8217;s liking) by following the instructions given by:</p>
+<div class="highlight-python"><pre>brew doctor</pre>
+</div>
+<p>For example, it is critical to ensure sure that you don&#8217;t have another python distribution on your path (eg. Enthought), and it is also recommended that you place &#8220;/usr/local/bin&#8221; before &#8220;/usr/bin&#8221; in your PATH variable set in your &#8220;$HOME/.bash_profile&#8221; settings file.</p>
+<p>Install all the homebrew packages you need, including the Homebrew version of python (NB: it is recommended by some sources, eg. <a class="reference external" href="https://python-guide.readthedocs.org/en/latest/starting/install/osx/">https://python-guide.readthedocs.org/en/latest/starting/install/osx/</a>, to install python as a framework, i.e. brew install python &#8211;framework, but this has not been tested for this procedure):</p>
+<div class="highlight-python"><pre>brew install python
+brew install qt
+brew install hdf5
+brew install vtk --python</pre>
+</div>
+<p>Install python packages using pip, ensuring that you are using the Homebrew version of pip, /usr/local/bin/pip, which you should be if you put /usr/local/bin before /usr/bin in your PATH variable (this can be checked using the &#8220;which pip&#8221; command):</p>
+<div class="highlight-python"><pre>pip install numpy
+pip install ipython
+ln -s /usr/local/share/ipython /usr/local/bin/ipython
+pip install sip</pre>
+</div>
+<p>Although you may need to install the sip version matching the PyQt you install manually from riverbank instead for PyQt to install.</p>
+<p>Download and install PyQt from riverbank software at <a class="reference external" href="http://www.riverbankcomputing.com/software/pyqt/download">http://www.riverbankcomputing.com/software/pyqt/download</a> (the pip package is broken because PyQt uses &#8216;configure.py-&gt;qmake&#8217; instead of the regular setup tools &#8216;setup.py&#8217; file):</p>
+<div class="highlight-python"><pre>tar -xzf PyQt-mac-gpl-4.xx.tar.gz
+cd PyQt-mac-gpl-4.xx
+python configure.py
+qmake</pre>
+</div>
+<p>Next, see the instructions on installation of NEURON with Python availabe at
 <a class="reference external" href="http://www.davison.webfactional.com/notes/installation-neuron-python/">http://www.davison.webfactional.com/notes/installation-neuron-python/</a>.</p>
 <p>Proceed to the <a class="reference internal" href="#package-install">Package Install</a> .</p>
 </div>
@@ -230,7 +248,7 @@ management tool</p>
 
     <div class="footer">
         &copy; Copyright 2009 -2012, Michele Mattioni.
-      Last updated on Jul 06, 2012.
+      Last updated on Mar 05, 2013.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
     </div>
 <div class="footer">This page uses <a href="http://analytics.google.com/">
