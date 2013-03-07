@@ -8,6 +8,7 @@ import urllib
 import zipfile
 import logging 
 import subprocess
+from sys import platform as _platform
 
 logger = logging.getLogger(__name__)
 
@@ -240,16 +241,18 @@ class Model(object):
         result = result + "</table>"
         return result
 
-    # Open a directory for browsing its content (implementation taken from SO)
-    # http://stackoverflow.com/questions/2878712/make-os-open-directory-in-python
     def _start_file(self, filename):
-        try:
+         
+        if _platform == "linux" or _platform == "linux2":
+            # Implementation for Linux
+            subprocess.Popen(['xdg-open', os.path.abspath(filename)])
+        elif _platform == "darwin":
+            # OS X
+            subprocess.Popen(['open', filename])
+        elif _platform == "win32":
             # Implementation for Windows
             f=filename.replace('/', '\\')
             os.startfile(f)
-        except:
-            # Implementation for Linux
-            subprocess.Popen(['xdg-open', filename])
 
 #---------------------------------------------------------------------------
 class Models():
