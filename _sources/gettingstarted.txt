@@ -203,7 +203,7 @@ session, giving the user the possibility to explore and simulate the model.
 If no `mosinit.hoc` is found, the software will open the folder where the model has been downloaded,
 warning the user of the impossibility to load it automatically.
 
-.. note:: if the model does not have a `mosinit.hoc`, Neuronvisio cannot load it, because does not know what to load as master file. You can always load the file following the section :ref:`hoc-integration` or :ref:`python-integration` if in python.
+.. note:: if the model does not have a `mosinit.hoc`, Neuronvisio cannot load it, because does not know what to load as master file. You can always load the relevant file following the section :ref:`hoc-integration` or :ref:`python-integration`.
 
 
 
