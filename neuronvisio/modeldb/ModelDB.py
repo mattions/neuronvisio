@@ -248,9 +248,12 @@ class Model(object):
             f=filename.replace('/', '\\')
             os.startfile(f)
         except:
-            # Implementation for Linux
-            subprocess.Popen(['xdg-open', filename])
-
+            try:
+                # Implementation for Linux
+                subprocess.Popen(['xdg-open', filename])
+            except:
+                # Implementation for Mac
+                subprocess.Popen(['open', filename])
 #---------------------------------------------------------------------------
 class Models():
     # Fields
