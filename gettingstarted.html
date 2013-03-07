@@ -84,7 +84,8 @@
 </li>
 <li><a class="reference internal" href="#investigate-the-section-parameters">Investigate the section parameters</a></li>
 <li><a class="reference internal" href="#modeldb-integration">ModelDB Integration</a><ul>
-<li><a class="reference internal" href="#loading-a-model-from-modeldb">Loading a model from ModelDB</a></li>
+<li><a class="reference internal" href="#browsing-the-neuron-models-from-modeldb">Browsing the NEURON models from ModelDB</a></li>
+<li><a class="reference internal" href="#loading-a-neuron-model-from-modeldb">Loading a NEURON model from ModelDB</a></li>
 <li><a class="reference internal" href="#updating-information-from-modeldb">Updating information from ModelDB</a></li>
 </ul>
 </li>
@@ -151,7 +152,7 @@ as explained in section <a class="reference internal" href="#how-to-integrate-ne
 in its own thread. The console is ready for input so you can enter your command to
 the prompt as you would do normally when using <a class="reference external" href="http://www.neuron.yale.edu/neuron/">NEURON</a>.</p>
 <div class="section" id="loading-a-file">
-<h3>Loading a file<a class="headerlink" href="#loading-a-file" title="Permalink to this headline">¶</a></h3>
+<span id="id2"></span><h3>Loading a file<a class="headerlink" href="#loading-a-file" title="Permalink to this headline">¶</a></h3>
 <p>You can also load 3 different formats right now:</p>
 <ol class="arabic simple">
 <li>A NeuroML file (.xml)</li>
@@ -168,7 +169,7 @@ the prompt as you would do normally when using <a class="reference external" hre
 <p>The integration is rather simple and you can use either the python or the hoc
 scripts that you already have.</p>
 <div class="section" id="python-integration">
-<h3>Python integration<a class="headerlink" href="#python-integration" title="Permalink to this headline">¶</a></h3>
+<span id="id3"></span><h3>Python integration<a class="headerlink" href="#python-integration" title="Permalink to this headline">¶</a></h3>
 <p>If you have a model written in python, just import the module on top of your
 script. The simple example (in the example directory) give you an idea how to do
 it.</p>
@@ -181,7 +182,7 @@ it.</p>
 </div>
 </div>
 <div class="section" id="hoc-intergration">
-<h3>Hoc Intergration<a class="headerlink" href="#hoc-intergration" title="Permalink to this headline">¶</a></h3>
+<span id="hoc-integration"></span><h3>Hoc Intergration<a class="headerlink" href="#hoc-intergration" title="Permalink to this headline">¶</a></h3>
 <p>You have to load your hoc script using the python interface of _NEURON.
 The pyramidal example gives an idea how to integrate existent _NEURON model
 with it.</p>
@@ -192,7 +193,6 @@ with it.</p>
 <span class="n">h</span><span class="o">.</span><span class="n">load_file</span><span class="p">(</span><span class="s">&#39;path/to/my_model.hoc&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Loading a model alre</p>
 </div>
 </div>
 <div class="section" id="neuronvisio-features">
@@ -254,8 +254,8 @@ will be displayed in the Sec Info Tab.</p>
 <p>This section describe how to load a model from ModelDb in Neuronvisio,
 and how to get the latest model from the ModelDB, if they are not
 already present in the ModelDB XML list.</p>
-<div class="section" id="loading-a-model-from-modeldb">
-<h3>Loading a model from ModelDB<a class="headerlink" href="#loading-a-model-from-modeldb" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="browsing-the-neuron-models-from-modeldb">
+<h3>Browsing the NEURON models from ModelDB<a class="headerlink" href="#browsing-the-neuron-models-from-modeldb" title="Permalink to this headline">¶</a></h3>
 <p>ModelDB database is a lightly curated repository of computational models,
 published in litterature <a class="reference external" href="http://senselab.med.yale.edu/ModelDB/">http://senselab.med.yale.edu/ModelDB/</a>. While
 ModelDB accepts models in a variety of format, a large subset is formed
@@ -271,12 +271,19 @@ writing the desired keyword in the search box.</p>
 together with a custom model overview which summarizes the features of
 the model, enumerating the type of channels used, the cell types, the
 brain region, etc.</p>
-<p>Any of the models exposed on the ModelDB explorer tab can be loaded in
-Neuronvisio using the Load button. The software will fetch, extract,
-compile and try to launch the mosinit.hoc in the current session, giving the user the
-possibility to explore and simulate the model, otherwise opening the folder
-where the model has been downloaded.</p>
 <img alt="_images/neuronvisio_modelDB.png" src="_images/neuronvisio_modelDB.png" />
+</div>
+<div class="section" id="loading-a-neuron-model-from-modeldb">
+<h3>Loading a NEURON model from ModelDB<a class="headerlink" href="#loading-a-neuron-model-from-modeldb" title="Permalink to this headline">¶</a></h3>
+<p>Any of the models available on the ModelDB explorer tab can downloaded and extracted.
+The models which have a <cite>mosinit.hoc</cite> will also be compiled and loaded in the current
+session, giving the user the possibility to explore and simulate the model.</p>
+<p>If no <cite>mosinit.hoc</cite> is found, the software will open the folder where the model has been downloaded,
+warning the user of the impossibility to load it automatically</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">if the model does not have a <cite>mosinit.hoc</cite>, Neuronvisio cannot load it, because does not know what to load as master file. You can always load the file following the section <a class="reference internal" href="#hoc-integration"><em>Hoc Intergration</em></a> or <a class="reference internal" href="#python-integration"><em>Python integration</em></a> if in python.</p>
+</div>
 </div>
 <div class="section" id="updating-information-from-modeldb">
 <h3>Updating information from ModelDB<a class="headerlink" href="#updating-information-from-modeldb" title="Permalink to this headline">¶</a></h3>
@@ -360,7 +367,7 @@ the file in <cite>.matplotlib/matplotlibrc</cite> and changing the backend to <c
 
     <div class="footer">
         &copy; Copyright 2009 -2012, Michele Mattioni.
-      Last updated on Sep 18, 2012.
+      Last updated on Mar 07, 2013.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
     </div>
 <div class="footer">This page uses <a href="http://analytics.google.com/">
