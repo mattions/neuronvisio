@@ -32,7 +32,7 @@ If you are running a different flavour of GNU/Linux, like Fedora for example, ju
 the requirements with your package manager.
 
 Next, see the instructions on installation of NEURON with Python available at
-http://www.davison.webfactional.com/notes/installation-neuron-python/.
+http://www.davison.webfactional.com/notes/installation-neuron-python/
 
 Proceed to the `Package Install`_ .
 
@@ -74,7 +74,7 @@ After installing ipython you will probably want to put a link to it somewhere on
     ln -s /usr/local/share/ipython /usr/local/bin/ipython
     
 Next, see the instructions on installation of NEURON with Python available at
-http://www.davison.webfactional.com/notes/installation-neuron-python/ 
+http://www.davison.webfactional.com/notes/installation-neuron-python/ (again ensuring you are using the Homebrew version of python '/usr/local/bin/python') 
     
 Proceed to the `Package Install`_ .
 
