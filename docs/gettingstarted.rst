@@ -30,6 +30,8 @@ the prompt as you would do normally when using NEURON_.
 
 .. _NEURON: http://www.neuron.yale.edu/neuron/
 
+.. _loading-a-file: 
+
 Loading a file
 --------------
 
@@ -53,6 +55,8 @@ How to integrate Neuronvisio with your code
 The integration is rather simple and you can use either the python or the hoc 
 scripts that you already have.
 
+.. _python-integration:
+
 Python integration
 ------------------
 
@@ -67,6 +71,8 @@ A classical template is::
     controls = Controls()   # starting the GUI
     # Your model here
 
+.. _hoc-integration:
+
 Hoc Intergration
 ----------------
 
@@ -80,8 +86,6 @@ A classical template is::
     from neuron import h 
     controls = Controls()   # starting the GUI
     h.load_file('path/to/my_model.hoc')
-
-Loading a model alre
 
 Neuronvisio features
 ====================
@@ -166,8 +170,8 @@ This section describe how to load a model from ModelDb in Neuronvisio,
 and how to get the latest model from the ModelDB, if they are not 
 already present in the ModelDB XML list.
 
-Loading a model from ModelDB
-----------------------------
+Browsing the NEURON models from ModelDB
+---------------------------------------
 
 ModelDB database is a lightly curated repository of computational models,
 published in litterature http://senselab.med.yale.edu/ModelDB/. While 
@@ -187,13 +191,21 @@ together with a custom model overview which summarizes the features of
 the model, enumerating the type of channels used, the cell types, the 
 brain region, etc.
 
-Any of the models exposed on the ModelDB explorer tab can be loaded in
-Neuronvisio using the Load button. The software will fetch, extract, 
-compile and try to launch the mosinit.hoc in the current session, giving the user the 
-possibility to explore and simulate the model, otherwise opening the folder 
-where the model has been downloaded. 
-
 .. image:: _static/neuronvisio_modelDB.png
+
+Loading a NEURON model from ModelDB
+-----------------------------------
+
+Any of the models available on the ModelDB explorer tab can downloaded and extracted. 
+The models which have a `mosinit.hoc` will also be compiled and loaded in the current 
+session, giving the user the possibility to explore and simulate the model. 
+
+If no `mosinit.hoc` is found, the software will open the folder where the model has been downloaded,
+warning the user of the impossibility to load it automatically
+
+.. note:: if the model does not have a `mosinit.hoc`, Neuronvisio cannot load it, because does not know what to load as master file. You can always load the file following the section :ref:`hoc-integration` or :ref:`python-integration` if in python.
+
+
 
 Updating information from ModelDB
 ---------------------------------
