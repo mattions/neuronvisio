@@ -248,7 +248,7 @@ class Model(object):
             subprocess.Popen(['xdg-open', os.path.abspath(filename)])
         elif _platform == "darwin":
             # OS X
-            subprocess.Popen(['open', filename])
+            subprocess.Popen(['open', os.path.abspath(filename)])
         elif _platform == "win32":
             # Implementation for Windows
             f=filename.replace('/', '\\')
