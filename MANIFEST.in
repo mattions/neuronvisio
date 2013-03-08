@@ -5,6 +5,7 @@ include setup.cfg
 include pavement.py
 include paver-minilib.zip
 include bootstrap.py
+include requirements.txt
 
 include neuronvisio/modeldb/ModelDB.xml
 recursive-include neuronvisio/ui *

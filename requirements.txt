@@ -1,0 +1,6 @@
+ipython>=0.12
+tables>=2.3.1
+apptools>=4.1.0
+traits>=4.2.0
+traitsui>=4.2.0
+git+https://github.com/enthought/mayavi.git@5e8910e8f41c5c1f5551912db6901c9cc6f5da6b#egg=Mayavi
