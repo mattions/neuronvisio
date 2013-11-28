@@ -1,7 +1,10 @@
-Master
-======
+0.8.6 -- 8 March 2013
+=====================
 
-- Closed #53
+- we are using pip and requirements.txt to be able to install packages from DCVS
+- MacOs is now supported when we open the model, if not mosinit is present #56
+- Better explanation to the User if a model can't be loaded. #55
+- Improved Install Docs for Mac. PR #53 and #54
 - Added 24 models available from ModelDB
 
 

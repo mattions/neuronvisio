@@ -4,6 +4,7 @@ from paver.setuputils import setup
 #from setuptools import setup
 from setuptools import find_packages
 import sys, os
+import subprocess
 import neuronvisio
 
 
@@ -36,13 +37,8 @@ classifiers = [
 
 install_requires = [
     # -*- Install requires: -*-
-    'setuptools',
-    'ipython>=0.12',
-    'tables>=2.3.1',
-    'apptools>=4.1.0',
-    'traits>=4.2.0',
-    'traitsui>=4.2.0',
-    'mayavi>=4.2.0',
+    'distribute==0.6.35',
+    'pip'
     ]
 
 entry_points="""
@@ -97,6 +93,16 @@ if ALL_TASKS_LOADED:
         print "Package baked."
 
 
+@task
+def install_dependencies():
+    subprocess.call(['pip', 'install', '-r', 'requirements.txt'])
+
+
+@task
+@needs(['install_dependencies'])
+def install():
+    """We ovverride the install task, so we can use pip to install the dependencies
+    """
 
 @task
 def create_CNAME():
