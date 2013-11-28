@@ -59,6 +59,12 @@ Install all the homebrew packages you need, including the Homebrew version of py
     brew install python --framework
     brew install qt
     brew install hdf5
+
+At the time of writing, Mayavi (installed by the NeuronVisio package installer) doesn't work with the latest version of VTK (6.0.0) so you will need to install version 5.10.1 instead. Also, VTK has been moved to the homebrew-science "tap" so you will need to tap that first before installing it, i.e.::
+
+    brew tap homebrew/science
+    cd /usr/local/Library/Taps/homebrew-science
+    git checkout 27a4327 vtk.rb
     brew install vtk --python --qt --pyqt
 
 Install python packages using pip, ensuring that you are using the Homebrew version of pip, /usr/local/bin/pip, which you should be if you put /usr/local/bin before /usr/bin in your PATH variable (this can be checked using the "which pip" command). You may also run into problems if you have setuptools in your system python ('/Library/Python/2.7/site-packages'), in this case temporarily move the system setuptools to somewhere else for the rest of the installation procedure::
@@ -76,7 +82,7 @@ After installing ipython you will probably want to put a link to it somewhere on
 Next, see the instructions on installation of NEURON with Python available at
 http://www.davison.webfactional.com/notes/installation-neuron-python/ (again ensuring you are using the Homebrew version of python '/usr/local/bin/python') 
     
-Proceed to the `Package Install`_ .
+Try the `Package Install`_ but if that fails use the `Source Code`_ instructions (I needed to do this at least)
 
 
 Windows
