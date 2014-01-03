@@ -58,7 +58,7 @@ Install all the homebrew packages you need, including the Homebrew version of py
 
     brew install python --framework
     brew install qt
-    brew install hdf5
+    brew install homebrew/science/hdf5
 
 At the time of writing, Mayavi (installed by the NeuronVisio package installer) doesn't work with the latest version of VTK (6.0.0) so you will need to install version 5.10.1 instead. Also, VTK has been moved to the homebrew-science "tap" so you will need to tap that first before installing it, i.e.::
 
