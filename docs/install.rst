@@ -42,7 +42,7 @@ Mac OS X
 
 Install the Homebrew package manager::
 
-    ruby -e "$(curl -fsSL https://raw.github.com/mxcl/homebrew/go)"
+    ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
 
 Ensure your homebrew installation is fully updated::
 
