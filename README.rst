@@ -36,4 +36,3 @@ and then launch::
 
 In the `_build/html` directory you will have the online doc. 
 
-
