@@ -2,8 +2,11 @@ Neuronvisio
 ===========
 
 .. image:: https://readthedocs.org/projects/neuronvisio/badge/?version=latest
-:target: https://readthedocs.org/projects/neuronvisio/?badge=latest
-:alt: Documentation Status
+	:target: https://readthedocs.org/projects/neuronvisio/?badge=latest
+	:alt: Documentation Status
+	
+.. image:: https://img.shields.io/pypi/v/neuronvisio.svg
+    :target: https://pypi.python.org/pypi/neuronvisio
 
 What is it
 ----------
