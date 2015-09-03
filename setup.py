@@ -1,4 +1,18 @@
-from setuptools import find_packages
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+
+try:
+    from setuptools import setup
+    from setuptools import find_packages
+except ImportError:
+    from distutils.core import setup
+
+
+with open('README.rst') as readme_file:
+    readme = readme_file.read()
+
+
 import neuronvisio
 
 version = neuronvisio.__version__
