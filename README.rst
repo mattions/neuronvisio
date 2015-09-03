@@ -1,6 +1,10 @@
 Neuronvisio
 ===========
 
+.. image:: https://readthedocs.org/projects/neuronvisio/badge/?version=latest
+:target: https://readthedocs.org/projects/neuronvisio/?badge=latest
+:alt: Documentation Status
+
 What is it
 ----------
 
