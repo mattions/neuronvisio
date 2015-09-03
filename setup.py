@@ -45,7 +45,7 @@ setup(
     long_description=open('README.rst', 'r').read(),
     packages = ['neuronvisio', 'neuronvisio.modeldb'],
     package_dir={'neuronvisio': 'neuronvisio'},
-    package_data=paver.setuputils.find_package_data(package="neuronvisio", ),
+    package_data=find_package_data(package="neuronvisio", ),
     scripts= ['bin/neuronvisio', 'bin/neuronvisio.bat', 
               'bin/neuronvisio-modeldb-updater', 'bin/neuronvisio-modeldb-updater.bat'],
     classifiers=classifiers,
