@@ -4,7 +4,6 @@
 
 try:
     from setuptools import setup
-    from setuptools import find_packages
 except ImportError:
     from distutils.core import setup
 
@@ -45,7 +44,7 @@ setup(
     long_description=open('README.rst', 'r').read(),
     packages = ['neuronvisio', 'neuronvisio.modeldb'],
     package_dir={'neuronvisio': 'neuronvisio'},
-    package_data=find_package_data(package="neuronvisio", ),
+    include_package_data=True,
     scripts= ['bin/neuronvisio', 'bin/neuronvisio.bat', 
               'bin/neuronvisio-modeldb-updater', 'bin/neuronvisio-modeldb-updater.bat'],
     classifiers=classifiers,
@@ -54,7 +53,6 @@ setup(
     author_email=authors_email,
     url='http://neuronvisio.org',
     license='GPLv3',
-    include_package_data=True,
     zip_safe=False,
     install_requires=install_requires,
     entry_points=entry_points,
