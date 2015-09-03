@@ -7,7 +7,7 @@ project = "Neuronvisio"
 author = neuronvisio.__authors__
 version = neuronvisio.__version__ 
 release = version
-copyright = '2009 -2012, Michele Mattioni'
+copyright = '2009 - 2015, Michele Mattioni'
 
 # Extension
 extensions = ['sphinx.ext.autodoc', 'sphinx.ext.intersphinx', 'sphinx.ext.todo', 
