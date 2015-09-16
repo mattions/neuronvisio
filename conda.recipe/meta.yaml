@@ -1,0 +1,29 @@
+package:
+    name: neuronvisio
+    version: 0.8.7.dev0
+
+source:
+    # Change to match the most recent release
+    #git_tag: 0.8.7.dev0
+    git_url: ../
+
+build:
+    number: {{ environ.get('GIT_DESCRIBE_NUMBER', 0) }}
+
+    # Note that this will override the default build string with the Python
+    # and NumPy versions
+    string: {{ environ.get('GIT_DESCRIBE_HASH', '') }}
+    
+    
+requirements:
+    build:
+        - python
+    run:
+        - python
+        - neuron
+        - mayavi
+        - traits
+        - ipython
+        - matplotlib
+        
+        
