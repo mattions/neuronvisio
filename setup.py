@@ -7,6 +7,10 @@ try:
 except ImportError:
     from distutils.core import setup
 
+try:
+    import distutils.command.bdist_conda
+except ImportError:
+    pass
 
 with open('README.rst') as readme_file:
     readme = readme_file.read()

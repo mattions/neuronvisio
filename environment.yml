@@ -1,0 +1,52 @@
+name: neuronvisio_env
+channels:
+- mattions
+dependencies:
+- apptools=4.2.1=py27_0
+- cairo=1.12.18=4
+- configobj=5.0.6=py27_0
+- decorator=4.0.2=py27_0
+- envisage=4.4.0=py27_1
+- fontconfig=2.11.1=4
+- freetype=2.5.2=2
+- ipython=4.0.0=py27_0
+- ipython_genutils=0.1.0=py27_0
+- iv=19=0
+- libgfortran=1.0=0
+- libpng=1.6.17=0
+- libxml2=2.9.2=0
+- matplotlib=1.4.3=np19py27_2
+- mayavi=4.4.0=np19py27_0
+- neuron=7.4=py27_0
+- numpy=1.9.2=py27_1
+- openblas=0.2.14=1
+- openssl=1.0.1k=1
+- path.py=7.6=py27_0
+- pexpect=3.3=py27_0
+- pickleshare=0.5=py27_0
+- pip=7.1.2=py27_0
+- pixman=0.26.2=0
+- py2cairo=1.10.0=py27_2
+- pyface=4.4.0=py27_0
+- pyparsing=2.0.3=py27_0
+- pyqt=4.11.3=py27_1
+- python=2.7.10=0
+- python-dateutil=2.4.2=py27_0
+- pytz=2015.4=py27_0
+- qt=4.8.6=3
+- readline=6.2=2
+- setuptools=18.1=py27_0
+- simplegeneric=0.8.1=py27_0
+- sip=4.16.5=py27_0
+- six=1.9.0=py27_0
+- sqlite=3.8.4.1=1
+- system=5.8=2
+- tk=8.5.18=0
+- traitlets=4.0.0=py27_0
+- traits=4.4.0=py27_0
+- traitsui=4.4.0=py27_0
+- vtk=5.10.1=py27_1
+- wheel=0.24.0=py27_0
+- zlib=1.2.8=0
+
+
