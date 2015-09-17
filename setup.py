@@ -36,9 +36,12 @@ install_requires = [
     'pip'
     ]
 
-entry_points="""
-    # -*- Entry points: -*-
-    """
+entry_points=entry_points={
+    'console_scripts': [
+        'neuronvisio=neuronvisio.command_line:main_neuronvisio',
+        'neuronvisio-model-updater=neuronvisio.command_line:main_model_updater'
+    ],
+},
 
 # compatible with distutils of python 2.3+ or later
 setup(
@@ -49,8 +52,6 @@ setup(
     packages = ['neuronvisio', 'neuronvisio.modeldb'],
     package_dir={'neuronvisio': 'neuronvisio'},
     include_package_data=True,
-    scripts= ['bin/neuronvisio', 'bin/neuronvisio.bat', 
-              'bin/neuronvisio-modeldb-updater', 'bin/neuronvisio-modeldb-updater.bat'],
     classifiers=classifiers,
     keywords='neuron, gui, pylab, 3D, visualization',
     author=authors,
