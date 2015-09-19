@@ -13,7 +13,14 @@ build:
       - neuronvisio = neuronvisio.command_line:main_neuronvisio
       - neuronvisio-model-updater = neuronvisio.commandline:main_model_updater
     
-    
+    test:
+    imports:
+      - neuronvisio
+  
+    commands:
+      # You can put test commands to be run here.  Use this to test that the
+      # entry points work.
+      - neuronvisio
 requirements:
     build:
         - python
