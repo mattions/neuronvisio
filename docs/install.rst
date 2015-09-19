@@ -20,6 +20,20 @@ and of course NEURON_>=7.2 compiled with python support
 
 .. _NEURON: http://www.neuron.yale.edu/neuron/  
 
+Easy Way: Use conda
+-------------------
+
+You can install all the dependencies and everything you need (also NEURON) to run Neuronvisio with one command
+once you have conda installed. If you do not have, get it from here (http://conda.pydata.org/miniconda.html)
+
+	# Create a new environment and install neuronvisio there
+	conda create -n neuronvisio_env neuronvisio -c mattions
+
+After the installation activate the environment and you good to go:
+
+	source activate neuronvisio_env
+	neuronvisio 
+
 Ubuntu and friends
 ------------------
 

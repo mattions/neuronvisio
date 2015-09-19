@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
+import sys
+import os
+import subprocess
 
 try:
     from setuptools import setup
@@ -17,6 +19,18 @@ version = neuronvisio.__version__
 authors = neuronvisio.__authors__
 authors_email = neuronvisio.__authors_emails__
 
+
+if sys.argv[-1] == 'tag':
+    os.system("git tag -a %s -m 'version %s'" % (version, version))
+    os.system("git push --tags")
+    sys.exit()
+
+if sys.argv[-1] == 'make_docs':
+    p = subprocess.Popen(["make", "html"], cwd="docs")
+    p.wait()
+    sys.exit()
+
+
 classifiers = [
     # Get more strings from http://www.python.org/pypi?%3Aaction=list_classifiers
     "Development Status :: 4 - Beta",
@@ -27,8 +41,8 @@ classifiers = [
 
 install_requires = [
     # -*- Install requires: -*-
-#     'setuptools',
-#     'pip'
+    'setuptools',
+    'pip'
     ]
 
 entry_points = {
