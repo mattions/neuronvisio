@@ -7,11 +7,6 @@ try:
 except ImportError:
     from distutils.core import setup
 
-try:
-    import distutils.command.bdist_conda
-except ImportError:
-    pass
-
 with open('README.rst') as readme_file:
     readme = readme_file.read()
 
@@ -32,17 +27,16 @@ classifiers = [
 
 install_requires = [
     # -*- Install requires: -*-
-    'setuptools',
-    'pip'
+#     'setuptools',
+#     'pip'
     ]
 
-entry_points=entry_points={
-    'console_scripts': [
-        'neuronvisio=neuronvisio.command_line:main_neuronvisio',
-        'neuronvisio-model-updater=neuronvisio.command_line:main_model_updater'
-    ],
-},
-
+entry_points = {
+                  'console_scripts': [
+                    'neuronvisio = neuronvisio.command_line:main_neuronvisio',
+                    'neuronvisio-model-updater = neuronvisio.command_line:main_model_updater'
+                    ],
+               }
 # compatible with distutils of python 2.3+ or later
 setup(
     name='neuronvisio',
@@ -60,5 +54,5 @@ setup(
     license='GPLv3',
     zip_safe=False,
     install_requires=install_requires,
-    entry_points=entry_points,
+    entry_points=entry_points
     )
