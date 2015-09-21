@@ -20,10 +20,6 @@ import os
 import sys
 sys.path.append(os.path.dirname(__file__))
 from subprocess import call
-
-from neuron import h
-h.load_file("stdrun.hoc")
-
 # Logging
 import logging
 FORMAT = '%(levelname)s %(name)s %(lineno)s   %(message)s'
@@ -33,17 +29,11 @@ else:
     logging.basicConfig(level=logging.INFO, format=FORMAT)
 logger = logging.getLogger(__name__)
 
+from neuron import h
+
 import matplotlib as mpl
-import matplotlib.backends
-if mpl.backends.backend is not "Qt4Agg":
-    msg = "Neuronvisio works only with the Qt4Agg backend." 
-    msg += " Your current backend is %s." %mpl.backends.backend
-    msg += " Please change it to Qt4Agg following the instruction at "
-    msg += "http://neuronvisio.org/gettingstarted.html#picking-the-right-backend"
-    
-    logger.error(msg)
-elif mpl.backends.backend == None:
-    mpl.use('Qt4Agg')
+
+mpl.use('Qt4Agg')
 mpl.interactive(True)
 
 import numpy as np
@@ -69,13 +59,23 @@ from manager import SynVecRef
 # ModelDb
 from modeldb.ModelDB import Models
 
+def dynamic_neuron_home():
+    import neuron
+    
+    os.path.realpath(neuron.__path__[0] + "/../../../../" + "/share/nrn")
+    loaded = h.load_file("stdrun.hoc")
+    if loaded == 0:
+        logger.error("Cannot load hoc files coming with NEURON. Aborting.")
+        sys.exit(1)
+    
+
 class ExtensionNotRecognised(Exception):
     pass
-
 
 class Controls(object):
     """Main class Neuronvisio"""
     def __init__(self):
+        dynamic_neuron_home()
         app = QtGui.QApplication.instance()
         self.ui_dir = 'ui'
         # Loading the UI
@@ -134,7 +134,6 @@ class Controls(object):
         self.ui.filter_input.connect(self.ui.filter_input,
                                      QtCore.SIGNAL('returnPressed()'),
                                      self.filter_list)
-        
         
         ### Connection with the console
         widgetDic = {'dt' : self.ui.dtSpinBox, 

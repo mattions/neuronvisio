@@ -9,6 +9,7 @@ def _load_neuronvisio(ipshell):
                   session, or created ad hoc."""
 
     ipshell.run_cell("import sys")
+#     ipshell.run_cell("from neuron import h; h('nrn_load_dll(\"$(NEURONHOME)/stdrun.hoc\")')")
     ipshell.run_cell("from neuronvisio.controls import Controls")
     ipshell.run_cell("controls = Controls()")
     if len(sys.argv) == 2:
@@ -26,7 +27,7 @@ def main_neuronvisio():
         
     except NameError: 
         # Not IPython running, create an ad hoc ipshell and launching.
-        from IPython.frontend.terminal.embed import InteractiveShellEmbed
+        from IPython.terminal.embed import InteractiveShellEmbed
         ipshell = InteractiveShellEmbed(display_banner=False)
         ipshell = _load_neuronvisio(ipshell)
         ipshell()
