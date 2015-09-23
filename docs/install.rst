@@ -34,6 +34,16 @@ After the installation activate the environment and you good to go:
 	source activate neuronvisio_env
 	neuronvisio 
 
+If the HOC file does not get found, export NEURONHOME variable like
+
+	export NEURONHOME=$CONDA_ENV_PATH/share/nrn/
+	neuronvisio
+
+The packages are made only for linux-x64, but we are looking into expanding them to
+all the supported platforms.	
+
+Otherwise you could install by hand following the instructions below.
+
 Ubuntu and friends
 ------------------
 
@@ -144,7 +154,7 @@ Running the bleeding edge
 
 If you want to run the latest code, directly from the repo, you can do it using pip::
 
-    pip install -e git+https://github.com/NeuralEnsemble/neuronvisio.git#egg=neuronvisio
+    pip install -e git+https://github.com/mattions/neuronvisio.git#egg=neuronvisio
 
 then you need to add the directory (the absolute path) to your PYTHONPATH (in bash)::
     
