@@ -1,3 +1,10 @@
+0.8.7 -- 23 September 2015
+==========================
+
+- Created a conda package for Neuronvisio
+- Dropped paver for normal install via PyPi (Closed #57)
+
+
 0.8.6 -- 8 March 2013
 =====================
 

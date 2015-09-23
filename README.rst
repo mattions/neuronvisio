@@ -43,3 +43,20 @@ and then launch::
 
 In the `_build/html` directory you will have the online doc. 
 
+How To release
+--------------
+
+1. Update Changelog
+2. Change version at `neuronvisio/__init__.py`
+3. Change to same version in conda.recipe/meta.yaml
+4. Commit everything
+5. Tag repo 
+	`python setup.py tag`
+6. Upload to pipy and anaconda.org
+	- PiPy:
+	
+		twine upload dist/*
+	
+	- Anaconda.org:
+		Got to anaconda.org and click on the website so the last build will be uploaded 
+		to the channel.
