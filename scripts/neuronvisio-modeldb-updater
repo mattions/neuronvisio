@@ -12,5 +12,5 @@ sys.path.append(os.path.realpath(os.path.join(os.path.abspath(__file__), "../.."
 if __name__ == '__main__':
 
     from neuronvisio.command_line import main_model_updater
-    model_updater()
+    main_model_updater()
     
