@@ -55,7 +55,7 @@ How To release
 6. Upload to pipy and anaconda.org
 	- PiPy:
 	
-		twine upload dist/*
+		python setup.py make_release
 	
 	- Anaconda.org:
 		Got to anaconda.org and click on the website so the last build will be uploaded 

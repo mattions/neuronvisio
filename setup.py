@@ -34,6 +34,10 @@ if sys.argv[-1] == "make_package":
     os.system("python setup.py sdist bdist_wheel")
     sys.exit()
 
+if sys.argv[-1] == "make_release":
+    os.system("python setup.py sdist bdist_wheel upload")
+    sys.exit()
+
 classifiers = [
     # Get more strings from http://www.python.org/pypi?%3Aaction=list_classifiers
     "Development Status :: 4 - Beta",
