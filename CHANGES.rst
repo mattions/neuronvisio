@@ -1,4 +1,4 @@
-0.8.7 -- 24 September 2015
+0.9.0 -- 24 September 2015
 ==========================
 
 - Created a conda package for Neuronvisio
