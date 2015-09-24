@@ -1,6 +1,6 @@
 package:
     name: neuronvisio
-    version: 0.8.7.dev0
+    version: 0.8.7
 
 source:
     # Change to match the most recent release
