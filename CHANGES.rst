@@ -1,3 +1,9 @@
+0.9.1 -- 1 October 2015
+=======================
+
+- Fixed small formatting issue on the docs
+- Added pytables to the run dependences
+
 0.9.0 -- 24 September 2015
 ==========================
 

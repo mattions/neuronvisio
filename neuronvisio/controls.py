@@ -65,7 +65,11 @@ def dynamic_neuron_home():
     os.path.realpath(neuron.__path__[0] + "/../../../../" + "/share/nrn")
     loaded = h.load_file("stdrun.hoc")
     if loaded == 0:
-        logger.error("Cannot load hoc files coming with NEURON. Aborting.")
+        logger.error("Cannot load hoc files coming with NEURON.")
+        msg = "If you installed NEURON via conda, you can export NEURONHOME"
+        msg += " with `export NEURONHOME=$CONDA_ENV_PATH/share/nrn/` and re-launch neuronvisio"
+        logger.error(msg)
+        
         sys.exit(1)
     
 

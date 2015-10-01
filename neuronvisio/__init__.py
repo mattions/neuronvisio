@@ -22,7 +22,7 @@
 
 __authors__ = ['Michele Mattioni', 'Uri Cohen']
 __authors_emails__ = ['<mattioni@ebi.ac.uk>', '<uri.cohen@alice.nc.huji.ac.il>']
-__version__ = '0.9.0'
+__version__ = '0.9.1.dev0'
 
 
 import os

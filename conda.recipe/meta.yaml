@@ -1,6 +1,6 @@
 package:
     name: neuronvisio
-    version: 0.9.0
+    version: 0.9.1.dev0
 
 source:
     # Change to match the most recent release
@@ -27,5 +27,6 @@ requirements:
         - traits
         - ipython
         - matplotlib
+        - pytables
         
         
