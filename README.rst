@@ -1,6 +1,24 @@
 Neuronvisio
 ===========
 
+NOTICE: READ-ONLY REPO
+=========
+This repository is now **read-only** and will no longer accept Issues or Pull Requests.
+I’ve archived it mainly to prevent the automated GitHub bots from running on it—saving a 
+bit of energy and avoiding unnecessary emails and notifications.
+
+The code remains available here for historical reasons (you can also find it on the CD included 
+with my PhD thesis at the University of Cambridge Library).
+
+A heartfelt thank you to everyone who used Neurovisio (quite some time ago, to be honest).
+I hope it proved useful for your research, scientific communication, and maybe even gave 
+you some fun along the way.
+
+All the best,
+Michele
+
+-----------------------------------------------
+
 .. image:: https://readthedocs.org/projects/neuronvisio/badge/?version=latest
 	:target: https://readthedocs.org/projects/neuronvisio/?badge=latest
 	:alt: Documentation Status
