@@ -43,7 +43,7 @@ Features
 - the GUI runs in its own thread so it's possible to use the console (integrated with IPython)
 - automatically download and load models from `ModelDB <http://senselab.med.yale.edu/modeldb/>`_
 
-More info are available on the homepage: http://neuronvisio.org
+More info are available on the homepage: https://neuronvisio.readthedocs.io
 
 Offline Documentation
 ---------------------
